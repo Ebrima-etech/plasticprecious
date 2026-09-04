@@ -122,10 +122,10 @@ export default function Home() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {[
-            { name: 'Recycled Storage Bins', price: '$18.99', stock: 'Only 8 left' },
-            { name: 'Eco Lunch Container Set', price: '$24.99', stock: 'In Stock' },
-            { name: 'Recycled Water Bottle', price: '$16.99', stock: 'Only 12 left' },
-            { name: 'Sustainable Organizers', price: '$22.99', stock: 'In Stock' },
+            { name: 'Recycled Storage Bins', price: 'D 850', stock: 'Only 8 left' },
+            { name: 'Eco Lunch Container Set', price: 'D 1,200', stock: 'In Stock' },
+            { name: 'Recycled Water Bottle', price: 'D 750', stock: 'Only 12 left' },
+            { name: 'Sustainable Organizers', price: 'D 1,050', stock: 'In Stock' },
           ].map((product, i) => (
             <div
               key={i}

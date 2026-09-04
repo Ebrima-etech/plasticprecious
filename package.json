@@ -18,7 +18,7 @@
     "axios": "1.6.5",
     "jwt-decode": "4.0.0",
     "@stripe/react-stripe-js": "2.0.0",
-    "@stripe/stripe-js": "2.0.0",
+    "@stripe/stripe-js": "1.46.0",
     "zustand": "4.4.0"
   },
   "devDependencies": {
@@ -37,7 +37,7 @@
     "typescript": "5.3.3"
   },
   "engines": {
-    "node": "20.x",
+    "node": "24.x",
     "npm": "10.x"
   }
 }

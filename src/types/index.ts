@@ -78,6 +78,5 @@ export interface Payment {
   amount: string;
   status: 'pending' | 'completed' | 'failed';
   payment_method: string;
-  stripe_payment_intent: string;
   created_at: string;
 }

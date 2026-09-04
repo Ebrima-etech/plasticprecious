@@ -60,7 +60,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <h1 className="text-2xl font-bold text-blue-600">Plasticprecious</h1>
+              <h1 className="text-2xl font-bold text-green-600">Plasticprecious</h1>
             </div>
             <div className="hidden md:flex space-x-8">
               <Link href="/products" className="text-gray-600 hover:text-gray-900 font-medium">
@@ -77,7 +77,7 @@ export default function Home() {
               <Link href="/cart" className="text-gray-600 hover:text-gray-900 font-medium">
                 Cart
               </Link>
-              <Link href="/auth/login" className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
+              <Link href="/auth/login" className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700">
                 Login
               </Link>
             </div>
@@ -86,7 +86,7 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-indigo-800 text-white py-24">
+      <section className="bg-gradient-to-r from-green-600 to-green-800 text-white py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-sm font-semibold tracking-wide uppercase mb-4 opacity-90">Eco-Friendly Solutions</p>
           <h2 className="text-5xl md:text-6xl font-bold mb-6">Recycled Plastic Products</h2>
@@ -96,13 +96,13 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/products"
-              className="bg-white text-blue-600 px-8 py-4 rounded-lg font-bold hover:bg-gray-100 transition text-lg"
+              className="bg-white text-green-600 px-8 py-4 rounded-lg font-bold hover:bg-gray-100 transition text-lg"
             >
               Shop Now
             </Link>
             <Link
               href="/products"
-              className="border-2 border-white text-white px-8 py-4 rounded-lg font-bold hover:bg-white hover:text-blue-600 transition text-lg"
+              className="border-2 border-white text-white px-8 py-4 rounded-lg font-bold hover:bg-white hover:text-green-600 transition text-lg"
             >
               Browse Collections
             </Link>
@@ -128,15 +128,15 @@ export default function Home() {
               key={i}
               className="bg-white rounded-lg shadow-md hover:shadow-lg transition overflow-hidden group"
             >
-              <div className="bg-gradient-to-br from-blue-100 to-indigo-100 h-64 flex items-center justify-center text-6xl">
+              <div className="bg-gradient-to-br from-green-100 to-indigo-100 h-64 flex items-center justify-center text-6xl">
                 📦
               </div>
               <div className="p-4">
                 <p className="text-xs text-orange-600 font-semibold mb-2">{product.stock}</p>
                 <h4 className="font-semibold mb-2 text-gray-800">{product.name}</h4>
                 <div className="flex justify-between items-center">
-                  <span className="text-2xl font-bold text-blue-600">{product.price}</span>
-                  <button className="bg-blue-600 text-white px-4 py-2 rounded text-sm hover:bg-blue-700 transition">
+                  <span className="text-2xl font-bold text-green-600">{product.price}</span>
+                  <button className="bg-green-600 text-white px-4 py-2 rounded text-sm hover:bg-green-700 transition">
                     Add
                   </button>
                 </div>
@@ -148,7 +148,7 @@ export default function Home() {
         <div className="text-center mt-12">
           <Link
             href="/products"
-            className="text-blue-600 font-bold text-lg hover:text-blue-800 transition"
+            className="text-green-600 font-bold text-lg hover:text-green-800 transition"
           >
             View All Products →
           </Link>
@@ -171,7 +171,7 @@ export default function Home() {
                 key={i}
                 className="bg-white rounded-lg shadow-md hover:shadow-lg transition overflow-hidden cursor-pointer group"
               >
-                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 h-48 flex items-center justify-center text-6xl group-hover:scale-110 transition">
+                <div className="bg-gradient-to-br from-blue-50 to-green-50 h-48 flex items-center justify-center text-6xl group-hover:scale-110 transition">
                   {cat.image}
                 </div>
                 <div className="p-6 text-center">
@@ -200,7 +200,7 @@ export default function Home() {
             />
             <button
               type="submit"
-              className="bg-white text-blue-600 px-8 py-3 rounded-lg font-bold hover:bg-gray-100 transition whitespace-nowrap"
+              className="bg-white text-green-600 px-8 py-3 rounded-lg font-bold hover:bg-gray-100 transition whitespace-nowrap"
             >
               Sign Up
             </button>
@@ -253,7 +253,7 @@ export default function Home() {
           </div>
 
           <div className="text-center">
-            <Link href="/blog" className="text-blue-600 font-bold text-lg hover:text-blue-800 transition">
+            <Link href="/blog" className="text-green-600 font-bold text-lg hover:text-green-800 transition">
               Read More Articles →
             </Link>
           </div>
@@ -286,7 +286,7 @@ export default function Home() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {testimonials.map((testimonial, i) => (
-            <div key={i} className="bg-white rounded-lg shadow-md p-6 border-l-4 border-blue-600">
+            <div key={i} className="bg-white rounded-lg shadow-md p-6 border-l-4 border-green-600">
               <div className="flex gap-1 mb-3">
                 {[...Array(testimonial.rating)].map((_, j) => (
                   <span key={j} className="text-yellow-400">⭐</span>

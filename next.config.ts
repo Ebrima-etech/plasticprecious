@@ -8,10 +8,10 @@ const nextConfig: NextConfig = {
 
   // Image optimization
   images: {
-    domains: [
-      'localhost',
-      'api.example.com',
-      'plasticprecious.com',
+    remotePatterns: [
+      { protocol: 'http', hostname: 'localhost' },
+      { protocol: 'https', hostname: 'api.example.com' },
+      { protocol: 'https', hostname: 'plasticprecious.com' },
     ],
     formats: ['image/avif', 'image/webp'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
@@ -19,9 +19,11 @@ const nextConfig: NextConfig = {
   },
 
   // Production optimizations
-  swcMinify: true,
   compress: true,
   productionBrowserSourceMaps: false,
+
+  // Turbopack configuration (Next.js 16 default)
+  turbopack: {},
 
   // Headers and security
   async headers() {
@@ -75,34 +77,6 @@ const nextConfig: NextConfig = {
   // Environment variables
   env: {
     NEXT_PUBLIC_APP_NAME: 'Plasticprecious',
-  },
-
-  // Webpack optimizations
-  webpack: (config, { isServer }) => {
-    if (!isServer) {
-      config.optimization.splitChunks.cacheGroups = {
-        default: false,
-        vendors: false,
-        vendor: {
-          filename: 'chunks/vendor.js',
-          test: /node_modules/,
-          name: 'vendor',
-          priority: 10,
-          reuseExistingChunk: true,
-          enforce: true,
-        },
-      };
-    }
-    return config;
-  },
-
-  // API routes timeout
-  serverRuntimeConfig: {
-    apiTimeout: 30000,
-  },
-
-  publicRuntimeConfig: {
-    apiUrl: process.env.NEXT_PUBLIC_API_URL,
   },
 };
 

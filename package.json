@@ -20,18 +20,19 @@
     "zustand": "4.4.0"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "4.0.0",
     "@types/node": "20.11.0",
     "@types/react": "19.0.0",
     "@types/react-dom": "19.0.0",
     "@typescript-eslint/eslint-plugin": "8.0.0",
     "@typescript-eslint/parser": "8.0.0",
+    "autoprefixer": "10.4.20",
     "eslint": "9.13.0",
     "eslint-config-next": "16.3.4",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-react": "7.37.0",
+    "postcss": "8.4.41",
     "prettier": "3.1.1",
-    "tailwindcss": "4.0.0",
+    "tailwindcss": "3.4.10",
     "typescript": "5.3.3"
   },
   "engines": {

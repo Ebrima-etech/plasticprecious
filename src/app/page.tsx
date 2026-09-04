@@ -77,8 +77,11 @@ export default function Home() {
               <Link href="/cart" className="text-gray-600 hover:text-gray-900 font-medium">
                 Cart
               </Link>
-              <Link href="/auth/login" className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700">
+              <Link href="/auth/login" className="text-gray-600 hover:text-gray-900 font-medium">
                 Login
+              </Link>
+              <Link href="/auth/register" className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700">
+                Sign Up
               </Link>
             </div>
           </div>

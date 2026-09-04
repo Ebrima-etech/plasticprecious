@@ -39,7 +39,6 @@ This Next.js application is optimized for deployment on Vercel. Vercel provides:
 
 ```
 NEXT_PUBLIC_API_URL=https://your-api.onrender.com/api
-NEXT_PUBLIC_STRIPE_PUBLIC_KEY=pk_live_your_key_here
 NODE_ENV=production
 ```
 
@@ -182,7 +181,6 @@ In Vercel dashboard:
 
 Ensure all required variables are set:
 - `NEXT_PUBLIC_API_URL` - Backend API URL
-- `NEXT_PUBLIC_STRIPE_PUBLIC_KEY` - Stripe publishable key
 
 ## Troubleshooting
 

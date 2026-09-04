@@ -10,45 +10,45 @@ export default function Home() {
     {
       name: 'John Doe',
       location: 'New York, USA',
-      text: 'Best quality plastic products! The packaging was excellent and delivery was super fast.',
+      text: 'Finally found quality recycled products! Love knowing I\'m helping the environment while getting great products.',
       rating: 5,
     },
     {
       name: 'Sarah Smith',
       location: 'London, UK',
-      text: 'Great selection and competitive prices. Customer service was very helpful throughout my purchase.',
+      text: 'Impressed with the durability of their recycled containers. Great prices and fantastic eco-friendly service.',
       rating: 5,
     },
     {
       name: 'Michael Brown',
       location: 'Toronto, Canada',
-      text: 'Been ordering for years now. Reliable, consistent quality, and always on time.',
+      text: 'This company truly cares about sustainability. My whole family switched to their products. Highly recommend!',
       rating: 5,
     },
     {
       name: 'Emma Wilson',
       location: 'Sydney, Australia',
-      text: 'Love the variety of products available. Found exactly what I needed at great prices.',
+      text: 'Beautiful, sustainable products that actually work better than conventional plastic. Supporting their mission!',
       rating: 5,
     },
   ];
 
   const categories = [
-    { name: 'Containers', image: '📦' },
+    { name: 'Recycled Containers', image: '♻️' },
     { name: 'Kitchenware', image: '🍴' },
-    { name: 'Storage', image: '📦' },
-    { name: 'Accessories', image: '✨' },
+    { name: 'Storage Solutions', image: '📦' },
+    { name: 'Eco Accessories', image: '🌍' },
   ];
 
   const blogPosts = [
     {
       date: 'JANUARY 15, 2026',
-      title: 'How to Choose Quality Plastic Products',
+      title: 'Benefits of Recycled Plastic Products for Your Home',
       readTime: '5 min read',
     },
     {
       date: 'JANUARY 10, 2026',
-      title: 'Sustainable Plastic: The Future of Packaging',
+      title: 'How Plastic Recycling Helps Save the Environment',
       readTime: '7 min read',
     },
   ];
@@ -88,10 +88,10 @@ export default function Home() {
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-blue-600 to-indigo-800 text-white py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-sm font-semibold tracking-wide uppercase mb-4 opacity-90">Premium Quality</p>
-          <h2 className="text-5xl md:text-6xl font-bold mb-6">Time for an Upgrade?</h2>
+          <p className="text-sm font-semibold tracking-wide uppercase mb-4 opacity-90">Eco-Friendly Solutions</p>
+          <h2 className="text-5xl md:text-6xl font-bold mb-6">Recycled Plastic Products</h2>
           <p className="text-xl md:text-2xl mb-8 opacity-95">
-            Discover premium plastic products for every need
+            Sustainable products made from 100% recycled plastic materials
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
@@ -113,16 +113,16 @@ export default function Home() {
       {/* Bestsellers Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="mb-12">
-          <h3 className="text-4xl font-bold mb-2">Bestsellers</h3>
-          <p className="text-gray-600 text-lg">All your plastic product needs, in one place.</p>
+          <h3 className="text-4xl font-bold mb-2">Best Selling Products</h3>
+          <p className="text-gray-600 text-lg">Our most popular recycled plastic solutions, trusted by thousands.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {[
-            { name: 'Premium Storage Container', price: '$12.99', stock: 'Only 5 left' },
-            { name: 'Eco-Friendly Lunch Box', price: '$8.99', stock: 'Only 10 left' },
-            { name: 'Durable Water Bottle', price: '$9.99', stock: 'In Stock' },
-            { name: 'Multi-Purpose Organizer', price: '$14.99', stock: 'Only 3 left' },
+            { name: 'Recycled Storage Bins', price: '$18.99', stock: 'Only 8 left' },
+            { name: 'Eco Lunch Container Set', price: '$24.99', stock: 'In Stock' },
+            { name: 'Recycled Water Bottle', price: '$16.99', stock: 'Only 12 left' },
+            { name: 'Sustainable Organizers', price: '$22.99', stock: 'In Stock' },
           ].map((product, i) => (
             <div
               key={i}
@@ -161,7 +161,7 @@ export default function Home() {
           <div className="text-center mb-12">
             <h3 className="text-4xl font-bold mb-4">Shop by Category</h3>
             <p className="text-gray-600 text-lg">
-              Engineered to perfection. Designed for you.
+              Quality recycled plastic products for every lifestyle.
             </p>
           </div>
 
@@ -184,10 +184,10 @@ export default function Home() {
       </section>
 
       {/* Newsletter Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-indigo-800 text-white py-16">
+      <section className="bg-gradient-to-r from-green-600 to-emerald-800 text-white py-16">
         <div className="max-w-2xl mx-auto px-4 text-center">
-          <h3 className="text-4xl font-bold mb-4">Savings Worth Signing Up For</h3>
-          <p className="text-lg mb-8 opacity-95">How about 10% off your first order?</p>
+          <h3 className="text-4xl font-bold mb-4">Join the Sustainability Movement</h3>
+          <p className="text-lg mb-8 opacity-95">Get 15% off your first order + exclusive eco-tips delivered to your inbox</p>
 
           <form onSubmit={(e) => e.preventDefault()} className="flex flex-col sm:flex-row gap-3">
             <input
@@ -215,24 +215,24 @@ export default function Home() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div className="text-center">
-            <div className="text-5xl mb-4">🏆</div>
-            <h4 className="font-bold text-lg mb-2">Premium Quality</h4>
-            <p className="text-gray-600">High-quality materials and expert craftsmanship</p>
+            <div className="text-5xl mb-4">♻️</div>
+            <h4 className="font-bold text-lg mb-2">100% Recycled</h4>
+            <p className="text-gray-600">Made from recycled plastic materials, zero waste</p>
           </div>
           <div className="text-center">
-            <div className="text-5xl mb-4">⚡</div>
-            <h4 className="font-bold text-lg mb-2">Fast Shipping</h4>
-            <p className="text-gray-600">Express delivery to your doorstep</p>
+            <div className="text-5xl mb-4">🌍</div>
+            <h4 className="font-bold text-lg mb-2">Eco-Friendly</h4>
+            <p className="text-gray-600">Reduce your carbon footprint with sustainable choices</p>
           </div>
           <div className="text-center">
-            <div className="text-5xl mb-4">💬</div>
-            <h4 className="font-bold text-lg mb-2">Expert Help</h4>
-            <p className="text-gray-600">24/7 customer support available</p>
+            <div className="text-5xl mb-4">🚚</div>
+            <h4 className="font-bold text-lg mb-2">Sustainable Shipping</h4>
+            <p className="text-gray-600">Carbon-neutral delivery options available</p>
           </div>
           <div className="text-center">
-            <div className="text-5xl mb-4">💰</div>
-            <h4 className="font-bold text-lg mb-2">Best Prices</h4>
-            <p className="text-gray-600">Unbeatable value for money</p>
+            <div className="text-5xl mb-4">✅</div>
+            <h4 className="font-bold text-lg mb-2">Quality Assured</h4>
+            <p className="text-gray-600">Certified durable and long-lasting products</p>
           </div>
         </div>
       </section>
@@ -263,23 +263,23 @@ export default function Home() {
       {/* Social Proof Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="text-center mb-12">
-          <h3 className="text-4xl font-bold mb-8">Who, Us?</h3>
+          <h3 className="text-4xl font-bold mb-8">Our Impact</h3>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
             <div className="text-center">
-              <p className="text-4xl font-bold text-blue-600 mb-2">50K+</p>
-              <p className="text-gray-600 font-semibold">Products Sold</p>
+              <p className="text-4xl font-bold text-green-600 mb-2">100K+</p>
+              <p className="text-gray-600 font-semibold">Recycled Products Sold</p>
             </div>
             <div className="text-center">
-              <p className="text-4xl font-bold text-blue-600 mb-2">95%</p>
-              <p className="text-gray-600 font-semibold">Positive Reviews</p>
+              <p className="text-4xl font-bold text-green-600 mb-2">500+</p>
+              <p className="text-gray-600 font-semibold">Tons of Plastic Saved</p>
             </div>
             <div className="text-center">
-              <p className="text-4xl font-bold text-blue-600 mb-2">15+</p>
-              <p className="text-gray-600 font-semibold">Countries</p>
+              <p className="text-4xl font-bold text-green-600 mb-2">50+</p>
+              <p className="text-gray-600 font-semibold">Countries Served</p>
             </div>
             <div className="text-center">
-              <p className="text-4xl font-bold text-blue-600 mb-2">24/7</p>
-              <p className="text-gray-600 font-semibold">Customer Support</p>
+              <p className="text-4xl font-bold text-green-600 mb-2">98%</p>
+              <p className="text-gray-600 font-semibold">Customer Satisfaction</p>
             </div>
           </div>
         </div>
@@ -307,7 +307,7 @@ export default function Home() {
             <div>
               <h5 className="font-bold text-lg mb-4">About Us</h5>
               <p className="text-gray-400 text-sm">
-                Plasticprecious is your premier destination for quality plastic products worldwide.
+                Plasticprecious is a leading recycled plastic products company dedicated to sustainability and eco-friendly solutions worldwide.
               </p>
             </div>
             <div>

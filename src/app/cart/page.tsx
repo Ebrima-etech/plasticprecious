@@ -98,7 +98,7 @@ export default function CartPage() {
                   >
                     <div className="flex-1">
                       <h3 className="font-semibold mb-2">{item.product.name}</h3>
-                      <p className="text-gray-600">${parseFloat(item.product.price).toFixed(2)}</p>
+                      <p className="text-gray-600">D {parseFloat(item.product.price).toLocaleString('en-GM')}</p>
                     </div>
                     <div className="flex items-center space-x-4">
                       <div className="flex items-center border border-gray-300 rounded">
@@ -134,7 +134,7 @@ export default function CartPage() {
                 <div className="space-y-4">
                   <div className="flex justify-between text-gray-600">
                     <span>Subtotal</span>
-                    <span>${parseFloat(cart.total_price || '0').toFixed(2)}</span>
+                    <span>D {parseFloat(cart.total_price || '0').toLocaleString('en-GM')}</span>
                   </div>
                   <div className="flex justify-between text-gray-600">
                     <span>Shipping</span>
@@ -142,12 +142,12 @@ export default function CartPage() {
                   </div>
                   <div className="border-t pt-4 flex justify-between font-semibold text-lg">
                     <span>Total</span>
-                    <span>${parseFloat(cart.total_price || '0').toFixed(2)}</span>
+                    <span>D {parseFloat(cart.total_price || '0').toLocaleString('en-GM')}</span>
                   </div>
                 </div>
                 <button
                   onClick={() => router.push('/checkout')}
-                  className="w-full mt-6 bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700"
+                  className="w-full mt-6 bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700"
                 >
                   Proceed to Checkout
                 </button>
@@ -159,7 +159,7 @@ export default function CartPage() {
             <p className="text-xl text-gray-600 mb-6">Your cart is empty</p>
             <button
               onClick={() => router.push('/products')}
-              className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700"
+              className="bg-green-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-green-700"
             >
               Continue Shopping
             </button>

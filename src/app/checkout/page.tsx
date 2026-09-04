@@ -106,7 +106,7 @@ export default function CheckoutPage() {
                       name="first_name"
                       value={formData.first_name}
                       onChange={handleChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                     />
                   </div>
                   <div>
@@ -118,7 +118,7 @@ export default function CheckoutPage() {
                       name="last_name"
                       value={formData.last_name}
                       onChange={handleChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                     />
                   </div>
                 </div>
@@ -132,7 +132,7 @@ export default function CheckoutPage() {
                     name="street"
                     value={formData.street}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                   />
                 </div>
 
@@ -146,7 +146,7 @@ export default function CheckoutPage() {
                       name="city"
                       value={formData.city}
                       onChange={handleChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                     />
                   </div>
                   <div>
@@ -158,7 +158,7 @@ export default function CheckoutPage() {
                       name="state"
                       value={formData.state}
                       onChange={handleChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                     />
                   </div>
                 </div>
@@ -173,7 +173,7 @@ export default function CheckoutPage() {
                       name="postal_code"
                       value={formData.postal_code}
                       onChange={handleChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                     />
                   </div>
                   <div>
@@ -184,7 +184,7 @@ export default function CheckoutPage() {
                       name="country"
                       value={formData.country}
                       onChange={handleChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                     >
                       <option value="US">United States</option>
                       <option value="CA">Canada</option>
@@ -198,7 +198,7 @@ export default function CheckoutPage() {
               <button
                 onClick={handlePlaceOrder}
                 disabled={loading}
-                className="w-full mt-8 bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 disabled:opacity-50"
+                className="w-full mt-8 bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 disabled:opacity-50"
               >
                 {loading ? 'Processing...' : 'Place Order'}
               </button>
@@ -211,7 +211,7 @@ export default function CheckoutPage() {
               <div className="space-y-4">
                 <div className="flex justify-between text-gray-600">
                   <span>Subtotal</span>
-                  <span>$0.00</span>
+                  <span>D 0</span>
                 </div>
                 <div className="flex justify-between text-gray-600">
                   <span>Shipping</span>
@@ -219,7 +219,7 @@ export default function CheckoutPage() {
                 </div>
                 <div className="border-t pt-4 flex justify-between font-semibold text-lg">
                   <span>Total</span>
-                  <span>$0.00</span>
+                  <span>D 0</span>
                 </div>
               </div>
             </div>

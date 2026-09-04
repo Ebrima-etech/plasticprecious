@@ -22,6 +22,15 @@ export interface CartItem {
   quantity: number;
 }
 
+export interface Cart {
+  id: number;
+  user: number;
+  items: CartItem[];
+  total_price: string;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface Order {
   id: number;
   user: number;

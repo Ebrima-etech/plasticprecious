@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { Cart } from '@/types';
+import { Cart, CartItem } from '@/types';
 import { API_BASE_URL, getApiUrl } from '@/config/api';
 import { getAccessToken } from '@/lib/auth';
 
@@ -91,7 +91,7 @@ export default function CartPage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2">
               <div className="bg-white rounded-lg shadow-md overflow-hidden">
-                {cart.items.map((item) => (
+                {cart.items.map((item: CartItem) => (
                   <div
                     key={item.id}
                     className="flex items-center justify-between p-6 border-b last:border-b-0"

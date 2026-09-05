@@ -1,14 +1,50 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import axios from 'axios';
 import { Button } from '@/components/ui/Button';
 import { Card, CardBody } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
+import { Spinner } from '@/components/ui/Spinner';
+import { API_BASE_URL } from '@/config/api';
+
+interface Product {
+  id: number;
+  name: string;
+  price: string;
+  stock: number;
+  image?: string;
+  is_active: boolean;
+}
 
 export default function Home() {
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loadingProducts, setLoadingProducts] = useState(true);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get(`${API_BASE_URL}/products/`);
+        console.log('API Response:', response.data);
+        const allProducts = response.data.results || response.data || [];
+        console.log('All Products:', allProducts);
+        const activeProducts = allProducts.filter((p: Product) => p.is_active).slice(0, 4);
+        console.log('Active Products:', activeProducts);
+        setProducts(activeProducts);
+      } catch (err) {
+        console.error('Failed to fetch products:', err);
+        // Set empty array so we show "no products" instead of loading forever
+        setProducts([]);
+      } finally {
+        setLoadingProducts(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   const testimonials = [
     {
@@ -35,13 +71,6 @@ export default function Home() {
       text: 'Beautiful, sustainable products that actually work better than conventional plastic. Supporting their mission!',
       rating: 5,
     },
-  ];
-
-  const products = [
-    { name: 'Recycled Storage Bins', price: 'D 850', stock: 'Only 8 left', badge: 'In Stock' },
-    { name: 'Eco Lunch Container Set', price: 'D 1,200', stock: 'In Stock', badge: 'Popular' },
-    { name: 'Recycled Water Bottle', price: 'D 750', stock: 'Only 12 left', badge: 'Limited' },
-    { name: 'Sustainable Organizers', price: 'D 1,050', stock: 'In Stock', badge: 'Best Seller' },
   ];
 
   const categories = [
@@ -74,6 +103,12 @@ export default function Home() {
         setSubscribed(false);
       }, 3000);
     }
+  };
+
+  const getStockBadge = (stock: number) => {
+    if (stock === 0) return { variant: 'error' as const, text: 'Out of Stock' };
+    if (stock < 10) return { variant: 'warning' as const, text: `Only ${stock} left` };
+    return { variant: 'success' as const, text: 'In Stock' };
   };
 
   return (
@@ -156,39 +191,64 @@ export default function Home() {
           <p className="text-xl text-neutral-600">Our most loved recycled solutions, trusted by thousands worldwide.</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-          {products.map((product, i) => (
-            <Card key={i} hover shadow="base">
-              <div className="bg-gradient-to-br from-primary-100 to-primary-50 h-48 flex items-center justify-center text-5xl rounded-t-lg">
-                📦
-              </div>
-              <CardBody>
-                <div className="flex items-start justify-between mb-3">
-                  <div>
-                    <Badge variant="primary" size="sm">
-                      {product.badge}
-                    </Badge>
-                  </div>
-                </div>
-                <h3 className="font-semibold text-neutral-900 mb-3">{product.name}</h3>
-                <div className="flex items-center justify-between gap-3">
-                  <span className="text-2xl font-bold text-primary-600">{product.price}</span>
-                  <Button size="sm" variant="primary">
-                    Add
-                  </Button>
-                </div>
-              </CardBody>
-            </Card>
-          ))}
-        </div>
+        {loadingProducts ? (
+          <div className="flex items-center justify-center py-20">
+            <Spinner size="lg" />
+          </div>
+        ) : products.length > 0 ? (
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+              {products.map((product) => {
+                const stockBadge = getStockBadge(product.stock);
+                return (
+                  <Link key={product.id} href={`/products?id=${product.id}`}>
+                    <Card hover shadow="base">
+                      <div className="bg-gradient-to-br from-primary-100 to-primary-50 h-48 flex items-center justify-center text-5xl rounded-t-lg overflow-hidden">
+                        {product.image ? (
+                          <img
+                            src={product.image}
+                            alt={product.name}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          '📦'
+                        )}
+                      </div>
+                      <CardBody>
+                        <div className="flex items-start justify-between mb-3">
+                          <Badge variant={stockBadge.variant} size="sm">
+                            {stockBadge.text}
+                          </Badge>
+                        </div>
+                        <h3 className="font-semibold text-neutral-900 mb-3 line-clamp-2">{product.name}</h3>
+                        <div className="flex items-center justify-between gap-3">
+                          <span className="text-2xl font-bold text-primary-600">
+                            D {parseFloat(product.price).toLocaleString('en-GM')}
+                          </span>
+                          <Button size="sm" variant="primary">
+                            Add
+                          </Button>
+                        </div>
+                      </CardBody>
+                    </Card>
+                  </Link>
+                );
+              })}
+            </div>
 
-        <div className="text-center">
-          <Link href="/products">
-            <Button variant="ghost" size="lg">
-              View All Products →
-            </Button>
-          </Link>
-        </div>
+            <div className="text-center">
+              <Link href="/products">
+                <Button variant="ghost" size="lg">
+                  View All Products →
+                </Button>
+              </Link>
+            </div>
+          </>
+        ) : (
+          <div className="text-center py-12">
+            <p className="text-neutral-600 text-lg">No products available yet</p>
+          </div>
+        )}
       </section>
 
       {/* Features Grid */}

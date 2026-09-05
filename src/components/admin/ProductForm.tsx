@@ -97,6 +97,8 @@ export default function ProductForm({ productId }: ProductFormProps) {
         category: parseInt(formData.category),
       };
 
+      console.log('Submitting product data:', submitData);
+
       if (productId) {
         await axios.put(`${API_BASE_URL}/products/${productId}/`, submitData, { headers });
       } else {
@@ -105,7 +107,18 @@ export default function ProductForm({ productId }: ProductFormProps) {
 
       router.push('/admin/products');
     } catch (err: any) {
-      setError(err.response?.data?.detail || 'Failed to save product');
+      console.error('Error response:', err.response?.data);
+
+      // Format error message from backend
+      const errorData = err.response?.data;
+      if (typeof errorData === 'object' && errorData !== null) {
+        const errorMessages = Object.entries(errorData)
+          .map(([key, value]) => `${key}: ${value}`)
+          .join(', ');
+        setError(errorMessages || 'Failed to save product');
+      } else {
+        setError(errorData?.detail || errorData?.error || 'Failed to save product');
+      }
     } finally {
       setLoading(false);
     }

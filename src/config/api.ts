@@ -1,5 +1,5 @@
-// HARDCODED API URL
-export const API_BASE_URL = 'http://localhost:8000/api';
+// API URL - Production Render backend
+export const API_BASE_URL = 'https://preciousback.onrender.com/api';
 
 export const API_ENDPOINTS = {
   // Products

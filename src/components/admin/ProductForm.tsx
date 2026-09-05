@@ -34,11 +34,24 @@ export default function ProductForm({ productId }: ProductFormProps) {
     const fetchData = async () => {
       try {
         const token = getToken();
+        if (!token) {
+          setError('Not authenticated. Please login first.');
+          return;
+        }
+
         const headers = { Authorization: `Bearer ${token}` };
 
         // Fetch categories
-        const catRes = await axios.get(`${API_BASE_URL}/categories/`, { headers });
-        setCategories(catRes.data.results || catRes.data || []);
+        try {
+          const catRes = await axios.get(`${API_BASE_URL}/categories/`, { headers });
+          setCategories(catRes.data.results || catRes.data || []);
+        } catch (err: any) {
+          if (err.response?.status === 401) {
+            setError('Session expired. Please login again.');
+            return;
+          }
+          console.error('Failed to fetch categories:', err);
+        }
 
         // If editing, fetch product data
         if (productId) {

@@ -1,10 +1,10 @@
 import React from 'react';
 
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
   label?: string;
   error?: string;
   helperText?: string;
-  size?: 'sm' | 'base' | 'lg';
+  inputSize?: 'sm' | 'base' | 'lg';
   icon?: React.ReactNode;
 }
 
@@ -21,7 +21,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     label,
     error,
     helperText,
-    size = 'base',
+    inputSize = 'base',
     icon,
     className,
     ...props
@@ -46,7 +46,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             ref={ref}
             className={`
               ${baseStyles}
-              ${sizes[size]}
+              ${sizes[inputSize]}
               ${isInvalid ? 'border-error focus:ring-error' : ''}
               ${icon ? 'pl-10' : ''}
               ${className || ''}

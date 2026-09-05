@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import axios from 'axios';
+import { FiShoppingCart, FiLogIn, FiPackage, FiMenu, FiX } from 'react-icons/fi';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { Spinner } from '@/components/ui/Spinner';
@@ -67,23 +68,24 @@ export default function ProductsPage() {
               className="md:hidden p-2 hover:bg-neutral-100 rounded-lg transition"
             >
               {mobileMenuOpen ? (
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
+                <FiX className="w-6 h-6" />
               ) : (
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
+                <FiMenu className="w-6 h-6" />
               )}
             </button>
 
             {/* Desktop Buttons */}
             <div className="hidden md:flex gap-3">
               <Link href="/cart">
-                <Button variant="ghost" size="sm">🛒</Button>
+                <Button variant="ghost" size="sm">
+                  <FiShoppingCart className="w-5 h-5" />
+                </Button>
               </Link>
               <Link href="/auth/login">
-                <Button variant="secondary" size="sm">LOGIN</Button>
+                <Button variant="secondary" size="sm">
+                  <FiLogIn className="w-4 h-4 mr-1" />
+                  LOGIN
+                </Button>
               </Link>
               <Link href="/auth/signup">
                 <Button size="sm">SIGN UP</Button>
@@ -93,10 +95,14 @@ export default function ProductsPage() {
             {/* Mobile Cart & Login */}
             <div className="flex md:hidden gap-3">
               <Link href="/cart">
-                <Button variant="ghost" size="sm">🛒</Button>
+                <Button variant="ghost" size="sm">
+                  <FiShoppingCart className="w-5 h-5" />
+                </Button>
               </Link>
               <Link href="/auth/login">
-                <Button variant="secondary" size="xs">LOGIN</Button>
+                <Button variant="secondary" size="xs">
+                  <FiLogIn className="w-4 h-4" />
+                </Button>
               </Link>
             </div>
           </div>
@@ -156,7 +162,7 @@ export default function ProductsPage() {
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                           />
                         ) : (
-                          <div className="text-6xl">📦</div>
+                          <FiPackage className="w-16 h-16 text-primary-400" />
                         )}
                       </div>
 

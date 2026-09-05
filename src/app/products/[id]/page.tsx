@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import axios from 'axios';
+import { FiShoppingCart, FiLogIn, FiTruck, FiRotateCcw, FiLock, FiPackage } from 'react-icons/fi';
 import { Button } from '@/components/ui/Button';
 import { Card, CardBody } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
@@ -99,10 +100,15 @@ export default function ProductDetailPage() {
             </Link>
             <div className="flex gap-3">
               <Link href="/cart">
-                <Button variant="ghost" size="sm">🛒</Button>
+                <Button variant="ghost" size="sm">
+                  <FiShoppingCart className="w-5 h-5" />
+                </Button>
               </Link>
               <Link href="/auth/login">
-                <Button variant="secondary" size="sm">LOGIN</Button>
+                <Button variant="secondary" size="sm">
+                  <FiLogIn className="w-4 h-4 mr-1" />
+                  LOGIN
+                </Button>
               </Link>
             </div>
           </div>
@@ -133,7 +139,7 @@ export default function ProductDetailPage() {
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <div className="text-9xl">📦</div>
+                <FiPackage className="w-24 h-24 text-primary-400" />
               )}
             </div>
           </div>
@@ -244,21 +250,21 @@ export default function ProductDetailPage() {
               <CardBody>
                 <div className="space-y-3 text-sm">
                   <div className="flex items-start gap-3">
-                    <span className="text-lg">🚚</span>
+                    <FiTruck className="w-5 h-5 text-primary-600 mt-0.5 flex-shrink-0" />
                     <div>
                       <p className="font-semibold text-neutral-900">Free Shipping</p>
                       <p className="text-neutral-600">On orders over D 5,000</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
-                    <span className="text-lg">↩️</span>
+                    <FiRotateCcw className="w-5 h-5 text-primary-600 mt-0.5 flex-shrink-0" />
                     <div>
                       <p className="font-semibold text-neutral-900">Easy Returns</p>
                       <p className="text-neutral-600">30-day money-back guarantee</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
-                    <span className="text-lg">🔒</span>
+                    <FiLock className="w-5 h-5 text-primary-600 mt-0.5 flex-shrink-0" />
                     <div>
                       <p className="font-semibold text-neutral-900">Secure Checkout</p>
                       <p className="text-neutral-600">SSL encrypted transactions</p>

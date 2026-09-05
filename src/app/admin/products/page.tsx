@@ -5,6 +5,12 @@ import axios from 'axios';
 import Link from 'next/link';
 import { API_BASE_URL } from '@/config/api';
 import { getToken } from '@/lib/auth';
+import { Card, CardBody, CardHeader } from '@/components/ui/Card';
+import { Badge } from '@/components/ui/Badge';
+import { Button } from '@/components/ui/Button';
+import { Spinner } from '@/components/ui/Spinner';
+import { AlertDialog } from '@/components/ui/Modal';
+import { EmptyState } from '@/components/ui/EmptyState';
 
 interface Product {
   id: number;
@@ -20,6 +26,7 @@ export default function AdminProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [deleteModal, setDeleteModal] = useState({ isOpen: false, productId: 0, isDeleting: false });
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -40,103 +47,129 @@ export default function AdminProductsPage() {
     fetchProducts();
   }, []);
 
-  const deleteProduct = async (id: number) => {
-    if (!confirm('Are you sure you want to delete this product?')) return;
+  const handleDeleteClick = (id: number) => {
+    setDeleteModal({ isOpen: true, productId: id, isDeleting: false });
+  };
 
+  const confirmDelete = async () => {
+    setDeleteModal((prev) => ({ ...prev, isDeleting: true }));
     try {
       const token = getToken();
-      await axios.delete(`${API_BASE_URL}/products/${id}/`, {
+      await axios.delete(`${API_BASE_URL}/products/${deleteModal.productId}/`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setProducts(products.filter((p) => p.id !== id));
+      setProducts(products.filter((p) => p.id !== deleteModal.productId));
+      setDeleteModal({ isOpen: false, productId: 0, isDeleting: false });
     } catch (err) {
       setError('Failed to delete product');
+      setDeleteModal({ isOpen: false, productId: 0, isDeleting: false });
     }
   };
 
   if (loading) {
     return (
-      <div className="text-center py-12">
-        <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
-        <p className="mt-4 text-gray-600">Loading products...</p>
+      <div className="flex items-center justify-center py-20">
+        <div className="text-center">
+          <Spinner size="lg" />
+          <p className="mt-4 text-neutral-600 font-medium">Loading products...</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div>
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Products</h1>
-        <Link
-          href="/admin/products/new"
-          className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition"
-        >
-          ➕ Add Product
+    <div className="space-y-8">
+      {/* Header */}
+      <div className="flex justify-between items-start">
+        <div>
+          <h1 className="text-4xl font-bold text-neutral-900">Products</h1>
+          <p className="text-neutral-600 mt-2">Manage your product catalog</p>
+        </div>
+        <Link href="/admin/products/new">
+          <Button size="lg">
+            ➕ Add Product
+          </Button>
         </Link>
       </div>
 
       {error && (
-        <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
+        <div className="p-4 bg-error/10 border border-error text-error rounded-lg">
           {error}
         </div>
       )}
 
-      {/* Products Table */}
-      <div className="bg-white rounded-lg shadow overflow-x-auto">
-        <table className="w-full">
-          <thead className="bg-gray-50 border-b">
-            <tr>
-              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Name</th>
-              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Price</th>
-              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Stock</th>
-              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Status</th>
-              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Actions</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y">
-            {products.length === 0 ? (
-              <tr>
-                <td colSpan={5} className="px-6 py-8 text-center text-gray-500">
-                  No products yet. <Link href="/admin/products/new" className="text-green-600 hover:underline">Create one</Link>
-                </td>
-              </tr>
-            ) : (
-              products.map((product) => (
-                <tr key={product.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 text-gray-900 font-medium">{product.name}</td>
-                  <td className="px-6 py-4 text-gray-600">D {parseFloat(product.price).toLocaleString('en-GM')}</td>
-                  <td className="px-6 py-4 text-gray-600">{product.stock}</td>
-                  <td className="px-6 py-4">
-                    <span
-                      className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                        product.is_active
-                          ? 'bg-green-100 text-green-800'
-                          : 'bg-gray-100 text-gray-800'
-                      }`}
-                    >
-                      {product.is_active ? 'Active' : 'Inactive'}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 space-x-2">
-                    <Link
-                      href={`/admin/products/${product.id}/edit`}
-                      className="text-blue-600 hover:text-blue-900 font-semibold"
-                    >
-                      Edit
-                    </Link>
-                    <button
-                      onClick={() => deleteProduct(product.id)}
-                      className="text-red-600 hover:text-red-900 font-semibold"
-                    >
-                      Delete
-                    </button>
-                  </td>
+      {products.length === 0 ? (
+        <Card shadow="sm">
+          <CardBody>
+            <EmptyState
+              title="No products yet"
+              description="Create your first product to get started"
+              action={{ label: 'Add Product', onClick: () => window.location.href = '/admin/products/new' }}
+            />
+          </CardBody>
+        </Card>
+      ) : (
+        <Card shadow="base">
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-neutral-50 border-b border-neutral-100">
+                <tr>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-neutral-900">Name</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-neutral-900">Price</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-neutral-900">Stock</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-neutral-900">Status</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-neutral-900">Actions</th>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
+              </thead>
+              <tbody className="divide-y divide-neutral-100">
+                {products.map((product) => (
+                  <tr key={product.id} className="hover:bg-neutral-50 transition-colors">
+                    <td className="px-6 py-4 text-neutral-900 font-medium">{product.name}</td>
+                    <td className="px-6 py-4 text-neutral-600">
+                      D {parseFloat(product.price).toLocaleString('en-GM')}
+                    </td>
+                    <td className="px-6 py-4 text-neutral-600">{product.stock} units</td>
+                    <td className="px-6 py-4">
+                      <Badge variant={product.is_active ? 'success' : 'neutral'} size="sm">
+                        {product.is_active ? '✓ Active' : '○ Inactive'}
+                      </Badge>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="flex gap-3">
+                        <Link href={`/admin/products/${product.id}/edit`}>
+                          <Button variant="secondary" size="sm">
+                            Edit
+                          </Button>
+                        </Link>
+                        <Button
+                          variant="danger"
+                          size="sm"
+                          onClick={() => handleDeleteClick(product.id)}
+                        >
+                          Delete
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </Card>
+      )}
+
+      {/* Delete Confirmation Dialog */}
+      <AlertDialog
+        isOpen={deleteModal.isOpen}
+        title="Delete Product?"
+        message="This action cannot be undone. The product will be permanently deleted."
+        confirmLabel="Delete"
+        cancelLabel="Cancel"
+        type="error"
+        isLoading={deleteModal.isDeleting}
+        onConfirm={confirmDelete}
+        onCancel={() => setDeleteModal({ isOpen: false, productId: 0, isDeleting: false })}
+      />
     </div>
   );
 }

@@ -5,6 +5,9 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { API_BASE_URL } from '@/config/api';
 import { getToken } from '@/lib/auth';
+import { Button } from '@/components/ui/Button';
+import { Input } from '@/components/ui/Input';
+import { Card, CardBody, CardHeader, CardFooter } from '@/components/ui/Card';
 
 interface CategoryFormProps {
   categoryId?: number;
@@ -58,47 +61,51 @@ export default function CategoryForm({ categoryId }: CategoryFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow p-8 max-w-2xl">
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">
-        {categoryId ? 'Edit Category' : 'Add New Category'}
-      </h1>
+    <form onSubmit={handleSubmit} className="max-w-2xl">
+      <Card shadow="base">
+        <CardHeader className="border-b border-neutral-100">
+          <h1 className="text-2xl font-bold text-neutral-900">
+            {categoryId ? 'Edit Category' : 'Add New Category'}
+          </h1>
+        </CardHeader>
 
-      {error && (
-        <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
-          {error}
-        </div>
-      )}
+        <CardBody className="space-y-6">
+          {error && (
+            <div className="p-4 bg-error/10 border border-error text-error rounded-lg text-sm">
+              {error}
+            </div>
+          )}
 
-      <div className="space-y-4">
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">Category Name *</label>
-          <input
-            type="text"
+          <Input
+            label="Category Name"
+            name="name"
             value={formData.name}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-            placeholder="e.g., Recycled Plastic"
+            placeholder="e.g., Recycled Plastic Containers"
           />
-        </div>
-      </div>
+        </CardBody>
 
-      <div className="mt-8 flex gap-4">
-        <button
-          type="submit"
-          disabled={loading}
-          className="flex-1 bg-green-600 text-white py-2 rounded-lg font-semibold hover:bg-green-700 transition disabled:opacity-50"
-        >
-          {loading ? 'Saving...' : 'Save Category'}
-        </button>
-        <button
-          type="button"
-          onClick={() => router.back()}
-          className="flex-1 bg-gray-300 text-gray-900 py-2 rounded-lg font-semibold hover:bg-gray-400 transition"
-        >
-          Cancel
-        </button>
-      </div>
+        <CardFooter className="flex gap-3">
+          <Button
+            type="submit"
+            size="lg"
+            isLoading={loading}
+            className="flex-1"
+          >
+            {categoryId ? 'Update Category' : 'Create Category'}
+          </Button>
+          <Button
+            type="button"
+            variant="secondary"
+            size="lg"
+            onClick={() => router.back()}
+            className="flex-1"
+          >
+            Cancel
+          </Button>
+        </CardFooter>
+      </Card>
     </form>
   );
 }

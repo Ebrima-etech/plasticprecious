@@ -5,6 +5,10 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { API_BASE_URL } from '@/config/api';
 import { getToken } from '@/lib/auth';
+import { Button } from '@/components/ui/Button';
+import { Input } from '@/components/ui/Input';
+import { Card, CardBody, CardHeader, CardFooter } from '@/components/ui/Card';
+import { Spinner } from '@/components/ui/Spinner';
 
 interface ProductFormProps {
   productId?: number;
@@ -29,6 +33,7 @@ export default function ProductForm({ productId }: ProductFormProps) {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [isLoadingForm, setIsLoadingForm] = useState(!!productId);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,7 +46,6 @@ export default function ProductForm({ productId }: ProductFormProps) {
 
         const headers = { Authorization: `Bearer ${token}` };
 
-        // Fetch categories
         try {
           const catRes = await axios.get(`${API_BASE_URL}/categories/`, { headers });
           setCategories(catRes.data.results || catRes.data || []);
@@ -53,7 +57,6 @@ export default function ProductForm({ productId }: ProductFormProps) {
           console.error('Failed to fetch categories:', err);
         }
 
-        // If editing, fetch product data
         if (productId) {
           const prodRes = await axios.get(`${API_BASE_URL}/products/${productId}/`, { headers });
           setFormData({
@@ -69,6 +72,8 @@ export default function ProductForm({ productId }: ProductFormProps) {
       } catch (err) {
         setError('Failed to load form data');
         console.error(err);
+      } finally {
+        setIsLoadingForm(false);
       }
     };
 
@@ -97,12 +102,9 @@ export default function ProductForm({ productId }: ProductFormProps) {
         category: parseInt(formData.category),
       };
 
-      // Don't send image if empty (not uploading files yet)
       if (!submitData.image) {
         delete submitData.image;
       }
-
-      console.log('Submitting product data:', submitData);
 
       if (productId) {
         await axios.put(`${API_BASE_URL}/products/${productId}/`, submitData, { headers });
@@ -112,9 +114,6 @@ export default function ProductForm({ productId }: ProductFormProps) {
 
       router.push('/admin/products');
     } catch (err: any) {
-      console.error('Error response:', err.response?.data);
-
-      // Format error message from backend
       const errorData = err.response?.data;
       if (typeof errorData === 'object' && errorData !== null) {
         const errorMessages = Object.entries(errorData)
@@ -129,134 +128,138 @@ export default function ProductForm({ productId }: ProductFormProps) {
     }
   };
 
+  if (isLoadingForm) {
+    return (
+      <div className="flex items-center justify-center py-20">
+        <Spinner size="lg" />
+      </div>
+    );
+  }
+
   return (
-    <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow p-8 max-w-2xl">
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">
-        {productId ? 'Edit Product' : 'Add New Product'}
-      </h1>
+    <form onSubmit={handleSubmit} className="max-w-2xl">
+      <Card shadow="base">
+        <CardHeader className="border-b border-neutral-100">
+          <h1 className="text-2xl font-bold text-neutral-900">
+            {productId ? 'Edit Product' : 'Add New Product'}
+          </h1>
+        </CardHeader>
 
-      {error && (
-        <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
-          {error}
-        </div>
-      )}
+        <CardBody className="space-y-6">
+          {error && (
+            <div className="p-4 bg-error/10 border border-error text-error rounded-lg text-sm">
+              {error}
+            </div>
+          )}
 
-      <div className="space-y-4">
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">Product Name *</label>
-          <input
-            type="text"
+          <Input
+            label="Product Name"
             name="name"
             value={formData.name}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
             placeholder="e.g., Recycled Plastic Chair"
           />
-        </div>
 
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">Description *</label>
-          <textarea
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            required
-            rows={4}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-            placeholder="Product description"
-          />
-        </div>
-
-        <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">Price (D) *</label>
-            <input
-              type="number"
+            <label className="block text-sm font-medium text-neutral-700 mb-2">
+              Description
+            </label>
+            <textarea
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              required
+              rows={4}
+              className="w-full px-4 py-2.5 border border-neutral-200 rounded-md font-normal text-neutral-900 placeholder-neutral-400 transition-all duration-normal focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              placeholder="Product description"
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <Input
+              label="Price (D)"
               name="price"
+              type="number"
               value={formData.price}
               onChange={handleChange}
               required
               step="0.01"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
               placeholder="0.00"
+            />
+
+            <Input
+              label="Stock"
+              name="stock"
+              type="number"
+              value={formData.stock}
+              onChange={handleChange}
+              required
+              placeholder="0"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">Stock *</label>
-            <input
-              type="number"
-              name="stock"
-              value={formData.stock}
+            <label className="block text-sm font-medium text-neutral-700 mb-2">
+              Category
+            </label>
+            <select
+              name="category"
+              value={formData.category}
               onChange={handleChange}
               required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-              placeholder="0"
-            />
+              className="w-full px-4 py-2.5 border border-neutral-200 rounded-md font-normal text-neutral-900 transition-all duration-normal focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+            >
+              <option value="">Select a category</option>
+              {categories.map((cat) => (
+                <option key={cat.id} value={cat.id}>
+                  {cat.name}
+                </option>
+              ))}
+            </select>
           </div>
-        </div>
 
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">Category *</label>
-          <select
-            name="category"
-            value={formData.category}
-            onChange={handleChange}
-            required
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-          >
-            <option value="">Select a category</option>
-            {categories.map((cat) => (
-              <option key={cat.id} value={cat.id}>
-                {cat.name}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">Image URL</label>
-          <input
-            type="url"
+          <Input
+            label="Image URL"
             name="image"
+            type="url"
             value={formData.image}
             onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
             placeholder="https://example.com/image.jpg"
           />
-        </div>
 
-        <div>
-          <label className="flex items-center">
+          <label className="flex items-center gap-3 cursor-pointer">
             <input
               type="checkbox"
               name="is_active"
               checked={formData.is_active}
               onChange={handleChange}
-              className="w-4 h-4 text-green-600"
+              className="w-4 h-4 text-primary-600 rounded border-neutral-200"
             />
-            <span className="ml-2 text-gray-700">Active (visible to customers)</span>
+            <span className="text-neutral-900 font-medium">Active (visible to customers)</span>
           </label>
-        </div>
-      </div>
+        </CardBody>
 
-      <div className="mt-8 flex gap-4">
-        <button
-          type="submit"
-          disabled={loading}
-          className="flex-1 bg-green-600 text-white py-2 rounded-lg font-semibold hover:bg-green-700 transition disabled:opacity-50"
-        >
-          {loading ? 'Saving...' : 'Save Product'}
-        </button>
-        <button
-          type="button"
-          onClick={() => router.back()}
-          className="flex-1 bg-gray-300 text-gray-900 py-2 rounded-lg font-semibold hover:bg-gray-400 transition"
-        >
-          Cancel
-        </button>
-      </div>
+        <CardFooter className="flex gap-3">
+          <Button
+            type="submit"
+            size="lg"
+            isLoading={loading}
+            className="flex-1"
+          >
+            {productId ? 'Update Product' : 'Create Product'}
+          </Button>
+          <Button
+            type="button"
+            variant="secondary"
+            size="lg"
+            onClick={() => router.back()}
+            className="flex-1"
+          >
+            Cancel
+          </Button>
+        </CardFooter>
+      </Card>
     </form>
   );
 }

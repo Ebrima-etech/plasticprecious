@@ -24,19 +24,15 @@ export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loadingProducts, setLoadingProducts] = useState(true);
 
+  // Fetch products from API
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const response = await axios.get(`${API_BASE_URL}/products/`);
-        console.log('API Response:', response.data);
         const allProducts = response.data.results || response.data || [];
-        console.log('All Products:', allProducts);
-        const activeProducts = allProducts.filter((p: Product) => p.is_active).slice(0, 4);
-        console.log('Active Products:', activeProducts);
-        setProducts(activeProducts);
+        setProducts(allProducts.slice(0, 4));
       } catch (err) {
         console.error('Failed to fetch products:', err);
-        // Set empty array so we show "no products" instead of loading forever
         setProducts([]);
       } finally {
         setLoadingProducts(false);
@@ -45,54 +41,6 @@ export default function Home() {
 
     fetchProducts();
   }, []);
-
-  const testimonials = [
-    {
-      name: 'John Doe',
-      location: 'New York, USA',
-      text: 'Finally found quality recycled products! Love knowing I\'m helping the environment while getting great products.',
-      rating: 5,
-    },
-    {
-      name: 'Sarah Smith',
-      location: 'London, UK',
-      text: 'Impressed with the durability of their recycled containers. Great prices and fantastic eco-friendly service.',
-      rating: 5,
-    },
-    {
-      name: 'Michael Brown',
-      location: 'Toronto, Canada',
-      text: 'This company truly cares about sustainability. My whole family switched to their products. Highly recommend!',
-      rating: 5,
-    },
-    {
-      name: 'Emma Wilson',
-      location: 'Sydney, Australia',
-      text: 'Beautiful, sustainable products that actually work better than conventional plastic. Supporting their mission!',
-      rating: 5,
-    },
-  ];
-
-  const categories = [
-    { name: 'Recycled Containers', icon: '♻️', description: 'Durable storage solutions' },
-    { name: 'Kitchenware', icon: '🍴', description: 'Eco-friendly kitchen tools' },
-    { name: 'Storage Solutions', icon: '📦', description: 'Organize sustainably' },
-    { name: 'Eco Accessories', icon: '🌍', description: 'Planet-friendly items' },
-  ];
-
-  const features = [
-    { icon: '♻️', title: '100% Recycled', description: 'Made from recycled plastic, zero waste' },
-    { icon: '🌍', title: 'Eco-Friendly', description: 'Reduce your carbon footprint' },
-    { icon: '🚚', title: 'Sustainable Shipping', description: 'Carbon-neutral delivery' },
-    { icon: '✅', title: 'Quality Assured', description: 'Certified durable products' },
-  ];
-
-  const stats = [
-    { value: '100K+', label: 'Products Sold' },
-    { value: '500+', label: 'Tons Saved' },
-    { value: '50+', label: 'Countries' },
-    { value: '98%', label: 'Satisfaction' },
-  ];
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
@@ -124,9 +72,6 @@ export default function Home() {
               <Link href="/products" className="text-neutral-600 hover:text-neutral-900 transition font-medium">
                 Products
               </Link>
-              <a href="#categories" className="text-neutral-600 hover:text-neutral-900 transition font-medium">
-                Categories
-              </a>
               <Link href="/contact" className="text-neutral-600 hover:text-neutral-900 transition font-medium">
                 Contact
               </Link>
@@ -163,149 +108,107 @@ export default function Home() {
               Premium Recycled Plastic Products
             </h1>
             <p className="text-xl md:text-2xl text-neutral-600 mb-10 max-w-2xl mx-auto leading-relaxed">
-              Beautifully designed, sustainably made products that prove eco-friendly doesn't mean compromising on quality or style.
+              Beautifully designed, sustainably made products for eco-conscious living.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/products">
-                <Button size="lg">
-                  Shop Collection
-                </Button>
+                <Button size="lg">Shop Collection</Button>
               </Link>
               <Link href="/products">
-                <Button variant="secondary" size="lg">
-                  Browse Categories
-                </Button>
+                <Button variant="secondary" size="lg">Browse Products</Button>
               </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Best Sellers */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="mb-16">
-          <Badge variant="info" size="sm" className="mb-4">
-            Most Popular
-          </Badge>
-          <h2 className="text-4xl md:text-5xl font-bold text-neutral-900 mb-4">Best Selling Products</h2>
-          <p className="text-xl text-neutral-600">Our most loved recycled solutions, trusted by thousands worldwide.</p>
-        </div>
-
-        {loadingProducts ? (
+      {/* Best Sellers - REAL DATA FROM API ONLY */}
+      {loadingProducts ? (
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <div className="flex items-center justify-center py-20">
             <Spinner size="lg" />
           </div>
-        ) : products.length > 0 ? (
-          <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-              {products.map((product) => {
-                const stockBadge = getStockBadge(product.stock);
-                return (
-                  <Link key={product.id} href={`/products?id=${product.id}`}>
-                    <Card hover shadow="base">
-                      <div className="bg-gradient-to-br from-primary-100 to-primary-50 h-48 flex items-center justify-center text-5xl rounded-t-lg overflow-hidden">
-                        {product.image ? (
-                          <img
-                            src={product.image}
-                            alt={product.name}
-                            className="w-full h-full object-cover"
-                          />
-                        ) : (
-                          '📦'
-                        )}
-                      </div>
-                      <CardBody>
-                        <div className="flex items-start justify-between mb-3">
-                          <Badge variant={stockBadge.variant} size="sm">
-                            {stockBadge.text}
-                          </Badge>
-                        </div>
-                        <h3 className="font-semibold text-neutral-900 mb-3 line-clamp-2">{product.name}</h3>
-                        <div className="flex items-center justify-between gap-3">
-                          <span className="text-2xl font-bold text-primary-600">
-                            D {parseFloat(product.price).toLocaleString('en-GM')}
-                          </span>
-                          <Button size="sm" variant="primary">
-                            Add
-                          </Button>
-                        </div>
-                      </CardBody>
-                    </Card>
-                  </Link>
-                );
-              })}
-            </div>
-
-            <div className="text-center">
-              <Link href="/products">
-                <Button variant="ghost" size="lg">
-                  View All Products →
-                </Button>
-              </Link>
-            </div>
-          </>
-        ) : (
-          <div className="text-center py-12">
-            <p className="text-neutral-600 text-lg">No products available yet</p>
+        </section>
+      ) : products.length > 0 ? (
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+          <div className="mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-neutral-900 mb-4">Best Selling Products</h2>
+            <p className="text-xl text-neutral-600">Our most loved recycled solutions</p>
           </div>
-        )}
-      </section>
 
-      {/* Features Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            {products.map((product) => {
+              const stockBadge = getStockBadge(product.stock);
+              return (
+                <Link key={product.id} href={`/products`}>
+                  <Card hover shadow="base">
+                    <div className="bg-gradient-to-br from-primary-100 to-primary-50 h-48 flex items-center justify-center text-5xl rounded-t-lg overflow-hidden">
+                      {product.image ? (
+                        <img
+                          src={product.image}
+                          alt={product.name}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        '📦'
+                      )}
+                    </div>
+                    <CardBody>
+                      <div className="flex items-start justify-between mb-3">
+                        <Badge variant={stockBadge.variant} size="sm">
+                          {stockBadge.text}
+                        </Badge>
+                      </div>
+                      <h3 className="font-semibold text-neutral-900 mb-3 line-clamp-2">{product.name}</h3>
+                      <div className="flex items-center justify-between gap-3">
+                        <span className="text-2xl font-bold text-primary-600">
+                          D {parseFloat(product.price).toLocaleString('en-GM')}
+                        </span>
+                        <Button size="sm" variant="primary">
+                          Add
+                        </Button>
+                      </div>
+                    </CardBody>
+                  </Card>
+                </Link>
+              );
+            })}
+          </div>
+
+          <div className="text-center">
+            <Link href="/products">
+              <Button variant="ghost" size="lg">
+                View All Products →
+              </Button>
+            </Link>
+          </div>
+        </section>
+      ) : null}
+
+      {/* Features */}
       <section className="bg-gradient-to-b from-neutral-50 to-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {features.map((feature, i) => (
-              <div key={i} className="text-center group">
-                <div className="text-6xl mb-6 transform group-hover:scale-110 transition-transform duration-normal">
-                  {feature.icon}
-                </div>
-                <h3 className="text-xl font-semibold text-neutral-900 mb-2">{feature.title}</h3>
-                <p className="text-neutral-600 leading-relaxed">{feature.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Categories Section */}
-      <section id="categories" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="mb-16">
-          <Badge variant="success" size="sm" className="mb-4">
-            Shop by Category
-          </Badge>
-          <h2 className="text-4xl md:text-5xl font-bold text-neutral-900 mb-4">Find What You Need</h2>
-          <p className="text-xl text-neutral-600">Quality recycled products for every lifestyle and purpose.</p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {categories.map((cat, i) => (
-            <Link key={i} href={`/products?category=${cat.name}`}>
-              <Card hover interactive shadow="sm">
-                <div className="bg-gradient-to-br from-neutral-100 to-primary-50 h-40 flex items-center justify-center text-5xl rounded-t-lg group-hover:scale-110 transition-transform">
-                  {cat.icon}
-                </div>
-                <CardBody>
-                  <h3 className="font-semibold text-lg text-neutral-900 mb-1">{cat.name}</h3>
-                  <p className="text-sm text-neutral-600">{cat.description}</p>
-                </CardBody>
-              </Card>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* Stats Section */}
-      <section className="bg-primary-600 text-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-16">Our Impact</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {stats.map((stat, i) => (
-              <div key={i} className="text-center">
-                <p className="text-5xl md:text-6xl font-bold mb-2">{stat.value}</p>
-                <p className="text-primary-100 text-lg">{stat.label}</p>
-              </div>
-            ))}
+            <div className="text-center">
+              <div className="text-6xl mb-6">♻️</div>
+              <h3 className="text-xl font-semibold text-neutral-900 mb-2">100% Recycled</h3>
+              <p className="text-neutral-600">Made from recycled plastic, zero waste</p>
+            </div>
+            <div className="text-center">
+              <div className="text-6xl mb-6">🌍</div>
+              <h3 className="text-xl font-semibold text-neutral-900 mb-2">Eco-Friendly</h3>
+              <p className="text-neutral-600">Reduce your carbon footprint</p>
+            </div>
+            <div className="text-center">
+              <div className="text-6xl mb-6">🚚</div>
+              <h3 className="text-xl font-semibold text-neutral-900 mb-2">Sustainable Shipping</h3>
+              <p className="text-neutral-600">Carbon-neutral delivery</p>
+            </div>
+            <div className="text-center">
+              <div className="text-6xl mb-6">✅</div>
+              <h3 className="text-xl font-semibold text-neutral-900 mb-2">Quality Assured</h3>
+              <p className="text-neutral-600">Certified durable products</p>
+            </div>
           </div>
         </div>
       </section>
@@ -319,7 +222,7 @@ export default function Home() {
             </Badge>
             <h2 className="text-4xl font-bold text-neutral-900 mb-4">Join Our Community</h2>
             <p className="text-xl text-neutral-600 mb-8 max-w-xl mx-auto">
-              Get 15% off your first order + exclusive sustainability tips delivered to your inbox.
+              Get 15% off your first order + exclusive sustainability tips.
             </p>
 
             <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
@@ -335,44 +238,9 @@ export default function Home() {
                 {subscribed ? 'Subscribed!' : 'Subscribe'}
               </Button>
             </form>
-            <p className="text-sm text-neutral-500 mt-4">
-              We respect your privacy. Unsubscribe anytime.
-            </p>
+            <p className="text-sm text-neutral-500 mt-4">We respect your privacy. Unsubscribe anytime.</p>
           </CardBody>
         </Card>
-      </section>
-
-      {/* Testimonials */}
-      <section className="bg-neutral-50 py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-16">
-            <Badge variant="success" size="sm" className="mb-4">
-              Customer Love
-            </Badge>
-            <h2 className="text-4xl md:text-5xl font-bold text-neutral-900 mb-4">What Our Customers Say</h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {testimonials.map((testimonial, i) => (
-              <Card key={i} shadow="sm">
-                <CardBody>
-                  <div className="flex gap-1 mb-4">
-                    {[...Array(testimonial.rating)].map((_, j) => (
-                      <span key={j} className="text-lg">⭐</span>
-                    ))}
-                  </div>
-                  <p className="text-neutral-700 mb-6 leading-relaxed">
-                    "{testimonial.text}"
-                  </p>
-                  <div>
-                    <p className="font-semibold text-neutral-900">{testimonial.name}</p>
-                    <p className="text-sm text-neutral-500">{testimonial.location}</p>
-                  </div>
-                </CardBody>
-              </Card>
-            ))}
-          </div>
-        </div>
       </section>
 
       {/* Footer */}
@@ -382,35 +250,28 @@ export default function Home() {
             <div>
               <h5 className="text-white font-semibold text-lg mb-4">About</h5>
               <p className="text-sm leading-relaxed">
-                Leading recycled plastic products company dedicated to sustainability and eco-friendly solutions worldwide.
+                Leading recycled plastic products company dedicated to sustainability.
               </p>
             </div>
             <div>
               <h5 className="text-white font-semibold text-lg mb-4">Shop</h5>
               <ul className="text-sm space-y-2">
                 <li><Link href="/products" className="hover:text-white transition">All Products</Link></li>
-                <li><Link href="/products" className="hover:text-white transition">New Arrivals</Link></li>
-                <li><Link href="/products" className="hover:text-white transition">Best Sellers</Link></li>
               </ul>
             </div>
             <div>
               <h5 className="text-white font-semibold text-lg mb-4">Support</h5>
               <ul className="text-sm space-y-2">
                 <li><Link href="/contact" className="hover:text-white transition">Contact</Link></li>
-                <li><a href="#" className="hover:text-white transition">FAQ</a></li>
-                <li><a href="#" className="hover:text-white transition">Shipping</a></li>
               </ul>
             </div>
             <div>
               <h5 className="text-white font-semibold text-lg mb-4">Legal</h5>
               <ul className="text-sm space-y-2">
                 <li><a href="#" className="hover:text-white transition">Privacy</a></li>
-                <li><a href="#" className="hover:text-white transition">Terms</a></li>
-                <li><a href="#" className="hover:text-white transition">Returns</a></li>
               </ul>
             </div>
           </div>
-
           <div className="border-t border-neutral-800 pt-8 text-center text-sm">
             <p>&copy; 2026 Plasticprecious. All rights reserved.</p>
           </div>

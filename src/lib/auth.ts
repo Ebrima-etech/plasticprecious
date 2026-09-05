@@ -44,3 +44,6 @@ export const isAuthenticated = (): boolean => {
   const token = getAccessToken();
   return token !== null && !isTokenExpired(token);
 };
+
+// Alias for convenience
+export const getToken = getAccessToken;

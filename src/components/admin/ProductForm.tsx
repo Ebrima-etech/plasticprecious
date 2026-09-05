@@ -92,10 +92,15 @@ export default function ProductForm({ productId }: ProductFormProps) {
       const token = getToken();
       const headers = { Authorization: `Bearer ${token}` };
 
-      const submitData = {
+      const submitData: any = {
         ...formData,
         category: parseInt(formData.category),
       };
+
+      // Don't send image if empty (not uploading files yet)
+      if (!submitData.image) {
+        delete submitData.image;
+      }
 
       console.log('Submitting product data:', submitData);
 

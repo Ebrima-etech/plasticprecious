@@ -28,7 +28,8 @@ export default function ProductsPage() {
     const fetchProducts = async () => {
       try {
         const response = await axios.get(`${API_BASE_URL}/products/`);
-        setProducts(response.data.filter((p: Product) => p.is_active));
+        const productsData = response.data.results || response.data;
+        setProducts(productsData.filter((p: Product) => p.is_active));
       } catch (err) {
         console.error('Failed to fetch products:', err);
       } finally {

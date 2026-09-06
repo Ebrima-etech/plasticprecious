@@ -83,7 +83,7 @@ export default function Home() {
             </div>
 
             {/* Language Selector */}
-            <button className="hidden lg:flex items-center gap-1 text-white hover:text-emerald-300 transition text-sm font-medium">
+            <button className="hidden lg:flex items-center gap-1 text-white hover:text-emerald-300 transition text-sm font-medium ml-auto">
               Eng
               <FiChevronDown size={16} />
             </button>

@@ -120,7 +120,6 @@ export default function Home() {
               </div>
             </div>
             <div className="flex items-center gap-3 ml-auto">
-              <button className="text-white hover:text-gray-200 transition text-xs font-medium">Track Order</button>
               <button className="text-white hover:text-gray-200 transition text-xs font-medium">Support</button>
             </div>
           </div>

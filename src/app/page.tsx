@@ -63,6 +63,36 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white">
+      {/* Top Promo Bar */}
+      <div className="bg-teal-900 border-b border-teal-800">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="flex items-center justify-between py-3 text-sm text-white overflow-x-auto">
+            <div className="flex items-center gap-8 whitespace-nowrap">
+              <div className="flex items-center gap-2">
+                <span className="text-emerald-300 font-bold">♻️</span>
+                <span>Eco-Friendly Products</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-emerald-300 font-bold">🚚</span>
+                <span>Fast Delivery</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-emerald-300 font-bold">✓</span>
+                <span>Sustainable Materials</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-emerald-300 font-bold">💚</span>
+                <span>Community Support</span>
+              </div>
+            </div>
+            <div className="flex items-center gap-4 ml-auto">
+              <button className="text-emerald-300 hover:text-white transition text-xs">Track Order</button>
+              <button className="text-emerald-300 hover:text-white transition text-xs">Support</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Navigation */}
       <nav className="sticky top-0 z-50 bg-teal-950 border-b border-teal-800">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">

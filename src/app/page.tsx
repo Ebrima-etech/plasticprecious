@@ -119,7 +119,10 @@ export default function Home() {
                 <div className="font-semibold text-white text-xs">Trash to Treasure</div>
               </div>
             </div>
-            <div className="flex items-center gap-3 ml-auto">
+            <div className="flex items-center gap-6 ml-auto">
+              <a href="tel:+220872518185" className="text-white hover:text-gray-200 transition text-xs font-medium">
+                +220 872518185
+              </a>
               <button className="flex items-center gap-1 text-white hover:text-gray-200 transition text-xs font-medium">
                 <FiHeadphones size={16} />
                 Support

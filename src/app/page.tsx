@@ -15,9 +15,9 @@ export default function Home() {
   const [carouselIndex, setCarouselIndex] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
   const [carouselItems, setCarouselItems] = useState([
-    { title: 'Premium Recycled Plastic Products', image: 'https://images.unsplash.com/photo-1557804506-669714128632?w=800&h=600&fit=crop' },
-    { title: 'Eco-Friendly Packaging Solutions', image: 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=800&h=600&fit=crop' },
-    { title: 'Sustainable Storage Options', image: 'https://images.unsplash.com/photo-1612198188060-c7c2a3b66eae?w=800&h=600&fit=crop' },
+    { title: 'Premium Recycled Plastic Products', image: 'https://images.pexels.com/photos/3962286/pexels-photo-3962286.jpeg?w=800&h=600&fit=crop' },
+    { title: 'Eco-Friendly Packaging Solutions', image: 'https://images.pexels.com/photos/5830900/pexels-photo-5830900.jpeg?w=800&h=600&fit=crop' },
+    { title: 'Sustainable Storage Options', image: 'https://images.pexels.com/photos/5632399/pexels-photo-5632399.jpeg?w=800&h=600&fit=crop' },
   ]);
 
   const services = [
@@ -25,24 +25,30 @@ export default function Home() {
       icon: GiRecycle,
       title: 'Collections',
       description: 'Community-driven plastic collection programs to reduce environmental waste.',
+      image: 'https://images.pexels.com/photos/3945683/pexels-photo-3945683.jpeg?w=500&h=300&fit=crop',
+      color: 'from-blue-500 to-blue-600'
     },
     {
       icon: BiRecycle,
       title: 'Recycling',
       description: 'Advanced processing and recycling of plastic waste into quality products.',
+      image: 'https://images.pexels.com/photos/3962286/pexels-photo-3962286.jpeg?w=500&h=300&fit=crop',
+      color: 'from-emerald-500 to-emerald-600'
     },
     {
       icon: MdSchool,
       title: 'Workshops',
       description: 'Educational programs and hands-on training in sustainable practices.',
+      image: 'https://images.pexels.com/photos/3807517/pexels-photo-3807517.jpeg?w=500&h=300&fit=crop',
+      color: 'from-amber-500 to-amber-600'
     },
   ];
 
   const impacts = [
-    { metric: 'Environmental', description: 'Tons of plastic diverted from oceans and landfills' },
-    { metric: 'Economic', description: 'Employment created for marginalized communities' },
-    { metric: 'Educational', description: 'Awareness and skills transfer in sustainability' },
-    { metric: 'Health', description: 'Healthier communities through reduced pollution' },
+    { metric: 'Environmental', description: 'Tons of plastic diverted from oceans and landfills', image: 'https://images.pexels.com/photos/3951628/pexels-photo-3951628.jpeg?w=400&h=400&fit=crop' },
+    { metric: 'Economic', description: 'Employment created for marginalized communities', image: 'https://images.pexels.com/photos/3807517/pexels-photo-3807517.jpeg?w=400&h=400&fit=crop' },
+    { metric: 'Educational', description: 'Awareness and skills transfer in sustainability', image: 'https://images.pexels.com/photos/3807517/pexels-photo-3807517.jpeg?w=400&h=400&fit=crop' },
+    { metric: 'Health', description: 'Healthier communities through reduced pollution', image: 'https://images.pexels.com/photos/4101143/pexels-photo-4101143.jpeg?w=400&h=400&fit=crop' },
   ];
 
   const products = [
@@ -167,11 +173,11 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
             {[
-              'https://images.unsplash.com/photo-1557804506-669714128632?w=150&h=80&fit=crop',
-              'https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=150&h=80&fit=crop',
-              'https://images.unsplash.com/photo-1612198188060-c7c2a3b66eae?w=150&h=80&fit=crop',
-              'https://images.unsplash.com/photo-1578500494198-246f612d782b?w=150&h=80&fit=crop',
-              'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=150&h=80&fit=crop',
+              'https://images.pexels.com/photos/3962286/pexels-photo-3962286.jpeg?w=150&h=80&fit=crop',
+              'https://images.pexels.com/photos/5830900/pexels-photo-5830900.jpeg?w=150&h=80&fit=crop',
+              'https://images.pexels.com/photos/5632399/pexels-photo-5632399.jpeg?w=150&h=80&fit=crop',
+              'https://images.pexels.com/photos/6474056/pexels-photo-6474056.jpeg?w=150&h=80&fit=crop',
+              'https://images.pexels.com/photos/3962286/pexels-photo-3962286.jpeg?w=150&h=80&fit=crop',
             ].map((logo, i) => (
               <div key={i} className="flex items-center justify-center h-20 w-32 grayscale opacity-60 hover:opacity-100 transition">
                 <img src={logo} alt={`Partner ${i + 1}`} className="max-w-full max-h-full object-contain" />
@@ -189,10 +195,10 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {products.map((product, i) => {
               const dummyImages = [
-                'https://images.unsplash.com/photo-1595428774223-ef52624120d2?w=500&h=500&fit=crop',
-                'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&h=500&fit=crop',
-                'https://images.unsplash.com/photo-1602143407151-7e536bbee0dd?w=500&h=500&fit=crop',
-                'https://images.unsplash.com/photo-1610701596007-11502861dcfa?w=500&h=500&fit=crop',
+                'https://images.pexels.com/photos/3962286/pexels-photo-3962286.jpeg?w=500&h=500&fit=crop',
+                'https://images.pexels.com/photos/5830900/pexels-photo-5830900.jpeg?w=500&h=500&fit=crop',
+                'https://images.pexels.com/photos/5632399/pexels-photo-5632399.jpeg?w=500&h=500&fit=crop',
+                'https://images.pexels.com/photos/6474056/pexels-photo-6474056.jpeg?w=500&h=500&fit=crop',
               ];
               return (
                 <div key={i} className="group cursor-pointer">
@@ -210,14 +216,36 @@ export default function Home() {
       </section>
 
       {/* Impact Section */}
-      <section className="pt-3 md:pt-4 lg:pt-6 pb-12 md:pb-16 lg:pb-20 bg-white">
+      <section className="pt-3 md:pt-4 lg:pt-6 pb-12 md:pb-16 lg:pb-20 bg-gradient-to-b from-emerald-50 to-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <h2 className="text-4xl font-bold text-neutral-900 mb-12 text-center">Our Impact</h2>
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-neutral-900 mb-3">Our Impact</h2>
+            <p className="text-neutral-600 font-medium">Measurable change across communities and the environment</p>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {impacts.map((item, i) => (
-              <div key={i} className="text-center">
-                <h3 className="text-2xl font-bold text-emerald-600 mb-3">{item.metric}</h3>
-                <p className="text-neutral-700 font-bold text-sm">{item.description}</p>
+              <div key={i} className="group cursor-pointer h-full">
+                <div className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 h-full flex flex-col border border-emerald-100 hover:border-emerald-300">
+                  {/* Image Section */}
+                  <div className="relative h-40 overflow-hidden bg-gray-200">
+                    {item.image && (
+                      <img src={item.image} alt={item.metric} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" />
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  </div>
+
+                  {/* Content Section */}
+                  <div className="p-6 flex flex-col flex-grow">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center mb-4 text-white text-lg font-bold">
+                      {i + 1}
+                    </div>
+                    <h3 className="text-2xl font-bold text-neutral-900 mb-2 group-hover:text-emerald-600 transition">{item.metric}</h3>
+                    <p className="text-neutral-600 text-sm leading-relaxed flex-grow">{item.description}</p>
+                    <div className="mt-4 inline-flex items-center text-emerald-600 font-semibold text-sm opacity-0 group-hover:opacity-100 transition-opacity">
+                      <span className="group-hover:translate-x-1 transition">→</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
@@ -225,19 +253,39 @@ export default function Home() {
       </section>
 
       {/* Services Section */}
-      <section id="services" className="pt-3 md:pt-4 lg:pt-6 pb-12 md:pb-16 lg:pb-20 bg-white">
+      <section id="services" className="pt-3 md:pt-4 lg:pt-6 pb-12 md:pb-16 lg:pb-20 bg-gradient-to-b from-white to-emerald-50">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <h2 className="text-4xl font-bold text-neutral-900 mb-12 text-center">Our Services</h2>
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-neutral-900 mb-3">Our Services</h2>
+            <p className="text-neutral-600 font-medium">Comprehensive solutions for sustainable plastic management</p>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {services.map((service, i) => {
               const IconComponent = service.icon;
               return (
-                <div key={i} className="text-center">
-                  <div className="text-5xl mb-4 flex justify-center text-emerald-600">
-                    <IconComponent />
+                <div key={i} className="group cursor-pointer h-full">
+                  <div className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 h-full flex flex-col">
+                    {/* Image Section */}
+                    <div className="relative h-40 overflow-hidden bg-gray-200">
+                      {service.image && (
+                        <img src={service.image} alt={service.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" />
+                      )}
+                      <div className={`absolute inset-0 bg-gradient-to-b ${service.color} opacity-0 group-hover:opacity-20 transition-opacity duration-300`}></div>
+                    </div>
+
+                    {/* Content Section */}
+                    <div className="p-6 flex flex-col flex-grow">
+                      <div className={`w-16 h-16 rounded-full bg-gradient-to-br ${service.color} flex items-center justify-center mb-4 text-white text-2xl`}>
+                        <IconComponent size={28} />
+                      </div>
+                      <h3 className="text-xl font-bold text-neutral-900 mb-3 group-hover:text-emerald-600 transition">{service.title}</h3>
+                      <p className="text-neutral-700 text-sm leading-relaxed flex-grow">{service.description}</p>
+                      <div className="mt-4 inline-flex items-center text-emerald-600 font-semibold text-sm group-hover:gap-2 gap-1 transition-all">
+                        <span>Learn more</span>
+                        <span className="group-hover:translate-x-1 transition">→</span>
+                      </div>
+                    </div>
                   </div>
-                  <h3 className="text-lg font-bold text-neutral-900 mb-3">{service.title}</h3>
-                  <p className="text-neutral-700 font-bold text-sm leading-relaxed">{service.description}</p>
                 </div>
               );
             })}
@@ -246,11 +294,21 @@ export default function Home() {
       </section>
 
       {/* Newsletter Section */}
-      <section className="pt-3 md:pt-4 lg:pt-6 pb-12 md:pb-16 lg:pb-20 bg-white">
-        <div className="max-w-2xl mx-auto px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold text-neutral-900 mb-6">Stay Updated</h2>
-          <p className="text-neutral-700 font-bold text-sm mb-8">
-            Get updates on new collections and exclusive offers.
+      <section className="py-16 md:py-20 lg:py-24 bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-600 relative overflow-hidden">
+        {/* Decorative Background */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-0 left-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
+        </div>
+
+        <div className="max-w-3xl mx-auto px-6 lg:px-8 text-center relative z-10">
+          <div className="mb-2 inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full">
+            <span className="text-white text-sm font-semibold">✉️ Newsletter</span>
+          </div>
+
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Stay Updated</h2>
+          <p className="text-emerald-50 text-lg mb-8 max-w-lg mx-auto">
+            Be the first to know about new collections, exclusive offers, and sustainable practices from our community.
           </p>
 
           <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto mb-6">
@@ -259,14 +317,32 @@ export default function Home() {
               placeholder="your@email.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="flex-1 px-4 py-3 bg-white border border-neutral-300 text-neutral-900 text-sm font-light placeholder-neutral-400 focus:outline-none focus:border-emerald-600 rounded"
+              className="flex-1 px-4 py-3 bg-white/95 border-0 text-neutral-900 text-sm font-light placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-white rounded-lg"
               required
             />
-            <Button type="submit" isLoading={subscribed} className="px-6 bg-emerald-600 hover:bg-emerald-700 text-white">
-              {subscribed ? 'Subscribed' : 'Subscribe'}
+            <Button
+              type="submit"
+              isLoading={subscribed}
+              className="px-8 bg-white hover:bg-emerald-50 text-emerald-600 font-bold rounded-lg transition whitespace-nowrap shadow-lg hover:shadow-xl"
+            >
+              {subscribed ? '✓ Subscribed!' : 'Subscribe'}
             </Button>
           </form>
-          <p className="text-xs text-neutral-500">We respect your privacy.</p>
+
+          <p className="text-emerald-50 text-xs">We respect your privacy. Unsubscribe anytime.</p>
+
+          {/* Social Proof */}
+          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-8 text-white text-sm">
+            <div className="flex items-center gap-2">
+              <span className="text-xl">👥</span>
+              <span>Join 5,000+ subscribers</span>
+            </div>
+            <div className="hidden sm:block w-px h-5 bg-white/30"></div>
+            <div className="flex items-center gap-2">
+              <span className="text-xl">📦</span>
+              <span>Weekly updates & offers</span>
+            </div>
+          </div>
         </div>
       </section>
 

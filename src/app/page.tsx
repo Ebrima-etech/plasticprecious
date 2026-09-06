@@ -190,13 +190,13 @@ export default function Home() {
               <Link href="/auth/login">
                 <div className="flex items-center gap-2 text-white hover:text-emerald-300 transition cursor-pointer">
                   <FiUser size={20} />
-                  <span className="text-sm font-medium">My Account</span>
+                  <span className="text-xs font-medium">My Account</span>
                 </div>
               </Link>
               <Link href="/cart">
                 <div className="flex items-center gap-2 text-white hover:text-emerald-300 transition cursor-pointer relative">
                   <FiShoppingCart size={20} />
-                  <span className="text-sm font-medium">Cart</span>
+                  <span className="text-xs font-medium">Cart</span>
                   <span className="absolute -top-3 -right-3 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">0</span>
                 </div>
               </Link>

@@ -128,7 +128,7 @@ export default function AdminProductsPage() {
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
           />
-          <HiOutlineMagnifyingGlass className="absolute right-3 top-2.5 w-5 h-5 text-gray-400" />
+          <FiSearch className="absolute right-3 top-2.5 w-5 h-5 text-gray-400" />
         </div>
 
         <select
@@ -181,13 +181,21 @@ export default function AdminProductsPage() {
                   <tr key={product.id} className="hover:bg-gray-50 transition-colors">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        {product.image ? (
-                          <img src={product.image} alt={product.name} className="w-10 h-10 rounded object-cover flex-shrink-0" />
-                        ) : (
-                          <div className="w-10 h-10 bg-gray-200 rounded flex items-center justify-center flex-shrink-0">
-                            <HiOutlinePhoto className="w-5 h-5 text-gray-500" />
-                          </div>
-                        )}
+                        <div className="w-10 h-10 bg-gray-100 rounded flex items-center justify-center flex-shrink-0 border border-gray-200">
+                          {product.image ? (
+                            <img
+                              src={product.image}
+                              alt={product.name}
+                              className="w-full h-full rounded object-cover"
+                              onError={(e) => {
+                                (e.target as HTMLImageElement).style.display = 'none';
+                              }}
+                            />
+                          ) : null}
+                          {!product.image && (
+                            <FiImage className="w-5 h-5 text-gray-400" />
+                          )}
+                        </div>
                         <div>
                           <p className="text-sm font-medium text-gray-900">{product.name}</p>
                           {product.images_count && (
@@ -202,7 +210,7 @@ export default function AdminProductsPage() {
                       <span className="text-sm font-medium text-gray-900">{product.stock}</span>
                       {product.stock <= 10 && product.stock > 0 && (
                         <span className="ml-2 inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-yellow-100 text-yellow-800 gap-1">
-                          <HiOutlineExclamationTriangle className="w-3.5 h-3.5" />
+                          <FiAlertTriangle className="w-3.5 h-3.5" />
                           Low Stock
                         </span>
                       )}
@@ -215,11 +223,11 @@ export default function AdminProductsPage() {
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-2">
                         <button className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition" title="View">
-                          <HiOutlineEye className="w-5 h-5" />
+                          <FiEye className="w-5 h-5" />
                         </button>
                         <Link href={`/admin/products/${product.id}/edit`}>
                           <button className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition" title="Edit">
-                            <HiOutlinePencilSquare className="w-5 h-5" />
+                            <FiEdit2 className="w-5 h-5" />
                           </button>
                         </Link>
                       </div>

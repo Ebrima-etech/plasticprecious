@@ -68,7 +68,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
-            <Link href="/" className="text-sm font-bold text-white hover:text-emerald-300 transition">
+            <Link href="/" className="text-xl font-bold text-emerald-300 hover:text-emerald-200 transition">
               PLASTICPRECIOUS
             </Link>
 

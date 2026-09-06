@@ -80,7 +80,7 @@ export default function Home() {
         }
       `}</style>
       {/* Top Promo Bar */}
-      <div className="hidden lg:block sticky top-0 z-50 bg-emerald-900">
+      <div className="hidden lg:block sticky top-0 z-50 bg-emerald-600">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex items-center justify-between py-2 text-xs text-white overflow-x-auto">
             <div className="flex items-center gap-6 whitespace-nowrap">

@@ -1,15 +1,15 @@
+'use client';
+
+import { useParams } from 'next/navigation';
 import ProductForm from '@/components/admin/ProductForm';
 
-interface EditProductPageProps {
-  params: {
-    id: string;
-  };
-}
+export default function EditProductPage() {
+  const params = useParams();
+  const productId = parseInt(params.id as string);
 
-export default function EditProductPage({ params }: EditProductPageProps) {
   return (
     <div>
-      <ProductForm productId={parseInt(params.id)} />
+      <ProductForm productId={productId} />
     </div>
   );
 }

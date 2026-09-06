@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
 import { API_BASE_URL } from '@/config/api';
+import Navbar from '@/components/Navbar';
 
 export default function BlogPage() {
   const [posts, setPosts] = useState<any[]>([]);
@@ -27,9 +28,10 @@ export default function BlogPage() {
   if (loading) return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
+      <Navbar />
       {/* Header */}
-      <section className="bg-blue-600 text-white py-16">
+      <section className="bg-emerald-900 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl font-bold">Blog</h1>
           <p className="mt-4 text-xl">Latest news and insights</p>

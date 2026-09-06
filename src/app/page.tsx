@@ -128,7 +128,7 @@ export default function Home() {
       </div>
 
       {/* Navigation */}
-      <nav className="bg-emerald-600" style={{ borderBottom: '0.75px solid rgba(255, 255, 255, 0.38)' }}>
+      <nav className="bg-emerald-600" style={{ borderBottom: '0.75px solid rgba(255, 255, 255, 0.12)' }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           {/* Main Nav Row */}
           <div className="flex items-center gap-4 h-16">

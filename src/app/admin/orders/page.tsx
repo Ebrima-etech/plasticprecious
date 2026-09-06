@@ -5,6 +5,7 @@ import Link from 'next/link';
 import axios from 'axios';
 import { API_BASE_URL } from '@/config/api';
 import { getToken } from '@/lib/auth';
+import { HiOutlineClock, HiOutlineArrowPath, HiOutlineCheckCircle, HiOutlineXCircle } from 'react-icons/hi2';
 
 interface Order {
   id: number;
@@ -15,11 +16,11 @@ interface Order {
 }
 
 const statusConfig = {
-  pending: { color: 'bg-yellow-100 text-yellow-800', icon: '🟡' },
-  processing: { color: 'bg-blue-100 text-blue-800', icon: '🔵' },
-  shipped: { color: 'bg-purple-100 text-purple-800', icon: '📦' },
-  delivered: { color: 'bg-green-100 text-green-800', icon: '🟢' },
-  cancelled: { color: 'bg-green-100 text-green-800', icon: '✕' },
+  pending: { color: 'bg-yellow-100 text-yellow-800', icon: HiOutlineClock },
+  processing: { color: 'bg-blue-100 text-blue-800', icon: HiOutlineArrowPath },
+  shipped: { color: 'bg-purple-100 text-purple-800', icon: HiOutlineArrowPath },
+  delivered: { color: 'bg-green-100 text-green-800', icon: HiOutlineCheckCircle },
+  cancelled: { color: 'bg-green-100 text-green-800', icon: HiOutlineXCircle },
 };
 
 export default function AdminOrdersPage() {
@@ -102,7 +103,7 @@ export default function AdminOrdersPage() {
                       </td>
                       <td className="px-6 py-4">
                         <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold ${statusInfo.color}`}>
-                          {statusInfo.icon}
+                          {<statusInfo.icon className="w-4 h-4" />}
                           {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
                         </span>
                       </td>

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { getToken } from '@/lib/auth';
-import { HiOutlineSquares2X2, HiOutlineShoppingBag, HiOutlineTag, HiOutlineShoppingCart, HiOutlineCurrencyDollar, HiOutlineTicket, HiOutlineUsers } from 'react-icons/hi2';
+import { HiOutlineSquares2X2, HiOutlineShoppingBag, HiOutlineTag, HiOutlineShoppingCart, HiOutlineCurrencyDollar, HiOutlineTicket, HiOutlineUsers, HiOutlineViewGrids, HiOutlineBell } from 'react-icons/hi2';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -63,7 +63,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         {/* Header */}
         <div className="p-6 border-b border-gray-200">
           <Link href="/admin" className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-green-600 rounded flex items-center justify-center text-sm font-bold">📦</div>
+            <div className="w-8 h-8 bg-green-600 rounded flex items-center justify-center text-white">
+              <HiOutlineViewGrids className="w-5 h-5" />
+            </div>
             <span className="font-semibold text-sm text-gray-900">Admin Panel</span>
           </Link>
         </div>
@@ -133,8 +135,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         {/* Top Header */}
         <div className="bg-white border-b border-gray-200 px-8 py-4 flex items-center justify-between sticky top-0 z-10">
           <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-widest">Admin Panel</h2>
-          <button className="w-9 h-9 rounded-full hover:bg-gray-100 flex items-center justify-center text-lg transition">
-            🔔
+          <button className="w-9 h-9 rounded-full hover:bg-gray-100 flex items-center justify-center transition">
+            <HiOutlineBell className="w-5 h-5 text-gray-600" />
           </button>
         </div>
 

@@ -1,12 +1,13 @@
 'use client';
 
 import Link from 'next/link';
+import { HiOutlineDocumentText, HiOutlinePencilSquare, HiOutlineStar, HiOutlineAdjustmentsHorizontal, HiOutlineMagnifyingGlass, HiOutlineEnvelope } from 'react-icons/hi2';
 
 interface ContentSection {
   id: string;
   title: string;
   description: string;
-  icon: string;
+  icon: any;
   link: string;
   status: 'ready' | 'coming-soon';
   count?: number;
@@ -18,7 +19,7 @@ export default function AdminContentPage() {
       id: 'pages',
       title: 'Pages',
       description: 'Manage static pages like About, Contact, FAQ',
-      icon: '📄',
+      icon: HiOutlineDocumentText,
       link: '#',
       status: 'coming-soon',
       count: 3,
@@ -27,7 +28,7 @@ export default function AdminContentPage() {
       id: 'blog',
       title: 'Blog',
       description: 'Create and manage blog posts',
-      icon: '📝',
+      icon: HiOutlinePencilSquare,
       link: '#',
       status: 'coming-soon',
       count: 0,
@@ -36,7 +37,7 @@ export default function AdminContentPage() {
       id: 'testimonials',
       title: 'Testimonials',
       description: 'Customer testimonials and reviews',
-      icon: '⭐',
+      icon: HiOutlineStar,
       link: '#',
       status: 'coming-soon',
       count: 5,
@@ -45,7 +46,7 @@ export default function AdminContentPage() {
       id: 'banners',
       title: 'Banners & Promotions',
       description: 'Marketing banners and promotional content',
-      icon: '🎯',
+      icon: HiOutlineAdjustmentsHorizontal,
       link: '#',
       status: 'coming-soon',
       count: 2,
@@ -54,7 +55,7 @@ export default function AdminContentPage() {
       id: 'seo',
       title: 'SEO Settings',
       description: 'Meta tags, sitemap, robots.txt',
-      icon: '🔍',
+      icon: HiOutlineMagnifyingGlass,
       link: '#',
       status: 'coming-soon',
     },
@@ -62,7 +63,7 @@ export default function AdminContentPage() {
       id: 'emails',
       title: 'Email Templates',
       description: 'Order confirmation, shipping, etc.',
-      icon: '✉️',
+      icon: HiOutlineEnvelope,
       link: '#',
       status: 'coming-soon',
       count: 8,
@@ -83,7 +84,7 @@ export default function AdminContentPage() {
           <Link key={section.id} href={section.link}>
             <div className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-md transition cursor-pointer">
               <div className="flex items-start justify-between mb-4">
-                <span className="text-3xl">{section.icon}</span>
+                <section.icon className="w-8 h-8 text-gray-600" />
                 {section.status === 'coming-soon' && (
                   <span className="px-2 py-1 bg-gray-100 text-gray-700 text-xs font-semibold rounded">
                     Soon

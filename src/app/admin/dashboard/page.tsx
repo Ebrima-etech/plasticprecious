@@ -5,6 +5,7 @@ import Link from 'next/link';
 import axios from 'axios';
 import { API_BASE_URL } from '@/config/api';
 import { getToken } from '@/lib/auth';
+import { HiOutlineSparkles, HiOutlineCurrencyDollar, HiOutlineShoppingCart, HiOutlineShoppingBag, HiOutlineUsers } from 'react-icons/hi2';
 
 interface DashboardStats {
   total_products: number;
@@ -97,7 +98,7 @@ export default function AdminDashboard() {
       {/* Header */}
       <div>
         <div className="flex items-center gap-2 mb-2">
-          <span className="text-3xl text-green-600">⚡</span>
+          <HiOutlineSparkles className="w-8 h-8 text-green-600" />
           <h1 className="text-3xl font-bold text-green-600">Dashboard</h1>
         </div>
         <p className="text-sm text-gray-500">Real-time store performance metrics</p>
@@ -111,7 +112,7 @@ export default function AdminDashboard() {
             <div>
               <p className="text-xs font-semibold text-teal-600 uppercase tracking-wide">Total Revenue</p>
             </div>
-            <div className="text-2xl">💵</div>
+            <HiOutlineCurrencyDollar className="w-6 h-6 text-teal-600" />
           </div>
           <p className="text-2xl font-bold text-gray-900">D {stats.total_revenue.toLocaleString('en-GM')}</p>
           <div className="mt-3 flex items-center gap-1 text-teal-600 text-xs font-medium">
@@ -126,7 +127,7 @@ export default function AdminDashboard() {
             <div>
               <p className="text-xs font-semibold text-blue-600 uppercase tracking-wide">Total Orders</p>
             </div>
-            <div className="text-2xl">🛒</div>
+            <HiOutlineShoppingCart className="w-6 h-6 text-blue-600" />
           </div>
           <p className="text-2xl font-bold text-gray-900">{stats.total_orders}</p>
           <div className="mt-3 flex items-center gap-1 text-blue-600 text-xs font-medium">
@@ -141,7 +142,7 @@ export default function AdminDashboard() {
             <div>
               <p className="text-xs font-semibold text-purple-600 uppercase tracking-wide">Total Products</p>
             </div>
-            <div className="text-2xl">📦</div>
+            <HiOutlineShoppingBag className="w-6 h-6 text-purple-600" />
           </div>
           <p className="text-2xl font-bold text-gray-900">{stats.total_products}</p>
           <div className="mt-3 flex items-center gap-1 text-purple-600 text-xs font-medium">
@@ -205,14 +206,14 @@ export default function AdminDashboard() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
           <Link href="/admin/orders">
             <button className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg transition flex items-center justify-center gap-2 text-sm">
-              <span>🛒</span>
+              <HiOutlineShoppingCart className="w-5 h-5" />
               <span>Manage Orders</span>
             </button>
           </Link>
 
           <Link href="/admin/products">
             <button className="w-full bg-white hover:bg-gray-50 text-gray-900 font-semibold py-3 px-6 rounded-lg transition border border-gray-200 flex items-center justify-center gap-2 text-sm">
-              <span>📦</span>
+              <HiOutlineShoppingBag className="w-5 h-5" />
               <span>Manage Products</span>
             </button>
           </Link>
@@ -226,7 +227,7 @@ export default function AdminDashboard() {
 
           <Link href="/admin/settings">
             <button className="w-full bg-white hover:bg-gray-50 text-gray-900 font-semibold py-3 px-6 rounded-lg transition border border-gray-200 flex items-center justify-center gap-2 text-sm">
-              <span>💵</span>
+              <HiOutlineCurrencyDollar className="w-5 h-5" />
               <span>Revenue Report</span>
             </button>
           </Link>

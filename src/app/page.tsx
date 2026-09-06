@@ -80,7 +80,7 @@ export default function Home() {
         }
       `}</style>
       {/* Top Promo Bar */}
-      <div className="hidden lg:block sticky top-0 z-50 bg-emerald-600">
+      <div className="hidden lg:block bg-emerald-600">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex items-center justify-between py-2 text-xs text-white overflow-x-auto">
             <div className="flex items-center gap-6 whitespace-nowrap">
@@ -138,7 +138,7 @@ export default function Home() {
       </div>
 
       {/* Navigation */}
-      <nav className="bg-emerald-900" style={{ borderBottom: '0.75px solid rgba(255, 255, 255, 0.12)' }}>
+      <nav className="sticky top-0 z-40 bg-emerald-900" style={{ borderBottom: '0.75px solid rgba(255, 255, 255, 0.12)' }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           {/* Main Nav Row */}
           <div className="flex items-center gap-4 h-12">

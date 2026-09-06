@@ -101,7 +101,7 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section className="bg-teal-950 py-12 lg:py-16 flex items-center">
+      <section className="bg-teal-950 py-6 lg:py-8 flex items-center">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-center">
             {/* Left Content */}
@@ -155,14 +155,14 @@ export default function Home() {
                 {/* Left Arrow */}
                 <button
                   onClick={() => setCarouselIndex((carouselIndex - 1 + carouselItems.length) % carouselItems.length)}
-                  className="absolute left-6 top-1/2 -translate-y-1/2 z-10 bg-white hover:bg-neutral-200 text-teal-950 p-2 rounded-full transition group">
+                  className="absolute left-6 top-1/2 -translate-y-1/2 z-10 bg-white hover:bg-neutral-200 text-teal-950 w-10 h-10 flex items-center justify-center rounded-full transition group">
                   <span className="text-xl group-hover:text-emerald-600">‹</span>
                 </button>
 
                 {/* Right Arrow */}
                 <button
                   onClick={() => setCarouselIndex((carouselIndex + 1) % carouselItems.length)}
-                  className="absolute right-6 top-1/2 -translate-y-1/2 z-10 bg-white hover:bg-neutral-200 text-teal-950 p-2 rounded-full transition group">
+                  className="absolute right-6 top-1/2 -translate-y-1/2 z-10 bg-white hover:bg-neutral-200 text-teal-950 w-10 h-10 flex items-center justify-center rounded-full transition group">
                   <span className="text-xl group-hover:text-emerald-600">›</span>
                 </button>
               </div>

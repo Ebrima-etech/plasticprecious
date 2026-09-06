@@ -202,27 +202,29 @@ export default function Home() {
               </Link>
             </div>
           </div>
-
-          {/* Categories Row */}
-          <div className="flex items-center gap-8 py-2 overflow-x-auto">
-            <Link href="#" className="text-white hover:text-emerald-300 transition text-sm whitespace-nowrap">
-              Collections
-            </Link>
-            <Link href="#" className="text-white hover:text-emerald-300 transition text-sm whitespace-nowrap">
-              Custom Products
-            </Link>
-            <Link href="#" className="text-white hover:text-emerald-300 transition text-sm whitespace-nowrap">
-              Eco Products
-            </Link>
-            <Link href="#" className="text-white hover:text-emerald-300 transition text-sm whitespace-nowrap">
-              Recycled Plastic
-            </Link>
-            <Link href="#" className="text-white hover:text-emerald-300 transition text-sm whitespace-nowrap">
-              Sustainable Living
-            </Link>
-          </div>
         </div>
       </nav>
+
+      {/* Categories Row */}
+      <div className="bg-emerald-900 flex items-center gap-8 py-2 overflow-x-auto">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full flex items-center gap-8">
+          <Link href="#" className="text-white hover:text-emerald-300 transition text-sm whitespace-nowrap">
+            Collections
+          </Link>
+          <Link href="#" className="text-white hover:text-emerald-300 transition text-sm whitespace-nowrap">
+            Custom Products
+          </Link>
+          <Link href="#" className="text-white hover:text-emerald-300 transition text-sm whitespace-nowrap">
+            Eco Products
+          </Link>
+          <Link href="#" className="text-white hover:text-emerald-300 transition text-sm whitespace-nowrap">
+            Recycled Plastic
+          </Link>
+          <Link href="#" className="text-white hover:text-emerald-300 transition text-sm whitespace-nowrap">
+            Sustainable Living
+          </Link>
+        </div>
+      </div>
 
       {/* Hero Section */}
       <section className="bg-emerald-900 py-6 lg:py-8 pb-0 flex items-center">

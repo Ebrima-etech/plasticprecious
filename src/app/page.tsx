@@ -113,8 +113,11 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div className="flex items-center justify-center flex-1">
-              <p className="text-white font-bold text-sm uppercase tracking-wider">Trash to Treasure</p>
+            <div className="flex-1 flex items-center justify-center">
+              <div className="text-center">
+                <div className="text-gray-300 text-xs">Our Mission</div>
+                <div className="font-semibold text-white text-xs">Trash to Treasure</div>
+              </div>
             </div>
             <div className="flex items-center gap-3 ml-auto">
               <button className="text-white hover:text-gray-200 transition text-xs font-medium">Track Order</button>

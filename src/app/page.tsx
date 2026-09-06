@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
 import { FiShoppingCart, FiSearch, FiUser, FiChevronDown, FiTruck, FiCheck, FiHeart, FiHeadphones, FiPhone, FiMail } from 'react-icons/fi';
 import { GiRecycle } from 'react-icons/gi';
@@ -224,7 +225,7 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {impacts.map((item, i) => (
-              <div key={i} className="group cursor-pointer h-full">
+              <Link key={i} href="/impact" className="group cursor-pointer h-full">
                 <div className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 h-full flex flex-col border border-emerald-100 hover:border-emerald-300">
                   {/* Image Section */}
                   <div className="relative h-40 overflow-hidden bg-gray-200">
@@ -247,6 +248,7 @@ export default function Home() {
                   </div>
                 </div>
               </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -263,7 +265,7 @@ export default function Home() {
             {services.map((service, i) => {
               const IconComponent = service.icon;
               return (
-                <div key={i} className="group cursor-pointer h-full">
+                <Link key={i} href="/services-detail" className="group cursor-pointer h-full">
                   <div className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 h-full flex flex-col">
                     {/* Image Section */}
                     <div className="relative h-40 overflow-hidden bg-gray-200">
@@ -287,6 +289,7 @@ export default function Home() {
                     </div>
                   </div>
                 </div>
+                </Link>
               );
             })}
           </div>

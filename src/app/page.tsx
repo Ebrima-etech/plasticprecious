@@ -90,7 +90,7 @@ export default function Home() {
           animation: borderGradient 3s ease-in-out infinite;
         }
       `}</style>
-      <Navbar showNavLinks={true} />
+      <Navbar showNavLinks={true} sticky={false} />
 
       {/* Top Promo Bar - Old Content Removed, Using Navbar Component */}
       {/* Rendering below for backward compatibility if needed */}

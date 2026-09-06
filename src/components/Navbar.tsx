@@ -7,9 +7,10 @@ import { GiRecycle } from 'react-icons/gi';
 
 interface NavbarProps {
   showNavLinks?: boolean;
+  sticky?: boolean;
 }
 
-export default function Navbar({ showNavLinks = false }: NavbarProps) {
+export default function Navbar({ showNavLinks = false, sticky = true }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -82,7 +83,7 @@ export default function Navbar({ showNavLinks = false }: NavbarProps) {
       </div>
 
       {/* Navigation */}
-      <nav className="sticky top-0 z-40 bg-emerald-900 h-12" style={{ borderBottom: isScrolled ? '0.75px solid rgba(255, 255, 255, 0.12)' : 'none' }}>
+      <nav className={`${sticky ? 'sticky' : ''} top-0 z-40 bg-emerald-900 h-12`} style={{ borderBottom: isScrolled ? '0.75px solid rgba(255, 255, 255, 0.12)' : 'none' }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex items-center gap-4 h-12">
             {/* Logo */}

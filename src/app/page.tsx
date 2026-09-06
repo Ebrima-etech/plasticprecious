@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { Button } from '@/components/ui/Button';
-import { FiShoppingCart, FiSearch, FiUser, FiChevronDown, FiTruck, FiCheck, FiHeart, FiHeadphones, FiPhone, FiMail } from 'react-icons/fi';
+import { FiShoppingCart, FiSearch, FiUser, FiChevronDown, FiTruck, FiCheck, FiHeart, FiHeadphones, FiPhone, FiMail, FiPackage, FiTag } from 'react-icons/fi';
 import { GiRecycle } from 'react-icons/gi';
 import { BiRecycle } from 'react-icons/bi';
 import { MdSchool } from 'react-icons/md';
@@ -222,19 +222,31 @@ export default function Home() {
                   'https://images.pexels.com/photos/6474056/pexels-photo-6474056.jpeg?w=500&h=500&fit=crop',
                 ];
                 return (
-                  <div key={product.id} className="group cursor-pointer">
-                    <div className="h-64 rounded-2xl overflow-hidden mb-4 group-hover:opacity-80 transition bg-gray-200">
-                      <img
-                        src={product.image || dummyImages[i % dummyImages.length]}
-                        alt={product.name}
-                        className="w-full h-full object-cover"
-                      />
+                  <Link key={product.id} href={`/shop/${product.id}`}>
+                    <div className="group cursor-pointer h-full bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 flex flex-col">
+                      <div className="relative h-64 overflow-hidden bg-gray-200">
+                        <img
+                          src={product.image || dummyImages[i % dummyImages.length]}
+                          alt={product.name}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                      <div className="p-4 flex flex-col flex-grow">
+                        <h3 className="text-lg font-bold text-neutral-900 mb-2 group-hover:text-emerald-600 transition">{product.name}</h3>
+                        <p className="text-sm text-neutral-600 mb-3 line-clamp-2 flex-grow">{product.description || 'Premium recycled plastic product'}</p>
+                        <div className="flex items-center gap-2 mb-3">
+                          <FiTag className="w-4 h-4 text-emerald-600" />
+                          <p className="text-xl font-bold text-emerald-600">D {parseFloat(product.price).toLocaleString('en-GM')}</p>
+                        </div>
+                        {product.category_name && (
+                          <div className="flex items-center gap-2">
+                            <FiPackage className="w-4 h-4 text-neutral-500" />
+                            <p className="text-xs text-neutral-600 uppercase font-semibold">{product.category_name}</p>
+                          </div>
+                        )}
+                      </div>
                     </div>
-                    <h3 className="text-lg font-bold text-neutral-900 mb-2">{product.name}</h3>
-                    <p className="text-sm text-neutral-600 mb-2 line-clamp-2">{product.description || 'Premium recycled plastic product'}</p>
-                    <p className="text-xl font-bold text-emerald-600 mb-2">D {parseFloat(product.price).toLocaleString('en-GM')}</p>
-                    {product.category_name && <p className="text-xs text-emerald-600 font-bold uppercase">{product.category_name}</p>}
-                  </div>
+                  </Link>
                 );
               })
             ) : (

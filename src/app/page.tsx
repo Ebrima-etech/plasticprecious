@@ -178,15 +178,30 @@ export default function Home() {
           </div>
 
           {/* Categories Row */}
-          <div className="flex items-center gap-8 py-2">
-            <Link href="#" className="text-white hover:text-emerald-300 transition text-sm">
+          <div className="flex items-center gap-8 py-2 overflow-x-auto">
+            <Link href="#" className="text-white hover:text-emerald-300 transition text-sm whitespace-nowrap">
               Collections
             </Link>
-            <Link href="#" className="text-white hover:text-emerald-300 transition text-sm">
+            <Link href="#" className="text-white hover:text-emerald-300 transition text-sm whitespace-nowrap">
               Custom Products
             </Link>
-            <Link href="#" className="text-white hover:text-emerald-300 transition text-sm">
+            <Link href="#" className="text-white hover:text-emerald-300 transition text-sm whitespace-nowrap">
+              Eco Products
+            </Link>
+            <Link href="#" className="text-white hover:text-emerald-300 transition text-sm whitespace-nowrap">
+              Recycled Plastic
+            </Link>
+            <Link href="#" className="text-white hover:text-emerald-300 transition text-sm whitespace-nowrap">
+              Sustainable Living
+            </Link>
+            <Link href="#" className="text-white hover:text-emerald-300 transition text-sm whitespace-nowrap">
               Sale
+            </Link>
+            <Link href="#" className="text-white hover:text-emerald-300 transition text-sm whitespace-nowrap">
+              Blog
+            </Link>
+            <Link href="#" className="text-white hover:text-emerald-300 transition text-sm whitespace-nowrap">
+              About Us
             </Link>
           </div>
         </div>

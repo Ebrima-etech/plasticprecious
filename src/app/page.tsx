@@ -314,19 +314,19 @@ export default function Home() {
       </section>
 
       {/* Services Section */}
-      <section id="services" className="py-20 md:py-28 lg:py-32 bg-neutral-50">
-        <div className="max-w-6xl mx-auto px-6 lg:px-8">
-          <h2 className="text-4xl font-light text-neutral-900 mb-20 text-center">Our Services</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+      <section id="services" className="pt-3 md:pt-4 lg:pt-6 pb-12 md:pb-16 lg:pb-20 bg-white">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <h2 className="text-4xl font-bold text-neutral-900 mb-12 text-center">Our Services</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {services.map((service, i) => {
               const IconComponent = service.icon;
               return (
                 <div key={i} className="text-center">
-                  <div className="text-5xl mb-6 flex justify-center text-emerald-600">
+                  <div className="text-5xl mb-4 flex justify-center text-emerald-600">
                     <IconComponent />
                   </div>
-                  <h3 className="text-xl font-light text-neutral-900 mb-4">{service.title}</h3>
-                  <p className="text-neutral-700 font-light leading-relaxed">{service.description}</p>
+                  <h3 className="text-lg font-bold text-neutral-900 mb-3">{service.title}</h3>
+                  <p className="text-neutral-700 font-bold text-sm leading-relaxed">{service.description}</p>
                 </div>
               );
             })}
@@ -335,10 +335,10 @@ export default function Home() {
       </section>
 
       {/* Newsletter Section */}
-      <section className="py-20 md:py-28 lg:py-32 bg-neutral-50">
+      <section className="pt-3 md:pt-4 lg:pt-6 pb-12 md:pb-16 lg:pb-20 bg-white">
         <div className="max-w-2xl mx-auto px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-light text-neutral-900 mb-8">Stay Updated</h2>
-          <p className="text-neutral-700 font-light mb-10 text-lg">
+          <h2 className="text-4xl font-bold text-neutral-900 mb-6">Stay Updated</h2>
+          <p className="text-neutral-700 font-bold text-sm mb-8">
             Get updates on new collections and exclusive offers.
           </p>
 

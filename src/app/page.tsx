@@ -162,6 +162,12 @@ export default function Home() {
             {/* Nav Links */}
             <div className="hidden lg:flex items-center gap-6">
               <Link href="#" className="text-white hover:text-emerald-300 transition text-sm font-medium">
+                Mission
+              </Link>
+              <Link href="#" className="text-white hover:text-emerald-300 transition text-sm font-medium">
+                Services
+              </Link>
+              <Link href="#" className="text-white hover:text-emerald-300 transition text-sm font-medium">
                 Sale
               </Link>
               <Link href="#" className="text-white hover:text-emerald-300 transition text-sm font-medium">

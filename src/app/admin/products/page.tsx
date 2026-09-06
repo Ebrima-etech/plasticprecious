@@ -35,8 +35,8 @@ export default function AdminProductsPage() {
         const token = getToken();
         const headers = { Authorization: `Bearer ${token}` };
 
-        // Fetch products
-        const productsRes = await axios.get(`${API_BASE_URL}/products/`, { headers });
+        // Fetch products (public endpoint)
+        const productsRes = await axios.get(`${API_BASE_URL}/products/`);
         setProducts(productsRes.data.results || productsRes.data || []);
 
         // Fetch categories

@@ -36,7 +36,7 @@ export default function AdminDashboard() {
         const token = getToken();
         const headers = { Authorization: `Bearer ${token}` };
 
-        const productsRes = await axios.get(`${API_BASE_URL}/products/`, { headers });
+        const productsRes = await axios.get(`${API_BASE_URL}/products/`);
         const productsCount = productsRes.data.count || 0;
 
         const ordersRes = await axios.get(`${API_BASE_URL}/orders/`, { headers });

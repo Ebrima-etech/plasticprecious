@@ -157,7 +157,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-center">
             {/* Left Content */}
-            <div>
+            <div className="max-w-md">
               <p className="text-emerald-600 font-light mb-2 text-sm uppercase tracking-wider">Trash to Treasure</p>
               <h1 className="text-5xl lg:text-6xl font-bold text-teal-950 mb-4 leading-tight">
                 From Pollution to
@@ -165,7 +165,7 @@ export default function Home() {
                   <span className="text-emerald-600 italic">Solution</span>
                 </span>
               </h1>
-              <p className="text-base text-neutral-700 mb-6 font-light leading-relaxed max-w-lg">
+              <p className="text-base text-neutral-700 mb-6 font-light leading-relaxed">
                 Transforming plastic waste into valuable, sustainable products while creating positive change for communities and our environment.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 mb-8">

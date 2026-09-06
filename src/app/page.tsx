@@ -73,7 +73,7 @@ export default function Home() {
             </Link>
 
             {/* Search Bar - Center */}
-            <div className="hidden lg:flex flex-1 max-w-lg items-center bg-white border-0 px-4 py-2 ml-6 rounded-full">
+            <div className="hidden lg:flex max-w-lg items-center bg-white border-0 px-4 py-2 ml-4 rounded-full">
               <FiSearch size={18} className="text-teal-900" />
               <input
                 type="text"

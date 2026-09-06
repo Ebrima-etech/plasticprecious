@@ -132,12 +132,12 @@ export default function Home() {
             </Link>
 
             {/* Search Bar */}
-            <div className="hidden lg:flex flex-1 max-w-2xl items-center bg-white border-0 px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition">
+            <div className="hidden lg:flex flex-1 max-w-2xl items-center bg-white border-0 px-6 py-3 rounded-full">
               <FiSearch size={18} className="text-emerald-600" />
               <input
                 type="text"
                 placeholder="Search for products"
-                className="bg-transparent text-neutral-900 text-sm placeholder-neutral-400 placeholder-opacity-70 ml-3 w-full focus:outline-none"
+                className="bg-transparent text-teal-900 text-sm placeholder-gray-500 placeholder-opacity-50 ml-3 w-full focus:outline-none"
               />
             </div>
 
@@ -181,9 +181,9 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section className="bg-emerald-600 py-12 lg:py-20 flex items-center">
+      <section className="bg-emerald-600 py-6 lg:py-8 flex items-center">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-center">
             {/* Left Content */}
             <div>
               <p className="text-emerald-100 font-bold mb-2 text-sm uppercase tracking-wider">Trash to Treasure</p>
@@ -197,10 +197,10 @@ export default function Home() {
                 Transforming plastic waste into valuable, sustainable products <br /> while creating positive change for communities and our environment.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 mb-8">
-                <button className="bg-white hover:bg-emerald-50 text-emerald-600 font-bold px-10 py-3 transition text-lg rounded-full shadow-lg hover:shadow-xl">
+                <button className="bg-white hover:bg-emerald-50 text-emerald-600 font-bold px-10 py-3 transition text-lg rounded-full">
                   Explore Services
                 </button>
-                <button className="border-2 border-white text-white hover:bg-white hover:text-emerald-600 font-bold px-10 py-3 transition text-lg bg-transparent rounded-full hover:shadow-lg">
+                <button className="border-2 border-white text-white hover:bg-white hover:text-emerald-600 font-bold px-10 py-3 transition text-lg bg-transparent rounded-full">
                   Shop Products
                 </button>
               </div>
@@ -235,15 +235,15 @@ export default function Home() {
                 {/* Left Arrow */}
                 <button
                   onClick={() => setCarouselIndex((carouselIndex - 1 + carouselItems.length) % carouselItems.length)}
-                  className="absolute left-6 top-1/2 -translate-y-1/2 z-10 bg-white hover:bg-emerald-50 text-emerald-600 w-10 h-10 flex items-center justify-center rounded-full transition group shadow-lg hover:shadow-xl">
-                  <span className="text-xl group-hover:text-emerald-700">‹</span>
+                  className="absolute left-6 top-1/2 -translate-y-1/2 z-10 bg-white hover:bg-neutral-200 text-teal-950 w-10 h-10 flex items-center justify-center rounded-full transition group">
+                  <span className="text-xl group-hover:text-emerald-600">‹</span>
                 </button>
 
                 {/* Right Arrow */}
                 <button
                   onClick={() => setCarouselIndex((carouselIndex + 1) % carouselItems.length)}
-                  className="absolute right-6 top-1/2 -translate-y-1/2 z-10 bg-white hover:bg-emerald-50 text-emerald-600 w-10 h-10 flex items-center justify-center rounded-full transition group shadow-lg hover:shadow-xl">
-                  <span className="text-xl group-hover:text-emerald-700">›</span>
+                  className="absolute right-6 top-1/2 -translate-y-1/2 z-10 bg-white hover:bg-neutral-200 text-teal-950 w-10 h-10 flex items-center justify-center rounded-full transition group">
+                  <span className="text-xl group-hover:text-emerald-600">›</span>
                 </button>
               </div>
             </div>

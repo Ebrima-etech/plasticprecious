@@ -82,18 +82,26 @@ export default function Home() {
               />
             </div>
 
+            {/* Language Selector */}
+            <button className="hidden lg:flex items-center gap-1 text-white hover:text-emerald-300 transition text-sm font-medium">
+              Eng
+              <FiChevronDown size={16} />
+            </button>
+
             {/* Right Navigation & Actions */}
-            <div className="flex items-center gap-6 ml-auto">
+            <div className="flex items-center gap-8">
               <Link href="/auth/login">
-                <button className="text-white hover:text-emerald-300 transition">
+                <div className="flex items-center gap-2 text-white hover:text-emerald-300 transition cursor-pointer">
                   <FiUser size={20} />
-                </button>
+                  <span className="text-sm font-medium">My Account</span>
+                </div>
               </Link>
               <Link href="/cart">
-                <button className="text-white hover:text-emerald-300 transition relative">
+                <div className="flex items-center gap-2 text-white hover:text-emerald-300 transition cursor-pointer relative">
                   <FiShoppingCart size={20} />
-                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">0</span>
-                </button>
+                  <span className="text-sm font-medium">Cart</span>
+                  <span className="absolute -top-3 -right-3 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">0</span>
+                </div>
               </Link>
             </div>
           </div>

@@ -78,7 +78,7 @@ export default function Home() {
               <input
                 type="text"
                 placeholder="Search for products"
-                className="bg-transparent text-teal-900 text-sm placeholder-emerald-300 ml-3 w-full focus:outline-none"
+                className="bg-transparent text-teal-900 text-sm placeholder-emerald-600 ml-3 w-full focus:outline-none"
               />
             </div>
 

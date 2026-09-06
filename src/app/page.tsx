@@ -142,7 +142,7 @@ export default function Home() {
             <div className="relative flex flex-col items-center w-full">
               <div className="relative w-11/12 lg:w-full">
                 {/* Main Carousel Container */}
-                <div className="rounded-3xl h-[70vh] flex flex-col items-center justify-center border border-teal-700/50 overflow-hidden relative">
+                <div className="rounded-2xl h-[70vh] flex flex-col items-center justify-center overflow-hidden relative">
                   {carouselItems[carouselIndex].image && (
                     <img
                       src={carouselItems[carouselIndex].image}

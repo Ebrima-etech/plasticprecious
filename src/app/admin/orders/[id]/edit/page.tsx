@@ -64,7 +64,7 @@ export default function EditOrderPage({ params }: EditOrderPageProps) {
   }
 
   if (!order) {
-    return <div className="text-center py-12 text-red-600">Order not found</div>;
+    return <div className="text-center py-12 text-green-600">Order not found</div>;
   }
 
   return (
@@ -72,7 +72,7 @@ export default function EditOrderPage({ params }: EditOrderPageProps) {
       <h1 className="text-2xl font-bold text-gray-900 mb-6">Order #{order.id}</h1>
 
       {error && (
-        <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
+        <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg text-green-700">
           {error}
         </div>
       )}

@@ -5,11 +5,6 @@ import Link from 'next/link';
 import axios from 'axios';
 import { API_BASE_URL } from '@/config/api';
 import { getToken } from '@/lib/auth';
-import { Card, CardBody, CardHeader } from '@/components/ui/Card';
-import { Badge } from '@/components/ui/Badge';
-import { Spinner } from '@/components/ui/Spinner';
-import { Button } from '@/components/ui/Button';
-import { EmptyState } from '@/components/ui/EmptyState';
 
 interface Order {
   id: number;
@@ -19,13 +14,13 @@ interface Order {
   created_at: string;
 }
 
-const statusColors = {
-  pending: 'warning',
-  processing: 'info',
-  shipped: 'primary',
-  delivered: 'success',
-  cancelled: 'error',
-} as const;
+const statusConfig = {
+  pending: { color: 'bg-yellow-100 text-yellow-800', icon: '🟡' },
+  processing: { color: 'bg-blue-100 text-blue-800', icon: '🔵' },
+  shipped: { color: 'bg-purple-100 text-purple-800', icon: '📦' },
+  delivered: { color: 'bg-green-100 text-green-800', icon: '🟢' },
+  cancelled: { color: 'bg-green-100 text-green-800', icon: '✕' },
+};
 
 export default function AdminOrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -55,82 +50,79 @@ export default function AdminOrdersPage() {
     return (
       <div className="flex items-center justify-center py-20">
         <div className="text-center">
-          <Spinner size="lg" />
-          <p className="mt-4 text-neutral-600 font-medium">Loading orders...</p>
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
+          <p className="mt-4 text-gray-600 font-medium">Loading orders...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-4xl font-bold text-neutral-900">Orders</h1>
-        <p className="text-neutral-600 mt-2">Manage and track customer orders</p>
+        <h1 className="text-2xl font-bold text-gray-900">Orders</h1>
+        <p className="text-sm text-gray-500 mt-1">Manage and track customer orders</p>
       </div>
 
       {error && (
-        <div className="p-4 bg-error/10 border border-error text-error rounded-lg">
+        <div className="p-4 bg-green-50 border border-green-200 text-green-700 rounded-lg text-sm">
           {error}
         </div>
       )}
 
       {orders.length === 0 ? (
-        <Card shadow="sm">
-          <CardBody>
-            <EmptyState
-              title="No orders yet"
-              description="Orders from customers will appear here"
-            />
-          </CardBody>
-        </Card>
+        <div className="bg-white rounded-lg border border-gray-200 p-12 text-center">
+          <p className="text-gray-600 font-medium">No orders yet</p>
+          <p className="text-sm text-gray-500 mt-1">Orders from customers will appear here</p>
+        </div>
       ) : (
-        <Card shadow="base">
+        <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-neutral-50 border-b border-neutral-100">
+              <thead className="bg-gray-50 border-b border-gray-200">
                 <tr>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-neutral-900">Order ID</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-neutral-900">Customer</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-neutral-900">Amount</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-neutral-900">Status</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-neutral-900">Date</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-neutral-900">Action</th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wide">Order ID</th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wide">Customer</th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wide">Amount</th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wide">Status</th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wide">Date</th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wide">Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-neutral-100">
-                {orders.map((order) => (
-                  <tr key={order.id} className="hover:bg-neutral-50 transition-colors">
-                    <td className="px-6 py-4 text-neutral-900 font-semibold">#{order.id}</td>
-                    <td className="px-6 py-4 text-neutral-600">{order.user_email}</td>
-                    <td className="px-6 py-4 text-neutral-900 font-medium">
-                      D {parseFloat(order.total_price).toLocaleString('en-GM')}
-                    </td>
-                    <td className="px-6 py-4">
-                      <Badge
-                        variant={statusColors[order.status as keyof typeof statusColors] || 'neutral'}
-                        size="sm"
-                      >
-                        {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
-                      </Badge>
-                    </td>
-                    <td className="px-6 py-4 text-neutral-600">
-                      {new Date(order.created_at).toLocaleDateString()}
-                    </td>
-                    <td className="px-6 py-4">
-                      <Link href={`/admin/orders/${order.id}/edit`}>
-                        <Button variant="secondary" size="sm">
-                          View
-                        </Button>
-                      </Link>
-                    </td>
-                  </tr>
-                ))}
+              <tbody className="divide-y divide-gray-200">
+                {orders.map((order) => {
+                  const statusInfo = statusConfig[order.status as keyof typeof statusConfig] || statusConfig.pending;
+                  return (
+                    <tr key={order.id} className="hover:bg-gray-50 transition-colors">
+                      <td className="px-6 py-4 text-sm font-medium text-gray-900">#{order.id}</td>
+                      <td className="px-6 py-4 text-sm text-gray-600">{order.user_email}</td>
+                      <td className="px-6 py-4 text-sm font-medium text-gray-900">
+                        D {parseFloat(order.total_price).toLocaleString('en-GM')}
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold ${statusInfo.color}`}>
+                          {statusInfo.icon}
+                          {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 text-sm text-gray-600">
+                        {new Date(order.created_at).toLocaleDateString()}
+                      </td>
+                      <td className="px-6 py-4">
+                        <Link href={`/admin/orders/${order.id}/edit`}>
+                          <button className="px-3 py-1 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-lg transition">
+                            View →
+                          </button>
+                        </Link>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
-        </Card>
+        </div>
       )}
     </div>
   );

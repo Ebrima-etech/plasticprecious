@@ -57,7 +57,7 @@ export default function AdminLoginPage() {
         {/* Card */}
         <div className="bg-white rounded-lg shadow-lg p-8">
           {error && (
-            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
+            <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg text-green-700 text-sm">
               {error}
             </div>
           )}

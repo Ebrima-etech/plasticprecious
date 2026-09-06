@@ -23,6 +23,7 @@ export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -40,6 +41,15 @@ export default function ProductsPage() {
     fetchProducts();
   }, []);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const getStockBadge = (stock: number) => {
     if (stock === 0) return { variant: 'error' as const, text: 'Out of Stock' };
     if (stock < 10) return { variant: 'warning' as const, text: `Only ${stock} left` };
@@ -49,24 +59,24 @@ export default function ProductsPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation */}
-      <nav className="sticky top-0 z-50 bg-white border-b border-neutral-200">
+      <nav className="sticky top-0 z-50 bg-emerald-900 h-12" style={{ borderBottom: isScrolled ? '0.75px solid rgba(255, 255, 255, 0.12)' : 'none' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <Link href="/" className="text-lg sm:text-2xl font-bold text-primary-600">
+          <div className="flex justify-between items-center h-12">
+            <Link href="/" className="text-lg sm:text-2xl font-bold text-white">
               PLASTICPRECIOUS
             </Link>
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex gap-8">
-              <Link href="/" className="text-neutral-700 hover:text-primary-600 transition">SHOP</Link>
-              <a href="#impact" className="text-neutral-700 hover:text-primary-600 transition">OUR IMPACT</a>
-              <a href="#about" className="text-neutral-700 hover:text-primary-600 transition">ABOUT</a>
+              <Link href="/" className="text-white hover:text-emerald-300 transition text-sm font-medium">SHOP</Link>
+              <a href="#impact" className="text-white hover:text-emerald-300 transition text-sm font-medium">OUR IMPACT</a>
+              <a href="#about" className="text-white hover:text-emerald-300 transition text-sm font-medium">ABOUT</a>
             </div>
 
             {/* Hamburger Menu (Mobile) */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 hover:bg-neutral-100 rounded-lg transition"
+              className="md:hidden p-2 hover:bg-emerald-800 rounded-lg transition text-white"
             >
               {mobileMenuOpen ? (
                 <FiX className="w-6 h-6" />
@@ -110,10 +120,10 @@ export default function ProductsPage() {
 
           {/* Mobile Menu */}
           {mobileMenuOpen && (
-            <div className="md:hidden border-t border-neutral-200 py-4 space-y-3">
-              <Link href="/" className="block text-neutral-700 hover:text-primary-600 py-2">SHOP</Link>
-              <a href="#impact" className="block text-neutral-700 hover:text-primary-600 py-2">OUR IMPACT</a>
-              <a href="#about" className="block text-neutral-700 hover:text-primary-600 py-2">ABOUT</a>
+            <div className="md:hidden border-t border-emerald-800 py-4 space-y-3 bg-emerald-900">
+              <Link href="/" className="block text-white hover:text-emerald-300 py-2">SHOP</Link>
+              <a href="#impact" className="block text-white hover:text-emerald-300 py-2">OUR IMPACT</a>
+              <a href="#about" className="block text-white hover:text-emerald-300 py-2">ABOUT</a>
               <Link href="/auth/signup" className="block w-full">
                 <Button size="sm" className="w-full">SIGN UP</Button>
               </Link>
@@ -123,10 +133,10 @@ export default function ProductsPage() {
       </nav>
 
       {/* Page Header */}
-      <div className="bg-gradient-to-r from-primary-600 to-primary-700 text-white py-12">
+      <div className="bg-emerald-900 text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl font-bold mb-2">Our Products</h1>
-          <p className="text-primary-100">Explore our range of premium recycled plastic solutions</p>
+          <p className="text-emerald-100">Explore our range of premium recycled plastic solutions</p>
         </div>
       </div>
 

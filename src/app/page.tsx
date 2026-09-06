@@ -144,7 +144,7 @@ export default function Home() {
             </Link>
 
             {/* Search Bar */}
-            <div className="hidden lg:flex flex-1 max-w-xs items-center bg-white border-0 px-4 py-1 rounded-full">
+            <div className="hidden lg:flex flex-1 max-w-xs items-center bg-white border-0 px-4 rounded-full" style={{ paddingTop: '0.375rem', paddingBottom: '0.375rem' }}>
               <FiSearch size={16} className="text-emerald-600" />
               <input
                 type="text"

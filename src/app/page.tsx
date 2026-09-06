@@ -224,7 +224,7 @@ export default function Home() {
       </section>
 
       {/* Impact Section */}
-      <section className="py-20 md:py-28 lg:py-32 bg-white">
+      <section className="py-12 md:py-16 lg:py-20 bg-white">
         <div className="max-w-6xl mx-auto px-6 lg:px-8">
           <h2 className="text-4xl font-light text-neutral-900 mb-20 text-center">Our Impact</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">

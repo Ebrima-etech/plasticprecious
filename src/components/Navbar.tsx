@@ -20,7 +20,7 @@ export default function Navbar() {
   return (
     <>
       {/* Top Promo Bar */}
-      <div className="hidden lg:block bg-emerald-600">
+      <div className="bg-emerald-600">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex items-center justify-between py-2 text-xs text-white overflow-x-auto">
             <div className="flex items-center gap-6 whitespace-nowrap">

@@ -11,6 +11,7 @@ import { Badge } from '@/components/ui/Badge';
 import { Spinner } from '@/components/ui/Spinner';
 import { API_BASE_URL } from '@/config/api';
 import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 
 interface Product {
   id: number;
@@ -260,12 +261,7 @@ export default function ProductDetailPage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-neutral-900 text-neutral-400 py-16 border-t border-neutral-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p>&copy; 2026 Plasticprecious. Committed to a circular future.</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

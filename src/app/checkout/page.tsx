@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { API_BASE_URL, getApiUrl } from '@/config/api';
 import { getAccessToken } from '@/lib/auth';
 import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -230,6 +231,7 @@ export default function CheckoutPage() {
         </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

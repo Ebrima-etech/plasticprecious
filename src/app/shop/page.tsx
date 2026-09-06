@@ -8,6 +8,8 @@ import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { Spinner } from '@/components/ui/Spinner';
 import { API_BASE_URL } from '@/config/api';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 
 interface Product {
   id: number;
@@ -58,79 +60,7 @@ export default function ProductsPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Navigation */}
-      <nav className="sticky top-0 z-50 bg-emerald-900 h-12" style={{ borderBottom: isScrolled ? '0.75px solid rgba(255, 255, 255, 0.12)' : 'none' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-12">
-            <Link href="/" className="text-lg sm:text-2xl font-bold text-white">
-              PLASTICPRECIOUS
-            </Link>
-
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex gap-8">
-              <Link href="/" className="text-white hover:text-emerald-300 transition text-sm font-medium">SHOP</Link>
-              <a href="#impact" className="text-white hover:text-emerald-300 transition text-sm font-medium">OUR IMPACT</a>
-              <a href="#about" className="text-white hover:text-emerald-300 transition text-sm font-medium">ABOUT</a>
-            </div>
-
-            {/* Hamburger Menu (Mobile) */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 hover:bg-emerald-800 rounded-lg transition text-white"
-            >
-              {mobileMenuOpen ? (
-                <FiX className="w-6 h-6" />
-              ) : (
-                <FiMenu className="w-6 h-6" />
-              )}
-            </button>
-
-            {/* Desktop Buttons */}
-            <div className="hidden md:flex gap-3">
-              <Link href="/cart">
-                <Button variant="ghost" size="sm">
-                  <FiShoppingCart className="w-5 h-5" />
-                </Button>
-              </Link>
-              <Link href="/auth/login">
-                <Button variant="secondary" size="sm">
-                  <FiLogIn className="w-4 h-4 mr-1" />
-                  LOGIN
-                </Button>
-              </Link>
-              <Link href="/auth/signup">
-                <Button size="sm">SIGN UP</Button>
-              </Link>
-            </div>
-
-            {/* Mobile Cart & Login */}
-            <div className="flex md:hidden gap-3">
-              <Link href="/cart">
-                <Button variant="ghost" size="sm">
-                  <FiShoppingCart className="w-5 h-5" />
-                </Button>
-              </Link>
-              <Link href="/auth/login">
-                <Button variant="secondary" size="xs">
-                  <FiLogIn className="w-4 h-4" />
-                </Button>
-              </Link>
-            </div>
-          </div>
-
-          {/* Mobile Menu */}
-          {mobileMenuOpen && (
-            <div className="md:hidden border-t border-emerald-800 py-4 space-y-3 bg-emerald-900">
-              <Link href="/" className="block text-white hover:text-emerald-300 py-2">SHOP</Link>
-              <a href="#impact" className="block text-white hover:text-emerald-300 py-2">OUR IMPACT</a>
-              <a href="#about" className="block text-white hover:text-emerald-300 py-2">ABOUT</a>
-              <Link href="/auth/signup" className="block w-full">
-                <Button size="sm" className="w-full">SIGN UP</Button>
-              </Link>
-            </div>
-          )}
-        </div>
-      </nav>
+      <Navbar />
 
       {/* Page Header */}
       <div className="bg-emerald-900 text-white py-12">
@@ -210,41 +140,7 @@ export default function ProductsPage() {
         )}
       </div>
 
-      {/* Footer */}
-      <footer className="bg-neutral-900 text-neutral-400 py-16 border-t border-neutral-800 mt-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-            <div>
-              <h3 className="text-white font-bold mb-4">About</h3>
-              <p className="text-sm">We create premium recycled plastic products for a sustainable future.</p>
-            </div>
-            <div>
-              <h3 className="text-white font-bold mb-4">Shop</h3>
-              <ul className="space-y-2 text-sm">
-                <li><a href="#" className="hover:text-white transition">All Products</a></li>
-                <li><a href="#" className="hover:text-white transition">Categories</a></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-white font-bold mb-4">Support</h3>
-              <ul className="space-y-2 text-sm">
-                <li><a href="#" className="hover:text-white transition">Contact</a></li>
-                <li><a href="#" className="hover:text-white transition">FAQ</a></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-white font-bold mb-4">Legal</h3>
-              <ul className="space-y-2 text-sm">
-                <li><a href="#" className="hover:text-white transition">Privacy</a></li>
-                <li><a href="#" className="hover:text-white transition">Terms</a></li>
-              </ul>
-            </div>
-          </div>
-          <div className="border-t border-neutral-800 pt-8 text-center">
-            <p>&copy; 2026 Plasticprecious. Committed to a circular future.</p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

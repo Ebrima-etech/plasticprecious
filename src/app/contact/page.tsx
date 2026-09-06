@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API_BASE_URL } from '@/config/api';
 import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -226,6 +227,7 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
+      <Footer />
     </div>
   );
 }

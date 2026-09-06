@@ -7,6 +7,7 @@ import { Cart, CartItem } from '@/types';
 import { API_BASE_URL, getApiUrl } from '@/config/api';
 import { getAccessToken } from '@/lib/auth';
 import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 
 export default function CartPage() {
   const router = useRouter();
@@ -170,6 +171,7 @@ export default function CartPage() {
         )}
       </div>
       </div>
+      <Footer />
     </div>
   );
 }

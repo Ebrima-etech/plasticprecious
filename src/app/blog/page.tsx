@@ -5,6 +5,7 @@ import axios from 'axios';
 import Link from 'next/link';
 import { API_BASE_URL } from '@/config/api';
 import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 
 export default function BlogPage() {
   const [posts, setPosts] = useState<any[]>([]);
@@ -73,6 +74,7 @@ export default function BlogPage() {
           </div>
         )}
       </section>
+      <Footer />
     </div>
   );
 }

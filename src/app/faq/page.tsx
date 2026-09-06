@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API_BASE_URL } from '@/config/api';
 import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 
 export default function FAQPage() {
   const [faqs, setFaqs] = useState<any[]>([]);
@@ -61,6 +62,7 @@ export default function FAQPage() {
           ))}
         </div>
       </section>
+      <Footer />
     </div>
   );
 }

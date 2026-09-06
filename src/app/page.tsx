@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
-import { FiShoppingCart, FiSearch, FiUser, FiChevronDown, FiTruck, FiCheck, FiHeart, FiHeadphones, FiPhone } from 'react-icons/fi';
+import { FiShoppingCart, FiSearch, FiUser, FiChevronDown, FiTruck, FiCheck, FiHeart, FiHeadphones, FiPhone, FiMail } from 'react-icons/fi';
 import { GiRecycle } from 'react-icons/gi';
 import { BiRecycle } from 'react-icons/bi';
 import { MdSchool } from 'react-icons/md';
@@ -123,6 +123,10 @@ export default function Home() {
               <a href="tel:+220872518185" className="flex items-center gap-1 text-white hover:text-gray-200 transition text-xs font-medium">
                 <FiPhone size={16} />
                 +220 872518185
+              </a>
+              <a href="mailto:info@preciousplasticgambia.com" className="flex items-center gap-1 text-white hover:text-gray-200 transition text-xs font-medium">
+                <FiMail size={16} />
+                info@preciousplasticgambia.com
               </a>
               <button className="flex items-center gap-1 text-white hover:text-gray-200 transition text-xs font-medium">
                 <FiHeadphones size={16} />

@@ -150,10 +150,6 @@ export default function Home() {
                       className="absolute inset-0 w-full h-full object-cover"
                     />
                   )}
-                  <div className="absolute inset-0 bg-black/40"></div>
-                  <div className="relative z-10 text-center px-6">
-                    <p className="text-white text-3xl font-light">{carouselItems[carouselIndex].title}</p>
-                  </div>
                 </div>
 
                 {/* Left Arrow */}

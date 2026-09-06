@@ -208,19 +208,19 @@ export default function Home() {
       {/* Categories Row */}
       <div className="bg-emerald-900 flex items-center gap-8 py-2 overflow-x-auto">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full flex items-center gap-8">
-          <Link href="#" className="text-white hover:text-emerald-300 transition text-sm whitespace-nowrap">
+          <Link href="#" className="text-emerald-600 hover:text-emerald-400 transition text-sm whitespace-nowrap">
             Collections
           </Link>
-          <Link href="#" className="text-white hover:text-emerald-300 transition text-sm whitespace-nowrap">
+          <Link href="#" className="text-emerald-600 hover:text-emerald-400 transition text-sm whitespace-nowrap">
             Custom Products
           </Link>
-          <Link href="#" className="text-white hover:text-emerald-300 transition text-sm whitespace-nowrap">
+          <Link href="#" className="text-emerald-600 hover:text-emerald-400 transition text-sm whitespace-nowrap">
             Eco Products
           </Link>
-          <Link href="#" className="text-white hover:text-emerald-300 transition text-sm whitespace-nowrap">
+          <Link href="#" className="text-emerald-600 hover:text-emerald-400 transition text-sm whitespace-nowrap">
             Recycled Plastic
           </Link>
-          <Link href="#" className="text-white hover:text-emerald-300 transition text-sm whitespace-nowrap">
+          <Link href="#" className="text-emerald-600 hover:text-emerald-400 transition text-sm whitespace-nowrap">
             Sustainable Living
           </Link>
         </div>

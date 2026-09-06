@@ -82,7 +82,7 @@ curl -X POST \
 {
   "success": true,
   "image_url": "https://res.cloudinary.com/...",
-  "public_id": "plasticprecious/abc123",
+  "public_id": "preciousplastic/abc123",
   "size": 102400,
   "width": 1280,
   "height": 720
@@ -95,7 +95,7 @@ curl -X POST \
 ```bash
 curl -X DELETE \
   -H "Content-Type: application/json" \
-  -d '{"public_id": "plasticprecious/abc123"}' \
+  -d '{"public_id": "preciousplastic/abc123"}' \
   http://localhost:8000/api/uploads/delete/
 ```
 

@@ -102,12 +102,6 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
               />
             </div>
 
-            {/* Language Selector */}
-            <button className="hidden lg:flex items-center gap-1 text-white hover:text-emerald-300 transition text-sm font-medium ml-auto">
-              Eng
-              <FiChevronDown size={16} />
-            </button>
-
             {/* Nav Links */}
             {showNavLinks && (
               <div className="hidden lg:flex items-center gap-6">
@@ -134,6 +128,12 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
 
             {/* Right Navigation & Actions */}
             <div className="flex items-center gap-4 ml-auto pl-8" style={{ borderLeft: '1px solid rgba(255, 255, 255, 0.1)' }}>
+              {/* Language Selector */}
+              <button className="hidden lg:flex items-center gap-1 text-white hover:text-emerald-300 transition text-sm font-medium">
+                Eng
+                <FiChevronDown size={16} />
+              </button>
+
               <Link href="/auth/login">
                 <div className="flex items-center gap-2 text-white hover:text-emerald-300 transition cursor-pointer">
                   <FiUser size={20} />

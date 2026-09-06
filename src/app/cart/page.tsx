@@ -161,7 +161,7 @@ export default function CartPage() {
           <div className="bg-white rounded-lg shadow-md p-12 text-center">
             <p className="text-xl text-gray-600 mb-6">Your cart is empty</p>
             <button
-              onClick={() => router.push('/products')}
+              onClick={() => router.push('/shop')}
               className="bg-green-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-green-700"
             >
               Continue Shopping

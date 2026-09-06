@@ -7,6 +7,7 @@ import { FiShoppingCart, FiSearch, FiUser, FiChevronDown, FiTruck, FiCheck, FiHe
 import { GiRecycle } from 'react-icons/gi';
 import { BiRecycle } from 'react-icons/bi';
 import { MdSchool } from 'react-icons/md';
+import Navbar from '@/components/Navbar';
 
 export default function Home() {
   const [email, setEmail] = useState('');
@@ -89,7 +90,10 @@ export default function Home() {
           animation: borderGradient 3s ease-in-out infinite;
         }
       `}</style>
-      {/* Top Promo Bar */}
+      <Navbar showNavLinks={true} />
+
+      {/* Top Promo Bar - Old Content Removed, Using Navbar Component */}
+      {/* Rendering below for backward compatibility if needed */}
       <div className="hidden lg:block bg-emerald-600">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex items-center justify-between py-2 text-xs text-white overflow-x-auto">

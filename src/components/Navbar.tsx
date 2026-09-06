@@ -5,7 +5,11 @@ import Link from 'next/link';
 import { FiShoppingCart, FiSearch, FiUser, FiChevronDown, FiTruck, FiCheck, FiHeart, FiHeadphones, FiPhone, FiMail } from 'react-icons/fi';
 import { GiRecycle } from 'react-icons/gi';
 
-export default function Navbar() {
+interface NavbarProps {
+  showNavLinks?: boolean;
+}
+
+export default function Navbar({ showNavLinks = false }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -103,26 +107,28 @@ export default function Navbar() {
             </button>
 
             {/* Nav Links */}
-            <div className="hidden lg:flex items-center gap-6">
-              <Link href="/" className="text-white hover:text-emerald-300 transition text-sm font-medium">
-                Mission
-              </Link>
-              <Link href="/services" className="text-white hover:text-emerald-300 transition text-sm font-medium">
-                Services
-              </Link>
-              <Link href="#" className="text-white hover:text-emerald-300 transition text-sm font-medium">
-                Sale
-              </Link>
-              <Link href="/blog" className="text-white hover:text-emerald-300 transition text-sm font-medium">
-                Blog
-              </Link>
-              <Link href="/about" className="text-white hover:text-emerald-300 transition text-sm font-medium">
-                About Us
-              </Link>
-              <Link href="#" className="text-white hover:text-emerald-300 transition text-sm font-medium">
-                Impact
-              </Link>
-            </div>
+            {showNavLinks && (
+              <div className="hidden lg:flex items-center gap-6">
+                <Link href="/" className="text-white hover:text-emerald-300 transition text-sm font-medium">
+                  Mission
+                </Link>
+                <Link href="/services" className="text-white hover:text-emerald-300 transition text-sm font-medium">
+                  Services
+                </Link>
+                <Link href="#" className="text-white hover:text-emerald-300 transition text-sm font-medium">
+                  Sale
+                </Link>
+                <Link href="/blog" className="text-white hover:text-emerald-300 transition text-sm font-medium">
+                  Blog
+                </Link>
+                <Link href="/about" className="text-white hover:text-emerald-300 transition text-sm font-medium">
+                  About Us
+                </Link>
+                <Link href="#" className="text-white hover:text-emerald-300 transition text-sm font-medium">
+                  Impact
+                </Link>
+              </div>
+            )}
 
             {/* Right Navigation & Actions */}
             <div className="flex items-center gap-4 ml-auto pl-8" style={{ borderLeft: '1px solid rgba(255, 255, 255, 0.1)' }}>

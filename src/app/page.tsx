@@ -107,7 +107,7 @@ export default function Home() {
             {/* Left Content */}
             <div>
               <p className="text-emerald-300 font-light mb-2 text-sm uppercase tracking-wider">Trash to Treasure</p>
-              <h1 className="text-5xl lg:text-6xl font-light text-white mb-4 leading-tight">
+              <h1 className="text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight">
                 From Pollution to
                 <span className="block">
                   <span className="text-emerald-300 italic">Solution</span>

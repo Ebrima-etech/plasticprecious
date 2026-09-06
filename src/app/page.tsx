@@ -259,10 +259,10 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {products.map((product, i) => {
               const dummyImages = [
-                'https://images.unsplash.com/photo-1578500494198-246f612d782b?w=400&h=400&fit=crop',
+                'https://images.unsplash.com/photo-1595428774223-ef52624120d2?w=400&h=400&fit=crop',
                 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=400&fit=crop',
-                'https://images.unsplash.com/photo-1609954229305-6f4ee4583dab?w=400&h=400&fit=crop',
-                'https://images.unsplash.com/photo-1584622614875-2f8151014e20?w=400&h=400&fit=crop',
+                'https://images.unsplash.com/photo-1605600659873-f0df5f893c7b?w=400&h=400&fit=crop',
+                'https://images.unsplash.com/photo-1595277840173-75e14c0f6d93?w=400&h=400&fit=crop',
               ];
               return (
                 <div key={i} className="group cursor-pointer">

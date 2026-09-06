@@ -180,6 +180,9 @@ export default function Home() {
               <Link href="#" className="text-white hover:text-emerald-300 transition text-sm font-medium">
                 About Us
               </Link>
+              <Link href="#" className="text-white hover:text-emerald-300 transition text-sm font-medium">
+                Impact
+              </Link>
             </div>
 
             {/* Right Navigation & Actions */}

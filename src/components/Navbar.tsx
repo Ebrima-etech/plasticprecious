@@ -8,9 +8,10 @@ import { GiRecycle } from 'react-icons/gi';
 interface NavbarProps {
   showNavLinks?: boolean;
   sticky?: boolean;
+  showCategories?: boolean;
 }
 
-export default function Navbar({ showNavLinks = false, sticky = true }: NavbarProps) {
+export default function Navbar({ showNavLinks = false, sticky = true, showCategories = false }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -152,25 +153,27 @@ export default function Navbar({ showNavLinks = false, sticky = true }: NavbarPr
       </nav>
 
       {/* Categories Row */}
-      <div className="bg-emerald-900 flex items-center gap-8 py-2 overflow-x-auto">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full flex items-center gap-8">
-          <a href="/shop" target="_blank" rel="noopener noreferrer" className="text-emerald-400 hover:text-emerald-600 transition text-sm whitespace-nowrap">
-            Collections
-          </a>
-          <a href="/shop" target="_blank" rel="noopener noreferrer" className="text-emerald-400 hover:text-emerald-600 transition text-sm whitespace-nowrap">
-            Custom Products
-          </a>
-          <a href="/shop" target="_blank" rel="noopener noreferrer" className="text-emerald-400 hover:text-emerald-600 transition text-sm whitespace-nowrap">
-            Eco Products
-          </a>
-          <a href="/shop" target="_blank" rel="noopener noreferrer" className="text-emerald-400 hover:text-emerald-600 transition text-sm whitespace-nowrap">
-            Recycled Plastic
-          </a>
-          <a href="/shop" target="_blank" rel="noopener noreferrer" className="text-emerald-400 hover:text-emerald-600 transition text-sm whitespace-nowrap">
-            Sustainable Living
-          </a>
+      {showCategories && (
+        <div className="bg-emerald-900 flex items-center gap-8 py-2 overflow-x-auto">
+          <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full flex items-center gap-8">
+            <a href="/shop" target="_blank" rel="noopener noreferrer" className="text-emerald-400 hover:text-emerald-600 transition text-sm whitespace-nowrap">
+              Collections
+            </a>
+            <a href="/shop" target="_blank" rel="noopener noreferrer" className="text-emerald-400 hover:text-emerald-600 transition text-sm whitespace-nowrap">
+              Custom Products
+            </a>
+            <a href="/shop" target="_blank" rel="noopener noreferrer" className="text-emerald-400 hover:text-emerald-600 transition text-sm whitespace-nowrap">
+              Eco Products
+            </a>
+            <a href="/shop" target="_blank" rel="noopener noreferrer" className="text-emerald-400 hover:text-emerald-600 transition text-sm whitespace-nowrap">
+              Recycled Plastic
+            </a>
+            <a href="/shop" target="_blank" rel="noopener noreferrer" className="text-emerald-400 hover:text-emerald-600 transition text-sm whitespace-nowrap">
+              Sustainable Living
+            </a>
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 }

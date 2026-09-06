@@ -78,7 +78,7 @@ export default function Home() {
               <div className="flex items-center gap-2 bg-blue-900 bg-opacity-60 px-2 py-1">
                 <FiTruck className="text-blue-300 text-lg" />
                 <div>
-                  <div className="text-blue-200 text-xs">Fast & Free</div>
+                  <div className="text-blue-200 text-xs">Fast</div>
                   <div className="font-semibold text-blue-100">Delivery Available</div>
                 </div>
               </div>

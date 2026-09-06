@@ -257,16 +257,23 @@ export default function Home() {
           <h2 className="text-4xl font-bold text-neutral-900 mb-12 text-center">Featured Collections</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {products.map((product, i) => (
-              <div key={i} className="group cursor-pointer">
-                <div className="bg-neutral-200 h-64 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-neutral-300 transition overflow-hidden">
-                  <div className="text-neutral-500 text-sm font-bold">Product Image</div>
+            {products.map((product, i) => {
+              const dummyImages = [
+                'https://images.unsplash.com/photo-1578500494198-246f612d782b?w=400&h=400&fit=crop',
+                'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=400&fit=crop',
+                'https://images.unsplash.com/photo-1609954229305-6f4ee4583dab?w=400&h=400&fit=crop',
+                'https://images.unsplash.com/photo-1584622614875-2f8151014e20?w=400&h=400&fit=crop',
+              ];
+              return (
+                <div key={i} className="group cursor-pointer">
+                  <div className="h-64 rounded-2xl overflow-hidden mb-4 group-hover:opacity-80 transition">
+                    <img src={dummyImages[i]} alt={product.name} className="w-full h-full object-cover" />
+                  </div>
+                  <h3 className="text-lg font-bold text-neutral-900 mb-2">{product.name}</h3>
+                  {product.custom && <p className="text-xs text-emerald-600 font-bold">CUSTOMIZABLE</p>}
                 </div>
-                <h3 className="text-lg font-bold text-neutral-900 mb-2">{product.name}</h3>
-                <p className="text-neutral-600 text-sm font-bold mb-3">{product.price}</p>
-                {product.custom && <p className="text-xs text-emerald-600 mb-3 font-bold">CUSTOMIZABLE</p>}
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>

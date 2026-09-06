@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { getToken } from '@/lib/auth';
-import { HiOutlineSquares2X2, HiOutlineShoppingBag, HiOutlineTag, HiOutlineShoppingCart, HiOutlineCurrencyDollar, HiOutlineTicket, HiOutlineUsers, HiOutlineViewGrids, HiOutlineBell } from 'react-icons/hi2';
+import { HiOutlineSquares2X2, HiOutlineShoppingBag, HiOutlineTag, HiOutlineShoppingCart, HiOutlineCurrencyDollar, HiOutlineTicket, HiOutlineUsers, HiOutlineBell } from 'react-icons/hi2';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -64,7 +64,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <div className="p-6 border-b border-gray-200">
           <Link href="/admin" className="flex items-center gap-2">
             <div className="w-8 h-8 bg-green-600 rounded flex items-center justify-center text-white">
-              <HiOutlineViewGrids className="w-5 h-5" />
+              <HiOutlineSquares2X2 className="w-5 h-5" />
             </div>
             <span className="font-semibold text-sm text-gray-900">Admin Panel</span>
           </Link>

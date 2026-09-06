@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
-import { FiShoppingCart, FiSearch, FiUser, FiChevronDown, FiTruck, FiCheck, FiHeart } from 'react-icons/fi';
+import { FiShoppingCart, FiSearch, FiUser, FiChevronDown, FiTruck, FiCheck, FiHeart, FiHelpCircle } from 'react-icons/fi';
 import { GiRecycle } from 'react-icons/gi';
 import { BiRecycle } from 'react-icons/bi';
 import { MdSchool } from 'react-icons/md';
@@ -120,7 +120,10 @@ export default function Home() {
               </div>
             </div>
             <div className="flex items-center gap-3 ml-auto">
-              <button className="text-white hover:text-gray-200 transition text-xs font-medium">Support</button>
+              <button className="flex items-center gap-1 text-white hover:text-gray-200 transition text-xs font-medium">
+                <FiHelpCircle size={16} />
+                Support
+              </button>
             </div>
           </div>
         </div>

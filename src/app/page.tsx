@@ -3,66 +3,52 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
-import { Card, CardBody } from '@/components/ui/Card';
-import { Badge } from '@/components/ui/Badge';
+import { FiShoppingCart, FiSearch, FiUser, FiChevronDown } from 'react-icons/fi';
+import { GiRecycle } from 'react-icons/gi';
+import { BiRecycle } from 'react-icons/bi';
+import { MdSchool } from 'react-icons/md';
 
 export default function Home() {
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
+  const [carouselIndex, setCarouselIndex] = useState(0);
 
-  const testimonials = [
+  const carouselItems = [
+    { title: 'Premium Recycled Plastic Products', icon: '📦' },
+    { title: 'Eco-Friendly Packaging Solutions', icon: '📦' },
+    { title: 'Sustainable Storage Options', icon: '📦' },
+  ];
+
+  const services = [
     {
-      name: 'John Doe',
-      location: 'New York, USA',
-      text: 'Finally found quality recycled products! Love knowing I\'m helping the environment while getting great products.',
-      rating: 5,
+      icon: GiRecycle,
+      title: 'Collections',
+      description: 'Community-driven plastic collection programs to reduce environmental waste.',
     },
     {
-      name: 'Sarah Smith',
-      location: 'London, UK',
-      text: 'Impressed with the durability of their recycled containers. Great prices and fantastic eco-friendly service.',
-      rating: 5,
+      icon: BiRecycle,
+      title: 'Recycling',
+      description: 'Advanced processing and recycling of plastic waste into quality products.',
     },
     {
-      name: 'Michael Brown',
-      location: 'Toronto, Canada',
-      text: 'This company truly cares about sustainability. My whole family switched to their products. Highly recommend!',
-      rating: 5,
+      icon: MdSchool,
+      title: 'Workshops',
+      description: 'Educational programs and hands-on training in sustainable practices.',
     },
-    {
-      name: 'Emma Wilson',
-      location: 'Sydney, Australia',
-      text: 'Beautiful, sustainable products that actually work better than conventional plastic. Supporting their mission!',
-      rating: 5,
-    },
+  ];
+
+  const impacts = [
+    { metric: 'Environmental', description: 'Tons of plastic diverted from oceans and landfills' },
+    { metric: 'Economic', description: 'Employment created for marginalized communities' },
+    { metric: 'Educational', description: 'Awareness and skills transfer in sustainability' },
+    { metric: 'Health', description: 'Healthier communities through reduced pollution' },
   ];
 
   const products = [
-    { name: 'Recycled Storage Bins', price: 'D 850', stock: 'Only 8 left', badge: 'In Stock' },
-    { name: 'Eco Lunch Container Set', price: 'D 1,200', stock: 'In Stock', badge: 'Popular' },
-    { name: 'Recycled Water Bottle', price: 'D 750', stock: 'Only 12 left', badge: 'Limited' },
-    { name: 'Sustainable Organizers', price: 'D 1,050', stock: 'In Stock', badge: 'Best Seller' },
-  ];
-
-  const categories = [
-    { name: 'Recycled Containers', icon: '♻️', description: 'Durable storage solutions' },
-    { name: 'Kitchenware', icon: '🍴', description: 'Eco-friendly kitchen tools' },
-    { name: 'Storage Solutions', icon: '📦', description: 'Organize sustainably' },
-    { name: 'Eco Accessories', icon: '🌍', description: 'Planet-friendly items' },
-  ];
-
-  const features = [
-    { icon: '♻️', title: '100% Recycled', description: 'Made from recycled plastic, zero waste' },
-    { icon: '🌍', title: 'Eco-Friendly', description: 'Reduce your carbon footprint' },
-    { icon: '🚚', title: 'Sustainable Shipping', description: 'Carbon-neutral delivery' },
-    { icon: '✅', title: 'Quality Assured', description: 'Certified durable products' },
-  ];
-
-  const stats = [
-    { value: '100K+', label: 'Products Sold' },
-    { value: '500+', label: 'Tons Saved' },
-    { value: '50+', label: 'Countries' },
-    { value: '98%', label: 'Satisfaction' },
+    { name: 'Recycled Storage Bins', price: 'D 850', custom: true },
+    { name: 'Eco Lunch Container Set', price: 'D 1,200', custom: false },
+    { name: 'Recycled Water Bottle', price: 'D 750', custom: false },
+    { name: 'Sustainable Organizers', price: 'D 1,050', custom: true },
   ];
 
   const handleSubscribe = (e: React.FormEvent) => {
@@ -79,38 +65,42 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation */}
-      <nav className="sticky top-0 z-50 bg-white border-b border-neutral-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <nav className="sticky top-0 z-50 bg-teal-950 border-b border-teal-800">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <Link href="/" className="text-2xl font-bold text-primary-600 hover:text-primary-700 transition">
-              Plasticprecious
+            {/* Logo */}
+            <Link href="/" className="text-sm font-bold text-white hover:text-emerald-300 transition">
+              PLASTICPRECIOUS
             </Link>
-            <div className="hidden md:flex gap-8 items-center">
-              <Link href="/products" className="text-neutral-600 hover:text-neutral-900 transition font-medium">
-                Products
-              </Link>
-              <a href="#categories" className="text-neutral-600 hover:text-neutral-900 transition font-medium">
-                Categories
-              </a>
-              <Link href="/contact" className="text-neutral-600 hover:text-neutral-900 transition font-medium">
-                Contact
-              </Link>
+
+            {/* Search Bar - Center */}
+            <div className="hidden lg:flex items-center bg-teal-900/50 border border-teal-800 rounded-full px-4 py-2 w-80 mx-8">
+              <FiSearch size={18} className="text-teal-400" />
+              <input
+                type="text"
+                placeholder="Search for products"
+                className="bg-transparent text-white text-sm placeholder-teal-400 ml-3 w-full focus:outline-none"
+              />
             </div>
-            <div className="flex gap-3 items-center">
-              <Link href="/cart">
-                <Button variant="ghost" size="sm">
-                  Cart
-                </Button>
+
+            {/* Right Navigation & Actions */}
+            <div className="flex items-center gap-8">
+              <Link href="#services" className="hidden md:block text-sm font-semibold text-white hover:text-emerald-300 transition">
+                BROWSE PRODUCTS
               </Link>
+              <Button size="sm" className="bg-white hover:bg-neutral-100 text-teal-950 font-semibold text-xs px-6">
+                TALK FIRST
+              </Button>
               <Link href="/auth/login">
-                <Button variant="secondary" size="sm">
-                  Login
-                </Button>
+                <button className="text-white hover:text-emerald-300 transition">
+                  <FiUser size={20} />
+                </button>
               </Link>
-              <Link href="/auth/register">
-                <Button size="sm">
-                  Sign Up
-                </Button>
+              <Link href="/cart">
+                <button className="text-white hover:text-emerald-300 transition relative">
+                  <FiShoppingCart size={20} />
+                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">0</span>
+                </button>
               </Link>
             </div>
           </div>
@@ -118,240 +108,215 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-primary-50 via-white to-primary-100/20 py-20 md:py-32">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <Badge variant="primary" size="base" className="mb-6 inline-block">
-              🌱 Sustainable Living Starts Here
-            </Badge>
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-neutral-900 mb-6 leading-tight">
-              Premium Recycled Plastic Products
-            </h1>
-            <p className="text-xl md:text-2xl text-neutral-600 mb-10 max-w-2xl mx-auto leading-relaxed">
-              Beautifully designed, sustainably made products that prove eco-friendly doesn't mean compromising on quality or style.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/products">
-                <Button size="lg">
-                  Shop Collection
+      <section className="bg-teal-950 py-24 lg:py-32 min-h-screen flex items-center">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Left Content */}
+            <div>
+              <p className="text-emerald-300 font-light mb-4 text-sm uppercase tracking-wider">Trash to Treasure</p>
+              <h1 className="text-6xl lg:text-7xl font-light text-white mb-6 leading-tight">
+                From Pollution to
+                <span className="block">
+                  <span className="text-emerald-300 italic">Solution</span>
+                </span>
+              </h1>
+              <p className="text-lg text-neutral-300 mb-10 font-light leading-relaxed max-w-lg">
+                Transforming plastic waste into valuable, sustainable products while creating positive change for communities and our environment.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 mb-12">
+                <Button size="lg" className="bg-white hover:bg-neutral-100 text-teal-950 font-bold px-10 rounded-full">
+                  Explore Services
                 </Button>
-              </Link>
-              <Link href="/products">
-                <Button variant="secondary" size="lg">
-                  Browse Categories
+                <Button size="lg" variant="ghost" className="border-2 border-white text-white hover:bg-white hover:text-teal-950 font-bold px-10 rounded-full">
+                  Shop Products
                 </Button>
-              </Link>
+              </div>
+
+              {/* Feature Callouts */}
+              <div className="grid grid-cols-2 gap-8">
+                <div>
+                  <p className="text-emerald-300 text-xs font-bold uppercase mb-2">CUSTOM PRODUCTS</p>
+                  <p className="text-white text-sm font-light">For large businesses and complex programs</p>
+                </div>
+                <div>
+                  <p className="text-emerald-300 text-xs font-bold uppercase mb-2">READY PRODUCTS</p>
+                  <p className="text-white text-sm font-light">Customizable, ready-to-buy options</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Product Carousel */}
+            <div className="relative flex flex-col items-center">
+              <div className="relative w-full max-w-md">
+                {/* Main Carousel Container */}
+                <div className="bg-gradient-to-br from-teal-900 to-teal-800 rounded-3xl p-20 h-80 flex flex-col items-center justify-center border border-teal-700/50">
+                  <div className="text-8xl mb-6">{carouselItems[carouselIndex].icon}</div>
+                  <p className="text-white text-2xl font-light text-center">{carouselItems[carouselIndex].title}</p>
+                </div>
+
+                {/* Left Arrow */}
+                <button
+                  onClick={() => setCarouselIndex((carouselIndex - 1 + carouselItems.length) % carouselItems.length)}
+                  className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-8 bg-teal-900/60 hover:bg-teal-900 text-white p-4 rounded-full transition group">
+                  <span className="text-2xl group-hover:text-emerald-300">‹</span>
+                </button>
+
+                {/* Right Arrow */}
+                <button
+                  onClick={() => setCarouselIndex((carouselIndex + 1) % carouselItems.length)}
+                  className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-8 bg-teal-900/60 hover:bg-teal-900 text-white p-4 rounded-full transition group">
+                  <span className="text-2xl group-hover:text-emerald-300">›</span>
+                </button>
+              </div>
+
+              {/* Carousel Dots */}
+              <div className="flex justify-center gap-3 mt-12">
+                {carouselItems.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setCarouselIndex(i)}
+                    className={`w-4 h-4 rounded-full transition ${
+                      i === carouselIndex ? 'bg-emerald-400' : 'bg-teal-700 hover:bg-teal-600'
+                    }`}
+                  ></button>
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Best Sellers */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="mb-16">
-          <Badge variant="info" size="sm" className="mb-4">
-            Most Popular
-          </Badge>
-          <h2 className="text-4xl md:text-5xl font-bold text-neutral-900 mb-4">Best Selling Products</h2>
-          <p className="text-xl text-neutral-600">Our most loved recycled solutions, trusted by thousands worldwide.</p>
-        </div>
+      {/* Featured Products */}
+      <section className="py-20 md:py-28 lg:py-32 bg-white">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <h2 className="text-4xl font-light text-neutral-900 mb-20 text-center">Featured Collections</h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-          {products.map((product, i) => (
-            <Card key={i} hover shadow="base">
-              <div className="bg-gradient-to-br from-primary-100 to-primary-50 h-48 flex items-center justify-center text-5xl rounded-t-lg">
-                📦
-              </div>
-              <CardBody>
-                <div className="flex items-start justify-between mb-3">
-                  <div>
-                    <Badge variant="primary" size="sm">
-                      {product.badge}
-                    </Badge>
-                  </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+            {products.map((product, i) => (
+              <div key={i} className="group cursor-pointer">
+                <div className="bg-neutral-100 h-56 rounded-lg flex items-center justify-center mb-6 group-hover:bg-neutral-200 transition">
+                  <div className="text-neutral-400 text-sm font-light">Product Image</div>
                 </div>
-                <h3 className="font-semibold text-neutral-900 mb-3">{product.name}</h3>
-                <div className="flex items-center justify-between gap-3">
-                  <span className="text-2xl font-bold text-primary-600">{product.price}</span>
-                  <Button size="sm" variant="primary">
-                    Add
-                  </Button>
-                </div>
-              </CardBody>
-            </Card>
-          ))}
-        </div>
-
-        <div className="text-center">
-          <Link href="/products">
-            <Button variant="ghost" size="lg">
-              View All Products →
-            </Button>
-          </Link>
-        </div>
-      </section>
-
-      {/* Features Grid */}
-      <section className="bg-gradient-to-b from-neutral-50 to-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {features.map((feature, i) => (
-              <div key={i} className="text-center group">
-                <div className="text-6xl mb-6 transform group-hover:scale-110 transition-transform duration-normal">
-                  {feature.icon}
-                </div>
-                <h3 className="text-xl font-semibold text-neutral-900 mb-2">{feature.title}</h3>
-                <p className="text-neutral-600 leading-relaxed">{feature.description}</p>
+                <h3 className="text-sm font-medium text-neutral-900 mb-2">{product.name}</h3>
+                <p className="text-neutral-600 text-sm mb-4 font-light">{product.price}</p>
+                {product.custom && <p className="text-xs text-emerald-600 mb-3 font-medium">CUSTOMIZABLE</p>}
+                <Button variant="ghost" size="sm" className="w-full border border-neutral-300 hover:border-neutral-900 text-neutral-900">
+                  View
+                </Button>
               </div>
             ))}
           </div>
-        </div>
-      </section>
 
-      {/* Categories Section */}
-      <section id="categories" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="mb-16">
-          <Badge variant="success" size="sm" className="mb-4">
-            Shop by Category
-          </Badge>
-          <h2 className="text-4xl md:text-5xl font-bold text-neutral-900 mb-4">Find What You Need</h2>
-          <p className="text-xl text-neutral-600">Quality recycled products for every lifestyle and purpose.</p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {categories.map((cat, i) => (
-            <Link key={i} href={`/products?category=${cat.name}`}>
-              <Card hover interactive shadow="sm">
-                <div className="bg-gradient-to-br from-neutral-100 to-primary-50 h-40 flex items-center justify-center text-5xl rounded-t-lg group-hover:scale-110 transition-transform">
-                  {cat.icon}
-                </div>
-                <CardBody>
-                  <h3 className="font-semibold text-lg text-neutral-900 mb-1">{cat.name}</h3>
-                  <p className="text-sm text-neutral-600">{cat.description}</p>
-                </CardBody>
-              </Card>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* Stats Section */}
-      <section className="bg-primary-600 text-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-16">Our Impact</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {stats.map((stat, i) => (
-              <div key={i} className="text-center">
-                <p className="text-5xl md:text-6xl font-bold mb-2">{stat.value}</p>
-                <p className="text-primary-100 text-lg">{stat.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Newsletter */}
-      <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <Card shadow="lg">
-          <CardBody className="text-center py-12">
-            <Badge variant="primary" size="base" className="mb-6 inline-block">
-              💌 Get Exclusive Offers
-            </Badge>
-            <h2 className="text-4xl font-bold text-neutral-900 mb-4">Join Our Community</h2>
-            <p className="text-xl text-neutral-600 mb-8 max-w-xl mx-auto">
-              Get 15% off your first order + exclusive sustainability tips delivered to your inbox.
-            </p>
-
-            <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-              <input
-                type="email"
-                placeholder="your@email.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="flex-1 px-4 py-3 rounded-md border border-neutral-200 focus:outline-none focus:ring-2 focus:ring-primary-500 text-neutral-900"
-                required
-              />
-              <Button type="submit" isLoading={subscribed}>
-                {subscribed ? 'Subscribed!' : 'Subscribe'}
+          <div className="text-center">
+            <Link href="#services">
+              <Button variant="ghost" size="base" className="border border-neutral-300 hover:border-neutral-900 text-neutral-900">
+                View All Products
               </Button>
-            </form>
-            <p className="text-sm text-neutral-500 mt-4">
-              We respect your privacy. Unsubscribe anytime.
-            </p>
-          </CardBody>
-        </Card>
+            </Link>
+          </div>
+        </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="bg-neutral-50 py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-16">
-            <Badge variant="success" size="sm" className="mb-4">
-              Customer Love
-            </Badge>
-            <h2 className="text-4xl md:text-5xl font-bold text-neutral-900 mb-4">What Our Customers Say</h2>
+      {/* Services Section */}
+      <section id="services" className="py-20 md:py-28 lg:py-32 bg-neutral-50">
+        <div className="max-w-6xl mx-auto px-6 lg:px-8">
+          <h2 className="text-4xl font-light text-neutral-900 mb-20 text-center">Our Services</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            {services.map((service, i) => {
+              const IconComponent = service.icon;
+              return (
+                <div key={i} className="text-center">
+                  <div className="text-5xl mb-6 flex justify-center text-emerald-600">
+                    <IconComponent />
+                  </div>
+                  <h3 className="text-xl font-light text-neutral-900 mb-4">{service.title}</h3>
+                  <p className="text-neutral-700 font-light leading-relaxed">{service.description}</p>
+                </div>
+              );
+            })}
           </div>
+        </div>
+      </section>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {testimonials.map((testimonial, i) => (
-              <Card key={i} shadow="sm">
-                <CardBody>
-                  <div className="flex gap-1 mb-4">
-                    {[...Array(testimonial.rating)].map((_, j) => (
-                      <span key={j} className="text-lg">⭐</span>
-                    ))}
-                  </div>
-                  <p className="text-neutral-700 mb-6 leading-relaxed">
-                    "{testimonial.text}"
-                  </p>
-                  <div>
-                    <p className="font-semibold text-neutral-900">{testimonial.name}</p>
-                    <p className="text-sm text-neutral-500">{testimonial.location}</p>
-                  </div>
-                </CardBody>
-              </Card>
+      {/* Impact Section */}
+      <section className="py-20 md:py-28 lg:py-32 bg-white">
+        <div className="max-w-6xl mx-auto px-6 lg:px-8">
+          <h2 className="text-4xl font-light text-neutral-900 mb-20 text-center">Our Impact</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {impacts.map((item, i) => (
+              <div key={i} className="bg-neutral-50 border border-neutral-200 rounded-lg p-8 text-center hover:border-emerald-500 transition">
+                <h3 className="text-2xl font-light text-emerald-600 mb-4">{item.metric}</h3>
+                <p className="text-neutral-700 font-light">{item.description}</p>
+              </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Newsletter Section */}
+      <section className="py-20 md:py-28 lg:py-32 bg-neutral-50">
+        <div className="max-w-2xl mx-auto px-6 lg:px-8 text-center">
+          <h2 className="text-4xl font-light text-neutral-900 mb-8">Stay Updated</h2>
+          <p className="text-neutral-700 font-light mb-10 text-lg">
+            Get updates on new collections and exclusive offers.
+          </p>
+
+          <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto mb-6">
+            <input
+              type="email"
+              placeholder="your@email.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="flex-1 px-4 py-3 bg-white border border-neutral-300 text-neutral-900 text-sm font-light placeholder-neutral-400 focus:outline-none focus:border-emerald-600 rounded"
+              required
+            />
+            <Button type="submit" isLoading={subscribed} className="px-6 bg-emerald-600 hover:bg-emerald-700 text-white">
+              {subscribed ? 'Subscribed' : 'Subscribe'}
+            </Button>
+          </form>
+          <p className="text-xs text-neutral-500">We respect your privacy.</p>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-neutral-900 text-neutral-400 py-16 border-t border-neutral-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+      <footer className="border-t border-neutral-200 bg-white py-20 md:py-24">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-16 mb-16">
             <div>
-              <h5 className="text-white font-semibold text-lg mb-4">About</h5>
-              <p className="text-sm leading-relaxed">
-                Leading recycled plastic products company dedicated to sustainability and eco-friendly solutions worldwide.
-              </p>
-            </div>
-            <div>
-              <h5 className="text-white font-semibold text-lg mb-4">Shop</h5>
-              <ul className="text-sm space-y-2">
-                <li><Link href="/products" className="hover:text-white transition">All Products</Link></li>
-                <li><Link href="/products" className="hover:text-white transition">New Arrivals</Link></li>
-                <li><Link href="/products" className="hover:text-white transition">Best Sellers</Link></li>
+              <h5 className="font-light text-neutral-900 mb-6 text-sm tracking-wide">Shop</h5>
+              <ul className="text-sm space-y-3 text-neutral-700 font-light">
+                <li><Link href="#" className="hover:text-emerald-600 transition">All Products</Link></li>
+                <li><Link href="#" className="hover:text-emerald-600 transition">Custom Products</Link></li>
+                <li><Link href="#" className="hover:text-emerald-600 transition">Collections</Link></li>
               </ul>
             </div>
             <div>
-              <h5 className="text-white font-semibold text-lg mb-4">Support</h5>
-              <ul className="text-sm space-y-2">
-                <li><Link href="/contact" className="hover:text-white transition">Contact</Link></li>
-                <li><a href="#" className="hover:text-white transition">FAQ</a></li>
-                <li><a href="#" className="hover:text-white transition">Shipping</a></li>
+              <h5 className="font-light text-neutral-900 mb-6 text-sm tracking-wide">Services</h5>
+              <ul className="text-sm space-y-3 text-neutral-700 font-light">
+                <li><Link href="#services" className="hover:text-emerald-600 transition">Collections</Link></li>
+                <li><Link href="#services" className="hover:text-emerald-600 transition">Recycling</Link></li>
+                <li><Link href="#services" className="hover:text-emerald-600 transition">Workshops</Link></li>
               </ul>
             </div>
             <div>
-              <h5 className="text-white font-semibold text-lg mb-4">Legal</h5>
-              <ul className="text-sm space-y-2">
-                <li><a href="#" className="hover:text-white transition">Privacy</a></li>
-                <li><a href="#" className="hover:text-white transition">Terms</a></li>
-                <li><a href="#" className="hover:text-white transition">Returns</a></li>
+              <h5 className="font-light text-neutral-900 mb-6 text-sm tracking-wide">Company</h5>
+              <ul className="text-sm space-y-3 text-neutral-700 font-light">
+                <li><a href="#" className="hover:text-emerald-600 transition">About</a></li>
+                <li><a href="#" className="hover:text-emerald-600 transition">Blog</a></li>
+                <li><a href="#" className="hover:text-emerald-600 transition">Partnerships</a></li>
+              </ul>
+            </div>
+            <div>
+              <h5 className="font-light text-neutral-900 mb-6 text-sm tracking-wide">Connect</h5>
+              <ul className="text-sm space-y-3 text-neutral-700 font-light">
+                <li><Link href="/contact" className="hover:text-emerald-600 transition">Contact</Link></li>
+                <li><a href="#" className="hover:text-emerald-600 transition">Privacy</a></li>
+                <li><a href="#" className="hover:text-emerald-600 transition">Terms</a></li>
               </ul>
             </div>
           </div>
 
-          <div className="border-t border-neutral-800 pt-8 text-center text-sm">
+          <div className="border-t border-neutral-200 pt-12 text-center text-sm text-neutral-500 font-light">
             <p>&copy; 2026 Plasticprecious. All rights reserved.</p>
           </div>
         </div>

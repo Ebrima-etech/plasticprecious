@@ -147,21 +147,21 @@ export default function Navbar() {
       {/* Categories Row */}
       <div className="bg-emerald-900 flex items-center gap-8 py-2 overflow-x-auto">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full flex items-center gap-8">
-          <Link href="/shop" className="text-emerald-400 hover:text-emerald-600 transition text-sm whitespace-nowrap">
+          <a href="/shop" target="_blank" rel="noopener noreferrer" className="text-emerald-400 hover:text-emerald-600 transition text-sm whitespace-nowrap">
             Collections
-          </Link>
-          <Link href="/shop" className="text-emerald-400 hover:text-emerald-600 transition text-sm whitespace-nowrap">
+          </a>
+          <a href="/shop" target="_blank" rel="noopener noreferrer" className="text-emerald-400 hover:text-emerald-600 transition text-sm whitespace-nowrap">
             Custom Products
-          </Link>
-          <Link href="/shop" className="text-emerald-400 hover:text-emerald-600 transition text-sm whitespace-nowrap">
+          </a>
+          <a href="/shop" target="_blank" rel="noopener noreferrer" className="text-emerald-400 hover:text-emerald-600 transition text-sm whitespace-nowrap">
             Eco Products
-          </Link>
-          <Link href="/shop" className="text-emerald-400 hover:text-emerald-600 transition text-sm whitespace-nowrap">
+          </a>
+          <a href="/shop" target="_blank" rel="noopener noreferrer" className="text-emerald-400 hover:text-emerald-600 transition text-sm whitespace-nowrap">
             Recycled Plastic
-          </Link>
-          <Link href="/shop" className="text-emerald-400 hover:text-emerald-600 transition text-sm whitespace-nowrap">
+          </a>
+          <a href="/shop" target="_blank" rel="noopener noreferrer" className="text-emerald-400 hover:text-emerald-600 transition text-sm whitespace-nowrap">
             Sustainable Living
-          </Link>
+          </a>
         </div>
       </div>
     </>

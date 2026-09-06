@@ -8,9 +8,9 @@ export default function Footer() {
           <div>
             <h5 className="font-bold text-neutral-900 mb-4 text-sm uppercase tracking-wide">Shop</h5>
             <ul className="text-sm space-y-2 text-neutral-700 font-bold">
-              <li><Link href="/shop" className="hover:text-emerald-600 transition">All Products</Link></li>
-              <li><Link href="/shop" className="hover:text-emerald-600 transition">Custom Products</Link></li>
-              <li><Link href="/shop" className="hover:text-emerald-600 transition">Collections</Link></li>
+              <li><a href="/shop" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-600 transition">All Products</a></li>
+              <li><a href="/shop" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-600 transition">Custom Products</a></li>
+              <li><a href="/shop" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-600 transition">Collections</a></li>
             </ul>
           </div>
           <div>

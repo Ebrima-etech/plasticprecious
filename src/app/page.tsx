@@ -255,9 +255,9 @@ export default function Home() {
                 <Link href="/services" className="bg-white hover:bg-emerald-50 text-emerald-600 font-bold px-10 py-3 transition text-lg rounded-full inline-block text-center">
                   Explore Services
                 </Link>
-                <Link href="/shop" className="border-2 border-white text-white hover:bg-white hover:text-emerald-600 font-bold px-10 py-3 transition text-lg bg-transparent rounded-full inline-block text-center">
+                <a href="/shop" target="_blank" rel="noopener noreferrer" className="border-2 border-white text-white hover:bg-white hover:text-emerald-600 font-bold px-10 py-3 transition text-lg bg-transparent rounded-full inline-block text-center">
                   Shop Products
-                </Link>
+                </a>
               </div>
 
               {/* Feature Callouts */}

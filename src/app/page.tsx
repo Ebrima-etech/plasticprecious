@@ -223,6 +223,21 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Impact Section */}
+      <section className="py-20 md:py-28 lg:py-32 bg-white">
+        <div className="max-w-6xl mx-auto px-6 lg:px-8">
+          <h2 className="text-4xl font-light text-neutral-900 mb-20 text-center">Our Impact</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {impacts.map((item, i) => (
+              <div key={i} className="bg-neutral-50 border border-neutral-200 rounded-lg p-8 text-center hover:border-emerald-500 transition">
+                <h3 className="text-2xl font-light text-emerald-600 mb-4">{item.metric}</h3>
+                <p className="text-neutral-700 font-light">{item.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Featured Products */}
       <section className="py-20 md:py-28 lg:py-32 bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -271,21 +286,6 @@ export default function Home() {
                 </div>
               );
             })}
-          </div>
-        </div>
-      </section>
-
-      {/* Impact Section */}
-      <section className="py-20 md:py-28 lg:py-32 bg-white">
-        <div className="max-w-6xl mx-auto px-6 lg:px-8">
-          <h2 className="text-4xl font-light text-neutral-900 mb-20 text-center">Our Impact</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {impacts.map((item, i) => (
-              <div key={i} className="bg-neutral-50 border border-neutral-200 rounded-lg p-8 text-center hover:border-emerald-500 transition">
-                <h3 className="text-2xl font-light text-emerald-600 mb-4">{item.metric}</h3>
-                <p className="text-neutral-700 font-light">{item.description}</p>
-              </div>
-            ))}
           </div>
         </div>
       </section>

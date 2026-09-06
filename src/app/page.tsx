@@ -252,7 +252,7 @@ export default function Home() {
       </section>
 
       {/* Partners Section */}
-      <section className="py-8 md:py-12 lg:py-16 pt-px bg-white">
+      <section className="pt-0 pb-8 md:pb-12 lg:pb-16 bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
             {[

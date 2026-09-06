@@ -172,7 +172,7 @@ export default function Home() {
           </div>
 
           {/* Categories Row */}
-          <div className="flex items-center gap-8 py-3" style={{ borderTop: '0.75px solid rgba(255, 255, 255, 0.38)' }}>
+          <div className="flex items-center gap-8 py-3">
             <Link href="#" className="text-white hover:text-emerald-300 transition text-sm">
               Collections
             </Link>

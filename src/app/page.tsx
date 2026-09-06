@@ -57,35 +57,51 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Navigation */}
-      <nav className="sticky top-0 z-50 bg-white border-b border-neutral-200">
+      {/* Navigation - Dark Teal/Forest Green EcoEnclose Style */}
+      <nav className="sticky top-0 z-50 bg-gradient-to-r from-teal-900 to-teal-800 border-b border-teal-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16 gap-4">
-            <Link href="/" className="text-lg sm:text-2xl font-bold text-primary-600 whitespace-nowrap">
+            <Link href="/" className="text-lg sm:text-2xl font-bold text-teal-100 whitespace-nowrap">
               PLASTICPRECIOUS
             </Link>
 
             {/* Search Bar */}
-            <div className="hidden lg:flex flex-1 max-w-xs">
-              <input
-                type="text"
-                placeholder="Search products..."
-                className="w-full px-3 py-2 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-600"
-              />
+            <div className="hidden lg:flex flex-1 max-w-sm ml-6">
+              <div className="relative w-full">
+                <input
+                  type="text"
+                  placeholder="Search for products"
+                  className="w-full px-4 py-2 bg-teal-800/50 border border-teal-600 rounded-full text-sm text-white placeholder-teal-300 focus:outline-none focus:ring-2 focus:ring-teal-400"
+                />
+                <button className="absolute right-3 top-2.5 text-teal-300 hover:text-teal-100">
+                  🔍
+                </button>
+              </div>
             </div>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex gap-6 text-sm">
-              <Link href="/products" className="text-neutral-700 hover:text-primary-600 transition font-medium">SHOP</Link>
-              <Link href="/industry" className="text-neutral-700 hover:text-primary-600 transition font-medium">BY INDUSTRY</Link>
-              <Link href="/resources" className="text-neutral-700 hover:text-primary-600 transition font-medium">LEARN</Link>
-              <Link href="/enterprise" className="text-neutral-700 hover:text-primary-600 transition font-medium">ENTERPRISE</Link>
+            <div className="hidden md:flex gap-8 text-sm">
+              <div className="relative group">
+                <button className="text-teal-100 hover:text-white transition font-semibold flex items-center gap-1">
+                  BROWSE PRODUCTS
+                  <span className="text-xs">▼</span>
+                </button>
+              </div>
+              <Link href="/enterprise" className="text-teal-100 hover:text-white transition font-semibold">
+                ENTERPRISE SCALE
+              </Link>
+              <div className="relative group">
+                <button className="text-teal-100 hover:text-white transition font-semibold flex items-center gap-1">
+                  LEARN
+                  <span className="text-xs">▼</span>
+                </button>
+              </div>
             </div>
 
             {/* Hamburger Menu */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 hover:bg-neutral-100 rounded-lg transition"
+              className="md:hidden p-2 hover:bg-teal-700/50 rounded-lg transition text-teal-100"
             >
               {mobileMenuOpen ? (
                 <FiX className="w-6 h-6" />
@@ -94,33 +110,40 @@ export default function Home() {
               )}
             </button>
 
-            {/* Desktop Buttons */}
+            {/* Desktop CTAs - Prominent Buttons */}
             <div className="hidden md:flex gap-3 items-center">
+              <Link href="/samples">
+                <button className="px-6 py-2 rounded-full border-2 border-teal-100 text-teal-100 hover:bg-teal-100 hover:text-teal-900 transition font-bold text-sm">
+                  FREE SAMPLES
+                </button>
+              </Link>
+              <Link href="/contact">
+                <button className="px-6 py-2 rounded-full bg-teal-100 text-teal-900 hover:bg-white transition font-bold text-sm">
+                  TALK FIRST
+                </button>
+              </Link>
+              <Link href="/auth/login" className="ml-2">
+                <button className="p-2 text-teal-100 hover:text-white transition">
+                  👤
+                </button>
+              </Link>
               <Link href="/cart">
-                <Button variant="ghost" size="sm">
+                <button className="p-2 text-teal-100 hover:text-white transition relative">
                   <FiShoppingCart className="w-5 h-5" />
-                </Button>
-              </Link>
-              <Link href="/auth/login">
-                <Button variant="secondary" size="sm">
-                  <FiLogIn className="w-4 h-4 mr-1" />
-                  LOGIN
-                </Button>
-              </Link>
-              <Link href="/auth/register">
-                <Button size="sm">SIGN UP</Button>
+                  <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">0</span>
+                </button>
               </Link>
             </div>
 
             {/* Mobile Buttons */}
             <div className="md:hidden flex gap-2 items-center">
               <Link href="/cart">
-                <Button variant="ghost" size="sm">
+                <Button variant="ghost" size="sm" className="text-teal-100">
                   <FiShoppingCart className="w-5 h-5" />
                 </Button>
               </Link>
               <Link href="/auth/login">
-                <Button variant="secondary" size="sm">
+                <Button variant="ghost" size="sm" className="text-teal-100">
                   <FiLogIn className="w-4 h-4" />
                 </Button>
               </Link>
@@ -142,34 +165,52 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* HERO: Dual-Path CTA (EcoEnclose Pattern) */}
-      <section className="bg-gradient-to-br from-primary-900 via-primary-800 to-primary-700 text-white py-20 md:py-32">
+      {/* HERO: EcoEnclose-style with dark teal background */}
+      <section className="bg-gradient-to-br from-teal-900 via-teal-800 to-teal-700 text-white py-20 md:py-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div>
-              <p className="text-primary-200 font-semibold mb-4">PREMIUM RECYCLED PLASTIC</p>
-              <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
-                Sustainable Plastic, Solved
+              <h1 className="text-5xl md:text-7xl font-bold mb-4 leading-tight font-serif">
+                Sustainable plastic,
+                <br />
+                <span className="text-teal-200 font-normal italic">solved</span>
               </h1>
-              <p className="text-xl text-primary-100 mb-8 leading-relaxed">
+              <p className="text-xl text-teal-100 mb-10 leading-relaxed font-light">
                 Eco-friendly recycled plastic products designed to match your brand, your business, and your budget without compromise.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link href="/enterprise">
-                  <Button size="lg" className="w-full sm:w-auto bg-white text-primary-600 hover:bg-primary-50">
-                    WORK WITH US
-                  </Button>
+                  <button className="px-8 py-3 rounded-full bg-white text-teal-900 hover:bg-teal-50 transition font-bold">
+                    Work with us
+                  </button>
                 </Link>
                 <Link href="/products">
-                  <Button size="lg" variant="secondary" className="w-full sm:w-auto border-white text-white hover:bg-primary-700">
-                    SHOP NOW
-                  </Button>
+                  <button className="px-8 py-3 rounded-full border-2 border-white text-white hover:bg-teal-700/50 transition font-bold">
+                    Shop now
+                  </button>
                 </Link>
               </div>
+              <div className="grid grid-cols-2 gap-8 mt-12">
+                <div>
+                  <p className="text-teal-300 text-sm font-semibold">CUSTOM QUOTING</p>
+                  <p className="text-teal-100 text-xs mt-1">For large businesses and complex programs</p>
+                </div>
+                <div>
+                  <p className="text-teal-300 text-sm font-semibold">READY-TO-BUY</p>
+                  <p className="text-teal-100 text-xs mt-1">Customizable, ready-to-ship options</p>
+                </div>
+              </div>
             </div>
-            <div className="hidden md:block">
-              <div className="bg-gradient-to-br from-primary-100/20 to-primary-50/10 rounded-2xl p-12 backdrop-blur">
-                <div className="text-9xl text-center opacity-30">♻️</div>
+            <div className="hidden md:flex justify-center items-center">
+              <div className="relative w-full max-w-md h-96 bg-gradient-to-br from-teal-800/30 to-teal-700/30 rounded-2xl overflow-hidden flex items-center justify-center backdrop-blur-sm">
+                <div className="text-center">
+                  <p className="text-8xl mb-4">♻️</p>
+                  <p className="text-teal-200 font-light">Premium Recycled</p>
+                  <p className="text-teal-200 font-light">Plastic Products</p>
+                </div>
+                {/* Carousel arrows would go here */}
+                <button className="absolute left-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white text-2xl">‹</button>
+                <button className="absolute right-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white text-2xl">›</button>
               </div>
             </div>
           </div>

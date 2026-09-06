@@ -66,7 +66,7 @@ export default function Home() {
       {/* Top Promo Bar */}
       <div className="sticky top-0 z-50 bg-slate-950 border-b border-neutral-800">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex items-center justify-between py-1 text-xs text-white overflow-x-auto">
+          <div className="flex items-center justify-between py-2 text-xs text-white overflow-x-auto">
             <div className="flex items-center gap-3 whitespace-nowrap">
               <div className="flex items-center gap-2 bg-emerald-900 bg-opacity-60 px-2 py-1">
                 <GiRecycle className="text-emerald-300 text-lg" />

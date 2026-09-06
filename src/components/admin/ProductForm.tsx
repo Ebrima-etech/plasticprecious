@@ -28,9 +28,10 @@ export default function ProductForm({ productId }: ProductFormProps) {
     price: '',
     stock: '',
     category: '',
-    image: '',
     is_active: true,
   });
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string>('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [isLoadingForm, setIsLoadingForm] = useState(!!productId);
@@ -65,9 +66,11 @@ export default function ProductForm({ productId }: ProductFormProps) {
             price: prodRes.data.price,
             stock: prodRes.data.stock,
             category: prodRes.data.category,
-            image: prodRes.data.image || '',
             is_active: prodRes.data.is_active,
           });
+          if (prodRes.data.image) {
+            setImagePreview(prodRes.data.image);
+          }
         }
       } catch (err) {
         setError('Failed to load form data');
@@ -82,10 +85,22 @@ export default function ProductForm({ productId }: ProductFormProps) {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target as any;
-    setFormData({
-      ...formData,
-      [name]: type === 'checkbox' ? (e.target as any).checked : value,
-    });
+    if (name === 'image' && type === 'file') {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (file) {
+        setImageFile(file);
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setImagePreview(reader.result as string);
+        };
+        reader.readAsDataURL(file);
+      }
+    } else {
+      setFormData({
+        ...formData,
+        [name]: type === 'checkbox' ? (e.target as any).checked : value,
+      });
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -97,19 +112,26 @@ export default function ProductForm({ productId }: ProductFormProps) {
       const token = getToken();
       const headers = { Authorization: `Bearer ${token}` };
 
-      const submitData: any = {
-        ...formData,
-        category: parseInt(formData.category),
-      };
+      const submitFormData = new FormData();
+      submitFormData.append('name', formData.name);
+      submitFormData.append('description', formData.description);
+      submitFormData.append('price', formData.price);
+      submitFormData.append('stock', formData.stock);
+      submitFormData.append('category', formData.category);
+      submitFormData.append('is_active', String(formData.is_active));
 
-      if (!submitData.image) {
-        delete submitData.image;
+      if (imageFile) {
+        submitFormData.append('image', imageFile);
       }
 
       if (productId) {
-        await axios.put(`${API_BASE_URL}/products/${productId}/`, submitData, { headers });
+        await axios.put(`${API_BASE_URL}/products/${productId}/`, submitFormData, {
+          headers: { ...headers, 'Content-Type': 'multipart/form-data' },
+        });
       } else {
-        await axios.post(`${API_BASE_URL}/products/`, submitData, { headers });
+        await axios.post(`${API_BASE_URL}/products/`, submitFormData, {
+          headers: { ...headers, 'Content-Type': 'multipart/form-data' },
+        });
       }
 
       router.push('/admin/products');
@@ -219,14 +241,28 @@ export default function ProductForm({ productId }: ProductFormProps) {
             </select>
           </div>
 
-          <Input
-            label="Image URL"
-            name="image"
-            type="url"
-            value={formData.image}
-            onChange={handleChange}
-            placeholder="https://example.com/image.jpg"
-          />
+          <div>
+            <label className="block text-sm font-medium text-neutral-700 mb-2">
+              Product Image
+            </label>
+            <input
+              type="file"
+              name="image"
+              accept="image/*"
+              onChange={handleChange}
+              className="w-full px-4 py-2.5 border border-neutral-200 rounded-md font-normal text-neutral-900 transition-all duration-normal focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+            />
+            {imagePreview && (
+              <div className="mt-4">
+                <p className="text-sm font-medium text-neutral-700 mb-2">Preview:</p>
+                <img
+                  src={imagePreview}
+                  alt="Preview"
+                  className="max-w-xs h-auto rounded-lg border border-neutral-200"
+                />
+              </div>
+            )}
+          </div>
 
           <label className="flex items-center gap-3 cursor-pointer">
             <input

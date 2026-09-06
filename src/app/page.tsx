@@ -66,14 +66,14 @@ export default function Home() {
       {/* Navigation */}
       <nav className="sticky top-0 z-50 bg-teal-950 border-b border-teal-800">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
+          <div className="flex items-center gap-4 h-16">
             {/* Logo */}
             <Link href="/" className="text-xl font-bold text-emerald-300 hover:text-emerald-200 transition">
               PLASTICPRECIOUS
             </Link>
 
-            {/* Search Bar - Center */}
-            <div className="hidden lg:flex max-w-lg items-center bg-white border-0 px-4 py-2 ml-4 rounded-full">
+            {/* Search Bar */}
+            <div className="hidden lg:flex max-w-lg items-center bg-white border-0 px-4 py-2 rounded-full">
               <FiSearch size={18} className="text-teal-900" />
               <input
                 type="text"
@@ -83,7 +83,7 @@ export default function Home() {
             </div>
 
             {/* Right Navigation & Actions */}
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-6 ml-auto">
               <Link href="/auth/login">
                 <button className="text-white hover:text-emerald-300 transition">
                   <FiUser size={20} />

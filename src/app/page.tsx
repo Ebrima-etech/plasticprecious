@@ -252,7 +252,7 @@ export default function Home() {
       </section>
 
       {/* Partners Section */}
-      <section className="pt-0 pb-8 md:pb-12 lg:pb-16 bg-white">
+      <section className="pt-0 pb-3 md:pb-4 lg:pb-6 bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
             {[
@@ -271,7 +271,7 @@ export default function Home() {
       </section>
 
       {/* Featured Collections */}
-      <section className="py-12 md:py-16 lg:py-20 bg-white">
+      <section className="pt-3 md:pt-4 lg:pt-6 pb-12 md:pb-16 lg:pb-20 bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <h2 className="text-4xl font-bold text-neutral-900 mb-12 text-center">Featured Collections</h2>
 
@@ -299,14 +299,14 @@ export default function Home() {
       </section>
 
       {/* Impact Section */}
-      <section className="py-6 md:py-8 lg:py-10 bg-white">
-        <div className="max-w-6xl mx-auto px-6 lg:px-8">
-          <h2 className="text-4xl font-light text-neutral-900 mb-12 text-center">Our Impact</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <section className="pt-3 md:pt-4 lg:pt-6 pb-12 md:pb-16 lg:pb-20 bg-white">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <h2 className="text-4xl font-bold text-neutral-900 mb-12 text-center">Our Impact</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {impacts.map((item, i) => (
-              <div key={i} className="bg-neutral-50 border border-neutral-200 rounded-lg p-8 text-center hover:border-emerald-500 transition">
-                <h3 className="text-2xl font-light text-emerald-600 mb-4">{item.metric}</h3>
-                <p className="text-neutral-700 font-light">{item.description}</p>
+              <div key={i} className="text-center">
+                <h3 className="text-2xl font-bold text-emerald-600 mb-3">{item.metric}</h3>
+                <p className="text-neutral-700 font-bold text-sm">{item.description}</p>
               </div>
             ))}
           </div>

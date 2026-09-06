@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
-import { FiShoppingCart, FiSearch, FiUser, FiChevronDown, FiTruck, FiCheck, FiHeart, FiHeadphones } from 'react-icons/fi';
+import { FiShoppingCart, FiSearch, FiUser, FiChevronDown, FiTruck, FiCheck, FiHeart, FiHeadphones, FiPhone } from 'react-icons/fi';
 import { GiRecycle } from 'react-icons/gi';
 import { BiRecycle } from 'react-icons/bi';
 import { MdSchool } from 'react-icons/md';
@@ -120,7 +120,8 @@ export default function Home() {
               </div>
             </div>
             <div className="flex items-center gap-6 ml-auto">
-              <a href="tel:+220872518185" className="text-white hover:text-gray-200 transition text-xs font-medium">
+              <a href="tel:+220872518185" className="flex items-center gap-1 text-white hover:text-gray-200 transition text-xs font-medium">
+                <FiPhone size={16} />
                 +220 872518185
               </a>
               <button className="flex items-center gap-1 text-white hover:text-gray-200 transition text-xs font-medium">

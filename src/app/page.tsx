@@ -181,7 +181,7 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section className="bg-emerald-600 py-6 lg:py-8 flex items-center">
+      <section className="bg-emerald-600 py-6 lg:py-8 pb-0 flex items-center">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-center">
             {/* Left Content */}
@@ -252,7 +252,7 @@ export default function Home() {
       </section>
 
       {/* Partners Section */}
-      <section className="py-8 md:py-12 lg:py-16 bg-white">
+      <section className="py-8 md:py-12 lg:py-16 pt-px bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
             {[

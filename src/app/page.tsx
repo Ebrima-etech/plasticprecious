@@ -139,13 +139,13 @@ export default function Home() {
 
           {/* Categories Row */}
           <div className="hidden lg:flex items-center gap-8 py-3 border-t border-teal-800">
-            <Link href="#" className="text-white hover:text-emerald-300 transition font-bold text-base">
+            <Link href="#" className="text-white hover:text-emerald-300 transition text-sm">
               Collections
             </Link>
-            <Link href="#" className="text-white hover:text-emerald-300 transition font-bold text-base">
+            <Link href="#" className="text-white hover:text-emerald-300 transition text-sm">
               Custom Products
             </Link>
-            <Link href="#" className="text-white hover:text-emerald-300 transition font-bold text-base">
+            <Link href="#" className="text-white hover:text-emerald-300 transition text-sm">
               Sale
             </Link>
           </div>

@@ -80,7 +80,19 @@ export default function Home() {
       try {
         const response = await axios.get(`${API_BASE_URL}/products/`);
         const fetchedProducts = response.data.results || response.data || [];
-        setProducts(fetchedProducts.slice(0, 4));
+        const productsToDisplay = fetchedProducts.slice(0, 4);
+
+        // Debug: Log product data to check image field
+        console.log('Fetched products:', productsToDisplay);
+        productsToDisplay.forEach((p: Product, idx: number) => {
+          console.log(`Product ${idx}:`, {
+            name: p.name,
+            image: p.image,
+            hasImage: !!p.image
+          });
+        });
+
+        setProducts(productsToDisplay);
       } catch (error) {
         console.error('Failed to fetch products:', error);
       }
@@ -224,12 +236,24 @@ export default function Home() {
                 return (
                   <Link key={product.id} href={`/shop/${product.id}`}>
                     <div className="group cursor-pointer h-full bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 flex flex-col">
-                      <div className="relative h-64 overflow-hidden bg-gray-200">
-                        <img
-                          src={product.image || dummyImages[i % dummyImages.length]}
-                          alt={product.name}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
+                      <div className="relative h-64 overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">
+                        {product.image ? (
+                          <img
+                            src={product.image}
+                            alt={product.name}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            onError={(e) => {
+                              console.warn(`Image failed to load for product ${product.id}:`, product.image);
+                              (e.target as HTMLImageElement).src = dummyImages[i % dummyImages.length];
+                            }}
+                          />
+                        ) : (
+                          <img
+                            src={dummyImages[i % dummyImages.length]}
+                            alt={product.name}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          />
+                        )}
                       </div>
                       <div className="p-4 flex flex-col flex-grow">
                         <h3 className="text-lg font-bold text-neutral-900 mb-2 group-hover:text-emerald-600 transition">{product.name}</h3>

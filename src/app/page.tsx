@@ -96,6 +96,7 @@ export default function Home() {
       {/* Navigation */}
       <nav className="bg-teal-950 border-b border-teal-800">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          {/* Main Nav Row */}
           <div className="flex items-center gap-4 h-16">
             {/* Logo */}
             <Link href="/" className="text-xl font-bold text-emerald-300 hover:text-emerald-200 transition">
@@ -134,6 +135,19 @@ export default function Home() {
                 </div>
               </Link>
             </div>
+          </div>
+
+          {/* Categories Row */}
+          <div className="hidden lg:flex items-center gap-8 py-3 border-t border-teal-800">
+            <Link href="#" className="text-white hover:text-emerald-300 transition font-bold text-base">
+              Collections
+            </Link>
+            <Link href="#" className="text-white hover:text-emerald-300 transition font-bold text-base">
+              Custom Products
+            </Link>
+            <Link href="#" className="text-white hover:text-emerald-300 transition font-bold text-base">
+              Sale
+            </Link>
           </div>
         </div>
       </nav>

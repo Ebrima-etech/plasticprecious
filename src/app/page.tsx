@@ -83,29 +83,29 @@ export default function Home() {
       <div className="hidden lg:block sticky top-0 z-50 bg-emerald-900 border-t-2 border-emerald-500 animated-border">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex items-center justify-between py-2 text-xs text-white overflow-x-auto">
-            <div className="flex items-center gap-3 whitespace-nowrap">
-              <div className="flex items-center gap-2 bg-emerald-900 bg-opacity-60 px-2 py-1">
+            <div className="flex items-center gap-6 whitespace-nowrap">
+              <div className="flex items-center gap-2">
                 <GiRecycle className="text-emerald-300 text-lg" />
                 <div>
                   <div className="text-emerald-200 text-xs">Eco-Friendly</div>
                   <div className="font-semibold text-emerald-100">Premium Products</div>
                 </div>
               </div>
-              <div className="flex items-center gap-2 bg-blue-900 bg-opacity-60 px-2 py-1">
+              <div className="flex items-center gap-2">
                 <FiTruck className="text-blue-300 text-lg" />
                 <div>
                   <div className="text-blue-200 text-xs">Fast</div>
                   <div className="font-semibold text-blue-100">Delivery Available</div>
                 </div>
               </div>
-              <div className="flex items-center gap-2 bg-purple-900 bg-opacity-60 px-2 py-1">
+              <div className="flex items-center gap-2">
                 <FiCheck className="text-purple-300 text-lg" />
                 <div>
                   <div className="text-purple-200 text-xs">100% Certified</div>
                   <div className="font-semibold text-purple-100">Sustainable</div>
                 </div>
               </div>
-              <div className="flex items-center gap-2 bg-red-900 bg-opacity-60 px-2 py-1">
+              <div className="flex items-center gap-2">
                 <FiHeart className="text-red-300 text-lg" />
                 <div>
                   <div className="text-red-200 text-xs">Supporting</div>

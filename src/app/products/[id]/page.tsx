@@ -10,6 +10,7 @@ import { Card, CardBody } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { Spinner } from '@/components/ui/Spinner';
 import { API_BASE_URL } from '@/config/api';
+import Navbar from '@/components/Navbar';
 
 interface Product {
   id: number;
@@ -70,13 +71,7 @@ export default function ProductDetailPage() {
   if (!product) {
     return (
       <div className="min-h-screen bg-white">
-        <nav className="sticky top-0 z-50 bg-white border-b border-neutral-200">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center">
-            <Link href="/" className="text-lg sm:text-2xl font-bold text-primary-600">
-              PLASTICPRECIOUS
-            </Link>
-          </div>
-        </nav>
+        <Navbar />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
           <h1 className="text-2xl font-bold text-neutral-900 mb-4">Product Not Found</h1>
           <Link href="/products">
@@ -91,29 +86,7 @@ export default function ProductDetailPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Navigation */}
-      <nav className="sticky top-0 z-50 bg-white border-b border-neutral-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <Link href="/" className="text-lg sm:text-2xl font-bold text-primary-600">
-              PLASTICPRECIOUS
-            </Link>
-            <div className="flex gap-3">
-              <Link href="/cart">
-                <Button variant="ghost" size="sm">
-                  <FiShoppingCart className="w-5 h-5" />
-                </Button>
-              </Link>
-              <Link href="/auth/login">
-                <Button variant="secondary" size="sm">
-                  <FiLogIn className="w-4 h-4 mr-1" />
-                  LOGIN
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <Navbar />
 
       {/* Breadcrumb */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 border-b border-neutral-100">

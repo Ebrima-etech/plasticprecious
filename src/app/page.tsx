@@ -153,26 +153,26 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section className="bg-teal-950 py-6 lg:py-8 flex items-center">
+      <section className="bg-white py-6 lg:py-8 flex items-center">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-center">
             {/* Left Content */}
             <div>
-              <p className="text-emerald-300 font-light mb-2 text-sm uppercase tracking-wider">Trash to Treasure</p>
-              <h1 className="text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight">
+              <p className="text-emerald-600 font-light mb-2 text-sm uppercase tracking-wider">Trash to Treasure</p>
+              <h1 className="text-5xl lg:text-6xl font-bold text-teal-950 mb-4 leading-tight">
                 From Pollution to
                 <span className="block">
-                  <span className="text-emerald-300 italic">Solution</span>
+                  <span className="text-emerald-600 italic">Solution</span>
                 </span>
               </h1>
-              <p className="text-base text-neutral-300 mb-6 font-light leading-relaxed max-w-lg">
+              <p className="text-base text-neutral-700 mb-6 font-light leading-relaxed max-w-lg">
                 Transforming plastic waste into valuable, sustainable products while creating positive change for communities and our environment.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 mb-8">
-                <button className="bg-white hover:bg-neutral-100 text-teal-950 font-bold px-10 py-3 transition text-lg rounded-full">
+                <button className="bg-teal-950 hover:bg-teal-900 text-white font-bold px-10 py-3 transition text-lg rounded-full">
                   Explore Services
                 </button>
-                <button className="border-2 border-white text-white hover:bg-white hover:text-teal-950 font-bold px-10 py-3 transition text-lg bg-transparent rounded-full">
+                <button className="border-2 border-teal-950 text-teal-950 hover:bg-teal-950 hover:text-white font-bold px-10 py-3 transition text-lg bg-transparent rounded-full">
                   Shop Products
                 </button>
               </div>
@@ -180,12 +180,12 @@ export default function Home() {
               {/* Feature Callouts */}
               <div className="grid grid-cols-2 gap-8">
                 <div>
-                  <p className="text-emerald-300 text-xs font-bold uppercase mb-2">CUSTOM PRODUCTS</p>
-                  <p className="text-white text-sm font-light">For large businesses and complex programs</p>
+                  <p className="text-emerald-600 text-xs font-bold uppercase mb-2">CUSTOM PRODUCTS</p>
+                  <p className="text-teal-950 text-sm font-light">For large businesses and complex programs</p>
                 </div>
                 <div>
-                  <p className="text-emerald-300 text-xs font-bold uppercase mb-2">READY PRODUCTS</p>
-                  <p className="text-white text-sm font-light">Customizable, ready-to-buy options</p>
+                  <p className="text-emerald-600 text-xs font-bold uppercase mb-2">READY PRODUCTS</p>
+                  <p className="text-teal-950 text-sm font-light">Customizable, ready-to-buy options</p>
                 </div>
               </div>
             </div>

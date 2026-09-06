@@ -181,11 +181,11 @@ export default function Home() {
               <div className="grid grid-cols-2 gap-8">
                 <div>
                   <p className="text-emerald-600 text-xs font-bold uppercase mb-2">CUSTOM PRODUCTS</p>
-                  <p className="text-teal-950 text-sm font-light">For large businesses and complex programs</p>
+                  <p className="text-teal-950 text-sm font-light">For large businesses <br /> and complex programs</p>
                 </div>
                 <div>
                   <p className="text-emerald-600 text-xs font-bold uppercase mb-2">READY PRODUCTS</p>
-                  <p className="text-teal-950 text-sm font-light">Customizable, ready-to-buy options</p>
+                  <p className="text-teal-950 text-sm font-light">Customizable, <br /> ready-to-buy options</p>
                 </div>
               </div>
             </div>

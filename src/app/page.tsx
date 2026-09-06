@@ -63,8 +63,24 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white">
+      <style>{`
+        @keyframes borderGradient {
+          0% {
+            border-top-color: rgb(16, 185, 129);
+          }
+          50% {
+            border-top-color: rgb(34, 197, 94);
+          }
+          100% {
+            border-top-color: rgb(16, 185, 129);
+          }
+        }
+        .animated-border {
+          animation: borderGradient 3s ease-in-out infinite;
+        }
+      `}</style>
       {/* Top Promo Bar */}
-      <div className="sticky top-0 z-50 bg-slate-950 border-t-2 border-emerald-500">
+      <div className="sticky top-0 z-50 bg-slate-950 border-t-2 border-emerald-500 animated-border">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex items-center justify-between py-2 text-xs text-white overflow-x-auto">
             <div className="flex items-center gap-3 whitespace-nowrap">

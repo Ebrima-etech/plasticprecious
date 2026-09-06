@@ -62,14 +62,6 @@ export default function ProductsPage() {
     <div className="min-h-screen bg-white">
       <Navbar />
 
-      {/* Page Header */}
-      <div className="bg-emerald-900 text-white py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl font-bold mb-2">Our Products</h1>
-          <p className="text-emerald-100">Explore our range of premium recycled plastic solutions</p>
-        </div>
-      </div>
-
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {loading ? (

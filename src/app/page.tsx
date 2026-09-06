@@ -60,17 +60,27 @@ export default function Home() {
       {/* Navigation */}
       <nav className="sticky top-0 z-50 bg-white border-b border-neutral-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <Link href="/" className="text-lg sm:text-2xl font-bold text-primary-600">
+          <div className="flex justify-between items-center h-16 gap-4">
+            <Link href="/" className="text-lg sm:text-2xl font-bold text-primary-600 whitespace-nowrap">
               PLASTICPRECIOUS
             </Link>
 
+            {/* Search Bar (Hidden on Mobile) */}
+            <div className="hidden lg:flex flex-1 max-w-xs">
+              <input
+                type="text"
+                placeholder="Search products..."
+                className="w-full px-3 py-2 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-600"
+              />
+            </div>
+
             {/* Desktop Navigation */}
-            <div className="hidden md:flex gap-8">
-              <Link href="/products" className="text-neutral-700 hover:text-primary-600 transition">SHOP</Link>
-              <a href="#impact" className="text-neutral-700 hover:text-primary-600 transition">IMPACT</a>
-              <a href="#testimonials" className="text-neutral-700 hover:text-primary-600 transition">REVIEWS</a>
-              <a href="#contact" className="text-neutral-700 hover:text-primary-600 transition">CONTACT</a>
+            <div className="hidden md:flex gap-6 text-sm">
+              <Link href="/products" className="text-neutral-700 hover:text-primary-600 transition font-medium">SHOP</Link>
+              <Link href="/industry" className="text-neutral-700 hover:text-primary-600 transition font-medium">BY INDUSTRY</Link>
+              <a href="#impact" className="text-neutral-700 hover:text-primary-600 transition font-medium">IMPACT</a>
+              <Link href="/resources" className="text-neutral-700 hover:text-primary-600 transition font-medium">LEARN</Link>
+              <Link href="/enterprise" className="text-neutral-700 hover:text-primary-600 transition font-medium">ENTERPRISE</Link>
             </div>
 
             {/* Hamburger Menu (Mobile) */}
@@ -120,12 +130,15 @@ export default function Home() {
 
           {/* Mobile Menu */}
           {mobileMenuOpen && (
-            <div className="md:hidden border-t border-neutral-200 py-4 space-y-3">
-              <Link href="/products" className="block text-neutral-700 hover:text-primary-600 py-2">SHOP</Link>
-              <a href="#impact" className="block text-neutral-700 hover:text-primary-600 py-2">IMPACT</a>
-              <a href="#testimonials" className="block text-neutral-700 hover:text-primary-600 py-2">REVIEWS</a>
-              <a href="#contact" className="block text-neutral-700 hover:text-primary-600 py-2">CONTACT</a>
-              <Link href="/auth/register" className="block w-full">
+            <div className="md:hidden border-t border-neutral-200 py-4 space-y-2">
+              <Link href="/products" className="block text-neutral-700 hover:text-primary-600 py-2 px-2">SHOP</Link>
+              <Link href="/industry" className="block text-neutral-700 hover:text-primary-600 py-2 px-2">BY INDUSTRY</Link>
+              <Link href="/enterprise" className="block text-neutral-700 hover:text-primary-600 py-2 px-2">ENTERPRISE</Link>
+              <Link href="/resources" className="block text-neutral-700 hover:text-primary-600 py-2 px-2">LEARN</Link>
+              <a href="#impact" className="block text-neutral-700 hover:text-primary-600 py-2 px-2">IMPACT</a>
+              <a href="#testimonials" className="block text-neutral-700 hover:text-primary-600 py-2 px-2">REVIEWS</a>
+              <a href="#contact" className="block text-neutral-700 hover:text-primary-600 py-2 px-2">CONTACT</a>
+              <Link href="/auth/register" className="block w-full px-2 pt-2">
                 <Button size="sm" className="w-full">SIGN UP</Button>
               </Link>
             </div>
@@ -236,8 +249,38 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Use Cases / Categories */}
+      {/* Shop By Industry */}
       <section className="py-16 border-b border-neutral-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold text-neutral-900 mb-12">Shop By Industry</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+            {[
+              { name: 'Apparel', emoji: '👕' },
+              { name: 'Jewelry', emoji: '💍' },
+              { name: 'Food & Beverage', emoji: '🍱' },
+              { name: 'Cosmetics', emoji: '💄' },
+              { name: 'E-commerce', emoji: '📦' },
+              { name: 'Retail', emoji: '🏪' },
+              { name: 'Manufacturing', emoji: '🏭' },
+              { name: 'Subscription', emoji: '📬' },
+              { name: 'Marketing', emoji: '📢' },
+              { name: 'Essential Oils', emoji: '🌿' },
+              { name: 'Artisan Goods', emoji: '🎨' },
+              { name: 'Sustainable Brands', emoji: '♻️' }
+            ].map((industry) => (
+              <Link key={industry.name} href={`/products?industry=${industry.name.toLowerCase()}`}>
+                <div className="p-6 bg-neutral-50 rounded-lg hover:bg-primary-50 hover:shadow-md transition text-center group cursor-pointer">
+                  <p className="text-4xl mb-3 group-hover:scale-110 transition">{industry.emoji}</p>
+                  <p className="font-semibold text-neutral-900 group-hover:text-primary-600 transition text-sm">{industry.name}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Use Cases / Categories */}
+      <section className="py-16 bg-neutral-50 border-b border-neutral-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-neutral-900 mb-12">Perfect For Every Use Case</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -360,6 +403,100 @@ export default function Home() {
                 </CardBody>
               </Card>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Enterprise Solutions */}
+      <section className="py-16 border-b border-neutral-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 className="text-4xl font-bold text-neutral-900 mb-4">High-Volume Solutions</h2>
+              <p className="text-lg text-neutral-600 mb-6">
+                Ship thousands of units per week? Our enterprise solutions offer custom bulk pricing, dedicated support, and optimized logistics.
+              </p>
+              <div className="space-y-3 mb-8">
+                <p className="flex items-start gap-3">
+                  <span className="text-primary-600 font-bold mt-1">✓</span>
+                  <span className="text-neutral-700">Custom pricing for bulk orders</span>
+                </p>
+                <p className="flex items-start gap-3">
+                  <span className="text-primary-600 font-bold mt-1">✓</span>
+                  <span className="text-neutral-700">Dedicated account manager</span>
+                </p>
+                <p className="flex items-start gap-3">
+                  <span className="text-primary-600 font-bold mt-1">✓</span>
+                  <span className="text-neutral-700">Priority production scheduling</span>
+                </p>
+                <p className="flex items-start gap-3">
+                  <span className="text-primary-600 font-bold mt-1">✓</span>
+                  <span className="text-neutral-700">Customization options available</span>
+                </p>
+              </div>
+              <Link href="/enterprise">
+                <Button size="lg">EXPLORE ENTERPRISE SOLUTIONS</Button>
+              </Link>
+            </div>
+            <Card shadow="lg">
+              <CardBody>
+                <p className="text-6xl text-center mb-4">📊</p>
+                <h3 className="text-xl font-bold text-neutral-900 text-center mb-4">Perfect For:</h3>
+                <ul className="space-y-3 text-neutral-700">
+                  <li>• Large e-commerce platforms</li>
+                  <li>• Manufacturing facilities</li>
+                  <li>• Distribution centers</li>
+                  <li>• Fortune 500 companies</li>
+                  <li>• Logistics providers</li>
+                  <li>• Franchises & chains</li>
+                </ul>
+              </CardBody>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Learn & Resources */}
+      <section className="py-16 bg-primary-50 border-b border-neutral-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold text-neutral-900 mb-12 text-center">Learn About Sustainable Packaging</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <Link href="/resources">
+              <Card shadow="md" className="hover:shadow-lg transition h-full">
+                <CardBody>
+                  <p className="text-5xl mb-4">📚</p>
+                  <h3 className="text-xl font-bold text-neutral-900 mb-3">Guides & Whitepapers</h3>
+                  <p className="text-neutral-600 mb-6">
+                    In-depth guides on sustainable packaging, material selection, and eco-friendly best practices.
+                  </p>
+                  <Button variant="secondary" size="sm">Read More</Button>
+                </CardBody>
+              </Card>
+            </Link>
+            <Link href="/case-studies">
+              <Card shadow="md" className="hover:shadow-lg transition h-full">
+                <CardBody>
+                  <p className="text-5xl mb-4">💼</p>
+                  <h3 className="text-xl font-bold text-neutral-900 mb-3">Case Studies</h3>
+                  <p className="text-neutral-600 mb-6">
+                    See how industry leaders reduced waste, cut costs, and improved their brand through sustainable packaging.
+                  </p>
+                  <Button variant="secondary" size="sm">Explore</Button>
+                </CardBody>
+              </Card>
+            </Link>
+            <Link href="/blog">
+              <Card shadow="md" className="hover:shadow-lg transition h-full">
+                <CardBody>
+                  <p className="text-5xl mb-4">✍️</p>
+                  <h3 className="text-xl font-bold text-neutral-900 mb-3">Blog & Updates</h3>
+                  <p className="text-neutral-600 mb-6">
+                    Latest trends, regulatory changes, and insights on the circular economy and sustainable practices.
+                  </p>
+                  <Button variant="secondary" size="sm">Read Blog</Button>
+                </CardBody>
+              </Card>
+            </Link>
           </div>
         </div>
       </section>

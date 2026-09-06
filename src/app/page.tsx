@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 import { FiShoppingCart, FiSearch, FiUser, FiChevronDown } from 'react-icons/fi';
@@ -12,12 +12,11 @@ export default function Home() {
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
   const [carouselIndex, setCarouselIndex] = useState(0);
-
-  const carouselItems = [
-    { title: 'Premium Recycled Plastic Products', icon: '📦' },
-    { title: 'Eco-Friendly Packaging Solutions', icon: '📦' },
-    { title: 'Sustainable Storage Options', icon: '📦' },
-  ];
+  const [carouselItems, setCarouselItems] = useState([
+    { title: 'Premium Recycled Plastic Products', image: 'https://images.unsplash.com/photo-1557804506-669714128632?w=800&h=600&fit=crop' },
+    { title: 'Eco-Friendly Packaging Solutions', image: 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=800&h=600&fit=crop' },
+    { title: 'Sustainable Storage Options', image: 'https://images.unsplash.com/photo-1612198188060-c7c2a3b66eae?w=800&h=600&fit=crop' },
+  ]);
 
   const services = [
     {
@@ -74,23 +73,17 @@ export default function Home() {
             </Link>
 
             {/* Search Bar - Center */}
-            <div className="hidden lg:flex items-center bg-teal-900/50 border border-teal-800 rounded-full px-4 py-2 w-80 mx-8">
-              <FiSearch size={18} className="text-teal-400" />
+            <div className="hidden lg:flex flex-1 max-w-2xl items-center bg-white border-0 px-5 py-3 mx-12 rounded">
+              <FiSearch size={18} className="text-teal-900" />
               <input
                 type="text"
                 placeholder="Search for products"
-                className="bg-transparent text-white text-sm placeholder-teal-400 ml-3 w-full focus:outline-none"
+                className="bg-transparent text-teal-900 text-sm placeholder-neutral-400 ml-3 w-full focus:outline-none"
               />
             </div>
 
             {/* Right Navigation & Actions */}
-            <div className="flex items-center gap-8">
-              <Link href="#services" className="hidden md:block text-sm font-semibold text-white hover:text-emerald-300 transition">
-                BROWSE PRODUCTS
-              </Link>
-              <Button size="sm" className="bg-white hover:bg-neutral-100 text-teal-950 font-semibold text-xs px-6">
-                TALK FIRST
-              </Button>
+            <div className="flex items-center gap-6">
               <Link href="/auth/login">
                 <button className="text-white hover:text-emerald-300 transition">
                   <FiUser size={20} />
@@ -108,28 +101,28 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section className="bg-teal-950 py-24 lg:py-32 min-h-screen flex items-center">
+      <section className="bg-teal-950 py-12 lg:py-16 flex items-center">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             {/* Left Content */}
             <div>
-              <p className="text-emerald-300 font-light mb-4 text-sm uppercase tracking-wider">Trash to Treasure</p>
-              <h1 className="text-6xl lg:text-7xl font-light text-white mb-6 leading-tight">
+              <p className="text-emerald-300 font-light mb-2 text-sm uppercase tracking-wider">Trash to Treasure</p>
+              <h1 className="text-5xl lg:text-6xl font-light text-white mb-4 leading-tight">
                 From Pollution to
                 <span className="block">
                   <span className="text-emerald-300 italic">Solution</span>
                 </span>
               </h1>
-              <p className="text-lg text-neutral-300 mb-10 font-light leading-relaxed max-w-lg">
+              <p className="text-base text-neutral-300 mb-6 font-light leading-relaxed max-w-lg">
                 Transforming plastic waste into valuable, sustainable products while creating positive change for communities and our environment.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 mb-12">
-                <Button size="lg" className="bg-white hover:bg-neutral-100 text-teal-950 font-bold px-10 rounded-full">
+              <div className="flex flex-col sm:flex-row gap-3 mb-8">
+                <button className="bg-white hover:bg-neutral-100 text-teal-950 font-bold px-10 py-3 transition text-lg">
                   Explore Services
-                </Button>
-                <Button size="lg" variant="ghost" className="border-2 border-white text-white hover:bg-white hover:text-teal-950 font-bold px-10 rounded-full">
+                </button>
+                <button className="border-2 border-white text-white hover:bg-white hover:text-teal-950 font-bold px-10 py-3 transition text-lg bg-transparent">
                   Shop Products
-                </Button>
+                </button>
               </div>
 
               {/* Feature Callouts */}
@@ -147,39 +140,35 @@ export default function Home() {
 
             {/* Right Product Carousel */}
             <div className="relative flex flex-col items-center">
-              <div className="relative w-full max-w-md">
+              <div className="relative w-full">
                 {/* Main Carousel Container */}
-                <div className="bg-gradient-to-br from-teal-900 to-teal-800 rounded-3xl p-20 h-80 flex flex-col items-center justify-center border border-teal-700/50">
-                  <div className="text-8xl mb-6">{carouselItems[carouselIndex].icon}</div>
-                  <p className="text-white text-2xl font-light text-center">{carouselItems[carouselIndex].title}</p>
+                <div className="rounded-3xl h-96 flex flex-col items-center justify-center border border-teal-700/50 overflow-hidden relative">
+                  {carouselItems[carouselIndex].image && (
+                    <img
+                      src={carouselItems[carouselIndex].image}
+                      alt={carouselItems[carouselIndex].title}
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
+                  )}
+                  <div className="absolute inset-0 bg-black/40"></div>
+                  <div className="relative z-10 text-center px-6">
+                    <p className="text-white text-3xl font-light">{carouselItems[carouselIndex].title}</p>
+                  </div>
                 </div>
 
                 {/* Left Arrow */}
                 <button
                   onClick={() => setCarouselIndex((carouselIndex - 1 + carouselItems.length) % carouselItems.length)}
-                  className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-8 bg-teal-900/60 hover:bg-teal-900 text-white p-4 rounded-full transition group">
-                  <span className="text-2xl group-hover:text-emerald-300">‹</span>
+                  className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-10 bg-teal-900/60 hover:bg-teal-900 text-white p-5 rounded-full transition group">
+                  <span className="text-3xl group-hover:text-emerald-300">‹</span>
                 </button>
 
                 {/* Right Arrow */}
                 <button
                   onClick={() => setCarouselIndex((carouselIndex + 1) % carouselItems.length)}
-                  className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-8 bg-teal-900/60 hover:bg-teal-900 text-white p-4 rounded-full transition group">
-                  <span className="text-2xl group-hover:text-emerald-300">›</span>
+                  className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-10 bg-teal-900/60 hover:bg-teal-900 text-white p-5 rounded-full transition group">
+                  <span className="text-3xl group-hover:text-emerald-300">›</span>
                 </button>
-              </div>
-
-              {/* Carousel Dots */}
-              <div className="flex justify-center gap-3 mt-12">
-                {carouselItems.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setCarouselIndex(i)}
-                    className={`w-4 h-4 rounded-full transition ${
-                      i === carouselIndex ? 'bg-emerald-400' : 'bg-teal-700 hover:bg-teal-600'
-                    }`}
-                  ></button>
-                ))}
               </div>
             </div>
           </div>

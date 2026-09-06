@@ -139,8 +139,8 @@ export default function Home() {
             </div>
 
             {/* Right Product Carousel */}
-            <div className="relative flex flex-col items-center">
-              <div className="relative w-full">
+            <div className="relative flex flex-col items-center w-full">
+              <div className="relative w-11/12 lg:w-full">
                 {/* Main Carousel Container */}
                 <div className="rounded-3xl h-[70vh] flex flex-col items-center justify-center border border-teal-700/50 overflow-hidden relative">
                   {carouselItems[carouselIndex].image && (
@@ -155,15 +155,15 @@ export default function Home() {
                 {/* Left Arrow */}
                 <button
                   onClick={() => setCarouselIndex((carouselIndex - 1 + carouselItems.length) % carouselItems.length)}
-                  className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-10 bg-teal-900/60 hover:bg-teal-900 text-white p-5 rounded-full transition group">
-                  <span className="text-3xl group-hover:text-emerald-300">‹</span>
+                  className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-8 bg-teal-900/60 hover:bg-teal-900 text-white p-3 rounded-full transition group">
+                  <span className="text-2xl group-hover:text-emerald-300">‹</span>
                 </button>
 
                 {/* Right Arrow */}
                 <button
                   onClick={() => setCarouselIndex((carouselIndex + 1) % carouselItems.length)}
-                  className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-10 bg-teal-900/60 hover:bg-teal-900 text-white p-5 rounded-full transition group">
-                  <span className="text-3xl group-hover:text-emerald-300">›</span>
+                  className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-8 bg-teal-900/60 hover:bg-teal-900 text-white p-3 rounded-full transition group">
+                  <span className="text-2xl group-hover:text-emerald-300">›</span>
                 </button>
               </div>
             </div>

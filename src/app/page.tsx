@@ -85,37 +85,37 @@ export default function Home() {
           <div className="flex items-center justify-between py-2 text-xs text-white overflow-x-auto">
             <div className="flex items-center gap-6 whitespace-nowrap">
               <div className="flex items-center gap-2">
-                <GiRecycle className="text-emerald-300 text-lg" />
+                <GiRecycle className="text-white text-lg" />
                 <div>
-                  <div className="text-emerald-200 text-xs">Eco-Friendly</div>
-                  <div className="font-semibold text-emerald-100">Premium Products</div>
+                  <div className="text-gray-200 text-xs">Eco-Friendly</div>
+                  <div className="font-semibold text-white">Premium Products</div>
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                <FiTruck className="text-blue-300 text-lg" />
+                <FiTruck className="text-white text-lg" />
                 <div>
-                  <div className="text-blue-200 text-xs">Fast</div>
-                  <div className="font-semibold text-blue-100">Delivery Available</div>
+                  <div className="text-gray-200 text-xs">Fast</div>
+                  <div className="font-semibold text-white">Delivery Available</div>
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                <FiCheck className="text-purple-300 text-lg" />
+                <FiCheck className="text-white text-lg" />
                 <div>
-                  <div className="text-purple-200 text-xs">100% Certified</div>
-                  <div className="font-semibold text-purple-100">Sustainable</div>
+                  <div className="text-gray-200 text-xs">100% Certified</div>
+                  <div className="font-semibold text-white">Sustainable</div>
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                <FiHeart className="text-red-300 text-lg" />
+                <FiHeart className="text-white text-lg" />
                 <div>
-                  <div className="text-red-200 text-xs">Supporting</div>
-                  <div className="font-semibold text-red-100">Communities</div>
+                  <div className="text-gray-200 text-xs">Supporting</div>
+                  <div className="font-semibold text-white">Communities</div>
                 </div>
               </div>
             </div>
             <div className="flex items-center gap-3 ml-auto">
-              <button className="text-emerald-300 hover:text-emerald-200 transition text-xs font-medium">Track Order</button>
-              <button className="text-emerald-300 hover:text-emerald-200 transition text-xs font-medium">Support</button>
+              <button className="text-white hover:text-gray-200 transition text-xs font-medium">Track Order</button>
+              <button className="text-white hover:text-gray-200 transition text-xs font-medium">Support</button>
             </div>
           </div>
         </div>

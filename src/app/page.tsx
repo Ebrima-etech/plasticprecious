@@ -159,6 +159,19 @@ export default function Home() {
               <FiChevronDown size={16} />
             </button>
 
+            {/* Nav Links */}
+            <div className="hidden lg:flex items-center gap-6">
+              <Link href="#" className="text-white hover:text-emerald-300 transition text-sm font-medium">
+                Sale
+              </Link>
+              <Link href="#" className="text-white hover:text-emerald-300 transition text-sm font-medium">
+                Blog
+              </Link>
+              <Link href="#" className="text-white hover:text-emerald-300 transition text-sm font-medium">
+                About Us
+              </Link>
+            </div>
+
             {/* Right Navigation & Actions */}
             <div className="flex items-center gap-8">
               <Link href="/auth/login">
@@ -193,15 +206,6 @@ export default function Home() {
             </Link>
             <Link href="#" className="text-white hover:text-emerald-300 transition text-sm whitespace-nowrap">
               Sustainable Living
-            </Link>
-            <Link href="#" className="text-white hover:text-emerald-300 transition text-sm whitespace-nowrap">
-              Sale
-            </Link>
-            <Link href="#" className="text-white hover:text-emerald-300 transition text-sm whitespace-nowrap">
-              Blog
-            </Link>
-            <Link href="#" className="text-white hover:text-emerald-300 transition text-sm whitespace-nowrap">
-              About Us
             </Link>
           </div>
         </div>

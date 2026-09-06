@@ -66,28 +66,40 @@ export default function Home() {
       {/* Top Promo Bar */}
       <div className="sticky top-0 z-50 bg-slate-950 border-b border-neutral-800">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex items-center justify-between py-4 text-sm text-white overflow-x-auto">
-            <div className="flex items-center gap-8 whitespace-nowrap">
+          <div className="flex items-center justify-between py-3 text-xs text-white overflow-x-auto">
+            <div className="flex items-center gap-6 whitespace-nowrap">
               <div className="flex items-center gap-2">
-                <GiRecycle className="text-emerald-300 text-lg" />
-                <span>Eco-Friendly Products</span>
+                <GiRecycle className="text-emerald-400 text-lg" />
+                <div>
+                  <div className="text-gray-400 text-xs">Eco-Friendly</div>
+                  <div className="font-semibold text-emerald-300">Premium Products</div>
+                </div>
               </div>
               <div className="flex items-center gap-2">
-                <FiTruck className="text-emerald-300 text-lg" />
-                <span>Fast Delivery</span>
+                <FiTruck className="text-emerald-400 text-lg" />
+                <div>
+                  <div className="text-gray-400 text-xs">Fast & Free</div>
+                  <div className="font-semibold text-white">Delivery Available</div>
+                </div>
               </div>
               <div className="flex items-center gap-2">
-                <FiCheck className="text-emerald-300 text-lg" />
-                <span>Sustainable Materials</span>
+                <FiCheck className="text-emerald-400 text-lg" />
+                <div>
+                  <div className="text-gray-400 text-xs">100% Certified</div>
+                  <div className="font-semibold text-white">Sustainable</div>
+                </div>
               </div>
               <div className="flex items-center gap-2">
-                <FiHeart className="text-emerald-300 text-lg" />
-                <span>Community Support</span>
+                <FiHeart className="text-red-400 text-lg" />
+                <div>
+                  <div className="text-gray-400 text-xs">Supporting</div>
+                  <div className="font-semibold text-white">Communities</div>
+                </div>
               </div>
             </div>
-            <div className="flex items-center gap-4 ml-auto">
-              <button className="text-emerald-300 hover:text-white transition text-xs">Track Order</button>
-              <button className="text-emerald-300 hover:text-white transition text-xs">Support</button>
+            <div className="flex items-center gap-3 ml-auto">
+              <button className="text-emerald-300 hover:text-emerald-200 transition text-xs font-medium">Track Order</button>
+              <button className="text-emerald-300 hover:text-emerald-200 transition text-xs font-medium">Support</button>
             </div>
           </div>
         </div>

@@ -12,6 +12,7 @@ export default function Home() {
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
   const [carouselIndex, setCarouselIndex] = useState(0);
+  const [isScrolled, setIsScrolled] = useState(false);
   const [carouselItems, setCarouselItems] = useState([
     { title: 'Premium Recycled Plastic Products', image: 'https://images.unsplash.com/photo-1557804506-669714128632?w=800&h=600&fit=crop' },
     { title: 'Eco-Friendly Packaging Solutions', image: 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=800&h=600&fit=crop' },
@@ -60,6 +61,15 @@ export default function Home() {
       }, 3000);
     }
   };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
     <div className="min-h-screen bg-white">
@@ -138,7 +148,7 @@ export default function Home() {
       </div>
 
       {/* Navigation */}
-      <nav className="sticky top-0 z-40 bg-emerald-900" style={{ borderBottom: '0.75px solid rgba(255, 255, 255, 0.12)' }}>
+      <nav className="sticky top-0 z-40 bg-emerald-900" style={{ borderBottom: isScrolled ? '0.75px solid rgba(255, 255, 255, 0.12)' : 'none' }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           {/* Main Nav Row */}
           <div className="flex items-center gap-4 h-12">

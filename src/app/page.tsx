@@ -132,7 +132,7 @@ export default function Home() {
             </Link>
 
             {/* Search Bar */}
-            <div className="hidden lg:flex flex-1 max-w-lg items-center bg-white border-0 px-4 py-2 rounded-full">
+            <div className="hidden lg:flex flex-1 max-w-sm items-center bg-white border-0 px-4 py-2 rounded-full">
               <FiSearch size={16} className="text-emerald-600" />
               <input
                 type="text"

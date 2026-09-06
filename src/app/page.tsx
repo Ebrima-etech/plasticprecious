@@ -166,7 +166,7 @@ export default function Home() {
                 </span>
               </h1>
               <p className="text-base text-neutral-700 mb-6 font-light leading-relaxed max-w-lg">
-                Transforming plastic waste into valuable, sustainable products while creating positive change for communities and our environment.
+                Transforming plastic waste into valuable, sustainable products while <br /> creating positive change for communities and our environment.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 mb-8">
                 <button className="bg-teal-950 hover:bg-teal-900 text-white font-bold px-10 py-3 transition text-lg rounded-full">

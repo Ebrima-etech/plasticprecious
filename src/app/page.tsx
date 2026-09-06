@@ -122,18 +122,18 @@ export default function Home() {
       </div>
 
       {/* Navigation */}
-      <nav className="bg-teal-950 border-b border-teal-800">
+      <nav className="bg-emerald-600 border-b border-emerald-700">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           {/* Main Nav Row */}
           <div className="flex items-center gap-4 h-16">
             {/* Logo */}
-            <Link href="/" className="text-xl font-bold text-emerald-300 hover:text-emerald-200 transition">
+            <Link href="/" className="text-xl font-bold text-white hover:text-emerald-100 transition">
               PLASTICPRECIOUS
             </Link>
 
             {/* Search Bar */}
             <div className="hidden lg:flex flex-1 max-w-2xl items-center bg-white border-0 px-6 py-3 rounded-full">
-              <FiSearch size={18} className="text-teal-900" />
+              <FiSearch size={18} className="text-emerald-600" />
               <input
                 type="text"
                 placeholder="Search for products"

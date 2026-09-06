@@ -81,21 +81,9 @@ export default function Home() {
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex gap-8 text-sm">
-              <div className="relative group">
-                <button className="text-teal-100 hover:text-white transition font-semibold flex items-center gap-1">
-                  BROWSE PRODUCTS
-                  <span className="text-xs">▼</span>
-                </button>
-              </div>
-              <Link href="/enterprise" className="text-teal-100 hover:text-white transition font-semibold">
-                ENTERPRISE SCALE
+              <Link href="/products" className="text-teal-100 hover:text-white transition font-semibold">
+                BROWSE PRODUCTS
               </Link>
-              <div className="relative group">
-                <button className="text-teal-100 hover:text-white transition font-semibold flex items-center gap-1">
-                  LEARN
-                  <span className="text-xs">▼</span>
-                </button>
-              </div>
             </div>
 
             {/* Hamburger Menu */}
@@ -110,13 +98,8 @@ export default function Home() {
               )}
             </button>
 
-            {/* Desktop CTAs - Prominent Buttons */}
+            {/* Desktop CTAs - Single Prominent Button */}
             <div className="hidden md:flex gap-3 items-center">
-              <Link href="/samples">
-                <button className="px-6 py-2 rounded-full border-2 border-teal-100 text-teal-100 hover:bg-teal-100 hover:text-teal-900 transition font-bold text-sm">
-                  FREE SAMPLES
-                </button>
-              </Link>
               <Link href="/contact">
                 <button className="px-6 py-2 rounded-full bg-teal-100 text-teal-900 hover:bg-white transition font-bold text-sm">
                   TALK FIRST
@@ -152,13 +135,10 @@ export default function Home() {
 
           {/* Mobile Menu */}
           {mobileMenuOpen && (
-            <div className="md:hidden border-t border-neutral-200 py-4 space-y-2">
-              <Link href="/products" className="block text-neutral-700 hover:text-primary-600 py-2 px-2">SHOP</Link>
-              <Link href="/industry" className="block text-neutral-700 hover:text-primary-600 py-2 px-2">BY INDUSTRY</Link>
-              <Link href="/enterprise" className="block text-neutral-700 hover:text-primary-600 py-2 px-2">ENTERPRISE</Link>
-              <Link href="/resources" className="block text-neutral-700 hover:text-primary-600 py-2 px-2">LEARN</Link>
+            <div className="md:hidden border-t border-teal-700 bg-teal-800/50 py-4 space-y-2">
+              <Link href="/products" className="block text-teal-100 hover:text-white py-2 px-2">BROWSE PRODUCTS</Link>
               <Link href="/auth/register" className="block w-full px-2 pt-2">
-                <Button size="sm" className="w-full">SIGN UP</Button>
+                <Button size="sm" className="w-full bg-teal-100 text-teal-900 hover:bg-white">TALK FIRST</Button>
               </Link>
             </div>
           )}

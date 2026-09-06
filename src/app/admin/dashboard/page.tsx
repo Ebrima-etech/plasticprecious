@@ -6,6 +6,7 @@ import axios from 'axios';
 import { API_BASE_URL } from '@/config/api';
 import { getToken } from '@/lib/auth';
 import { HiOutlineSparkles, HiOutlineCurrencyDollar, HiOutlineShoppingCart, HiOutlineShoppingBag, HiOutlineUsers } from 'react-icons/hi2';
+import { HiOutlineUser } from 'react-icons/hi2';
 
 interface DashboardStats {
   total_products: number;
@@ -157,7 +158,7 @@ export default function AdminDashboard() {
             <div>
               <p className="text-xs font-semibold text-orange-600 uppercase tracking-wide">Total Customers</p>
             </div>
-            <div className="text-2xl">👥</div>
+            <HiOutlineUsers className="w-6 h-6 text-orange-600" />
           </div>
           <p className="text-2xl font-bold text-gray-900">{stats.total_users}</p>
           <div className="mt-3 flex items-center gap-1 text-orange-600 text-xs font-medium">
@@ -220,7 +221,7 @@ export default function AdminDashboard() {
 
           <Link href="/admin/users">
             <button className="w-full bg-white hover:bg-gray-50 text-gray-900 font-semibold py-3 px-6 rounded-lg transition border border-gray-200 flex items-center justify-center gap-2 text-sm">
-              <span>👥</span>
+              <HiOutlineUsers className="w-5 h-5" />
               <span>View Customers</span>
             </button>
           </Link>

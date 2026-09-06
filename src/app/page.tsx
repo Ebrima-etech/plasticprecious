@@ -155,14 +155,14 @@ export default function Home() {
                 {/* Left Arrow */}
                 <button
                   onClick={() => setCarouselIndex((carouselIndex - 1 + carouselItems.length) % carouselItems.length)}
-                  className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-8 bg-teal-900/60 hover:bg-teal-900 text-white p-3 rounded-full transition group">
+                  className="absolute left-6 top-1/2 -translate-y-1/2 z-10 bg-teal-900/60 hover:bg-teal-900 text-white p-3 rounded-full transition group">
                   <span className="text-2xl group-hover:text-emerald-300">‹</span>
                 </button>
 
                 {/* Right Arrow */}
                 <button
                   onClick={() => setCarouselIndex((carouselIndex + 1) % carouselItems.length)}
-                  className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-8 bg-teal-900/60 hover:bg-teal-900 text-white p-3 rounded-full transition group">
+                  className="absolute right-6 top-1/2 -translate-y-1/2 z-10 bg-teal-900/60 hover:bg-teal-900 text-white p-3 rounded-full transition group">
                   <span className="text-2xl group-hover:text-emerald-300">›</span>
                 </button>
               </div>

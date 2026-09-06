@@ -251,6 +251,26 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Featured Collections */}
+      <section className="py-12 md:py-16 lg:py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <h2 className="text-4xl font-bold text-neutral-900 mb-12 text-center">Featured Collections</h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {products.map((product, i) => (
+              <div key={i} className="group cursor-pointer">
+                <div className="bg-neutral-200 h-64 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-neutral-300 transition overflow-hidden">
+                  <div className="text-neutral-500 text-sm font-bold">Product Image</div>
+                </div>
+                <h3 className="text-lg font-bold text-neutral-900 mb-2">{product.name}</h3>
+                <p className="text-neutral-600 text-sm font-bold mb-3">{product.price}</p>
+                {product.custom && <p className="text-xs text-emerald-600 mb-3 font-bold">CUSTOMIZABLE</p>}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Impact Section */}
       <section className="py-6 md:py-8 lg:py-10 bg-white">
         <div className="max-w-6xl mx-auto px-6 lg:px-8">
@@ -262,37 +282,6 @@ export default function Home() {
                 <p className="text-neutral-700 font-light">{item.description}</p>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Featured Products */}
-      <section className="py-20 md:py-28 lg:py-32 bg-white">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <h2 className="text-4xl font-light text-neutral-900 mb-20 text-center">Featured Collections</h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-            {products.map((product, i) => (
-              <div key={i} className="group cursor-pointer">
-                <div className="bg-neutral-100 h-56 rounded-lg flex items-center justify-center mb-6 group-hover:bg-neutral-200 transition">
-                  <div className="text-neutral-400 text-sm font-light">Product Image</div>
-                </div>
-                <h3 className="text-sm font-medium text-neutral-900 mb-2">{product.name}</h3>
-                <p className="text-neutral-600 text-sm mb-4 font-light">{product.price}</p>
-                {product.custom && <p className="text-xs text-emerald-600 mb-3 font-medium">CUSTOMIZABLE</p>}
-                <Button variant="ghost" size="sm" className="w-full border border-neutral-300 hover:border-neutral-900 text-neutral-900">
-                  View
-                </Button>
-              </div>
-            ))}
-          </div>
-
-          <div className="text-center">
-            <Link href="#services">
-              <Button variant="ghost" size="base" className="border border-neutral-300 hover:border-neutral-900 text-neutral-900">
-                View All Products
-              </Button>
-            </Link>
           </div>
         </div>
       </section>

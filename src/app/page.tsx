@@ -172,7 +172,7 @@ export default function Home() {
           </div>
 
           {/* Categories Row */}
-          <div className="hidden items-center gap-8 py-3 border-t border-teal-800">
+          <div className="flex items-center gap-8 py-3 border-t border-emerald-700">
             <Link href="#" className="text-white hover:text-emerald-300 transition text-sm">
               Collections
             </Link>

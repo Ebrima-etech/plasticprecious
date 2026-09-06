@@ -256,11 +256,11 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
             {[
-              'https://images.unsplash.com/photo-1611532736079-430ab11b0d6d?w=150&h=80&fit=crop',
-              'https://images.unsplash.com/photo-1512941691920-e30a2b0ba079?w=150&h=80&fit=crop',
-              'https://images.unsplash.com/photo-1533928298208-27ff66555d0d?w=150&h=80&fit=crop',
-              'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=80&fit=crop',
-              'https://images.unsplash.com/photo-1552664730-d307ca884978?w=150&h=80&fit=crop',
+              'https://images.unsplash.com/photo-1557804506-669714128632?w=150&h=80&fit=crop',
+              'https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=150&h=80&fit=crop',
+              'https://images.unsplash.com/photo-1612198188060-c7c2a3b66eae?w=150&h=80&fit=crop',
+              'https://images.unsplash.com/photo-1578500494198-246f612d782b?w=150&h=80&fit=crop',
+              'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=150&h=80&fit=crop',
             ].map((logo, i) => (
               <div key={i} className="flex items-center justify-center h-20 w-32 grayscale opacity-60 hover:opacity-100 transition">
                 <img src={logo} alt={`Partner ${i + 1}`} className="max-w-full max-h-full object-contain" />

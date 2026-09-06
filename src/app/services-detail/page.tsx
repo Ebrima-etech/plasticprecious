@@ -1,7 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { GiRecycle, BiRecycle, MdSchool } from 'react-icons/gi';
+import { GiRecycle } from 'react-icons/gi';
+import { BiRecycle } from 'react-icons/bi';
+import { MdSchool } from 'react-icons/md';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 

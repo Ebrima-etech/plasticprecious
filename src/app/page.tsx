@@ -66,7 +66,7 @@ export default function Home() {
       {/* Top Promo Bar */}
       <div className="sticky top-0 z-50 bg-teal-900 border-b border-teal-800">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex items-center justify-between py-3 text-sm text-white overflow-x-auto">
+          <div className="flex items-center justify-between py-4 text-sm text-white overflow-x-auto">
             <div className="flex items-center gap-8 whitespace-nowrap">
               <div className="flex items-center gap-2">
                 <span className="text-emerald-300 font-bold">♻️</span>

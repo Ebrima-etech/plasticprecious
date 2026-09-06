@@ -44,10 +44,10 @@ export default function Home() {
   ];
 
   const products = [
-    { name: 'Recycled Storage Bins', price: 'D 850', custom: true },
-    { name: 'Eco Lunch Container Set', price: 'D 1,200', custom: false },
-    { name: 'Recycled Water Bottle', price: 'D 750', custom: false },
-    { name: 'Sustainable Organizers', price: 'D 1,050', custom: true },
+    { name: 'Recycled Storage Bins', price: 'D 850', custom: true, description: 'Durable, eco-friendly storage solution made from 100% recycled plastic.' },
+    { name: 'Eco Lunch Container Set', price: 'D 1,200', custom: false, description: 'Sustainable meal prep containers perfect for on-the-go lifestyles.' },
+    { name: 'Recycled Water Bottle', price: 'D 750', custom: false, description: 'Lightweight, reusable bottle crafted from recycled plastic materials.' },
+    { name: 'Sustainable Organizers', price: 'D 1,050', custom: true, description: 'Stylish organizers for your home, made with sustainable practices.' },
   ];
 
   const handleSubscribe = (e: React.FormEvent) => {
@@ -270,6 +270,7 @@ export default function Home() {
                     <img src={dummyImages[i]} alt={product.name} className="w-full h-full object-cover" />
                   </div>
                   <h3 className="text-lg font-bold text-neutral-900 mb-2">{product.name}</h3>
+                  <p className="text-sm text-neutral-600 mb-3">{product.description}</p>
                   {product.custom && <p className="text-xs text-emerald-600 font-bold">CUSTOMIZABLE</p>}
                 </div>
               );

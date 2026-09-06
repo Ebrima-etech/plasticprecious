@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
-import { FiShoppingCart, FiSearch, FiUser, FiChevronDown } from 'react-icons/fi';
+import { FiShoppingCart, FiSearch, FiUser, FiChevronDown, FiTruck, FiCheck, FiHeart } from 'react-icons/fi';
 import { GiRecycle } from 'react-icons/gi';
 import { BiRecycle } from 'react-icons/bi';
 import { MdSchool } from 'react-icons/md';
@@ -69,19 +69,19 @@ export default function Home() {
           <div className="flex items-center justify-between py-4 text-sm text-white overflow-x-auto">
             <div className="flex items-center gap-8 whitespace-nowrap">
               <div className="flex items-center gap-2">
-                <span className="text-emerald-300 font-bold">♻️</span>
+                <GiRecycle className="text-emerald-300 text-lg" />
                 <span>Eco-Friendly Products</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-emerald-300 font-bold">🚚</span>
+                <FiTruck className="text-emerald-300 text-lg" />
                 <span>Fast Delivery</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-emerald-300 font-bold">✓</span>
+                <FiCheck className="text-emerald-300 text-lg" />
                 <span>Sustainable Materials</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-emerald-300 font-bold">💚</span>
+                <FiHeart className="text-emerald-300 text-lg" />
                 <span>Community Support</span>
               </div>
             </div>

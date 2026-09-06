@@ -103,7 +103,7 @@ export default function Home() {
       {/* Hero Section */}
       <section className="bg-teal-950 py-12 lg:py-16 flex items-center">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-center">
             {/* Left Content */}
             <div>
               <p className="text-emerald-300 font-light mb-2 text-sm uppercase tracking-wider">Trash to Treasure</p>

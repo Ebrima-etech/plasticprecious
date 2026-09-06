@@ -187,7 +187,7 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section className="bg-emerald-600 py-6 lg:py-8 pb-0 flex items-center">
+      <section className="bg-emerald-900 py-6 lg:py-8 pb-0 flex items-center">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-center">
             {/* Left Content */}

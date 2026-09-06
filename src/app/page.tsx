@@ -186,7 +186,7 @@ export default function Home() {
             </div>
 
             {/* Right Navigation & Actions */}
-            <div className="flex items-center gap-8 ml-auto">
+            <div className="flex items-center gap-4 ml-auto">
               <Link href="/auth/login">
                 <div className="flex items-center gap-2 text-white hover:text-emerald-300 transition cursor-pointer">
                   <FiUser size={20} />

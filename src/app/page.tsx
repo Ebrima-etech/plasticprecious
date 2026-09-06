@@ -137,7 +137,7 @@ export default function Home() {
       <nav className="bg-emerald-900" style={{ borderBottom: '0.75px solid rgba(255, 255, 255, 0.12)' }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           {/* Main Nav Row */}
-          <div className="flex items-center gap-4 h-16">
+          <div className="flex items-center gap-4 h-12">
             {/* Logo */}
             <Link href="/" className="text-xl font-bold text-white hover:text-emerald-100 transition">
               PLASTICPRECIOUS
@@ -178,7 +178,7 @@ export default function Home() {
           </div>
 
           {/* Categories Row */}
-          <div className="flex items-center gap-8 py-3">
+          <div className="flex items-center gap-8 py-2">
             <Link href="#" className="text-white hover:text-emerald-300 transition text-sm">
               Collections
             </Link>

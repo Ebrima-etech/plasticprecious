@@ -165,52 +165,69 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* HERO: EcoEnclose-style with dark teal background */}
-      <section className="bg-gradient-to-br from-teal-900 via-teal-800 to-teal-700 text-white py-20 md:py-32">
+      {/* HERO: EcoEnclose-style with dark teal background - compact height */}
+      <section className="bg-gradient-to-br from-teal-900 via-teal-800 to-teal-700 text-white py-12 md:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div>
-              <h1 className="text-5xl md:text-7xl font-bold mb-4 leading-tight font-serif">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center min-h-[500px]">
+            <div className="flex flex-col justify-center">
+              <h1 className="text-5xl md:text-6xl font-bold mb-4 leading-tight font-serif">
                 Sustainable plastic,
                 <br />
                 <span className="text-teal-200 font-normal italic">solved</span>
               </h1>
-              <p className="text-xl text-teal-100 mb-10 leading-relaxed font-light">
+              <p className="text-lg md:text-xl text-teal-100 mb-8 leading-relaxed font-light max-w-lg">
                 Eco-friendly recycled plastic products designed to match your brand, your business, and your budget without compromise.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-4 mb-8">
                 <Link href="/enterprise">
-                  <button className="px-8 py-3 rounded-full bg-white text-teal-900 hover:bg-teal-50 transition font-bold">
+                  <button className="px-8 py-3 rounded-full bg-white text-teal-900 hover:bg-teal-50 transition font-bold text-sm sm:text-base">
                     Work with us
                   </button>
                 </Link>
                 <Link href="/products">
-                  <button className="px-8 py-3 rounded-full border-2 border-white text-white hover:bg-teal-700/50 transition font-bold">
+                  <button className="px-8 py-3 rounded-full border-2 border-white text-white hover:bg-teal-700/50 transition font-bold text-sm sm:text-base">
                     Shop now
                   </button>
                 </Link>
               </div>
-              <div className="grid grid-cols-2 gap-8 mt-12">
+              <div className="grid grid-cols-2 gap-6 md:gap-8">
                 <div>
-                  <p className="text-teal-300 text-sm font-semibold">CUSTOM QUOTING</p>
+                  <p className="text-teal-300 text-xs font-semibold uppercase">Custom Quoting</p>
                   <p className="text-teal-100 text-xs mt-1">For large businesses and complex programs</p>
                 </div>
                 <div>
-                  <p className="text-teal-300 text-sm font-semibold">READY-TO-BUY</p>
+                  <p className="text-teal-300 text-xs font-semibold uppercase">Ready-to-Buy</p>
                   <p className="text-teal-100 text-xs mt-1">Customizable, ready-to-ship options</p>
                 </div>
               </div>
             </div>
-            <div className="hidden md:flex justify-center items-center">
-              <div className="relative w-full max-w-md h-96 bg-gradient-to-br from-teal-800/30 to-teal-700/30 rounded-2xl overflow-hidden flex items-center justify-center backdrop-blur-sm">
-                <div className="text-center">
-                  <p className="text-8xl mb-4">♻️</p>
-                  <p className="text-teal-200 font-light">Premium Recycled</p>
-                  <p className="text-teal-200 font-light">Plastic Products</p>
+
+            {/* Large Product Showcase Slider */}
+            <div className="hidden md:flex justify-center items-center h-full">
+              <div className="relative w-full h-[500px] bg-gradient-to-br from-teal-800/40 to-teal-700/40 rounded-3xl overflow-hidden flex items-center justify-center backdrop-blur-sm border border-teal-700/50 shadow-2xl">
+                {/* Product Image Placeholder */}
+                <div className="relative w-full h-full flex items-center justify-center bg-gradient-to-b from-teal-700/20 to-transparent">
+                  <div className="text-center z-10">
+                    <p className="text-9xl mb-6 drop-shadow-lg">📦</p>
+                    <p className="text-teal-100 font-light text-xl">Premium Recycled</p>
+                    <p className="text-teal-100 font-light text-xl">Plastic Products</p>
+                  </div>
                 </div>
-                {/* Carousel arrows would go here */}
-                <button className="absolute left-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white text-2xl">‹</button>
-                <button className="absolute right-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white text-2xl">›</button>
+
+                {/* Carousel Navigation Arrows */}
+                <button className="absolute left-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/20 hover:bg-white/40 transition flex items-center justify-center z-20 backdrop-blur-sm">
+                  <span className="text-white text-2xl font-bold">‹</span>
+                </button>
+                <button className="absolute right-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/20 hover:bg-white/40 transition flex items-center justify-center z-20 backdrop-blur-sm">
+                  <span className="text-white text-2xl font-bold">›</span>
+                </button>
+
+                {/* Carousel Indicators */}
+                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+                  <div className="w-3 h-3 rounded-full bg-white/60"></div>
+                  <div className="w-3 h-3 rounded-full bg-white/30 hover:bg-white/50 cursor-pointer"></div>
+                  <div className="w-3 h-3 rounded-full bg-white/30 hover:bg-white/50 cursor-pointer"></div>
+                </div>
               </div>
             </div>
           </div>

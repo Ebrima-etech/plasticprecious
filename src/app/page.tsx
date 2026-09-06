@@ -3,18 +3,30 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import axios from 'axios';
 import { Button } from '@/components/ui/Button';
 import { FiShoppingCart, FiSearch, FiUser, FiChevronDown, FiTruck, FiCheck, FiHeart, FiHeadphones, FiPhone, FiMail } from 'react-icons/fi';
 import { GiRecycle } from 'react-icons/gi';
 import { BiRecycle } from 'react-icons/bi';
 import { MdSchool } from 'react-icons/md';
 import Navbar from '@/components/Navbar';
+import { API_BASE_URL } from '@/config/api';
+
+interface Product {
+  id: number;
+  name: string;
+  price: string;
+  description?: string;
+  image?: string;
+  category_name?: string;
+}
 
 export default function Home() {
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
   const [carouselIndex, setCarouselIndex] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [products, setProducts] = useState<Product[]>([]);
   const [carouselItems, setCarouselItems] = useState([
     { title: 'Premium Recycled Plastic Products', image: 'https://images.pexels.com/photos/3962286/pexels-photo-3962286.jpeg?w=800&h=600&fit=crop' },
     { title: 'Eco-Friendly Packaging Solutions', image: 'https://images.pexels.com/photos/5830900/pexels-photo-5830900.jpeg?w=800&h=600&fit=crop' },
@@ -52,13 +64,6 @@ export default function Home() {
     { metric: 'Health', description: 'Healthier communities through reduced pollution', image: 'https://images.pexels.com/photos/4101143/pexels-photo-4101143.jpeg?w=400&h=400&fit=crop' },
   ];
 
-  const products = [
-    { name: 'Recycled Storage Bins', price: 'D 850', custom: true, description: 'Durable, eco-friendly storage solution made from 100% recycled plastic.' },
-    { name: 'Eco Lunch Container Set', price: 'D 1,200', custom: false, description: 'Sustainable meal prep containers perfect for on-the-go lifestyles.' },
-    { name: 'Recycled Water Bottle', price: 'D 750', custom: false, description: 'Lightweight, reusable bottle crafted from recycled plastic materials.' },
-    { name: 'Sustainable Organizers', price: 'D 1,050', custom: true, description: 'Stylish organizers for your home, made with sustainable practices.' },
-  ];
-
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
     if (email) {
@@ -69,6 +74,20 @@ export default function Home() {
       }, 3000);
     }
   };
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get(`${API_BASE_URL}/products/`);
+        const fetchedProducts = response.data.results || response.data || [];
+        setProducts(fetchedProducts.slice(0, 4));
+      } catch (error) {
+        console.error('Failed to fetch products:', error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -194,24 +213,35 @@ export default function Home() {
           <h2 className="text-4xl font-bold text-neutral-900 mb-12 text-center">Featured Collections</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {products.map((product, i) => {
-              const dummyImages = [
-                'https://images.pexels.com/photos/3962286/pexels-photo-3962286.jpeg?w=500&h=500&fit=crop',
-                'https://images.pexels.com/photos/5830900/pexels-photo-5830900.jpeg?w=500&h=500&fit=crop',
-                'https://images.pexels.com/photos/5632399/pexels-photo-5632399.jpeg?w=500&h=500&fit=crop',
-                'https://images.pexels.com/photos/6474056/pexels-photo-6474056.jpeg?w=500&h=500&fit=crop',
-              ];
-              return (
-                <div key={i} className="group cursor-pointer">
-                  <div className="h-64 rounded-2xl overflow-hidden mb-4 group-hover:opacity-80 transition">
-                    <img src={dummyImages[i]} alt={product.name} className="w-full h-full object-cover" />
+            {products.length > 0 ? (
+              products.map((product, i) => {
+                const dummyImages = [
+                  'https://images.pexels.com/photos/3962286/pexels-photo-3962286.jpeg?w=500&h=500&fit=crop',
+                  'https://images.pexels.com/photos/5830900/pexels-photo-5830900.jpeg?w=500&h=500&fit=crop',
+                  'https://images.pexels.com/photos/5632399/pexels-photo-5632399.jpeg?w=500&h=500&fit=crop',
+                  'https://images.pexels.com/photos/6474056/pexels-photo-6474056.jpeg?w=500&h=500&fit=crop',
+                ];
+                return (
+                  <div key={product.id} className="group cursor-pointer">
+                    <div className="h-64 rounded-2xl overflow-hidden mb-4 group-hover:opacity-80 transition bg-gray-200">
+                      <img
+                        src={product.image || dummyImages[i % dummyImages.length]}
+                        alt={product.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <h3 className="text-lg font-bold text-neutral-900 mb-2">{product.name}</h3>
+                    <p className="text-sm text-neutral-600 mb-2 line-clamp-2">{product.description || 'Premium recycled plastic product'}</p>
+                    <p className="text-xl font-bold text-emerald-600 mb-2">D {parseFloat(product.price).toLocaleString('en-GM')}</p>
+                    {product.category_name && <p className="text-xs text-emerald-600 font-bold uppercase">{product.category_name}</p>}
                   </div>
-                  <h3 className="text-lg font-bold text-neutral-900 mb-2">{product.name}</h3>
-                  <p className="text-sm text-neutral-600 mb-3">{product.description}</p>
-                  {product.custom && <p className="text-xs text-emerald-600 font-bold">CUSTOMIZABLE</p>}
-                </div>
-              );
-            })}
+                );
+              })
+            ) : (
+              <div className="col-span-full text-center py-12">
+                <p className="text-neutral-600">Loading products...</p>
+              </div>
+            )}
           </div>
         </div>
       </section>

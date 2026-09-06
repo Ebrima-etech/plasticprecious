@@ -113,6 +113,9 @@ export default function Home() {
                 </div>
               </div>
             </div>
+            <div className="flex items-center justify-center flex-1">
+              <p className="text-white font-bold text-sm uppercase tracking-wider">Trash to Treasure</p>
+            </div>
             <div className="flex items-center gap-3 ml-auto">
               <button className="text-white hover:text-gray-200 transition text-xs font-medium">Track Order</button>
               <button className="text-white hover:text-gray-200 transition text-xs font-medium">Support</button>
@@ -186,7 +189,6 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-center">
             {/* Left Content */}
             <div>
-              <p className="text-emerald-100 font-bold mb-2 text-sm uppercase tracking-wider">Trash to Treasure</p>
               <h1 className="text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight">
                 From Pollution to
                 <span className="block">

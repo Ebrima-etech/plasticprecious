@@ -67,33 +67,33 @@ export default function Home() {
       <div className="sticky top-0 z-50 bg-slate-950 border-b border-neutral-800">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex items-center justify-between py-3 text-xs text-white overflow-x-auto">
-            <div className="flex items-center gap-6 whitespace-nowrap">
-              <div className="flex items-center gap-2">
-                <GiRecycle className="text-emerald-400 text-lg" />
+            <div className="flex items-center gap-3 whitespace-nowrap">
+              <div className="flex items-center gap-2 bg-emerald-900 bg-opacity-60 rounded-lg px-3 py-2">
+                <GiRecycle className="text-emerald-300 text-lg" />
                 <div>
-                  <div className="text-gray-400 text-xs">Eco-Friendly</div>
-                  <div className="font-semibold text-emerald-300">Premium Products</div>
+                  <div className="text-emerald-200 text-xs">Eco-Friendly</div>
+                  <div className="font-semibold text-emerald-100">Premium Products</div>
                 </div>
               </div>
-              <div className="flex items-center gap-2">
-                <FiTruck className="text-emerald-400 text-lg" />
+              <div className="flex items-center gap-2 bg-blue-900 bg-opacity-60 rounded-lg px-3 py-2">
+                <FiTruck className="text-blue-300 text-lg" />
                 <div>
-                  <div className="text-gray-400 text-xs">Fast & Free</div>
-                  <div className="font-semibold text-white">Delivery Available</div>
+                  <div className="text-blue-200 text-xs">Fast & Free</div>
+                  <div className="font-semibold text-blue-100">Delivery Available</div>
                 </div>
               </div>
-              <div className="flex items-center gap-2">
-                <FiCheck className="text-emerald-400 text-lg" />
+              <div className="flex items-center gap-2 bg-purple-900 bg-opacity-60 rounded-lg px-3 py-2">
+                <FiCheck className="text-purple-300 text-lg" />
                 <div>
-                  <div className="text-gray-400 text-xs">100% Certified</div>
-                  <div className="font-semibold text-white">Sustainable</div>
+                  <div className="text-purple-200 text-xs">100% Certified</div>
+                  <div className="font-semibold text-purple-100">Sustainable</div>
                 </div>
               </div>
-              <div className="flex items-center gap-2">
-                <FiHeart className="text-red-400 text-lg" />
+              <div className="flex items-center gap-2 bg-red-900 bg-opacity-60 rounded-lg px-3 py-2">
+                <FiHeart className="text-red-300 text-lg" />
                 <div>
-                  <div className="text-gray-400 text-xs">Supporting</div>
-                  <div className="font-semibold text-white">Communities</div>
+                  <div className="text-red-200 text-xs">Supporting</div>
+                  <div className="font-semibold text-red-100">Communities</div>
                 </div>
               </div>
             </div>

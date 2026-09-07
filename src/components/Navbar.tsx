@@ -37,7 +37,7 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
   useEffect(() => {
     const interval = setInterval(() => {
       setRotatingIndex((prev) => (prev + 1) % rotatingItems.length);
-    }, 4000);
+    }, 6000);
     return () => clearInterval(interval);
   }, [rotatingItems.length]);
 
@@ -46,7 +46,8 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
       <style>{`
         @keyframes slideUpFadeIn {
           0% { opacity: 0; transform: translateY(30px); }
-          20% { opacity: 1; transform: translateY(0); }
+          15% { opacity: 1; transform: translateY(0); }
+          85% { opacity: 1; transform: translateY(0); }
           100% { opacity: 1; transform: translateY(0); }
         }
         @keyframes fadeOut {
@@ -55,7 +56,7 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
           100% { opacity: 0; }
         }
         .rotating-text-current {
-          animation: fadeOut 4s ease-in-out;
+          animation: fadeOut 6s ease-in-out;
           display: block;
           position: absolute;
           left: 0;
@@ -64,7 +65,7 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
           line-height: 1.2;
         }
         .rotating-text-next {
-          animation: slideUpFadeIn 4s ease-in-out;
+          animation: slideUpFadeIn 6s ease-in-out;
           display: block;
           position: absolute;
           left: 0;

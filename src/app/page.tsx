@@ -400,7 +400,7 @@ export default function Home() {
                 ];
                 return (
                   <Link key={product.id} href={`/shop/${product.id}`}>
-                    <div className="min-w-[100%] md:min-w-[48%] lg:min-w-[30%]">
+                    <div className="w-[calc(100vw-48px)] md:min-w-[48%] lg:min-w-[30%]">
                       <div className={`cursor-pointer h-full bg-white flex flex-col rounded-xl transition-all duration-300 overflow-hidden group border border-slate-200 hover:border-emerald-400`}>
                         <div className="relative h-[28rem] md:h-72 overflow-hidden bg-slate-200">
                           {product.image ? (

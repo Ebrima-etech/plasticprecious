@@ -525,7 +525,7 @@ export default function Home() {
               'https://images.pexels.com/photos/3962286/pexels-photo-3962286.jpeg?w=150&h=80&fit=crop',
             ].map((logo, i) => (
               <div key={i} className="flex items-center justify-center h-24 w-40 group hover:scale-110 transition-transform duration-300">
-                <img src={logo} alt={`Partner ${i + 1}`} className="max-w-full max-h-full object-contain group-hover:grayscale-0 grayscale opacity-60 group-hover:opacity-100 transition-all duration-300" />
+                <img src={logo} alt={`Partner ${i + 1}`} className="max-w-full max-h-full object-contain" />
               </div>
             ))}
           </div>

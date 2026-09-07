@@ -208,11 +208,6 @@ export default function Home() {
       `}</style>
       <Navbar showNavLinks={true} sticky={false} showCategories={true} />
 
-      {/* Promotional Banner */}
-      <div className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white text-center py-3 px-6">
-        <p className="text-sm lg:text-base font-bold">🌍 SUSTAINABILITY SALE: Get 20% off eco-friendly collections this week</p>
-      </div>
-
       {/* Hero Section */}
       <section className="bg-white py-12 lg:py-16 flex items-center relative overflow-hidden grid-pattern">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full relative z-10">

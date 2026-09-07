@@ -42,10 +42,10 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
     <>
       <style>{`
         @keyframes slideUpFade {
-          0% { opacity: 0; transform: translateY(20px); }
-          5% { opacity: 1; transform: translateY(0); }
-          95% { opacity: 1; transform: translateY(0); }
-          100% { opacity: 0; transform: translateY(-20px); }
+          0% { opacity: 0; transform: translateY(30px); }
+          25% { opacity: 1; transform: translateY(0); }
+          75% { opacity: 1; transform: translateY(0); }
+          100% { opacity: 0; transform: translateY(-30px); }
         }
         .rotating-text {
           animation: slideUpFade 4s ease-in-out;

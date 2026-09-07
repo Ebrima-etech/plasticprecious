@@ -91,10 +91,6 @@ export default function ProductsPage() {
                           ) : (
                             <FiPackage className="w-16 h-16 text-emerald-400" />
                           )}
-                          {/* Locally Made Badge */}
-                          <div className="absolute top-4 left-4 bg-emerald-600 text-white px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1">
-                            🌍 Locally Made
-                          </div>
                         </div>
 
                         {/* Product Info */}
@@ -106,6 +102,11 @@ export default function ProductsPage() {
                             <Badge variant={stockBadge.variant} size="sm">
                               {stockBadge.text}
                             </Badge>
+                          </div>
+
+                          {/* Locally Made Badge */}
+                          <div className="mb-3 inline-flex items-center gap-1 bg-emerald-600 text-white px-3 py-1 rounded-full text-xs font-bold">
+                            🌍 Locally Made
                           </div>
 
                           {/* Sustainability Badge */}

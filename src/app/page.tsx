@@ -263,6 +263,19 @@ export default function Home() {
           height: 2.4em;
           overflow: visible;
         }
+        @keyframes gradientShift {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+        .gradient-animate-text {
+          background: linear-gradient(90deg, #10b981, #14b8a6, #10b981);
+          background-size: 200% 200%;
+          animation: gradientShift 4s ease infinite;
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
       `}</style>
       <Navbar showNavLinks={true} sticky={false} showCategories={true} />
 
@@ -282,7 +295,7 @@ export default function Home() {
               </div>
 
               <h1 className="text-5xl lg:text-7xl font-black text-slate-900 mb-6 leading-tight animate-fade-in-up animation-delay-100 tracking-tight">
-                From <span className="bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent">Pollution</span> to Solution
+                From <span className="bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent">Pollution</span> to <span className="gradient-animate-text">Solution</span>
               </h1>
               <p className="text-xl text-slate-700 mb-8 max-w-xl animate-fade-in-up animation-delay-200 leading-relaxed font-semibold">
                 Transforming plastic waste into valuable, sustainable products while creating positive change for communities and our environment.

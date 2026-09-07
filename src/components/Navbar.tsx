@@ -137,8 +137,8 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
 
             {/* Right Navigation & Actions */}
             <div className="flex items-center gap-2 md:gap-4 ml-auto">
-              {/* Language Selector */}
-              <button className="hidden lg:flex items-center gap-1 text-white hover:text-emerald-300 transition text-sm font-medium">
+              {/* Language Selector - Visible on all screens */}
+              <button className="flex items-center gap-1 text-white hover:text-emerald-300 transition text-xs md:text-sm font-medium">
                 Eng
                 <FiChevronDown size={16} />
               </button>
@@ -164,26 +164,26 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
 
           {/* Mobile Menu */}
           {mobileMenuOpen && showNavLinks && (
-            <div className="lg:hidden pb-4 border-t border-emerald-800">
-              <Link href="/" className="block text-white hover:text-emerald-300 transition text-sm font-medium py-2">
+            <div className="lg:hidden pb-4 bg-emerald-600 border-t border-emerald-700">
+              <Link href="/" className="block text-white hover:text-emerald-100 transition text-sm font-medium py-2">
                 Mission
               </Link>
-              <Link href="/services" className="block text-white hover:text-emerald-300 transition text-sm font-medium py-2">
+              <Link href="/services" className="block text-white hover:text-emerald-100 transition text-sm font-medium py-2">
                 Services
               </Link>
-              <Link href="#" className="block text-white hover:text-emerald-300 transition text-sm font-medium py-2">
+              <Link href="#" className="block text-white hover:text-emerald-100 transition text-sm font-medium py-2">
                 Sale
               </Link>
-              <Link href="/blog" className="block text-white hover:text-emerald-300 transition text-sm font-medium py-2">
+              <Link href="/blog" className="block text-white hover:text-emerald-100 transition text-sm font-medium py-2">
                 Blog
               </Link>
-              <Link href="/about" className="block text-white hover:text-emerald-300 transition text-sm font-medium py-2">
+              <Link href="/about" className="block text-white hover:text-emerald-100 transition text-sm font-medium py-2">
                 About Us
               </Link>
-              <Link href="#" className="block text-white hover:text-emerald-300 transition text-sm font-medium py-2">
+              <Link href="#" className="block text-white hover:text-emerald-100 transition text-sm font-medium py-2">
                 Impact
               </Link>
-              <Link href="/auth/login" className="block text-white hover:text-emerald-300 transition text-sm font-medium py-2">
+              <Link href="/auth/login" className="block text-white hover:text-emerald-100 transition text-sm font-medium py-2">
                 My Account
               </Link>
             </div>

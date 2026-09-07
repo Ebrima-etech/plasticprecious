@@ -88,8 +88,16 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
       <nav className={`${sticky ? 'sticky' : ''} top-0 z-40 bg-emerald-900`} style={{ borderBottom: isScrolled ? '0.75px solid rgba(255, 255, 255, 0.12)' : 'none' }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex items-center justify-between h-12">
+            {/* Mobile Menu Toggle - On the Left */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="lg:hidden text-white hover:text-emerald-300 transition p-1 mr-3"
+            >
+              {mobileMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+            </button>
+
             {/* Logo */}
-            <Link href="/" className="text-lg md:text-xl font-bold text-white hover:text-emerald-100 transition">
+            <Link href="/" className="text-lg md:text-xl font-bold text-white hover:text-emerald-100 transition flex-1 md:flex-none">
               PLASTICPRECIOUS
             </Link>
 
@@ -135,13 +143,15 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
                 <FiChevronDown size={16} />
               </button>
 
-              <Link href="/auth/login" className="hidden md:flex">
-                <div className="flex items-center gap-2 text-white hover:text-emerald-300 transition cursor-pointer">
+              {/* Account - Show on all screens now */}
+              <Link href="/auth/login">
+                <div className="flex items-center gap-1 md:gap-2 text-white hover:text-emerald-300 transition cursor-pointer">
                   <FiUser size={20} />
-                  <span className="text-xs font-medium">My Account</span>
+                  <span className="text-xs font-medium hidden md:inline">My Account</span>
                 </div>
               </Link>
 
+              {/* Cart */}
               <Link href="/cart">
                 <div className="flex items-center gap-1 md:gap-2 text-white hover:text-emerald-300 transition cursor-pointer relative">
                   <FiShoppingCart size={20} />
@@ -149,14 +159,6 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
                   <span className="absolute -top-3 -right-3 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">0</span>
                 </div>
               </Link>
-
-              {/* Mobile Menu Toggle */}
-              <button
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="lg:hidden text-white hover:text-emerald-300 transition p-1"
-              >
-                {mobileMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
-              </button>
             </div>
           </div>
 
@@ -189,28 +191,17 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
         </div>
       </nav>
 
-      {/* Categories Row */}
-      {showCategories && (
-        <div className="bg-emerald-900 flex items-center gap-8 py-2 overflow-x-auto">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full flex items-center gap-8">
-            <a href="/shop" target="_blank" rel="noopener noreferrer" className="text-emerald-400 hover:text-emerald-600 transition text-sm whitespace-nowrap">
-              Collections
-            </a>
-            <a href="/shop" target="_blank" rel="noopener noreferrer" className="text-emerald-400 hover:text-emerald-600 transition text-sm whitespace-nowrap">
-              Custom Products
-            </a>
-            <a href="/shop" target="_blank" rel="noopener noreferrer" className="text-emerald-400 hover:text-emerald-600 transition text-sm whitespace-nowrap">
-              Eco Products
-            </a>
-            <a href="/shop" target="_blank" rel="noopener noreferrer" className="text-emerald-400 hover:text-emerald-600 transition text-sm whitespace-nowrap">
-              Recycled Plastic
-            </a>
-            <a href="/shop" target="_blank" rel="noopener noreferrer" className="text-emerald-400 hover:text-emerald-600 transition text-sm whitespace-nowrap">
-              Sustainable Living
-            </a>
-          </div>
+      {/* Mobile Search Bar - Replaces Categories Row */}
+      <div className="lg:hidden bg-emerald-900 py-2 px-6">
+        <div className="flex items-center bg-white border-0 px-4 rounded-full" style={{ paddingTop: '0.375rem', paddingBottom: '0.375rem' }}>
+          <FiSearch size={16} className="text-emerald-600" />
+          <input
+            type="text"
+            placeholder="Search products"
+            className="bg-transparent text-teal-900 text-sm placeholder-gray-500 placeholder-opacity-50 ml-3 w-full focus:outline-none"
+          />
         </div>
-      )}
+      </div>
     </>
   );
 }

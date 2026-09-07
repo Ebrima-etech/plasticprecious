@@ -10,7 +10,19 @@ export default function LayoutClient({
   return (
     <>
       <style>{`
+        @keyframes bodyOverflowHide {
+          0% {
+            overflow: hidden;
+          }
+          99% {
+            overflow: hidden;
+          }
+          100% {
+            overflow: auto;
+          }
+        }
         body {
+          animation: bodyOverflowHide 5.8s ease-in-out forwards;
           overflow: hidden;
         }
         @keyframes contentFadeIn {

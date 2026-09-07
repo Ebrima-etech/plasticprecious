@@ -61,7 +61,7 @@ export default function ProductsPage() {
       <Navbar showNavLinks={true} />
 
       {/* Content */}
-      <section className="py-16 lg:py-24 bg-white relative overflow-hidden grid-pattern">
+      <section className="py-6 lg:py-8 bg-white relative overflow-hidden grid-pattern">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           {loading ? (
             <ProductGridSkeleton columns={3} />

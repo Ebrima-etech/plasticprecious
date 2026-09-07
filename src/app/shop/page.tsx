@@ -105,7 +105,7 @@ export default function ProductsPage() {
                           </div>
 
                           {/* Locally Made Badge */}
-                          <div className="mb-3 inline-flex items-center gap-1 bg-emerald-600 text-white px-3 py-1 rounded-full text-xs font-bold">
+                          <div className="mb-3 inline-flex items-center gap-1 bg-emerald-600 text-white px-2 py-0.5 rounded-full text-xs font-bold w-fit">
                             🌍 Locally Made
                           </div>
 

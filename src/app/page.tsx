@@ -348,8 +348,8 @@ export default function Home() {
 
       {/* Best Selling Products */}
       <section className="py-16 lg:py-24 bg-white relative overflow-hidden grid-pattern">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-          <div className="mb-16 animate-fade-in-up">
+        <div className="max-w-7xl mx-auto px-0 md:px-6 lg:px-8 relative z-10">
+          <div className="mb-16 animate-fade-in-up px-6 md:px-0">
             <div className="inline-block bg-emerald-100 text-emerald-700 px-4 py-2 rounded-full text-sm font-bold mb-4">
               🏆 BESTSELLERS
             </div>
@@ -360,7 +360,7 @@ export default function Home() {
           <div className="relative">
             {/* Product Carousel */}
             <div className="overflow-x-auto scrollbar-hide">
-              <div className="flex gap-6 pb-4" style={{ width: 'fit-content', minWidth: '100%' }}>
+              <div className="flex gap-6 pb-4 px-6 md:px-0" style={{ width: 'fit-content', minWidth: '100%' }}>
                 {products.length > 0 ? (
               products.map((product, i) => {
                 const dummyImages = [
@@ -371,7 +371,7 @@ export default function Home() {
                 ];
                 return (
                   <Link key={product.id} href={`/shop/${product.id}`}>
-                    <div className="min-w-full md:min-w-1/2 lg:min-w-1/3">
+                    <div className="min-w-[80%] md:min-w-1/2 lg:min-w-1/3">
                       <div className={`cursor-pointer h-full bg-white flex flex-col rounded-xl transition-all duration-300 overflow-hidden group border border-slate-200 hover:border-emerald-400`}>
                         <div className="relative h-72 overflow-hidden bg-slate-200">
                           {product.image ? (

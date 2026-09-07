@@ -27,7 +27,7 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
   return (
     <>
       {/* Top Promo Bar - Desktop Only */}
-      <div className="hidden md:block bg-black">
+      <div className="hidden md:block" style={{ backgroundColor: '#002b2f' }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex items-center justify-between py-2 text-xs text-white overflow-x-auto">
             <div className="flex items-center gap-6 whitespace-nowrap">

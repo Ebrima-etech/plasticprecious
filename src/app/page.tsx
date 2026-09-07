@@ -35,9 +35,9 @@ export default function Home() {
     '♻️ TRASH TO TREASURE'
   ];
   const [carouselItems, setCarouselItems] = useState([
-    { title: 'Premium Recycled Plastic Products', image: 'https://images.pexels.com/photos/3962286/pexels-photo-3962286.jpeg?w=800&h=600&fit=crop' },
-    { title: 'Eco-Friendly Packaging Solutions', image: 'https://images.pexels.com/photos/5830900/pexels-photo-5830900.jpeg?w=800&h=600&fit=crop' },
-    { title: 'Sustainable Storage Options', image: 'https://images.pexels.com/photos/5632399/pexels-photo-5632399.jpeg?w=800&h=600&fit=crop' },
+    { title: 'Plastic Waste Recycling & Processing', image: 'https://images.pexels.com/photos/3962286/pexels-photo-3962286.jpeg?w=800&h=600&fit=crop' },
+    { title: 'Transforming Plastic into Quality Products', image: 'https://images.pexels.com/photos/8723319/pexels-photo-8723319.jpeg?w=800&h=600&fit=crop' },
+    { title: 'Sustainable Recycled Plastic Solutions', image: 'https://images.pexels.com/photos/5632399/pexels-photo-5632399.jpeg?w=800&h=600&fit=crop' },
   ]);
 
   const services = [

@@ -387,9 +387,8 @@ export default function Home() {
           </div>
 
           <div className="relative">
-            {/* Product Carousel */}
-            <div className="overflow-x-auto scrollbar-hide">
-              <div className="flex gap-4 lg:gap-6 pb-4 px-3 lg:px-0" style={{ width: 'fit-content', minWidth: '100%' }}>
+            {/* Product Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 px-3 lg:px-0">
                 {products.length > 0 ? (
               products.map((product, i) => {
                 const dummyImages = [
@@ -400,7 +399,7 @@ export default function Home() {
                 ];
                 return (
                   <Link key={product.id} href={`/shop/${product.id}`}>
-                    <div className="w-[calc(100vw-48px)] md:w-auto md:min-w-[48%] lg:min-w-[24%]">
+                    <div className="w-full">
                       <div className={`cursor-pointer h-full bg-white flex flex-col rounded-xl transition-all duration-300 overflow-hidden group border border-slate-200 hover:border-emerald-400`}>
                         <div className="relative h-[28rem] lg:h-72 overflow-hidden bg-slate-200">
                           {product.image ? (
@@ -441,7 +440,6 @@ export default function Home() {
                     <p className="text-slate-600">Loading products...</p>
                   </div>
                 )}
-              </div>
             </div>
           </div>
         </div>

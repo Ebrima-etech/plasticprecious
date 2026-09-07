@@ -213,8 +213,8 @@ export default function Home() {
         }
         .grid-pattern {
           background-image:
-            linear-gradient(90deg, rgba(16, 185, 129, 0.1) 1px, transparent 1px),
-            linear-gradient(rgba(16, 185, 129, 0.1) 1px, transparent 1px);
+            linear-gradient(90deg, rgba(16, 185, 129, 0.03) 1px, transparent 1px),
+            linear-gradient(rgba(16, 185, 129, 0.03) 1px, transparent 1px);
           background-size: 40px 40px;
           background-position: 0 0, 0 0;
         }
@@ -347,7 +347,7 @@ export default function Home() {
       </section>
 
       {/* Best Selling Products */}
-      <section className="py-16 lg:py-24 bg-slate-50 relative overflow-hidden grid-pattern">
+      <section className="py-16 lg:py-24 bg-white relative overflow-hidden grid-pattern">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="mb-16 animate-fade-in-up">
             <div className="inline-block bg-emerald-100 text-emerald-700 px-4 py-2 rounded-full text-sm font-bold mb-4">

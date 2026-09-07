@@ -249,7 +249,7 @@ export default function Home() {
       {/* Best Selling Products */}
       <section className="pt-3 md:pt-4 lg:pt-6 pb-12 md:pb-16 lg:pb-20 bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-neutral-900 mb-12 text-left animate-fade-in-up">Best selling products</h2>
+          <h2 className="text-2xl font-bold text-neutral-900 mb-12 text-left animate-fade-in-up tracking-wide">Best selling products</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {products.length > 0 ? (
@@ -303,8 +303,8 @@ export default function Home() {
       <section className="pt-3 md:pt-4 lg:pt-6 pb-12 md:pb-16 lg:pb-20 bg-gradient-to-b from-emerald-50 to-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-neutral-900 mb-3 animate-fade-in-up">Our Impact</h2>
-            <p className="text-neutral-600 font-medium animate-fade-in-up animation-delay-100">Measurable change across communities and the environment</p>
+            <h2 className="text-4xl font-bold text-neutral-900 mb-3 animate-fade-in-up tracking-wide">Our Impact</h2>
+            <p className="text-neutral-600 font-medium animate-fade-in-up animation-delay-100 tracking-wide">Measurable change across communities and the environment</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {impacts.map((item, i) => (
@@ -340,8 +340,8 @@ export default function Home() {
       <section id="services" className="pt-3 md:pt-4 lg:pt-6 pb-12 md:pb-16 lg:pb-20 bg-gradient-to-b from-white to-emerald-50">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-neutral-900 mb-3 animate-fade-in-up">Our Services</h2>
-            <p className="text-neutral-600 font-medium animate-fade-in-up animation-delay-100">Comprehensive solutions for sustainable plastic management</p>
+            <h2 className="text-4xl font-bold text-neutral-900 mb-3 animate-fade-in-up tracking-wide">Our Services</h2>
+            <p className="text-neutral-600 font-medium animate-fade-in-up animation-delay-100 tracking-wide">Comprehensive solutions for sustainable plastic management</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {services.map((service, i) => {
@@ -409,8 +409,8 @@ export default function Home() {
             <span className="text-white text-sm font-semibold">✉️ Newsletter</span>
           </div>
 
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Stay Updated</h2>
-          <p className="text-emerald-50 text-lg mb-8 max-w-lg mx-auto">
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 tracking-wide">Stay Updated</h2>
+          <p className="text-emerald-50 text-lg mb-8 max-w-lg mx-auto tracking-wide">
             Be the first to know about new collections, exclusive offers, and sustainable practices from our community.
           </p>
 

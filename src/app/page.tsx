@@ -218,10 +218,10 @@ export default function Home() {
           background-size: 40px 40px;
           background-position: 0 0, 0 0;
         }
-        @keyframes badgeFadeOut {
-          0% { opacity: 1; transform: translateY(0); }
-          50% { opacity: 0; transform: translateY(0); }
-          100% { opacity: 0; transform: translateY(0); }
+        @keyframes badgeDisappear {
+          0% { opacity: 1; }
+          1% { opacity: 0; }
+          100% { opacity: 0; }
         }
         @keyframes badgeSlideUpFadeIn {
           0% { opacity: 0; transform: translateY(20px); }
@@ -230,7 +230,7 @@ export default function Home() {
           100% { opacity: 1; transform: translateY(0); }
         }
         .badge-current {
-          animation: badgeFadeOut 6s ease-in-out;
+          animation: badgeDisappear 6s ease-in-out;
           display: inline-block;
           position: absolute;
           left: 0;

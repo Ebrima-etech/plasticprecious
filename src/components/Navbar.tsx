@@ -61,6 +61,7 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
           left: 0;
           top: 0;
           width: max-content;
+          line-height: 1.2;
         }
         .rotating-text-next {
           animation: slideUpFadeIn 4s ease-in-out;
@@ -69,12 +70,14 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
           left: 0;
           top: 0;
           width: max-content;
+          line-height: 1.2;
         }
         .rotating-text-container {
           position: relative;
           display: inline-block;
           min-width: 140px;
-          height: 2.2em;
+          height: 2.4em;
+          overflow: hidden;
         }
       `}</style>
       {/* Top Promo Bar - Desktop Only */}

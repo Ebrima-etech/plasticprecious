@@ -101,7 +101,7 @@ export default function ProductDetailPage() {
   if (!product) {
     return (
       <div className="min-h-screen bg-white">
-        <Navbar />
+        <Navbar showNavLinks={true} />
         <div className="max-w-7xl mx-auto px-6 lg:px-8 py-20 text-center">
           <h1 className="text-2xl font-bold text-slate-900 mb-4">Product Not Found</h1>
           <Link href="/shop">
@@ -125,7 +125,7 @@ export default function ProductDetailPage() {
           background-position: 0 0, 0 0;
         }
       `}</style>
-      <Navbar />
+      <Navbar showNavLinks={true} />
 
       {/* Breadcrumb */}
       <div className="max-w-7xl mx-auto px-6 lg:px-8 py-6 border-b border-slate-100">

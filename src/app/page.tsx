@@ -178,28 +178,31 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Buttons and Feature Callouts */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 pt-8">
-            {/* Left Column - Explore Services */}
-            <div className="flex flex-col items-center">
-              <Link href="/services" className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-8 py-2.5 transition text-base rounded-full inline-block text-center w-full sm:w-auto">
-                Explore Services
+        </div>
+      </section>
+
+      {/* CTA Section - Dark Background */}
+      <section className="bg-emerald-900 py-12 md:py-16">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            {/* Left - Work with us */}
+            <div className="flex flex-col items-center text-center">
+              <Link href="/services" className="bg-white hover:bg-gray-100 text-emerald-900 font-bold px-12 py-3 transition text-base rounded-full inline-block mb-6">
+                Work with us
               </Link>
-              <div className="text-center mt-6">
-                <p className="text-emerald-600 text-xs font-bold uppercase mb-2">CUSTOM PRODUCTS</p>
-                <p className="text-emerald-900 text-sm font-bold">For large businesses <br /> and complex programs</p>
-              </div>
+              <p className="text-white text-sm leading-relaxed">
+                Custom quoting for large<br /> businesses and complex<br /> programs
+              </p>
             </div>
 
-            {/* Right Column - Shop Products */}
-            <div className="flex flex-col items-center">
-              <a href="/shop" target="_blank" rel="noopener noreferrer" className="border-2 border-emerald-600 text-emerald-600 hover:bg-emerald-600 hover:text-white font-bold px-8 py-2.5 transition text-base bg-transparent rounded-full inline-block text-center w-full sm:w-auto">
-                Shop Products
+            {/* Right - Shop now */}
+            <div className="flex flex-col items-center text-center">
+              <a href="/shop" target="_blank" rel="noopener noreferrer" className="border-2 border-white text-white hover:bg-white hover:text-emerald-900 font-bold px-12 py-3 transition text-base bg-transparent rounded-full inline-block mb-6">
+                Shop now
               </a>
-              <div className="text-center mt-6">
-                <p className="text-emerald-600 text-xs font-bold uppercase mb-2">READY PRODUCTS</p>
-                <p className="text-emerald-900 text-sm font-bold">Customizable, <br /> ready-to-buy options</p>
-              </div>
+              <p className="text-white text-sm leading-relaxed">
+                Customizable, ready-to-buy<br /> options
+              </p>
             </div>
           </div>
         </div>

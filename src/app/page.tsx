@@ -219,9 +219,9 @@ export default function Home() {
           background-position: 0 0, 0 0;
         }
         @keyframes badgeFadeOut {
-          0% { opacity: 1; }
-          50% { opacity: 0; }
-          100% { opacity: 0; }
+          0% { opacity: 1; transform: translateY(0); }
+          50% { opacity: 0; transform: translateY(0); }
+          100% { opacity: 0; transform: translateY(0); }
         }
         @keyframes badgeSlideUpFadeIn {
           0% { opacity: 0; transform: translateY(20px); }
@@ -233,17 +233,28 @@ export default function Home() {
           animation: badgeFadeOut 6s ease-in-out;
           display: inline-block;
           position: absolute;
+          background-color: rgb(209, 250, 229);
+          color: rgb(5, 122, 85);
+          padding: 0.5rem 1rem;
+          border-radius: 9999px;
+          font-size: 0.875rem;
+          font-weight: 700;
         }
         .badge-next {
           animation: badgeSlideUpFadeIn 6s ease-in-out;
           display: inline-block;
           position: absolute;
+          background-color: rgb(209, 250, 229);
+          color: rgb(5, 122, 85);
+          padding: 0.5rem 1rem;
+          border-radius: 9999px;
+          font-size: 0.875rem;
+          font-weight: 700;
         }
         .badge-container {
           position: relative;
           display: inline-block;
-          min-width: 180px;
-          height: 1.8em;
+          height: 2.5em;
           overflow: hidden;
         }
       `}</style>
@@ -255,7 +266,7 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* Left Content */}
             <div className="w-full">
-              <div className="badge-container bg-emerald-100 text-emerald-700 px-4 py-2 rounded-full text-sm font-bold mb-6 animate-fade-in-up">
+              <div className="badge-container mb-6 animate-fade-in-up">
                 <div key={`current-${badgeIndex}`} className="badge-current">
                   {badgeItems[badgeIndex]}
                 </div>

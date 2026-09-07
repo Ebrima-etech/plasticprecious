@@ -219,7 +219,6 @@ class CartService {
       throw error;
     }
   }
-}
 
   async mergeAnonymousCart(): Promise<Cart> {
     // Merge anonymous cart items into authenticated cart

@@ -207,7 +207,7 @@ export default function Home() {
       </div>
 
       {/* Hero Section */}
-      <section className="bg-white py-12 lg:py-16 flex items-center relative overflow-hidden">
+      <section className="bg-white py-12 lg:py-16 flex items-center relative overflow-hidden grid-pattern">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* Left Content */}
@@ -269,7 +269,7 @@ export default function Home() {
       </section>
 
       {/* Best Selling Products */}
-      <section className="py-16 lg:py-24 bg-slate-50 relative overflow-hidden">
+      <section className="py-16 lg:py-24 bg-slate-50 relative overflow-hidden grid-pattern">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="mb-16 animate-fade-in-up">
             <div className="inline-block bg-emerald-100 text-emerald-700 px-4 py-2 rounded-full text-sm font-bold mb-4">
@@ -343,7 +343,7 @@ export default function Home() {
       </section>
 
       {/* Impact Section */}
-      <section className="py-16 lg:py-24 bg-white relative overflow-hidden">
+      <section className="py-16 lg:py-24 bg-white relative overflow-hidden grid-pattern">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="mb-16 animate-fade-in-up">
             <div className="inline-block bg-emerald-100 text-emerald-700 px-4 py-2 rounded-full text-sm font-bold mb-4">
@@ -384,7 +384,7 @@ export default function Home() {
       </section>
 
       {/* Services Section */}
-      <section id="services" className="py-16 lg:py-24 bg-slate-50 relative overflow-hidden">
+      <section id="services" className="py-16 lg:py-24 bg-slate-50 relative overflow-hidden grid-pattern">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="mb-16 animate-fade-in-up">
             <div className="inline-block bg-emerald-100 text-emerald-700 px-4 py-2 rounded-full text-sm font-bold mb-4">
@@ -428,7 +428,7 @@ export default function Home() {
       </section>
 
       {/* Partners Section */}
-      <section className="py-16 lg:py-20 bg-gradient-to-br from-slate-50 to-emerald-50 relative overflow-hidden">
+      <section className="py-16 lg:py-20 bg-gradient-to-br from-slate-50 to-emerald-50 relative overflow-hidden grid-pattern">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="text-center mb-16 animate-fade-in-up">
             <div className="inline-block bg-emerald-100 text-emerald-700 px-4 py-2 rounded-full text-sm font-bold mb-4">

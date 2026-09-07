@@ -317,7 +317,7 @@ export default function Home() {
             {/* Right - Hero Image/Carousel */}
             <div className="hidden lg:flex relative flex-col items-center w-full animate-fade-in-up animation-delay-300">
               <div className="relative w-full">
-                <div className="rounded-2xl h-[60vh] flex flex-col items-center justify-center overflow-hidden relative shadow-2xl">
+                <div className="rounded-2xl h-[75vh] flex flex-col items-center justify-center overflow-hidden relative shadow-2xl">
                   {carouselItems[carouselIndex].image && (
                     <img
                       src={carouselItems[carouselIndex].image}
@@ -325,20 +325,20 @@ export default function Home() {
                       className="absolute inset-0 w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                     />
                   )}
-                </div>
 
-                {/* Carousel Controls */}
-                <div className="flex gap-3 mt-6 justify-center">
-                  <button
-                    onClick={() => setCarouselIndex((carouselIndex - 1 + carouselItems.length) % carouselItems.length)}
-                    className="w-12 h-12 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white flex items-center justify-center transition-all duration-300 hover:scale-110 font-bold text-lg shadow-lg">
-                    ‹
-                  </button>
-                  <button
-                    onClick={() => setCarouselIndex((carouselIndex + 1) % carouselItems.length)}
-                    className="w-12 h-12 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white flex items-center justify-center transition-all duration-300 hover:scale-110 font-bold text-lg shadow-lg">
-                    ›
-                  </button>
+                  {/* Carousel Controls - Inside Overlay */}
+                  <div className="absolute inset-0 flex items-center justify-between px-6 z-20">
+                    <button
+                      onClick={() => setCarouselIndex((carouselIndex - 1 + carouselItems.length) % carouselItems.length)}
+                      className="w-14 h-14 rounded-full bg-white/80 hover:bg-white text-slate-900 flex items-center justify-center transition-all duration-300 hover:scale-110 font-bold text-3xl shadow-lg hover:shadow-xl backdrop-blur-sm">
+                      ‹
+                    </button>
+                    <button
+                      onClick={() => setCarouselIndex((carouselIndex + 1) % carouselItems.length)}
+                      className="w-14 h-14 rounded-full bg-white/80 hover:bg-white text-slate-900 flex items-center justify-center transition-all duration-300 hover:scale-110 font-bold text-3xl shadow-lg hover:shadow-xl backdrop-blur-sm">
+                      ›
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

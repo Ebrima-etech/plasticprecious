@@ -202,7 +202,7 @@ export default function Home() {
               <div className="flex flex-row gap-4 md:gap-8 mb-8">
                 {/* Left Button */}
                 <div className="flex flex-col items-start gap-3 animate-fade-in-up animation-delay-300">
-                  <Link href="/services" className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-8 py-2.5 transition text-base rounded-full inline-block tracking-wide">
+                  <Link href="/services" className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 md:px-8 md:py-2.5 transition text-sm md:text-base rounded-full inline-block tracking-wide">
                     Work with us
                   </Link>
                   <p className="text-sm text-emerald-900 text-center">Custom quoting for large <br /> businesses and complex <br /> programs</p>
@@ -210,7 +210,7 @@ export default function Home() {
 
                 {/* Right Button */}
                 <div className="flex flex-col items-start gap-3 animate-fade-in-up animation-delay-400">
-                  <a href="/shop" target="_blank" rel="noopener noreferrer" className="border-2 border-emerald-600 text-emerald-600 hover:bg-emerald-600 hover:text-white font-bold px-8 py-2.5 transition text-base bg-transparent rounded-full inline-block tracking-wide">
+                  <a href="/shop" target="_blank" rel="noopener noreferrer" className="border-2 border-emerald-600 text-emerald-600 hover:bg-emerald-600 hover:text-white font-bold px-4 py-2 md:px-8 md:py-2.5 transition text-sm md:text-base bg-transparent rounded-full inline-block tracking-wide">
                     Shop Products
                   </a>
                   <p className="text-sm text-emerald-900 text-center">Customizable, ready-to-buy <br /> options</p>

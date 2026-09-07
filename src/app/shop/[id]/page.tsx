@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import axios from 'axios';
-import { FiShoppingCart, FiLogIn, FiTruck, FiRotateCcw, FiLock, FiPackage } from 'react-icons/fi';
+import { FiShoppingCart, FiLogIn, FiTruck, FiRotateCcw, FiLock, FiPackage, FiHeart, FiShare2, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import { Button } from '@/components/ui/Button';
 import { Card, CardBody } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
@@ -34,6 +34,8 @@ export default function ProductDetailPage() {
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
   const [addedToCart, setAddedToCart] = useState(false);
+  const [wishlist, setWishlist] = useState(false);
+  const [imageIndex, setImageIndex] = useState(0);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -49,6 +51,18 @@ export default function ProductDetailPage() {
 
     fetchProduct();
   }, [productId]);
+
+  const productImages = product?.image
+    ? [
+        product.image,
+        'https://images.pexels.com/photos/3962286/pexels-photo-3962286.jpeg?w=500&h=500&fit=crop',
+        'https://images.pexels.com/photos/3945683/pexels-photo-3945683.jpeg?w=500&h=500&fit=crop',
+      ]
+    : [
+        'https://via.placeholder.com/500x500?text=Product+Image',
+        'https://images.pexels.com/photos/3962286/pexels-photo-3962286.jpeg?w=500&h=500&fit=crop',
+        'https://images.pexels.com/photos/3945683/pexels-photo-3945683.jpeg?w=500&h=500&fit=crop',
+      ];
 
   const handleAddToCart = () => {
     setAddedToCart(true);
@@ -73,10 +87,10 @@ export default function ProductDetailPage() {
     return (
       <div className="min-h-screen bg-white">
         <Navbar />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
-          <h1 className="text-2xl font-bold text-neutral-900 mb-4">Product Not Found</h1>
-          <Link href="/products">
-            <Button>Back to Products</Button>
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-20 text-center">
+          <h1 className="text-2xl font-bold text-slate-900 mb-4">Product Not Found</h1>
+          <Link href="/shop">
+            <Button>Back to Shop</Button>
           </Link>
         </div>
       </div>
@@ -101,158 +115,206 @@ export default function ProductDetailPage() {
       {/* Breadcrumb */}
       <div className="max-w-7xl mx-auto px-6 lg:px-8 py-6 border-b border-slate-100">
         <div className="flex items-center gap-2 text-sm">
-          <Link href="/" className="text-emerald-600 hover:text-emerald-700">Home</Link>
+          <Link href="/" className="text-emerald-600 hover:text-emerald-700 font-medium">Home</Link>
           <span className="text-slate-400">/</span>
-          <Link href="/shop" className="text-emerald-600 hover:text-emerald-700">Shop</Link>
+          <Link href="/shop" className="text-emerald-600 hover:text-emerald-700 font-medium">Shop</Link>
           <span className="text-slate-400">/</span>
-          <span className="text-slate-600">{product.name}</span>
+          <span className="text-slate-600 font-medium">{product.name}</span>
         </div>
       </div>
 
       {/* Product Detail */}
-      <section className="py-16 lg:py-24 bg-white relative overflow-hidden grid-pattern">
+      <section className="py-12 lg:py-20 bg-white relative overflow-hidden grid-pattern">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-            {/* Product Image */}
-            <div className="flex items-center justify-center">
-              <div className="w-full aspect-square bg-gradient-to-br from-emerald-100 to-emerald-50 rounded-3xl overflow-hidden flex items-center justify-center border border-slate-200">
-                {product.image ? (
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <FiPackage className="w-24 h-24 text-emerald-400" />
-                )}
-              </div>
-            </div>
-
-            {/* Product Info */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+            {/* Product Images Section */}
             <div className="space-y-6">
-              {/* Header */}
-              <div>
-                <div className="flex items-start justify-between gap-4 mb-4">
-                  <div>
-                    <h1 className="text-4xl font-black text-slate-900 mb-2">{product.name}</h1>
-                    {product.rating && (
-                      <div className="flex items-center gap-2">
-                        <span className="text-yellow-400">
-                          {'⭐'.repeat(Math.round(product.rating))}
-                        </span>
-                        <span className="text-sm text-slate-600">
-                          ({product.reviews_count || 0} reviews)
-                        </span>
-                      </div>
-                    )}
-                  </div>
+              {/* Main Image */}
+              <div className="group relative rounded-3xl overflow-hidden bg-gradient-to-br from-emerald-50 to-slate-50 border border-slate-200 aspect-square flex items-center justify-center">
+                <img
+                  src={productImages[imageIndex]}
+                  alt={product.name}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+
+                {/* Navigation Arrows */}
+                <button
+                  onClick={() => setImageIndex((prev) => (prev === 0 ? productImages.length - 1 : prev - 1))}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-2 transition-all shadow-lg"
+                >
+                  <FiChevronLeft className="w-6 h-6 text-emerald-600" />
+                </button>
+                <button
+                  onClick={() => setImageIndex((prev) => (prev === productImages.length - 1 ? 0 : prev + 1))}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-2 transition-all shadow-lg"
+                >
+                  <FiChevronRight className="w-6 h-6 text-emerald-600" />
+                </button>
+
+                {/* Stock Badge - Absolute */}
+                <div className="absolute top-4 right-4">
                   <Badge variant={stockBadge.variant} size="base">
                     {stockBadge.text}
                   </Badge>
                 </div>
               </div>
 
-              {/* Price */}
-              <div className="border-b border-slate-200 pb-6">
-                <p className="text-5xl font-black text-emerald-600">
-                  D {parseFloat(product.price).toLocaleString('en-GM')}
-                </p>
-                <p className="text-slate-600 mt-2">Free shipping on orders over D 5,000</p>
+              {/* Thumbnail Images */}
+              <div className="flex gap-3">
+                {productImages.map((img, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setImageIndex(idx)}
+                    className={`w-20 h-20 rounded-2xl overflow-hidden border-2 transition-all ${
+                      imageIndex === idx
+                        ? 'border-emerald-600 ring-2 ring-emerald-300'
+                        : 'border-slate-200 hover:border-emerald-400'
+                    }`}
+                  >
+                    <img src={img} alt={`View ${idx + 1}`} className="w-full h-full object-cover" />
+                  </button>
+                ))}
               </div>
 
-              {/* Description */}
+              {/* Trust Badges */}
+              <div className="grid grid-cols-3 gap-4">
+                <div className="group cursor-pointer relative rounded-2xl overflow-hidden border border-slate-200 hover:border-emerald-400 bg-gradient-to-br from-white to-slate-50 hover:from-emerald-50 hover:to-white transition-all duration-300 p-4 text-center hover:-translate-y-1">
+                  <div className="text-2xl mb-2">🏆</div>
+                  <p className="text-xs font-semibold text-slate-900 group-hover:text-emerald-600 transition">Premium Quality</p>
+                </div>
+                <div className="group cursor-pointer relative rounded-2xl overflow-hidden border border-slate-200 hover:border-emerald-400 bg-gradient-to-br from-white to-slate-50 hover:from-emerald-50 hover:to-white transition-all duration-300 p-4 text-center hover:-translate-y-1">
+                  <div className="text-2xl mb-2">♻️</div>
+                  <p className="text-xs font-semibold text-slate-900 group-hover:text-emerald-600 transition">Eco-Friendly</p>
+                </div>
+                <div className="group cursor-pointer relative rounded-2xl overflow-hidden border border-slate-200 hover:border-emerald-400 bg-gradient-to-br from-white to-slate-50 hover:from-emerald-50 hover:to-white transition-all duration-300 p-4 text-center hover:-translate-y-1">
+                  <div className="text-2xl mb-2">🔒</div>
+                  <p className="text-xs font-semibold text-slate-900 group-hover:text-emerald-600 transition">Certified</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Product Info Section */}
+            <div className="space-y-8">
+              {/* Header & Rating */}
               <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-slate-900">About This Product</h3>
-                <p className="text-slate-700 leading-relaxed">{product.description}</p>
-              </div>
+                <div className="space-y-3">
+                  <h1 className="text-4xl lg:text-5xl font-black text-slate-900">{product.name}</h1>
 
-              {/* Features */}
-              <div className="group cursor-pointer relative rounded-3xl overflow-hidden border border-slate-200 hover:border-emerald-400 flex flex-col hover:-translate-y-1 bg-gradient-to-br from-white to-slate-50 backdrop-blur-sm group-hover:from-emerald-50 group-hover:to-white transition-all duration-300 p-6">
-                <h3 className="font-semibold text-slate-900 group-hover:text-emerald-600 transition">Why Choose This Product?</h3>
-                <ul className="space-y-2 text-sm text-slate-700 mt-3">
-                  <li className="flex items-start gap-3">
-                    <span className="text-emerald-600 mt-1">✓</span>
-                    <span>Made from 100% recycled plastic materials</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="text-emerald-600 mt-1">✓</span>
-                    <span>Durable and long-lasting design</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="text-emerald-600 mt-1">✓</span>
-                    <span>Environmentally friendly and sustainable</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="text-emerald-600 mt-1">✓</span>
-                    <span>ISO certified quality assurance</span>
-                  </li>
-                </ul>
-              </div>
-
-              {/* Quantity & Add to Cart */}
-              <div className="border-t border-slate-200 pt-6 space-y-4">
-                <div className="flex items-center gap-4">
-                  <label className="text-sm font-medium text-slate-700">Quantity:</label>
-                  <div className="flex items-center gap-3 border border-slate-300 rounded-lg p-2">
-                    <button
-                      onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                      className="text-slate-600 hover:text-emerald-600 transition"
-                    >
-                      −
-                    </button>
-                    <span className="w-8 text-center font-bold text-slate-900">{quantity}</span>
-                    <button
-                      onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
-                      disabled={quantity >= product.stock}
-                      className="text-slate-600 hover:text-emerald-600 transition disabled:opacity-50"
-                    >
-                      +
-                    </button>
+                  {/* Rating & Reviews */}
+                  <div className="flex items-center gap-4">
+                    {product.rating && (
+                      <div className="flex items-center gap-2">
+                        <div className="flex gap-1">
+                          {[...Array(5)].map((_, i) => (
+                            <span key={i} className={i < Math.round(product.rating!) ? 'text-amber-400' : 'text-slate-300'}>
+                              ★
+                            </span>
+                          ))}
+                        </div>
+                        <span className="text-sm font-semibold text-slate-700">
+                          {product.rating.toFixed(1)} ({product.reviews_count || 0} reviews)
+                        </span>
+                      </div>
+                    )}
+                    <div className="h-6 w-px bg-slate-200"></div>
+                    <span className="text-sm font-semibold text-emerald-600">In Stock</span>
                   </div>
                 </div>
 
-                <Button
-                  onClick={handleAddToCart}
-                  size="lg"
-                  disabled={product.stock === 0}
-                  className="w-full"
-                >
-                  {addedToCart ? '✓ Added to Cart' : 'ADD TO CART'}
-                </Button>
-
-                <Button
-                  variant="secondary"
-                  size="lg"
-                  className="w-full"
-                >
-                  CONTINUE SHOPPING
-                </Button>
+                {/* Price */}
+                <div className="group cursor-pointer relative rounded-3xl overflow-hidden border border-slate-200 hover:border-emerald-400 bg-gradient-to-br from-emerald-50 to-teal-50 p-6 transition-all duration-300">
+                  <div className="flex items-baseline gap-3">
+                    <span className="text-5xl font-black text-emerald-600">D {parseFloat(product.price).toLocaleString('en-GM')}</span>
+                    <span className="text-lg text-slate-500 line-through">D {(parseFloat(product.price) * 1.2).toLocaleString('en-GM')}</span>
+                  </div>
+                  <p className="text-sm text-slate-600 mt-2">✓ Free shipping on orders over D 5,000</p>
+                </div>
               </div>
 
-              {/* Shipping Info */}
-              <div className="group cursor-pointer relative rounded-3xl overflow-hidden border border-slate-200 hover:border-emerald-400 flex flex-col hover:-translate-y-1 bg-gradient-to-br from-white to-slate-50 backdrop-blur-sm group-hover:from-emerald-50 group-hover:to-white transition-all duration-300 p-6">
-                <div className="space-y-3 text-sm">
-                  <div className="flex items-start gap-3">
-                    <FiTruck className="w-5 h-5 text-emerald-600 mt-0.5 flex-shrink-0" />
-                    <div>
-                      <p className="font-semibold text-slate-900">Free Shipping</p>
-                      <p className="text-slate-600">On orders over D 5,000</p>
+              {/* Description */}
+              <div className="space-y-3">
+                <h3 className="text-lg font-black text-slate-900">About This Product</h3>
+                <p className="text-slate-700 leading-relaxed text-base">{product.description}</p>
+              </div>
+
+              {/* Quantity & CTA Buttons */}
+              <div className="space-y-4 pt-6 border-t border-slate-200">
+                <div className="flex items-center gap-6">
+                  <div className="flex items-center">
+                    <label className="text-sm font-black text-slate-900 mr-4">Quantity:</label>
+                    <div className="flex items-center gap-3 border-2 border-slate-200 rounded-xl p-2 bg-slate-50 hover:border-emerald-400 transition-colors">
+                      <button
+                        onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                        className="w-8 h-8 flex items-center justify-center text-emerald-600 hover:bg-white rounded-lg transition"
+                      >
+                        −
+                      </button>
+                      <span className="w-12 text-center font-black text-slate-900 text-lg">{quantity}</span>
+                      <button
+                        onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
+                        disabled={quantity >= product.stock}
+                        className="w-8 h-8 flex items-center justify-center text-emerald-600 hover:bg-white rounded-lg transition disabled:opacity-50"
+                      >
+                        +
+                      </button>
                     </div>
                   </div>
-                  <div className="flex items-start gap-3">
-                    <FiRotateCcw className="w-5 h-5 text-emerald-600 mt-0.5 flex-shrink-0" />
-                    <div>
-                      <p className="font-semibold text-slate-900">Easy Returns</p>
-                      <p className="text-slate-600">30-day money-back guarantee</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <FiLock className="w-5 h-5 text-emerald-600 mt-0.5 flex-shrink-0" />
-                    <div>
-                      <p className="font-semibold text-slate-900">Secure Checkout</p>
-                      <p className="text-slate-600">SSL encrypted transactions</p>
-                    </div>
-                  </div>
+                  <button
+                    onClick={() => setWishlist(!wishlist)}
+                    className={`w-12 h-12 rounded-full flex items-center justify-center border-2 transition-all ${
+                      wishlist
+                        ? 'border-red-500 bg-red-50 text-red-600'
+                        : 'border-slate-200 bg-white text-slate-600 hover:border-emerald-400'
+                    }`}
+                  >
+                    <FiHeart className={`w-5 h-5 ${wishlist ? 'fill-current' : ''}`} />
+                  </button>
+                </div>
+
+                {/* CTA Buttons */}
+                <div className="space-y-3 pt-4">
+                  <Button
+                    onClick={handleAddToCart}
+                    size="lg"
+                    disabled={product.stock === 0}
+                    className="w-full text-lg font-bold py-4"
+                  >
+                    <FiShoppingCart className="w-6 h-6 mr-2" />
+                    {addedToCart ? '✓ Added to Cart' : 'ADD TO CART'}
+                  </Button>
+
+                  <Button
+                    variant="secondary"
+                    size="lg"
+                    className="w-full text-lg font-bold py-4"
+                  >
+                    <FiShare2 className="w-6 h-6 mr-2" />
+                    SHARE PRODUCT
+                  </Button>
+                </div>
+              </div>
+
+              {/* Shipping & Returns Info */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-6 border-t border-slate-200">
+                <div className="group cursor-pointer relative rounded-2xl overflow-hidden border border-slate-200 hover:border-emerald-400 bg-gradient-to-br from-white to-slate-50 hover:from-emerald-50 hover:to-white transition-all duration-300 p-4 hover:-translate-y-1">
+                  <FiTruck className="w-6 h-6 text-emerald-600 mb-3" />
+                  <p className="font-black text-slate-900 text-sm group-hover:text-emerald-600 transition">Free Shipping</p>
+                  <p className="text-xs text-slate-600 mt-1">Orders over D 5,000</p>
+                </div>
+                <div className="group cursor-pointer relative rounded-2xl overflow-hidden border border-slate-200 hover:border-emerald-400 bg-gradient-to-br from-white to-slate-50 hover:from-emerald-50 hover:to-white transition-all duration-300 p-4 hover:-translate-y-1">
+                  <FiRotateCcw className="w-6 h-6 text-emerald-600 mb-3" />
+                  <p className="font-black text-slate-900 text-sm group-hover:text-emerald-600 transition">Easy Returns</p>
+                  <p className="text-xs text-slate-600 mt-1">30-day guarantee</p>
+                </div>
+                <div className="group cursor-pointer relative rounded-2xl overflow-hidden border border-slate-200 hover:border-emerald-400 bg-gradient-to-br from-white to-slate-50 hover:from-emerald-50 hover:to-white transition-all duration-300 p-4 hover:-translate-y-1">
+                  <FiLock className="w-6 h-6 text-emerald-600 mb-3" />
+                  <p className="font-black text-slate-900 text-sm group-hover:text-emerald-600 transition">Secure Checkout</p>
+                  <p className="text-xs text-slate-600 mt-1">SSL encrypted</p>
+                </div>
+                <div className="group cursor-pointer relative rounded-2xl overflow-hidden border border-slate-200 hover:border-emerald-400 bg-gradient-to-br from-white to-slate-50 hover:from-emerald-50 hover:to-white transition-all duration-300 p-4 hover:-translate-y-1">
+                  <FiPackage className="w-6 h-6 text-emerald-600 mb-3" />
+                  <p className="font-black text-slate-900 text-sm group-hover:text-emerald-600 transition">Tracked Delivery</p>
+                  <p className="text-xs text-slate-600 mt-1">Real-time updates</p>
                 </div>
               </div>
             </div>
@@ -260,12 +322,36 @@ export default function ProductDetailPage() {
         </div>
       </section>
 
-      {/* Related Products Section */}
-      <section className="py-16 lg:py-24 bg-white relative overflow-hidden grid-pattern border-t border-slate-200">
+      {/* Features Section */}
+      <section className="py-16 lg:py-24 bg-white border-t border-slate-200 relative overflow-hidden grid-pattern">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-          <h2 className="text-4xl font-black text-slate-900 mb-8">You Might Also Like</h2>
-          <div className="text-center py-8 text-slate-600">
-            <p>More products coming soon</p>
+          <h2 className="text-4xl font-black text-slate-900 mb-12">Key Features & Benefits</h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              { icon: '♻️', title: '100% Recycled', desc: 'Made from recycled plastic materials' },
+              { icon: '🏆', title: 'Premium Quality', desc: 'ISO certified manufacturing' },
+              { icon: '💪', title: 'Durable Design', desc: 'Built to last for years' },
+              { icon: '🌍', title: 'Eco-Friendly', desc: 'Sustainable production practices' },
+              { icon: '✅', title: 'Tested & Verified', desc: 'Quality assurance passed' },
+              { icon: '🚀', title: 'Modern Design', desc: 'Contemporary styling' },
+            ].map((feature, idx) => (
+              <div key={idx} className="group cursor-pointer relative rounded-3xl overflow-hidden border border-slate-200 hover:border-emerald-400 flex flex-col hover:-translate-y-1 bg-gradient-to-br from-white to-slate-50 backdrop-blur-sm group-hover:from-emerald-50 group-hover:to-white transition-all duration-300 p-6">
+                <div className="text-4xl mb-4">{feature.icon}</div>
+                <h3 className="text-lg font-black text-slate-900 mb-2 group-hover:text-emerald-600 transition">{feature.title}</h3>
+                <p className="text-sm text-slate-600">{feature.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* You Might Also Like Section */}
+      <section className="py-16 lg:py-24 bg-white border-t border-slate-200 relative overflow-hidden grid-pattern">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+          <h2 className="text-4xl font-black text-slate-900 mb-12">You Might Also Like</h2>
+          <div className="text-center py-12 text-slate-600">
+            <p className="text-lg">More products coming soon</p>
           </div>
         </div>
       </section>

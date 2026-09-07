@@ -56,20 +56,25 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
         }
         .rotating-text-current {
           animation: slideUpFadeOut 4s ease-in-out;
-          display: inline-block;
+          display: block;
           position: absolute;
+          left: 0;
+          top: 0;
+          width: max-content;
         }
         .rotating-text-next {
           animation: slideUpFadeIn 4s ease-in-out;
-          display: inline-block;
+          display: block;
           position: absolute;
+          left: 0;
+          top: 0;
+          width: max-content;
         }
         .rotating-text-container {
           position: relative;
-          height: 1.5em;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
+          display: inline-block;
+          min-width: 140px;
+          height: 2.2em;
         }
       `}</style>
       {/* Top Promo Bar - Desktop Only */}

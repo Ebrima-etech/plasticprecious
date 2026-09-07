@@ -223,11 +223,11 @@ export default function Home() {
           1% { opacity: 0; }
           100% { opacity: 0; }
         }
-        @keyframes badgeSlideUpFadeIn {
-          0% { opacity: 0; transform: translateY(20px); }
-          15% { opacity: 1; transform: translateY(0); }
-          85% { opacity: 1; transform: translateY(0); }
-          100% { opacity: 1; transform: translateY(0); }
+        @keyframes badgeSlideUp {
+          0% { transform: translateY(20px); }
+          15% { transform: translateY(0); }
+          85% { transform: translateY(0); }
+          100% { transform: translateY(0); }
         }
         .badge-current {
           animation: badgeDisappear 6s ease-in-out;
@@ -244,7 +244,7 @@ export default function Home() {
           white-space: nowrap;
         }
         .badge-next {
-          animation: badgeSlideUpFadeIn 6s ease-in-out;
+          animation: badgeSlideUp 6s ease-in-out;
           display: inline-block;
           position: absolute;
           left: 0;

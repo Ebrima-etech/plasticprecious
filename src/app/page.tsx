@@ -199,9 +199,9 @@ export default function Home() {
               </div>
 
               {/* Buttons and Descriptions */}
-              <div className="flex flex-row gap-4 md:gap-8 mb-8">
+              <div className="flex flex-row gap-4 md:gap-8 mb-8 justify-center md:justify-start">
                 {/* Left Button */}
-                <div className="flex flex-col items-start gap-3 animate-fade-in-up animation-delay-300">
+                <div className="flex flex-col items-center md:items-start gap-3 animate-fade-in-up animation-delay-300">
                   <Link href="/services" className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 md:px-8 md:py-2.5 transition text-sm md:text-base rounded-full inline-block tracking-wide">
                     Work with us
                   </Link>
@@ -209,7 +209,7 @@ export default function Home() {
                 </div>
 
                 {/* Right Button */}
-                <div className="flex flex-col items-start gap-3 animate-fade-in-up animation-delay-400">
+                <div className="flex flex-col items-center md:items-start gap-3 animate-fade-in-up animation-delay-400">
                   <a href="/shop" target="_blank" rel="noopener noreferrer" className="border-2 border-emerald-600 text-emerald-600 hover:bg-emerald-600 hover:text-white font-bold px-4 py-2 md:px-8 md:py-2.5 transition text-sm md:text-base bg-transparent rounded-full inline-block tracking-wide">
                     Shop Products
                   </a>

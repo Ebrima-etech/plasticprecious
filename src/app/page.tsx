@@ -539,61 +539,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Newsletter Section */}
-      <section className="py-16 lg:py-24 bg-gradient-to-r from-emerald-600 to-teal-600 relative overflow-hidden">
-        {/* Decorative Background */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 left-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
-        </div>
-
-        <div className="max-w-3xl mx-auto px-6 lg:px-8 text-center relative z-10">
-          <div className="mb-6 inline-block">
-            <div className="inline-block bg-white/20 text-white px-4 py-2 rounded-full text-sm font-bold">
-              💌 NEWSLETTER
-            </div>
-          </div>
-
-          <h2 className="text-4xl md:text-5xl font-black text-white mb-6 tracking-tight">How About 10% Off?</h2>
-          <p className="text-emerald-50 text-xl mb-8 max-w-lg mx-auto leading-relaxed">
-            Sign up for exclusive offers on our eco-friendly products and be the first to know about new collections.
-          </p>
-
-          <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto mb-8">
-            <input
-              type="email"
-              placeholder="your@email.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="flex-1 px-4 py-4 bg-white/20 backdrop-blur-sm border border-white/30 text-white text-sm placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white rounded-lg transition"
-              required
-            />
-            <Button
-              type="submit"
-              isLoading={subscribed}
-              className="px-8 bg-white hover:bg-slate-100 text-emerald-600 font-black rounded-lg transition whitespace-nowrap shadow-lg hover:shadow-xl"
-            >
-              {subscribed ? '✓ Done!' : 'GET OFFER'}
-            </Button>
-          </form>
-
-          <p className="text-emerald-100 text-sm">We respect your privacy. Unsubscribe anytime.</p>
-
-          {/* Social Proof */}
-          <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-8 text-white text-sm">
-            <div className="flex items-center gap-3">
-              <span className="text-2xl">👥</span>
-              <span className="font-semibold">Join 5,000+ subscribers</span>
-            </div>
-            <div className="hidden sm:block w-px h-6 bg-white/30"></div>
-            <div className="flex items-center gap-3">
-              <span className="text-2xl">📦</span>
-              <span className="font-semibold">Weekly eco tips & offers</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Footer */}
       <footer className="border-t border-slate-700 bg-slate-900 pt-16 pb-8">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">

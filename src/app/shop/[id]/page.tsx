@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import axios from 'axios';
 import { FiShoppingCart, FiLogIn, FiTruck, FiRotateCcw, FiLock, FiPackage, FiHeart, FiShare2, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
@@ -10,6 +10,8 @@ import { Card, CardBody } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { Spinner } from '@/components/ui/Spinner';
 import { API_BASE_URL } from '@/config/api';
+import { cartService } from '@/lib/cartService';
+import { getAccessToken } from '@/lib/auth';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
@@ -28,14 +30,17 @@ interface Product {
 
 export default function ProductDetailPage() {
   const params = useParams();
+  const router = useRouter();
   const productId = params.id as string;
 
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
   const [addedToCart, setAddedToCart] = useState(false);
+  const [addingToCart, setAddingToCart] = useState(false);
   const [wishlist, setWishlist] = useState(false);
   const [imageIndex, setImageIndex] = useState(0);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -64,9 +69,25 @@ export default function ProductDetailPage() {
         'https://images.pexels.com/photos/3945683/pexels-photo-3945683.jpeg?w=500&h=500&fit=crop',
       ];
 
-  const handleAddToCart = () => {
-    setAddedToCart(true);
-    setTimeout(() => setAddedToCart(false), 2000);
+  const handleAddToCart = async () => {
+    const token = getAccessToken();
+    if (!token) {
+      router.push('/auth/login');
+      return;
+    }
+
+    setAddingToCart(true);
+    setError(null);
+    try {
+      await cartService.addToCart(Number(productId), quantity);
+      setAddedToCart(true);
+      setTimeout(() => setAddedToCart(false), 2000);
+    } catch (err: any) {
+      setError(err.response?.data?.detail || 'Failed to add to cart');
+      setTimeout(() => setError(null), 3000);
+    } finally {
+      setAddingToCart(false);
+    }
   };
 
   const getStockBadge = (stock: number) => {
@@ -271,16 +292,23 @@ export default function ProductDetailPage() {
                   </button>
                 </div>
 
+                {/* Error Message */}
+                {error && (
+                  <div className="p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
+                    {error}
+                  </div>
+                )}
+
                 {/* CTA Buttons */}
                 <div className="space-y-3 pt-4">
                   <Button
                     onClick={handleAddToCart}
                     size="lg"
-                    disabled={product.stock === 0}
+                    disabled={product.stock === 0 || addingToCart}
                     className="w-full text-lg font-bold py-4"
                   >
                     <FiShoppingCart className="w-6 h-6 mr-2" />
-                    {addedToCart ? '✓ Added to Cart' : 'ADD TO CART'}
+                    {addingToCart ? 'Adding...' : addedToCart ? '✓ Added to Cart' : 'ADD TO CART'}
                   </Button>
 
                   <Button

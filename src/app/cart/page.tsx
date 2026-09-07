@@ -3,9 +3,13 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { FiTrash2, FiShoppingCart } from 'react-icons/fi';
+import { Button } from '@/components/ui/Button';
+import { Spinner } from '@/components/ui/Spinner';
 import { Cart, CartItem } from '@/types';
 import { API_BASE_URL, getApiUrl } from '@/config/api';
 import { getAccessToken } from '@/lib/auth';
+import { cartService } from '@/lib/cartService';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
@@ -27,12 +31,10 @@ export default function CartPage() {
         return;
       }
 
-      const response = await axios.get(getApiUrl('/cart/'), {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setCart(response.data);
+      const data = await cartService.getCart();
+      setCart(data);
       setError(null);
-    } catch (err) {
+    } catch (err: any) {
       setError('Failed to load cart');
       console.error(err);
     } finally {
@@ -41,13 +43,9 @@ export default function CartPage() {
   };
 
   const updateQuantity = async (cartItemId: number, quantity: number) => {
+    if (quantity < 1) return;
     try {
-      const token = getAccessToken();
-      await axios.patch(
-        getApiUrl('/cart/update_item/'),
-        { cart_item_id: cartItemId, quantity },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      await cartService.updateCartItem(cartItemId, quantity);
       fetchCart();
     } catch (err) {
       setError('Failed to update cart');
@@ -56,14 +54,7 @@ export default function CartPage() {
 
   const removeItem = async (cartItemId: number) => {
     try {
-      const token = getAccessToken();
-      await axios.delete(
-        getApiUrl('/cart/remove_item/'),
-        {
-          data: { cart_item_id: cartItemId },
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      await cartService.removeFromCart(cartItemId);
       fetchCart();
     } catch (err) {
       setError('Failed to remove item');
@@ -117,38 +108,65 @@ export default function CartPage() {
           {cart && cart.items.length > 0 ? (
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               <div className="lg:col-span-2">
-                <div className="group cursor-pointer relative rounded-3xl overflow-hidden border border-slate-200 hover:border-emerald-400 flex flex-col h-full hover:-translate-y-1 bg-gradient-to-br from-white to-slate-50 backdrop-blur-sm group-hover:from-emerald-50 group-hover:to-white transition-all duration-300">
+                <div className="space-y-4">
                   {cart.items.map((item: CartItem) => (
                     <div
                       key={item.id}
-                      className="flex items-center justify-between p-6 border-b border-slate-200 last:border-b-0"
+                      className="group cursor-pointer relative rounded-3xl overflow-hidden border border-slate-200 hover:border-emerald-400 flex flex-col hover:-translate-y-1 bg-gradient-to-br from-white to-slate-50 backdrop-blur-sm group-hover:from-emerald-50 group-hover:to-white transition-all duration-300 p-6"
                     >
-                      <div className="flex-1">
-                        <h3 className="font-semibold text-slate-900 mb-2">{item.product.name}</h3>
-                        <p className="text-emerald-600 font-bold">D {parseFloat(item.product.price).toLocaleString('en-GM')}</p>
-                      </div>
-                      <div className="flex items-center space-x-4">
-                        <div className="flex items-center border border-slate-300 rounded-lg">
+                      <div className="flex items-center gap-6">
+                        {/* Product Image */}
+                        <div className="w-24 h-24 rounded-2xl overflow-hidden flex-shrink-0 bg-gradient-to-br from-emerald-100 to-emerald-50 border border-slate-200">
+                          {item.product.image ? (
+                            <img
+                              src={item.product.image}
+                              alt={item.product.name}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center">
+                              <FiShoppingCart className="w-8 h-8 text-emerald-400" />
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Product Info */}
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-black text-slate-900 mb-2 group-hover:text-emerald-600 transition text-lg">
+                            {item.product.name}
+                          </h3>
+                          <p className="text-emerald-600 font-bold">D {parseFloat(item.product.price).toLocaleString('en-GM')}</p>
+                          <p className="text-sm text-slate-600 mt-1">
+                            Subtotal: D {(parseFloat(item.product.price) * item.quantity).toLocaleString('en-GM')}
+                          </p>
+                        </div>
+
+                        {/* Quantity & Actions */}
+                        <div className="flex items-center gap-4">
+                          <div className="flex items-center border-2 border-slate-200 rounded-lg bg-slate-50 hover:border-emerald-400 transition">
+                            <button
+                              onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                              className="px-3 py-2 hover:bg-white text-slate-600 hover:text-emerald-600 transition font-bold"
+                              disabled={item.quantity <= 1}
+                            >
+                              −
+                            </button>
+                            <span className="px-4 py-2 text-slate-900 font-black min-w-12 text-center">{item.quantity}</span>
+                            <button
+                              onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                              className="px-3 py-2 hover:bg-white text-slate-600 hover:text-emerald-600 transition font-bold"
+                            >
+                              +
+                            </button>
+                          </div>
                           <button
-                            onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                            className="px-3 py-1 hover:bg-emerald-50 text-slate-600 hover:text-emerald-600 transition"
+                            onClick={() => removeItem(item.id)}
+                            className="w-10 h-10 rounded-lg flex items-center justify-center text-red-600 hover:text-red-800 hover:bg-red-50 transition"
+                            title="Remove item"
                           >
-                            −
-                          </button>
-                          <span className="px-4 py-1 text-slate-900 font-semibold">{item.quantity}</span>
-                          <button
-                            onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                            className="px-3 py-1 hover:bg-emerald-50 text-slate-600 hover:text-emerald-600 transition"
-                          >
-                            +
+                            <FiTrash2 className="w-5 h-5" />
                           </button>
                         </div>
-                        <button
-                          onClick={() => removeItem(item.id)}
-                          className="text-red-600 hover:text-red-800 font-semibold transition"
-                        >
-                          Remove
-                        </button>
                       </div>
                     </div>
                   ))}
@@ -156,40 +174,67 @@ export default function CartPage() {
               </div>
 
               <div>
-                <div className="group cursor-pointer relative rounded-3xl overflow-hidden border border-slate-200 hover:border-emerald-400 flex flex-col h-full hover:-translate-y-1 bg-gradient-to-br from-white to-slate-50 backdrop-blur-sm group-hover:from-emerald-50 group-hover:to-white transition-all duration-300 p-8 sticky top-4">
-                  <h3 className="text-lg font-black text-slate-900 mb-4 group-hover:text-emerald-600 transition">Order Summary</h3>
-                  <div className="space-y-4">
-                    <div className="flex justify-between text-slate-600">
-                      <span>Subtotal</span>
-                      <span className="font-semibold">D {parseFloat(cart.total_price || '0').toLocaleString('en-GM')}</span>
+                <div className="group cursor-pointer relative rounded-3xl overflow-hidden border border-slate-200 hover:border-emerald-400 flex flex-col h-full hover:-translate-y-1 bg-gradient-to-br from-white to-slate-50 backdrop-blur-sm group-hover:from-emerald-50 group-hover:to-white transition-all duration-300 p-8 sticky top-4 space-y-6">
+                  <div>
+                    <h3 className="text-2xl font-black text-slate-900 mb-1 group-hover:text-emerald-600 transition">Order Summary</h3>
+                    <p className="text-sm text-slate-600">{cart.total_items} item{cart.total_items !== 1 ? 's' : ''} in cart</p>
+                  </div>
+
+                  <div className="space-y-4 py-4 border-y border-slate-200">
+                    <div className="flex justify-between">
+                      <span className="text-slate-600">Subtotal</span>
+                      <span className="font-semibold text-slate-900">D {parseFloat(cart.total_price || '0').toLocaleString('en-GM')}</span>
                     </div>
-                    <div className="flex justify-between text-slate-600">
-                      <span>Shipping</span>
+                    <div className="flex justify-between">
+                      <span className="text-slate-600">Shipping</span>
                       <span className="font-semibold text-emerald-600">Free</span>
                     </div>
-                    <div className="border-t border-slate-200 pt-4 flex justify-between font-black text-lg text-slate-900">
-                      <span>Total</span>
-                      <span className="text-emerald-600">D {parseFloat(cart.total_price || '0').toLocaleString('en-GM')}</span>
+                    <div className="flex justify-between">
+                      <span className="text-slate-600">Tax</span>
+                      <span className="font-semibold text-slate-900">Calculated at checkout</span>
                     </div>
                   </div>
-                  <button
+
+                  <div className="space-y-2 p-4 bg-emerald-50 rounded-2xl border border-emerald-200">
+                    <div className="flex justify-between">
+                      <span className="font-black text-slate-900">Total</span>
+                      <span className="text-2xl font-black text-emerald-600">D {parseFloat(cart.total_price || '0').toLocaleString('en-GM')}</span>
+                    </div>
+                  </div>
+
+                  <Button
                     onClick={() => router.push('/checkout')}
-                    className="w-full mt-6 bg-emerald-600 text-white py-3 rounded-lg font-bold hover:bg-emerald-700 transition-colors"
+                    size="lg"
+                    className="w-full text-lg font-bold py-4"
                   >
                     Proceed to Checkout
-                  </button>
+                  </Button>
+
+                  <Button
+                    variant="secondary"
+                    size="lg"
+                    onClick={() => router.push('/shop')}
+                    className="w-full text-lg font-bold py-4"
+                  >
+                    Continue Shopping
+                  </Button>
                 </div>
               </div>
             </div>
           ) : (
-            <div className="group cursor-pointer relative rounded-3xl overflow-hidden border border-slate-200 hover:border-emerald-400 flex flex-col h-full hover:-translate-y-1 bg-gradient-to-br from-white to-slate-50 backdrop-blur-sm group-hover:from-emerald-50 group-hover:to-white transition-all duration-300 p-12 text-center">
-              <p className="text-xl text-slate-600 mb-6">Your cart is empty</p>
-              <button
-                onClick={() => router.push('/shop')}
-                className="bg-emerald-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-emerald-700 transition-colors w-fit mx-auto"
-              >
-                Continue Shopping
-              </button>
+            <div className="col-span-full">
+              <div className="group cursor-pointer relative rounded-3xl overflow-hidden border border-slate-200 hover:border-emerald-400 flex flex-col hover:-translate-y-1 bg-gradient-to-br from-white to-slate-50 backdrop-blur-sm group-hover:from-emerald-50 group-hover:to-white transition-all duration-300 p-12 text-center">
+                <FiShoppingCart className="w-16 h-16 text-emerald-400 mx-auto mb-6" />
+                <h2 className="text-3xl font-black text-slate-900 mb-3 group-hover:text-emerald-600 transition">Your cart is empty</h2>
+                <p className="text-lg text-slate-600 mb-8">Add some amazing products to get started!</p>
+                <Button
+                  onClick={() => router.push('/shop')}
+                  size="lg"
+                  className="w-fit mx-auto text-lg font-bold py-4 px-12"
+                >
+                  Start Shopping
+                </Button>
+              </div>
             </div>
           )}
         </div>

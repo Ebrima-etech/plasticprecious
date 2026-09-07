@@ -274,7 +274,7 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
           <input
             type="text"
             placeholder="Search products"
-            className="bg-transparent text-teal-900 text-sm placeholder-gray-500 placeholder-opacity-50 ml-3 w-full focus:outline-none"
+            className="animated-placeholder bg-transparent text-teal-900 text-sm placeholder-gray-500 placeholder-opacity-50 ml-3 w-full focus:outline-none"
           />
         </div>
       </div>

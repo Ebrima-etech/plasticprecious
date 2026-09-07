@@ -389,7 +389,7 @@ export default function Home() {
           <div className="relative">
             {/* Product Carousel */}
             <div className="overflow-x-auto scrollbar-hide">
-              <div className="flex gap-6 pb-4 px-6 md:px-0" style={{ width: 'fit-content', minWidth: '100%' }}>
+              <div className="flex gap-4 md:gap-6 pb-4 px-3 md:px-0" style={{ width: 'fit-content', minWidth: '100%' }}>
                 {products.length > 0 ? (
               products.map((product, i) => {
                 const dummyImages = [
@@ -402,7 +402,7 @@ export default function Home() {
                   <Link key={product.id} href={`/shop/${product.id}`}>
                     <div className="min-w-[100%] md:min-w-[48%] lg:min-w-[30%]">
                       <div className={`cursor-pointer h-full bg-white flex flex-col rounded-xl transition-all duration-300 overflow-hidden group border border-slate-200 hover:border-emerald-400`}>
-                        <div className="relative h-96 md:h-72 overflow-hidden bg-slate-200">
+                        <div className="relative h-[28rem] md:h-72 overflow-hidden bg-slate-200">
                           {product.image ? (
                             <img
                               src={product.image}
@@ -421,12 +421,12 @@ export default function Home() {
                             />
                           )}
                         </div>
-                        <div className="flex flex-col flex-grow p-6">
-                          <h3 className="text-lg md:text-xl font-black text-slate-900 mb-3 group-hover:text-emerald-600 transition">{product.name}</h3>
-                          <p className="text-sm md:text-sm text-slate-600 line-clamp-2 flex-grow mb-4">{product.description || 'Premium recycled plastic product'}</p>
-                          <div className="flex items-center justify-between">
-                            <span className="text-3xl md:text-2xl font-black text-slate-900">D {parseFloat(product.price).toLocaleString('en-GM')}</span>
-                            <button className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded-lg transition text-sm">
+                        <div className="flex flex-col flex-grow p-4 md:p-6">
+                          <h3 className="text-xl md:text-xl font-black text-slate-900 mb-3 group-hover:text-emerald-600 transition">{product.name}</h3>
+                          <p className="text-base md:text-sm text-slate-600 line-clamp-2 flex-grow mb-4">{product.description || 'Premium recycled plastic product'}</p>
+                          <div className="flex items-center justify-between gap-2">
+                            <span className="text-4xl md:text-2xl font-black text-slate-900">D {parseFloat(product.price).toLocaleString('en-GM')}</span>
+                            <button className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 md:px-4 py-2 rounded-lg transition text-xs md:text-sm">
                               QUICK VIEW
                             </button>
                           </div>

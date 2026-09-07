@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import axios from 'axios';
-import { FiPackage } from 'react-icons/fi';
+import { FiPackage, FiShoppingCart } from 'react-icons/fi';
+import { cartService } from '@/lib/cartService';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { ProductGridSkeleton } from '@/components/ShimmerSkeleton';
@@ -24,6 +25,7 @@ interface Product {
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [addingToCart, setAddingToCart] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -45,6 +47,19 @@ export default function ProductsPage() {
     if (stock === 0) return { variant: 'error' as const, text: 'Out of Stock' };
     if (stock < 10) return { variant: 'warning' as const, text: `Only ${stock} left` };
     return { variant: 'success' as const, text: 'In Stock' };
+  };
+
+  const handleAddToCart = async (productId: number, e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setAddingToCart(productId);
+    try {
+      await cartService.addToCart(productId, 1);
+    } catch (err) {
+      console.error('Failed to add to cart:', err);
+    } finally {
+      setAddingToCart(null);
+    }
   };
 
   return (
@@ -122,8 +137,11 @@ export default function ProductsPage() {
                             <p className="text-2xl font-bold text-emerald-600">
                               D {parseFloat(product.price).toLocaleString('en-GM')}
                             </p>
-                            <button className="w-12 h-12 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-lg hover:shadow-xl font-bold text-lg">
-                              →
+                            <button
+                              onClick={(e) => handleAddToCart(product.id, e)}
+                              disabled={addingToCart === product.id}
+                              className="w-12 h-12 rounded-full bg-emerald-600 hover:bg-emerald-700 disabled:bg-emerald-400 text-white flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-lg hover:shadow-xl disabled:hover:scale-100">
+                              <FiShoppingCart size={20} />
                             </button>
                           </div>
                         </div>

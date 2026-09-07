@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { FiShoppingCart, FiSearch, FiUser, FiChevronDown, FiTruck, FiCheck, FiHeart, FiHeadphones, FiPhone, FiMail } from 'react-icons/fi';
+import { FiShoppingCart, FiSearch, FiUser, FiChevronDown, FiTruck, FiCheck, FiHeart, FiHeadphones, FiPhone, FiMail, FiMenu, FiX } from 'react-icons/fi';
 import { GiRecycle } from 'react-icons/gi';
 
 interface NavbarProps {
@@ -13,6 +13,7 @@ interface NavbarProps {
 
 export default function Navbar({ showNavLinks = false, sticky = true, showCategories = false }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,8 +26,8 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
 
   return (
     <>
-      {/* Top Promo Bar */}
-      <div className="bg-emerald-600">
+      {/* Top Promo Bar - Hidden on Mobile */}
+      <div className="hidden md:block bg-emerald-600">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex items-center justify-between py-2 text-xs text-white overflow-x-auto">
             <div className="flex items-center gap-6 whitespace-nowrap">
@@ -84,16 +85,16 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
       </div>
 
       {/* Navigation */}
-      <nav className={`${sticky ? 'sticky' : ''} top-0 z-40 bg-emerald-900 h-12`} style={{ borderBottom: isScrolled ? '0.75px solid rgba(255, 255, 255, 0.12)' : 'none' }}>
+      <nav className={`${sticky ? 'sticky' : ''} top-0 z-40 bg-emerald-900`} style={{ borderBottom: isScrolled ? '0.75px solid rgba(255, 255, 255, 0.12)' : 'none' }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex items-center gap-4 h-12">
+          <div className="flex items-center justify-between h-12">
             {/* Logo */}
-            <Link href="/" className="text-xl font-bold text-white hover:text-emerald-100 transition">
+            <Link href="/" className="text-lg md:text-xl font-bold text-white hover:text-emerald-100 transition">
               PLASTICPRECIOUS
             </Link>
 
-            {/* Search Bar */}
-            <div className="hidden lg:flex flex-1 max-w-xs items-center bg-white border-0 px-4 rounded-full" style={{ paddingTop: '0.375rem', paddingBottom: '0.375rem' }}>
+            {/* Search Bar - Hidden on Mobile */}
+            <div className="hidden lg:flex flex-1 max-w-xs items-center bg-white border-0 px-4 rounded-full mx-4" style={{ paddingTop: '0.375rem', paddingBottom: '0.375rem' }}>
               <FiSearch size={16} className="text-emerald-600" />
               <input
                 type="text"
@@ -102,7 +103,7 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
               />
             </div>
 
-            {/* Nav Links */}
+            {/* Nav Links - Hidden on Mobile */}
             {showNavLinks && (
               <div className="hidden lg:flex items-center gap-6">
                 <Link href="/" className="text-white hover:text-emerald-300 transition text-sm font-medium">
@@ -127,28 +128,64 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
             )}
 
             {/* Right Navigation & Actions */}
-            <div className="flex items-center gap-4 ml-auto pl-8" style={{ borderLeft: '1px solid rgba(255, 255, 255, 0.1)' }}>
+            <div className="flex items-center gap-2 md:gap-4 ml-auto">
               {/* Language Selector */}
               <button className="hidden lg:flex items-center gap-1 text-white hover:text-emerald-300 transition text-sm font-medium">
                 Eng
                 <FiChevronDown size={16} />
               </button>
 
-              <Link href="/auth/login">
+              <Link href="/auth/login" className="hidden md:flex">
                 <div className="flex items-center gap-2 text-white hover:text-emerald-300 transition cursor-pointer">
                   <FiUser size={20} />
                   <span className="text-xs font-medium">My Account</span>
                 </div>
               </Link>
+
               <Link href="/cart">
-                <div className="flex items-center gap-2 text-white hover:text-emerald-300 transition cursor-pointer relative">
+                <div className="flex items-center gap-1 md:gap-2 text-white hover:text-emerald-300 transition cursor-pointer relative">
                   <FiShoppingCart size={20} />
-                  <span className="text-xs font-medium">Cart</span>
+                  <span className="text-xs font-medium hidden md:inline">Cart</span>
                   <span className="absolute -top-3 -right-3 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">0</span>
                 </div>
               </Link>
+
+              {/* Mobile Menu Toggle */}
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="lg:hidden text-white hover:text-emerald-300 transition p-1"
+              >
+                {mobileMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+              </button>
             </div>
           </div>
+
+          {/* Mobile Menu */}
+          {mobileMenuOpen && showNavLinks && (
+            <div className="lg:hidden pb-4 border-t border-emerald-800">
+              <Link href="/" className="block text-white hover:text-emerald-300 transition text-sm font-medium py-2">
+                Mission
+              </Link>
+              <Link href="/services" className="block text-white hover:text-emerald-300 transition text-sm font-medium py-2">
+                Services
+              </Link>
+              <Link href="#" className="block text-white hover:text-emerald-300 transition text-sm font-medium py-2">
+                Sale
+              </Link>
+              <Link href="/blog" className="block text-white hover:text-emerald-300 transition text-sm font-medium py-2">
+                Blog
+              </Link>
+              <Link href="/about" className="block text-white hover:text-emerald-300 transition text-sm font-medium py-2">
+                About Us
+              </Link>
+              <Link href="#" className="block text-white hover:text-emerald-300 transition text-sm font-medium py-2">
+                Impact
+              </Link>
+              <Link href="/auth/login" className="block text-white hover:text-emerald-300 transition text-sm font-medium py-2">
+                My Account
+              </Link>
+            </div>
+          )}
         </div>
       </nav>
 

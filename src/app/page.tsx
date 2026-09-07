@@ -371,7 +371,7 @@ export default function Home() {
                 ];
                 return (
                   <Link key={product.id} href={`/shop/${product.id}`}>
-                    <div className="min-w-[80%] md:min-w-1/2 lg:min-w-1/3">
+                    <div className="min-w-[90%] md:min-w-1/2 lg:min-w-1/3">
                       <div className={`cursor-pointer h-full bg-white flex flex-col rounded-xl transition-all duration-300 overflow-hidden group border border-slate-200 hover:border-emerald-400`}>
                         <div className="relative h-72 overflow-hidden bg-slate-200">
                           {product.image ? (

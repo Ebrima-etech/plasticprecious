@@ -133,7 +133,7 @@ export default function Home() {
       {/* Hero Section */}
       <section className="bg-white py-6 lg:py-8 pb-0 flex items-center">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-center mb-8">
             {/* Left Content */}
             <div className="order-2 lg:order-1">
               <h1 className="text-4xl lg:text-6xl font-bold text-emerald-900 mb-4 leading-tight">
@@ -145,26 +145,6 @@ export default function Home() {
               <p className="text-base text-emerald-700 mb-6 font-bold leading-relaxed max-w-lg">
                 Transforming plastic waste into valuable, sustainable products <br /> while creating positive change for communities and our environment.
               </p>
-              <div className="flex flex-col sm:flex-row gap-3 mb-8">
-                <Link href="/services" className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-8 py-2.5 transition text-base rounded-full inline-block text-center">
-                  Explore Services
-                </Link>
-                <a href="/shop" target="_blank" rel="noopener noreferrer" className="border-2 border-emerald-600 text-emerald-600 hover:bg-emerald-600 hover:text-white font-bold px-8 py-2.5 transition text-base bg-transparent rounded-full inline-block text-center">
-                  Shop Products
-                </a>
-              </div>
-
-              {/* Feature Callouts */}
-              <div className="grid grid-cols-2 gap-8">
-                <div className="text-center">
-                  <p className="text-emerald-600 text-xs font-bold uppercase mb-2">CUSTOM PRODUCTS</p>
-                  <p className="text-emerald-900 text-sm font-bold">For large businesses <br /> and complex programs</p>
-                </div>
-                <div className="text-center">
-                  <p className="text-emerald-600 text-xs font-bold uppercase mb-2">READY PRODUCTS</p>
-                  <p className="text-emerald-900 text-sm font-bold">Customizable, <br /> ready-to-buy options</p>
-                </div>
-              </div>
             </div>
 
             {/* Right Product Carousel */}
@@ -194,6 +174,31 @@ export default function Home() {
                   className="absolute right-6 top-1/2 -translate-y-1/2 z-10 bg-white hover:bg-neutral-200 text-teal-950 w-10 h-10 flex items-center justify-center rounded-full transition group">
                   <span className="text-xl group-hover:text-emerald-600">›</span>
                 </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Buttons and Feature Callouts */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 pt-8">
+            {/* Left Column - Explore Services */}
+            <div className="flex flex-col items-center">
+              <Link href="/services" className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-8 py-2.5 transition text-base rounded-full inline-block text-center w-full sm:w-auto">
+                Explore Services
+              </Link>
+              <div className="text-center mt-6">
+                <p className="text-emerald-600 text-xs font-bold uppercase mb-2">CUSTOM PRODUCTS</p>
+                <p className="text-emerald-900 text-sm font-bold">For large businesses <br /> and complex programs</p>
+              </div>
+            </div>
+
+            {/* Right Column - Shop Products */}
+            <div className="flex flex-col items-center">
+              <a href="/shop" target="_blank" rel="noopener noreferrer" className="border-2 border-emerald-600 text-emerald-600 hover:bg-emerald-600 hover:text-white font-bold px-8 py-2.5 transition text-base bg-transparent rounded-full inline-block text-center w-full sm:w-auto">
+                Shop Products
+              </a>
+              <div className="text-center mt-6">
+                <p className="text-emerald-600 text-xs font-bold uppercase mb-2">READY PRODUCTS</p>
+                <p className="text-emerald-900 text-sm font-bold">Customizable, <br /> ready-to-buy options</p>
               </div>
             </div>
           </div>

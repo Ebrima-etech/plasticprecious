@@ -205,7 +205,7 @@ export default function Home() {
                   <Link href="/services" className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 md:px-8 md:py-2.5 transition text-sm md:text-base rounded-full inline-block tracking-wide">
                     Work with us
                   </Link>
-                  <p className="text-sm text-emerald-900 text-center">Custom quoting for large <br /> businesses and complex <br /> programs</p>
+                  <p className="text-xs md:text-sm text-emerald-900 text-center">Custom quoting for large <br /> businesses and complex <br /> programs</p>
                 </div>
 
                 {/* Right Button */}
@@ -213,7 +213,7 @@ export default function Home() {
                   <a href="/shop" target="_blank" rel="noopener noreferrer" className="border-2 border-emerald-600 text-emerald-600 hover:bg-emerald-600 hover:text-white font-bold px-4 py-2 md:px-8 md:py-2.5 transition text-sm md:text-base bg-transparent rounded-full inline-block tracking-wide">
                     Shop Products
                   </a>
-                  <p className="text-sm text-emerald-900 text-center">Customizable, ready-to-buy <br /> options</p>
+                  <p className="text-xs md:text-sm text-emerald-900 text-center">Customizable, ready-to-buy <br /> options</p>
                 </div>
               </div>
             </div>

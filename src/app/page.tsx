@@ -420,14 +420,12 @@ export default function Home() {
                               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                             />
                           )}
-                          <div className="absolute top-4 left-4 bg-emerald-600 text-white px-4 py-2 rounded-full text-xs font-black">NEW</div>
                         </div>
                         <div className="flex flex-col flex-grow p-6">
-                          <div className="text-xs font-bold text-emerald-700 uppercase tracking-wide mb-2">Recycled Plastic</div>
                           <h3 className="text-xl font-black text-slate-900 mb-3 group-hover:text-emerald-600 transition">{product.name}</h3>
                           <p className="text-sm text-slate-600 line-clamp-2 flex-grow mb-4">{product.description || 'Premium recycled plastic product'}</p>
                           <div className="flex items-center justify-between">
-                            <span className="text-2xl font-black text-slate-900">${product.price}</span>
+                            <span className="text-2xl font-black text-slate-900">D {parseFloat(product.price).toLocaleString('en-GM')}</span>
                             <button className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded-lg transition text-sm">
                               QUICK VIEW
                             </button>

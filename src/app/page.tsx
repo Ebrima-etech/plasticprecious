@@ -545,7 +545,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
             <div>
               <h5 className="font-black text-white mb-6 text-sm uppercase tracking-widest">SHOP</h5>
-              <ul className="text-sm space-y-3 text-slate-400">
+              <ul className="text-sm space-y-3 text-white">
                 <li><Link href="#" className="hover:text-emerald-400 transition font-semibold">All Products</Link></li>
                 <li><Link href="#" className="hover:text-emerald-400 transition font-semibold">Custom Orders</Link></li>
                 <li><Link href="#" className="hover:text-emerald-400 transition font-semibold">Collections</Link></li>
@@ -554,7 +554,7 @@ export default function Home() {
             </div>
             <div>
               <h5 className="font-black text-white mb-6 text-sm uppercase tracking-widest">SERVICES</h5>
-              <ul className="text-sm space-y-3 text-slate-400">
+              <ul className="text-sm space-y-3 text-white">
                 <li><Link href="#services" className="hover:text-emerald-400 transition font-semibold">Recycling Programs</Link></li>
                 <li><Link href="#services" className="hover:text-emerald-400 transition font-semibold">Workshops</Link></li>
                 <li><Link href="#services" className="hover:text-emerald-400 transition font-semibold">Consulting</Link></li>
@@ -563,7 +563,7 @@ export default function Home() {
             </div>
             <div>
               <h5 className="font-black text-white mb-6 text-sm uppercase tracking-widest">COMPANY</h5>
-              <ul className="text-sm space-y-3 text-slate-400">
+              <ul className="text-sm space-y-3 text-white">
                 <li><a href="#" className="hover:text-emerald-400 transition font-semibold">About Us</a></li>
                 <li><a href="#" className="hover:text-emerald-400 transition font-semibold">Blog & News</a></li>
                 <li><a href="#" className="hover:text-emerald-400 transition font-semibold">Impact Report</a></li>
@@ -572,7 +572,7 @@ export default function Home() {
             </div>
             <div>
               <h5 className="font-black text-white mb-6 text-sm uppercase tracking-widest">CONNECT</h5>
-              <ul className="text-sm space-y-3 text-slate-400">
+              <ul className="text-sm space-y-3 text-white">
                 <li><Link href="/contact" className="hover:text-emerald-400 transition font-semibold">Contact Us</Link></li>
                 <li><a href="#" className="hover:text-emerald-400 transition font-semibold">Privacy Policy</a></li>
                 <li><a href="#" className="hover:text-emerald-400 transition font-semibold">Terms of Service</a></li>
@@ -582,8 +582,8 @@ export default function Home() {
           </div>
 
           <div className="border-t border-slate-700 pt-8 text-center">
-            <p className="text-slate-400 text-sm mb-4 font-semibold">&copy; 2026 Plastic Precious. All rights reserved.</p>
-            <p className="text-slate-500 text-xs">Made with 🌱 for a better planet • Building sustainable solutions together</p>
+            <p className="text-white text-sm mb-4 font-semibold">&copy; 2026 Plastic Precious. All rights reserved.</p>
+            <p className="text-white text-xs">Made with 🌱 for a better planet • Building sustainable solutions together</p>
           </div>
         </div>
       </footer>

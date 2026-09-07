@@ -161,7 +161,7 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
       </div>
 
       {/* Navigation */}
-      <nav className={`${sticky ? 'sticky' : ''} top-0 z-40 bg-gradient-to-r from-emerald-600 to-teal-600 shadow-lg`} style={{ borderBottom: isScrolled ? 'none' : 'none' }}>
+      <nav className={`${sticky ? 'sticky' : ''} top-0 z-40 bg-gradient-to-r from-emerald-600 to-teal-600 shadow-lg relative`} style={{ borderBottom: isScrolled ? 'none' : 'none' }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Mobile Menu Toggle - On the Left */}
@@ -240,7 +240,7 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
 
           {/* Mobile Menu */}
           {mobileMenuOpen && showNavLinks && (
-            <div className="lg:hidden pb-4 bg-emerald-600 border-t border-emerald-700">
+            <div className="lg:hidden absolute top-full left-0 right-0 bg-emerald-600 border-t border-emerald-700 z-50 px-6 py-4">
               <Link href="/" className="block text-white hover:text-emerald-100 transition text-sm font-medium py-2">
                 Mission
               </Link>

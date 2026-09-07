@@ -256,6 +256,14 @@ export default function VRPageLoadAnimation() {
           z-index: 10;
         }
 
+        @media (max-width: 768px) {
+          .vr-center-orb {
+            width: 200px;
+            height: 200px;
+            margin-bottom: 50px;
+          }
+        }
+
         .vr-shockwave {
           position: absolute;
           top: 50%;
@@ -321,6 +329,15 @@ export default function VRPageLoadAnimation() {
           filter: drop-shadow(0 0 20px rgba(255, 255, 100, 0.8)) drop-shadow(0 0 40px rgba(16, 185, 129, 0.6));
         }
 
+        @media (max-width: 768px) {
+          .vr-treasure-1 {
+            font-size: 60px;
+            top: 5px;
+            right: 15px;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 100, 0.6)) drop-shadow(0 0 20px rgba(16, 185, 129, 0.4));
+          }
+        }
+
         .vr-treasure-2 {
           animation: vrTreasureEmerge 2.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s both;
           font-size: 120px;
@@ -328,6 +345,15 @@ export default function VRPageLoadAnimation() {
           bottom: 0px;
           left: 15px;
           filter: drop-shadow(0 0 25px rgba(100, 200, 255, 0.8)) drop-shadow(0 0 50px rgba(16, 185, 129, 0.6));
+        }
+
+        @media (max-width: 768px) {
+          .vr-treasure-2 {
+            font-size: 65px;
+            bottom: 0px;
+            left: 8px;
+            filter: drop-shadow(0 0 12px rgba(100, 200, 255, 0.6)) drop-shadow(0 0 25px rgba(16, 185, 129, 0.4));
+          }
         }
 
         .vr-text-container {
@@ -348,6 +374,13 @@ export default function VRPageLoadAnimation() {
           animation: vrTextWaveIn 2.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.8s both;
         }
 
+        @media (max-width: 768px) {
+          .vr-title {
+            font-size: 42px;
+            letter-spacing: 4px;
+          }
+        }
+
         .vr-subtitle {
           font-size: 22px;
           color: rgba(255, 255, 255, 0.95);
@@ -357,6 +390,14 @@ export default function VRPageLoadAnimation() {
           text-transform: uppercase;
           animation: vrSubtitleFadeIn 2.5s ease-out 1.8s both;
           text-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+        }
+
+        @media (max-width: 768px) {
+          .vr-subtitle {
+            font-size: 12px;
+            margin-top: 15px;
+            letter-spacing: 2px;
+          }
         }
 
         .vr-particle {
@@ -412,6 +453,13 @@ export default function VRPageLoadAnimation() {
           opacity: 0;
           animation: vrFloatIn 2.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards, vrFloat 3s ease-in-out 3.5s infinite;
           filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.3));
+        }
+
+        @media (max-width: 768px) {
+          .vr-element {
+            font-size: 28px;
+            filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.2));
+          }
         }
 
         .vr-element-recycle { animation: vrFloatIn 2.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s forwards, vrFloat 3s ease-in-out 3.5s infinite; }

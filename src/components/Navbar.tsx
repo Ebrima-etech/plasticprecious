@@ -93,7 +93,7 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
         }
         .animated-placeholder::placeholder {
           color: rgb(148, 163, 184);
-          animation: typing 3.5s steps(20, end) infinite;
+          animation: typing 2.5s steps(20, end) infinite;
         }
       `}</style>
       {/* Top Promo Bar - Desktop Only */}

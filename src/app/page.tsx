@@ -507,8 +507,8 @@ export default function Home() {
       {/* Best Selling Products */}
       <section className="py-16 lg:py-24 bg-white relative overflow-hidden grid-pattern">
         <div className="max-w-7xl mx-auto px-0 md:px-6 lg:px-8 relative z-10">
-          <div className="mb-16 animate-fade-in-up px-6 md:px-0">
-            <h2 className="bestseller-heading mb-4">Best sellers</h2>
+          <div className="mb-8 animate-fade-in-up px-6 md:px-0">
+            <h2 className="bestseller-heading mb-2">Best sellers</h2>
           </div>
 
           <div className="relative">

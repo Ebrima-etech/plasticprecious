@@ -17,18 +17,24 @@ export interface Category {
 }
 
 export interface CartItem {
-  id: number;
-  product: Product;
+  id?: number;
+  product: Product | {
+    id: number;
+    name: string;
+    price: string;
+    image?: string;
+  };
   quantity: number;
 }
 
 export interface Cart {
-  id: number;
-  user: number;
+  id?: number;
+  user?: number;
   items: CartItem[];
   total_price: string;
-  created_at: string;
-  updated_at: string;
+  total_items: number;
+  created_at?: string;
+  updated_at?: string;
 }
 
 export interface Order {

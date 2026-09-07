@@ -80,12 +80,20 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
           height: 2.4em;
           overflow: hidden;
         }
-        @keyframes placeholderPulse {
-          0%, 100% { color: rgb(148, 163, 184); }
-          50% { color: rgb(100, 116, 139); }
+        @keyframes typing {
+          0% { width: 0; }
+          100% { width: 100%; }
+        }
+        @keyframes blink {
+          0%, 49% { border-right-color: transparent; }
+          50%, 100% { border-right-color: rgb(107, 114, 128); }
+        }
+        .animated-placeholder {
+          position: relative;
         }
         .animated-placeholder::placeholder {
-          animation: placeholderPulse 2s ease-in-out infinite;
+          color: rgb(148, 163, 184);
+          animation: typing 3.5s steps(20, end) infinite;
         }
       `}</style>
       {/* Top Promo Bar - Desktop Only */}

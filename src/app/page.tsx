@@ -353,47 +353,32 @@ export default function Home() {
             <p className="text-xl text-slate-600 max-w-2xl">Real results from sustainable practices and community-driven initiatives</p>
           </div>
 
-          {/* Bento Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 auto-rows-[320px]">
-            {impacts.map((item, i) => {
-              // Create bento effect: first card spans 2 cols and 2 rows, others standard
-              const isLarge = i === 0;
-              const colSpan = isLarge ? "md:col-span-2 lg:col-span-2" : "md:col-span-1";
-              const rowSpan = isLarge ? "md:row-span-2" : "md:row-span-1";
-              const heightClass = isLarge ? "lg:auto-rows-[660px]" : "";
-
-              return (
-                <Link key={i} href="/impact" className={`group cursor-pointer animate-fade-in-up animation-delay-${i * 100}`}>
-                  <div className={`${colSpan} ${rowSpan} relative rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-200 hover:border-emerald-300 flex flex-col h-full hover:-translate-y-1 bg-white`}>
-                    {/* Image Section */}
-                    <div className={`relative overflow-hidden bg-slate-300 ${isLarge ? 'h-72' : 'h-48'}`}>
-                      {item.image && (
-                        <img src={item.image} alt={item.metric} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-                      )}
-                      {/* Subtle Overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-
-                      {/* Badge */}
-                      <div className={`absolute top-4 right-4 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 text-white font-black shadow-md flex items-center justify-center ${isLarge ? 'w-20 h-20 text-4xl' : 'w-14 h-14 text-2xl'}`}>
-                        {i + 1}
-                      </div>
-                    </div>
-
-                    {/* Content Section */}
-                    <div className={`flex flex-col flex-grow p-6 ${isLarge ? 'lg:p-8' : ''}`}>
-                      <h3 className={`font-black text-slate-900 ${isLarge ? 'text-3xl' : 'text-xl'} leading-tight mb-3`}>{item.metric}</h3>
-                      <p className="text-slate-600 text-sm leading-relaxed flex-grow mb-4">{item.description}</p>
-
-                      {/* Minimal CTA */}
-                      <div className="inline-flex items-center gap-2 text-emerald-600 font-bold text-sm">
-                        <span>Learn more</span>
-                        <span className="inline-block group-hover:translate-x-1 transition-transform duration-300">→</span>
-                      </div>
+          {/* Pill-shaped Grid - GetLab Inspired */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {impacts.map((item, i) => (
+              <Link key={i} href="/impact" className={`group cursor-pointer animate-fade-in-up animation-delay-${i * 100}`}>
+                <div className="relative rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-200 hover:border-emerald-400 flex flex-col h-full hover:-translate-y-1 bg-gradient-to-br from-white to-slate-50 backdrop-blur-sm group-hover:from-emerald-50 group-hover:to-white transition-colors">
+                  {/* Icon Badge - Pill Style */}
+                  <div className="px-6 pt-6 pb-3">
+                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 text-white font-black shadow-lg flex items-center justify-center text-2xl">
+                      {i + 1}
                     </div>
                   </div>
-                </Link>
-              );
-            })}
+
+                  {/* Content Section */}
+                  <div className="flex flex-col flex-grow px-6 pb-6">
+                    <h3 className="font-black text-slate-900 text-2xl leading-tight mb-3 group-hover:text-emerald-600 transition">{item.metric}</h3>
+                    <p className="text-slate-600 text-sm leading-relaxed flex-grow mb-4">{item.description}</p>
+
+                    {/* Minimal CTA */}
+                    <div className="inline-flex items-center gap-2 text-emerald-600 font-bold text-sm">
+                      <span>Learn more</span>
+                      <span className="inline-block group-hover:translate-x-1 transition-transform duration-300">→</span>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
@@ -409,35 +394,24 @@ export default function Home() {
             <p className="text-xl text-slate-600 max-w-2xl">From collection to recycling to education - we handle it all</p>
           </div>
 
-          {/* Bento Grid for Services */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-6 auto-rows-[400px]">
+          {/* Pill-shaped Grid - GetLab Inspired */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {services.map((service, i) => {
               const IconComponent = service.icon;
-              // Create bento: first service spans 3 cols, others span 3 cols but smaller
-              const isLarge = i === 0;
-              const colSpan = isLarge ? "lg:col-span-3" : "lg:col-span-3 md:col-span-2";
-
               return (
-                <Link key={i} href="/services-detail" className={`group cursor-pointer animate-fade-in-up animation-delay-${i * 100} ${colSpan}`}>
-                  <div className="relative rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 h-full flex flex-col border border-slate-200 hover:border-emerald-300 hover:-translate-y-1 bg-white">
-                    {/* Image Section */}
-                    <div className="relative h-40 lg:h-48 overflow-hidden bg-slate-300">
-                      {service.image && (
-                        <img src={service.image} alt={service.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-                      )}
-                      {/* Subtle overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-
-                      {/* Icon Badge */}
-                      <div className={`absolute top-4 right-4 rounded-full bg-gradient-to-br ${service.color} text-white shadow-md flex items-center justify-center ${isLarge ? 'w-20 h-20 text-3xl' : 'w-16 h-16 text-2xl'}`}>
-                        <IconComponent size={isLarge ? 40 : 32} />
+                <Link key={i} href="/services-detail" className={`group cursor-pointer animate-fade-in-up animation-delay-${i * 100}`}>
+                  <div className="relative rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-200 hover:border-emerald-400 flex flex-col h-full hover:-translate-y-1 bg-gradient-to-br from-white to-slate-50 backdrop-blur-sm group-hover:from-emerald-50 group-hover:to-white transition-colors">
+                    {/* Icon Badge - Pill Style */}
+                    <div className="px-6 pt-6 pb-3">
+                      <div className={`w-14 h-14 rounded-full bg-gradient-to-br ${service.color} text-white font-black shadow-lg flex items-center justify-center text-3xl`}>
+                        <IconComponent size={32} />
                       </div>
                     </div>
 
                     {/* Content Section */}
-                    <div className="p-6 lg:p-8 flex flex-col flex-grow">
-                      <h3 className={`font-black text-slate-900 mb-3 ${isLarge ? 'text-3xl' : 'text-2xl'} leading-tight`}>{service.title}</h3>
-                      <p className="text-slate-600 text-sm lg:text-base leading-relaxed flex-grow mb-4">{service.description}</p>
+                    <div className="flex flex-col flex-grow px-6 pb-6">
+                      <h3 className="font-black text-slate-900 text-2xl leading-tight mb-3 group-hover:text-emerald-600 transition">{service.title}</h3>
+                      <p className="text-slate-600 text-sm leading-relaxed flex-grow mb-4">{service.description}</p>
 
                       {/* Minimal CTA */}
                       <div className="inline-flex items-center gap-2 text-emerald-600 font-bold text-sm">

@@ -22,6 +22,9 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
     { label: 'INNOVATIVE', value: 'Always Improving' },
   ];
 
+  const prevIndex = (rotatingIndex - 1 + rotatingItems.length) % rotatingItems.length;
+  const nextIndex = (rotatingIndex + 1) % rotatingItems.length;
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 0);
@@ -41,15 +44,32 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
   return (
     <>
       <style>{`
-        @keyframes slideUpFade {
+        @keyframes slideUpFadeIn {
           0% { opacity: 0; transform: translateY(30px); }
-          25% { opacity: 1; transform: translateY(0); }
-          75% { opacity: 1; transform: translateY(0); }
+          20% { opacity: 1; transform: translateY(0); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideUpFadeOut {
+          0% { opacity: 1; transform: translateY(0); }
+          80% { opacity: 0; transform: translateY(-30px); }
           100% { opacity: 0; transform: translateY(-30px); }
         }
-        .rotating-text {
-          animation: slideUpFade 4s ease-in-out;
+        .rotating-text-current {
+          animation: slideUpFadeOut 4s ease-in-out;
           display: inline-block;
+          position: absolute;
+        }
+        .rotating-text-next {
+          animation: slideUpFadeIn 4s ease-in-out;
+          display: inline-block;
+          position: absolute;
+        }
+        .rotating-text-container {
+          position: relative;
+          height: 1.5em;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
         }
       `}</style>
       {/* Top Promo Bar - Desktop Only */}
@@ -59,9 +79,15 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
             <div className="flex items-center gap-8 whitespace-nowrap">
               <div className="flex items-center gap-2">
                 <GiRecycle className="text-emerald-400 text-lg" />
-                <div className="rotating-text">
-                  <div className="text-slate-400 text-xs font-semibold">{rotatingItems[rotatingIndex].label}</div>
-                  <div className="font-black text-white">{rotatingItems[rotatingIndex].value}</div>
+                <div className="rotating-text-container">
+                  <div key={`current-${rotatingIndex}`} className="rotating-text-current">
+                    <div className="text-slate-400 text-xs font-semibold">{rotatingItems[rotatingIndex].label}</div>
+                    <div className="font-black text-white">{rotatingItems[rotatingIndex].value}</div>
+                  </div>
+                  <div key={`next-${nextIndex}`} className="rotating-text-next">
+                    <div className="text-slate-400 text-xs font-semibold">{rotatingItems[nextIndex].label}</div>
+                    <div className="font-black text-white">{rotatingItems[nextIndex].value}</div>
+                  </div>
                 </div>
               </div>
               <div className="flex items-center gap-2">

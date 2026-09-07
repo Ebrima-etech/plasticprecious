@@ -85,7 +85,7 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
       </div>
 
       {/* Navigation */}
-      <nav className={`${sticky ? 'sticky' : ''} top-0 z-40 bg-emerald-900`} style={{ borderBottom: isScrolled ? '0.75px solid rgba(255, 255, 255, 0.12)' : 'none' }}>
+      <nav className={`${sticky ? 'sticky' : ''} top-0 z-40 bg-emerald-600 md:bg-emerald-900`} style={{ borderBottom: isScrolled ? '0.75px solid rgba(255, 255, 255, 0.12)' : 'none' }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex items-center justify-between h-12">
             {/* Mobile Menu Toggle - On the Left */}
@@ -192,7 +192,7 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
       </nav>
 
       {/* Mobile Search Bar - Replaces Categories Row */}
-      <div className="lg:hidden bg-emerald-900 py-2 px-6">
+      <div className="lg:hidden bg-emerald-600 py-2 px-6">
         <div className="flex items-center bg-white border-0 px-4 rounded-full" style={{ paddingTop: '0.375rem', paddingBottom: '0.375rem' }}>
           <FiSearch size={16} className="text-emerald-600" />
           <input

@@ -407,8 +407,83 @@ export default function Home() {
       `}</style>
       <Navbar showNavLinks={true} sticky={false} showCategories={true} />
 
-      {/* Hero Section */}
-      <section className="bg-white py-6 lg:py-8 flex items-center relative overflow-hidden grid-pattern">
+      {/* Hero Section - Mobile Slider */}
+      <section className="lg:hidden bg-white relative overflow-hidden grid-pattern">
+        <div className="relative w-full h-screen flex items-center justify-center">
+          {/* Carousel Background Image */}
+          <div className="absolute inset-0 overflow-hidden">
+            {carouselItems[carouselIndex].image && (
+              <img
+                src={carouselItems[carouselIndex].image}
+                alt={carouselItems[carouselIndex].title}
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+            )}
+            <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-white/90"></div>
+          </div>
+
+          {/* Carousel Content Centered */}
+          <div className="relative z-10 w-full max-w-lg px-6 py-12 flex flex-col items-center justify-center h-full text-center">
+            <div className="badge-container mb-6 animate-fade-in-up">
+              <div key={`current-${badgeIndex}`} className="badge-current">
+                {badgeItems[badgeIndex]}
+              </div>
+              <div key={`next-${(badgeIndex + 1) % badgeItems.length}`} className="badge-next">
+                {badgeItems[(badgeIndex + 1) % badgeItems.length]}
+              </div>
+            </div>
+
+            <h1 className="unique-heading text-white mb-6 animate-fade-in-up animation-delay-100 drop-shadow-lg">
+              From <span className="accent-line text-emerald-300">Pollution</span> to <span className="gradient-animate-text">Solution</span>
+            </h1>
+            <p className="unique-subheading text-white mb-8 animate-fade-in-up animation-delay-200 drop-shadow-md">
+              Transforming plastic waste into valuable, sustainable products while creating positive change for communities and our environment.
+            </p>
+
+            {/* CTA Buttons */}
+            <div className="flex flex-col gap-3 w-full animate-fade-in-up animation-delay-300">
+              <Link href="/services" className="group relative bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold px-6 py-3 rounded-lg transition-all duration-300 text-center text-base shadow-lg hover:shadow-2xl hover:shadow-emerald-500/30 transform hover:scale-105">
+                Work With Us
+                <span className="block text-xs font-semibold text-emerald-50 mt-0.5">Custom quoting for large businesses</span>
+              </Link>
+              <a href="/shop" className="group relative bg-white text-emerald-600 hover:bg-emerald-50 font-bold px-6 py-3 rounded-lg transition-all duration-300 text-center text-base shadow-lg hover:shadow-xl">
+                Shop Now
+                <span className="block text-xs font-semibold text-emerald-600 mt-0.5">Ready-to-buy products</span>
+              </a>
+            </div>
+          </div>
+
+          {/* Carousel Navigation Arrows */}
+          <div className="absolute inset-0 flex items-center justify-between px-4 z-20 pointer-events-none">
+            <button
+              onClick={() => setCarouselIndex((carouselIndex - 1 + carouselItems.length) % carouselItems.length)}
+              className="pointer-events-auto w-12 h-12 rounded-full bg-white/80 hover:bg-white text-slate-900 flex items-center justify-center transition-all duration-300 hover:scale-110 font-bold text-2xl shadow-lg hover:shadow-xl backdrop-blur-sm">
+              ‹
+            </button>
+            <button
+              onClick={() => setCarouselIndex((carouselIndex + 1) % carouselItems.length)}
+              className="pointer-events-auto w-12 h-12 rounded-full bg-white/80 hover:bg-white text-slate-900 flex items-center justify-center transition-all duration-300 hover:scale-110 font-bold text-2xl shadow-lg hover:shadow-xl backdrop-blur-sm">
+              ›
+            </button>
+          </div>
+
+          {/* Carousel Indicators - Bottom Dots */}
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+            {carouselItems.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCarouselIndex(index)}
+                className={`rounded-full transition-all duration-300 ${
+                  index === carouselIndex ? 'bg-white w-8 h-2' : 'bg-white/50 hover:bg-white/75 w-2 h-2'
+                }`}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Hero Section - Desktop Layout */}
+      <section className="hidden lg:block bg-white py-8 flex items-center relative overflow-hidden grid-pattern">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* Left Content */}
@@ -429,35 +504,6 @@ export default function Home() {
                 Transforming plastic waste into valuable, sustainable products while creating positive change for communities and our environment.
               </p>
 
-              {/* Mobile Carousel - Above Buttons */}
-              <div className="lg:hidden mb-8 relative flex flex-col items-center w-screen animate-fade-in-up animation-delay-300 -mx-6">
-                <div className="relative w-full">
-                  <div className="h-[50vh] flex flex-col items-center justify-center overflow-hidden relative">
-                    {carouselItems[carouselIndex].image && (
-                      <img
-                        src={carouselItems[carouselIndex].image}
-                        alt={carouselItems[carouselIndex].title}
-                        className="absolute inset-0 w-full h-full object-cover hover:scale-105 transition-transform duration-700"
-                      />
-                    )}
-
-                    {/* Carousel Controls - Inside Overlay */}
-                    <div className="absolute inset-0 flex items-center justify-between px-6 z-20">
-                      <button
-                        onClick={() => setCarouselIndex((carouselIndex - 1 + carouselItems.length) % carouselItems.length)}
-                        className="w-14 h-14 rounded-full bg-white/80 hover:bg-white text-slate-900 flex items-center justify-center transition-all duration-300 hover:scale-110 font-bold text-3xl shadow-lg hover:shadow-xl backdrop-blur-sm">
-                        ‹
-                      </button>
-                      <button
-                        onClick={() => setCarouselIndex((carouselIndex + 1) % carouselItems.length)}
-                        className="w-14 h-14 rounded-full bg-white/80 hover:bg-white text-slate-900 flex items-center justify-center transition-all duration-300 hover:scale-110 font-bold text-3xl shadow-lg hover:shadow-xl backdrop-blur-sm">
-                        ›
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
               {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 mb-8 animate-fade-in-up animation-delay-300">
                 <Link href="/services" className="group relative bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold px-6 py-3 rounded-lg transition-all duration-300 text-center text-base shadow-lg hover:shadow-2xl hover:shadow-emerald-500/30 transform hover:scale-105">
@@ -472,7 +518,7 @@ export default function Home() {
             </div>
 
             {/* Desktop - Hero Image/Carousel */}
-            <div className="hidden lg:flex relative flex-col items-center w-full animate-fade-in-up animation-delay-300">
+            <div className="relative flex flex-col items-center w-full animate-fade-in-up animation-delay-300">
               <div className="relative w-full">
                 <div className="rounded-2xl h-[75vh] flex flex-col items-center justify-center overflow-hidden relative">
                   {carouselItems[carouselIndex].image && (

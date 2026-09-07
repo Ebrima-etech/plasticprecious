@@ -301,6 +301,35 @@ export default function Home() {
                 Transforming plastic waste into valuable, sustainable products while creating positive change for communities and our environment.
               </p>
 
+              {/* Mobile Carousel - Above Buttons */}
+              <div className="lg:hidden mb-8 relative flex flex-col items-center w-full animate-fade-in-up animation-delay-300">
+                <div className="relative w-full">
+                  <div className="rounded-2xl h-[50vh] flex flex-col items-center justify-center overflow-hidden relative shadow-2xl">
+                    {carouselItems[carouselIndex].image && (
+                      <img
+                        src={carouselItems[carouselIndex].image}
+                        alt={carouselItems[carouselIndex].title}
+                        className="absolute inset-0 w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                      />
+                    )}
+
+                    {/* Carousel Controls - Inside Overlay */}
+                    <div className="absolute inset-0 flex items-center justify-between px-6 z-20">
+                      <button
+                        onClick={() => setCarouselIndex((carouselIndex - 1 + carouselItems.length) % carouselItems.length)}
+                        className="w-14 h-14 rounded-full bg-white/80 hover:bg-white text-slate-900 flex items-center justify-center transition-all duration-300 hover:scale-110 font-bold text-3xl shadow-lg hover:shadow-xl backdrop-blur-sm">
+                        ‹
+                      </button>
+                      <button
+                        onClick={() => setCarouselIndex((carouselIndex + 1) % carouselItems.length)}
+                        className="w-14 h-14 rounded-full bg-white/80 hover:bg-white text-slate-900 flex items-center justify-center transition-all duration-300 hover:scale-110 font-bold text-3xl shadow-lg hover:shadow-xl backdrop-blur-sm">
+                        ›
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 mb-8 animate-fade-in-up animation-delay-300">
                 <Link href="/services" className="group relative bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold px-6 py-3 rounded-lg transition-all duration-300 text-center text-base shadow-lg hover:shadow-2xl hover:shadow-emerald-500/30 transform hover:scale-105">
@@ -314,10 +343,10 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right - Hero Image/Carousel */}
-            <div className="flex relative flex-col items-center w-full animate-fade-in-up animation-delay-300">
+            {/* Desktop - Hero Image/Carousel */}
+            <div className="hidden lg:flex relative flex-col items-center w-full animate-fade-in-up animation-delay-300">
               <div className="relative w-full">
-                <div className="rounded-2xl h-[60vh] lg:h-[75vh] flex flex-col items-center justify-center overflow-hidden relative shadow-2xl">
+                <div className="rounded-2xl h-[75vh] flex flex-col items-center justify-center overflow-hidden relative shadow-2xl">
                   {carouselItems[carouselIndex].image && (
                     <img
                       src={carouselItems[carouselIndex].image}

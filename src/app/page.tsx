@@ -142,7 +142,7 @@ export default function Home() {
                   <span className="text-emerald-600 italic">Solution</span>
                 </span>
               </h1>
-              <p className="text-base text-emerald-700 mb-8 font-bold leading-relaxed max-w-lg">
+              <p className="text-base text-emerald-700 mb-8 font-semibold leading-relaxed max-w-lg">
                 Transforming plastic waste into valuable, sustainable products <br /> while creating positive change for communities and our environment.
               </p>
 

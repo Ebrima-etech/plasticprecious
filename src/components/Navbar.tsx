@@ -80,6 +80,13 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
           height: 2.4em;
           overflow: hidden;
         }
+        @keyframes placeholderPulse {
+          0%, 100% { color: rgb(148, 163, 184); }
+          50% { color: rgb(100, 116, 139); }
+        }
+        .animated-placeholder::placeholder {
+          animation: placeholderPulse 2s ease-in-out infinite;
+        }
       `}</style>
       {/* Top Promo Bar - Desktop Only */}
       <div className="hidden md:block sticky top-0 z-50 bg-gradient-to-r from-slate-900 to-slate-800 border-b border-slate-700">
@@ -168,7 +175,7 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
               <input
                 type="text"
                 placeholder="Search for products"
-                className="bg-transparent text-slate-900 text-sm placeholder-slate-400 ml-3 w-full focus:outline-none font-medium"
+                className="animated-placeholder bg-transparent text-slate-900 text-sm placeholder-slate-400 ml-3 w-full focus:outline-none font-medium"
               />
             </div>
 

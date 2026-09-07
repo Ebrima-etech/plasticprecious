@@ -549,7 +549,10 @@ export default function Home() {
       </section>
 
       {/* Impact Section - Bento Grid */}
-      <section className="py-16 lg:py-24 bg-white relative overflow-hidden grid-pattern">
+      <section className="py-16 lg:py-24 bg-emerald-50 relative overflow-hidden" style={{
+        backgroundImage: 'linear-gradient(90deg, rgba(16, 185, 129, 0.08) 1px, transparent 1px), linear-gradient(rgba(16, 185, 129, 0.08) 1px, transparent 1px)',
+        backgroundSize: '40px 40px',
+      }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="mb-16 animate-fade-in-up">
             <div className="inline-block bg-emerald-100 text-emerald-700 px-4 py-2 rounded-full text-sm font-bold mb-4">
@@ -590,7 +593,10 @@ export default function Home() {
       </section>
 
       {/* Services Section - Bento Grid */}
-      <section id="services" className="py-16 lg:py-24 bg-slate-50 relative overflow-hidden grid-pattern">
+      <section id="services" className="py-16 lg:py-24 bg-emerald-50 relative overflow-hidden" style={{
+        backgroundImage: 'linear-gradient(90deg, rgba(16, 185, 129, 0.08) 1px, transparent 1px), linear-gradient(rgba(16, 185, 129, 0.08) 1px, transparent 1px)',
+        backgroundSize: '40px 40px',
+      }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="mb-16 animate-fade-in-up">
             <div className="inline-block bg-emerald-100 text-emerald-700 px-4 py-2 rounded-full text-sm font-bold mb-4">

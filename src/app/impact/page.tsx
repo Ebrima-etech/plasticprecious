@@ -95,7 +95,7 @@ export default function ImpactPage() {
           background-position: 0 0, 0 0;
         }
       `}</style>
-      <Navbar />
+      <Navbar showNavLinks={true} />
 
       {/* Header */}
       <section className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-16 relative overflow-hidden">

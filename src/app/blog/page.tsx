@@ -38,7 +38,7 @@ export default function BlogPage() {
           background-size: 40px 40px;
         }
       `}</style>
-      <Navbar />
+      <Navbar showNavLinks={true} />
       <section className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-16 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>

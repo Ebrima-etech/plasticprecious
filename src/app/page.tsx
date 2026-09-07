@@ -224,10 +224,10 @@ export default function Home() {
               </div>
 
               <h1 className="text-5xl lg:text-7xl font-black text-slate-900 mb-6 leading-tight animate-fade-in-up animation-delay-100 tracking-tight">
-                Transform <span className="bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent">Plastic Waste</span> Into Premium Products
+                From <span className="bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent">Pollution</span> to Solution
               </h1>
               <p className="text-xl text-slate-700 mb-8 max-w-xl animate-fade-in-up animation-delay-200 leading-relaxed font-semibold">
-                Eco-friendly products designed to match your brand, your business, and your budget without compromise.
+                Transforming plastic waste into valuable, sustainable products while creating positive change for communities and our environment.
               </p>
 
               {/* CTA Buttons */}

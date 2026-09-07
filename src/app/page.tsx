@@ -280,6 +280,99 @@ export default function Home() {
           background-clip: text;
           -webkit-text-fill-color: transparent;
         }
+        /* Unique Design System */
+        @keyframes slideInRight {
+          from {
+            opacity: 0;
+            transform: translateX(-40px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+        @keyframes expandWidth {
+          from { width: 0; }
+          to { width: 100%; }
+        }
+        .unique-heading {
+          font-size: clamp(2.5rem, 8vw, 5rem);
+          font-weight: 900;
+          letter-spacing: -0.02em;
+          line-height: 1.1;
+          font-family: system-ui, -apple-system, sans-serif;
+        }
+        .unique-subheading {
+          font-size: clamp(1.25rem, 3vw, 1.875rem);
+          font-weight: 600;
+          letter-spacing: -0.01em;
+          line-height: 1.4;
+        }
+        .unique-card {
+          border: 2px solid rgba(16, 185, 129, 0.2);
+          border-radius: 1.5rem;
+          transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+          position: relative;
+          overflow: hidden;
+          background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(16, 185, 129, 0.01) 100%);
+        }
+        .unique-card::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 1px;
+          background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.5), transparent);
+        }
+        .unique-card:hover {
+          border-color: rgba(16, 185, 129, 0.5);
+          box-shadow: 0 20px 40px rgba(16, 185, 129, 0.1);
+          transform: translateY(-4px);
+        }
+        .unique-button {
+          position: relative;
+          overflow: hidden;
+          border-radius: 0.75rem;
+          font-weight: 700;
+          letter-spacing: 0.05em;
+          transition: all 0.3s ease;
+          text-transform: uppercase;
+          font-size: 0.875rem;
+        }
+        .unique-button::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: rgba(255, 255, 255, 0.2);
+          transition: left 0.3s ease;
+        }
+        .unique-button:hover::before {
+          left: 100%;
+        }
+        .accent-line {
+          position: relative;
+          display: inline-block;
+        }
+        .accent-line::after {
+          content: '';
+          position: absolute;
+          bottom: -8px;
+          left: 0;
+          height: 4px;
+          width: 100%;
+          background: linear-gradient(90deg, #10b981, #14b8a6);
+          border-radius: 2px;
+          animation: expandWidth 0.8s ease-out forwards;
+        }
+        .section-divider {
+          height: 1px;
+          background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.3), transparent);
+          margin: 4rem 0;
+        }
       `}</style>
       <Navbar showNavLinks={true} sticky={false} showCategories={true} />
 
@@ -298,10 +391,10 @@ export default function Home() {
                 </div>
               </div>
 
-              <h1 className="text-5xl lg:text-7xl font-black text-slate-900 mb-6 leading-tight animate-fade-in-up animation-delay-100 tracking-tight italic">
-                From <span className="bg-gradient-to-r from-emerald-700 to-teal-700 bg-clip-text text-transparent">Pollution</span> to <span className="gradient-animate-text">Solution</span>
+              <h1 className="unique-heading text-slate-900 mb-6 animate-fade-in-up animation-delay-100">
+                From <span className="accent-line text-emerald-700">Pollution</span> to <span className="gradient-animate-text">Solution</span>
               </h1>
-              <p className="text-xl text-slate-700 mb-8 max-w-xl animate-fade-in-up animation-delay-200 leading-relaxed font-semibold">
+              <p className="unique-subheading text-slate-700 mb-8 max-w-xl animate-fade-in-up animation-delay-200">
                 Transforming plastic waste into valuable, sustainable products while creating positive change for communities and our environment.
               </p>
 
@@ -386,7 +479,7 @@ export default function Home() {
             <div className="inline-block bg-emerald-100 text-emerald-700 px-4 py-2 rounded-full text-sm font-bold mb-4">
               🏆 BESTSELLERS
             </div>
-            <h2 className="text-4xl lg:text-5xl font-black text-slate-900 mb-4 tracking-tight">All Your Eco Needs,<br />In One Place</h2>
+            <h2 className="unique-heading text-slate-900 mb-4">All Your Eco Needs,<br />In One Place</h2>
             <p className="text-xl text-slate-600 max-w-2xl">Premium recycled plastic products handpicked for quality and sustainability</p>
           </div>
 
@@ -470,7 +563,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {impacts.map((item, i) => (
               <Link key={i} href="/impact" className={`group cursor-pointer animate-fade-in-up animation-delay-${i * 100}`}>
-                <div className="relative rounded-3xl overflow-hidden transition-all duration-300 border border-slate-200 hover:border-emerald-400 flex flex-col h-full hover:-translate-y-1 bg-gradient-to-br from-white to-slate-50 backdrop-blur-sm group-hover:from-emerald-50 group-hover:to-white transition-colors">
+                <div className="unique-card relative rounded-2xl overflow-hidden flex flex-col h-full">
                   {/* Icon Badge - Pill Style */}
                   <div className="px-6 pt-6 pb-3">
                     <div className="w-14 h-14 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 text-white font-black flex items-center justify-center text-2xl">
@@ -513,7 +606,7 @@ export default function Home() {
               const IconComponent = service.icon;
               return (
                 <Link key={i} href="/services-detail" className={`group cursor-pointer animate-fade-in-up animation-delay-${i * 100}`}>
-                  <div className="relative rounded-3xl overflow-hidden transition-all duration-300 border border-slate-200 hover:border-emerald-400 flex flex-col h-full hover:-translate-y-1 bg-gradient-to-br from-white to-slate-50 backdrop-blur-sm group-hover:from-emerald-50 group-hover:to-white transition-colors">
+                  <div className="unique-card relative rounded-2xl overflow-hidden flex flex-col h-full">
                     {/* Icon Badge - Pill Style */}
                     <div className="px-6 pt-6 pb-3">
                       <div className={`w-14 h-14 rounded-full bg-gradient-to-br ${service.color} text-white font-black flex items-center justify-center text-3xl`}>

@@ -98,7 +98,7 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
 
             {/* Logo */}
             <Link href="/" className="text-lg md:text-xl font-bold text-white hover:text-emerald-100 transition flex-1 md:flex-none">
-              PLASTICPRECIOUS
+              PreciousPlastic
             </Link>
 
             {/* Search Bar - Hidden on Mobile */}

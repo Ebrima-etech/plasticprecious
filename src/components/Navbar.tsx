@@ -49,13 +49,13 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
           20% { opacity: 1; transform: translateY(0); }
           100% { opacity: 1; transform: translateY(0); }
         }
-        @keyframes slideUpFadeOut {
-          0% { opacity: 1; transform: translateY(0); }
-          80% { opacity: 0; transform: translateY(-30px); }
-          100% { opacity: 0; transform: translateY(-30px); }
+        @keyframes fadeOut {
+          0% { opacity: 1; }
+          50% { opacity: 0; }
+          100% { opacity: 0; }
         }
         .rotating-text-current {
-          animation: slideUpFadeOut 4s ease-in-out;
+          animation: fadeOut 4s ease-in-out;
           display: block;
           position: absolute;
           left: 0;

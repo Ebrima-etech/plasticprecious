@@ -373,6 +373,39 @@ export default function Home() {
           background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.3), transparent);
           margin: 4rem 0;
         }
+        @keyframes pulse-color {
+          0%, 100% { color: #1f2937; }
+          50% { color: #10b981; }
+        }
+        @keyframes bounce-subtle {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-4px); }
+        }
+        .bestseller-heading {
+          display: inline-block;
+          background: linear-gradient(135deg, #1f2937 0%, #10b981 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          animation: bounce-subtle 2s ease-in-out infinite;
+          font-size: clamp(2.5rem, 8vw, 4rem);
+          font-weight: 900;
+          letter-spacing: -0.02em;
+          line-height: 1.1;
+          position: relative;
+        }
+        .bestseller-heading::after {
+          content: '⭐';
+          position: absolute;
+          right: -2rem;
+          top: 0;
+          font-size: 0.6em;
+          animation: spin 3s linear infinite;
+        }
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
       `}</style>
       <Navbar showNavLinks={true} sticky={false} showCategories={true} />
 
@@ -476,7 +509,7 @@ export default function Home() {
       <section className="py-16 lg:py-24 bg-white relative overflow-hidden grid-pattern">
         <div className="max-w-7xl mx-auto px-0 md:px-6 lg:px-8 relative z-10">
           <div className="mb-16 animate-fade-in-up px-6 md:px-0">
-            <h2 className="unique-heading text-slate-900 mb-4">Best sellers</h2>
+            <h2 className="bestseller-heading mb-4">Best sellers</h2>
           </div>
 
           <div className="relative">

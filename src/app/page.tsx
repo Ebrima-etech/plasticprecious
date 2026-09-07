@@ -372,7 +372,7 @@ export default function Home() {
                 return (
                   <Link key={product.id} href={`/shop/${product.id}`}>
                     <div className="min-w-full md:min-w-1/2 lg:min-w-1/3">
-                      <div className={`cursor-pointer h-full bg-white flex flex-col rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group border border-slate-200 hover:border-emerald-400`}>
+                      <div className={`cursor-pointer h-full bg-white flex flex-col rounded-xl transition-all duration-300 overflow-hidden group border border-slate-200 hover:border-emerald-400`}>
                         <div className="relative h-72 overflow-hidden bg-slate-200">
                           {product.image ? (
                             <img
@@ -435,10 +435,10 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {impacts.map((item, i) => (
               <Link key={i} href="/impact" className={`group cursor-pointer animate-fade-in-up animation-delay-${i * 100}`}>
-                <div className="relative rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-200 hover:border-emerald-400 flex flex-col h-full hover:-translate-y-1 bg-gradient-to-br from-white to-slate-50 backdrop-blur-sm group-hover:from-emerald-50 group-hover:to-white transition-colors">
+                <div className="relative rounded-3xl overflow-hidden transition-all duration-300 border border-slate-200 hover:border-emerald-400 flex flex-col h-full hover:-translate-y-1 bg-gradient-to-br from-white to-slate-50 backdrop-blur-sm group-hover:from-emerald-50 group-hover:to-white transition-colors">
                   {/* Icon Badge - Pill Style */}
                   <div className="px-6 pt-6 pb-3">
-                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 text-white font-black shadow-lg flex items-center justify-center text-2xl">
+                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 text-white font-black flex items-center justify-center text-2xl">
                       {i + 1}
                     </div>
                   </div>
@@ -478,10 +478,10 @@ export default function Home() {
               const IconComponent = service.icon;
               return (
                 <Link key={i} href="/services-detail" className={`group cursor-pointer animate-fade-in-up animation-delay-${i * 100}`}>
-                  <div className="relative rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-200 hover:border-emerald-400 flex flex-col h-full hover:-translate-y-1 bg-gradient-to-br from-white to-slate-50 backdrop-blur-sm group-hover:from-emerald-50 group-hover:to-white transition-colors">
+                  <div className="relative rounded-3xl overflow-hidden transition-all duration-300 border border-slate-200 hover:border-emerald-400 flex flex-col h-full hover:-translate-y-1 bg-gradient-to-br from-white to-slate-50 backdrop-blur-sm group-hover:from-emerald-50 group-hover:to-white transition-colors">
                     {/* Icon Badge - Pill Style */}
                     <div className="px-6 pt-6 pb-3">
-                      <div className={`w-14 h-14 rounded-full bg-gradient-to-br ${service.color} text-white font-black shadow-lg flex items-center justify-center text-3xl`}>
+                      <div className={`w-14 h-14 rounded-full bg-gradient-to-br ${service.color} text-white font-black flex items-center justify-center text-3xl`}>
                         <IconComponent size={32} />
                       </div>
                     </div>

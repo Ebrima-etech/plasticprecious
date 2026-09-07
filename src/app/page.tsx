@@ -315,9 +315,9 @@ export default function Home() {
             </div>
 
             {/* Right - Hero Image/Carousel */}
-            <div className="hidden lg:flex relative flex-col items-center w-full animate-fade-in-up animation-delay-300">
+            <div className="flex relative flex-col items-center w-full animate-fade-in-up animation-delay-300">
               <div className="relative w-full">
-                <div className="rounded-2xl h-[75vh] flex flex-col items-center justify-center overflow-hidden relative shadow-2xl">
+                <div className="rounded-2xl h-[60vh] lg:h-[75vh] flex flex-col items-center justify-center overflow-hidden relative shadow-2xl">
                   {carouselItems[carouselIndex].image && (
                     <img
                       src={carouselItems[carouselIndex].image}

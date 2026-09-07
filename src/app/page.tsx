@@ -233,29 +233,35 @@ export default function Home() {
           animation: badgeFadeOut 6s ease-in-out;
           display: inline-block;
           position: absolute;
+          left: 0;
+          top: 0;
           background-color: rgb(209, 250, 229);
           color: rgb(5, 122, 85);
           padding: 0.5rem 1rem;
           border-radius: 9999px;
           font-size: 0.875rem;
           font-weight: 700;
+          white-space: nowrap;
         }
         .badge-next {
           animation: badgeSlideUpFadeIn 6s ease-in-out;
           display: inline-block;
           position: absolute;
+          left: 0;
+          top: 0;
           background-color: rgb(209, 250, 229);
           color: rgb(5, 122, 85);
           padding: 0.5rem 1rem;
           border-radius: 9999px;
           font-size: 0.875rem;
           font-weight: 700;
+          white-space: nowrap;
         }
         .badge-container {
           position: relative;
           display: inline-block;
-          height: 2.5em;
-          overflow: hidden;
+          height: 2.4em;
+          overflow: visible;
         }
       `}</style>
       <Navbar showNavLinks={true} sticky={false} showCategories={true} />

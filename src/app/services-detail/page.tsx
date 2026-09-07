@@ -91,24 +91,34 @@ export default function ServicesDetailPage() {
 
   return (
     <div className="min-h-screen bg-white">
+      <style>{`
+        .grid-pattern {
+          background-image:
+            linear-gradient(90deg, rgba(16, 185, 129, 0.03) 1px, transparent 1px),
+            linear-gradient(rgba(16, 185, 129, 0.03) 1px, transparent 1px);
+          background-size: 40px 40px;
+          background-position: 0 0, 0 0;
+        }
+      `}</style>
       <Navbar />
 
       {/* Header */}
-      <section className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-16 md:py-20">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <Link href="/" className="text-emerald-50 hover:text-white mb-4 inline-block text-sm">
-            ← Back to Home
-          </Link>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Our Services</h1>
-          <p className="text-lg text-emerald-50 max-w-2xl">
-            Comprehensive solutions for sustainable plastic management from collection to transformation.
-          </p>
+      <section className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-16 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
+        </div>
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+          <div className="inline-block bg-white/20 text-white px-4 py-2 rounded-full text-sm font-bold mb-6">
+            🔧 SERVICES
+          </div>
+          <h1 className="text-5xl lg:text-6xl font-black mb-6 leading-tight">Our Services</h1>
+          <p className="text-xl max-w-2xl text-emerald-50">Comprehensive solutions for sustainable plastic management</p>
         </div>
       </section>
 
       {/* Services Details */}
-      <section className="py-16 md:py-20 lg:py-24">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+      <section className="py-16 md:py-20 lg:py-24 bg-white relative overflow-hidden grid-pattern">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="space-y-24">
             {services.map((service, idx) => {
               const IconComponent = service.icon;
@@ -116,7 +126,7 @@ export default function ServicesDetailPage() {
                 <div key={service.id} className={`grid grid-cols-1 md:grid-cols-2 gap-12 items-center ${idx % 2 === 1 ? 'md:grid-cols-2' : ''}`}>
                   {/* Image - alternating sides */}
                   <div className={idx % 2 === 1 ? 'md:order-2' : ''}>
-                    <div className="rounded-2xl overflow-hidden h-96 shadow-lg">
+                    <div className="rounded-3xl overflow-hidden h-96 border border-slate-200">
                       <img src={service.image} alt={service.title} className="w-full h-full object-cover" />
                     </div>
                   </div>
@@ -130,19 +140,19 @@ export default function ServicesDetailPage() {
                       <span className="text-emerald-600 font-semibold text-sm uppercase tracking-wide">Service</span>
                     </div>
 
-                    <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 mb-4">{service.title}</h2>
-                    <p className="text-neutral-600 text-lg mb-6 leading-relaxed">
+                    <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">{service.title}</h2>
+                    <p className="text-slate-600 text-lg mb-6 leading-relaxed">
                       {service.fullDescription}
                     </p>
 
                     {/* Key Features */}
                     <div className="mb-8">
-                      <h3 className="text-lg font-semibold text-neutral-900 mb-4">Key Features</h3>
+                      <h3 className="text-lg font-semibold text-slate-900 mb-4">Key Features</h3>
                       <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         {service.features.map((feature, i) => (
                           <li key={i} className="flex items-start gap-3">
                             <span className="text-emerald-600 text-xl mt-1">✓</span>
-                            <span className="text-neutral-700 text-sm">{feature}</span>
+                            <span className="text-slate-700 text-sm">{feature}</span>
                           </li>
                         ))}
                       </ul>
@@ -150,24 +160,24 @@ export default function ServicesDetailPage() {
 
                     {/* Process */}
                     <div>
-                      <h3 className="text-lg font-semibold text-neutral-900 mb-4">Our Process</h3>
+                      <h3 className="text-lg font-semibold text-slate-900 mb-4">Our Process</h3>
                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                         {service.process.map((proc, i) => (
-                          <div key={i} className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-lg p-4 border border-emerald-200">
-                            <div className="text-emerald-600 font-bold text-2xl mb-2">{proc.step}</div>
-                            <p className="font-semibold text-neutral-900 text-sm mb-1">{proc.title}</p>
-                            <p className="text-xs text-neutral-600">{proc.description}</p>
+                          <div key={i} className="group cursor-pointer rounded-3xl overflow-hidden border border-slate-200 hover:border-emerald-400 bg-gradient-to-br from-white to-slate-50 hover:from-emerald-50 hover:to-white p-4 transition-all duration-300 hover:-translate-y-1">
+                            <div className="text-emerald-600 font-black text-2xl mb-2 group-hover:text-emerald-700 transition">{proc.step}</div>
+                            <p className="font-semibold text-slate-900 text-sm mb-1">{proc.title}</p>
+                            <p className="text-xs text-slate-600">{proc.description}</p>
                           </div>
                         ))}
                       </div>
                     </div>
 
                     {/* Stats */}
-                    <div className="mt-8 pt-8 border-t border-neutral-200 grid grid-cols-3 gap-4">
+                    <div className="mt-8 pt-8 border-t border-slate-200 grid grid-cols-3 gap-4">
                       {Object.entries(service.stats).map(([key, value]) => (
                         <div key={key} className="text-center">
-                          <p className="text-2xl font-bold text-emerald-600">{value}</p>
-                          <p className="text-xs text-neutral-600 uppercase font-semibold capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</p>
+                          <p className="text-2xl font-black text-emerald-600">{value}</p>
+                          <p className="text-xs text-slate-600 uppercase font-semibold capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</p>
                         </div>
                       ))}
                     </div>
@@ -180,20 +190,23 @@ export default function ServicesDetailPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 md:py-20 bg-gradient-to-b from-emerald-50 to-white">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold text-neutral-900 mb-6">Ready to Partner With Us?</h2>
-          <p className="text-neutral-600 text-lg mb-8 max-w-2xl mx-auto">
+      <section className="py-16 md:py-20 bg-gradient-to-r from-emerald-600 to-teal-600 text-white relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute bottom-0 left-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
+        </div>
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center relative z-10">
+          <h2 className="text-4xl lg:text-5xl font-black text-white mb-6">Ready to Partner With Us?</h2>
+          <p className="text-lg text-emerald-50 mb-8 max-w-2xl mx-auto">
             Whether you're a business, community, or individual, we have solutions tailored to your needs. Get in touch to learn how we can work together.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/contact">
-              <button className="px-8 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg transition">
+              <button className="px-8 py-3 bg-white text-emerald-600 font-bold rounded-full hover:bg-emerald-50 transition duration-300">
                 Get in Touch
               </button>
             </Link>
             <Link href="/shop">
-              <button className="px-8 py-3 bg-white hover:bg-emerald-50 text-emerald-600 font-bold rounded-lg border border-emerald-600 transition">
+              <button className="px-8 py-3 bg-white/20 text-white font-bold rounded-full border border-white/30 hover:bg-white/30 transition duration-300">
                 Browse Products
               </button>
             </Link>

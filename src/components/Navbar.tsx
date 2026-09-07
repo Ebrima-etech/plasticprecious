@@ -136,12 +136,6 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
                 </div>
               </div>
             </div>
-            <div className="flex-1 flex items-center justify-center">
-              <div className="text-center">
-                <div className="text-slate-400 text-xs font-semibold">OUR MISSION</div>
-                <div className="font-black text-emerald-400 text-sm">Trash to Treasure</div>
-              </div>
-            </div>
             <div className="flex items-center gap-6 ml-auto">
               <a href="tel:+220872518185" className="flex items-center gap-1 text-slate-300 hover:text-emerald-400 transition text-xs font-bold">
                 <FiPhone size={16} />

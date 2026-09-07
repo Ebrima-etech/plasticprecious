@@ -33,8 +33,7 @@ export default function Home() {
   const [badgeIndex, setBadgeIndex] = useState(0);
 
   const badgeItems = [
-    '🌱 RECYCLED & SUSTAINABLE',
-    '♻️ TRASH TO TREASURE'
+    '🌱 RECYCLED & SUSTAINABLE'
   ];
   const [carouselItems, setCarouselItems] = useState([
     { title: 'Plastic Waste Recycling & Processing', image: 'https://images.pexels.com/photos/3962286/pexels-photo-3962286.jpeg?w=800&h=600&fit=crop' },
@@ -475,7 +474,7 @@ export default function Home() {
             {/* Desktop - Hero Image/Carousel */}
             <div className="hidden lg:flex relative flex-col items-center w-full animate-fade-in-up animation-delay-300">
               <div className="relative w-full">
-                <div className="rounded-2xl h-[75vh] flex flex-col items-center justify-center overflow-hidden relative shadow-2xl">
+                <div className="rounded-2xl h-[75vh] flex flex-col items-center justify-center overflow-hidden relative">
                   {carouselItems[carouselIndex].image && (
                     <img
                       src={carouselItems[carouselIndex].image}
@@ -505,7 +504,7 @@ export default function Home() {
       </section>
 
       {/* Best Selling Products */}
-      <section className="py-16 lg:py-24 bg-white relative overflow-hidden grid-pattern">
+      <section className="py-4 lg:py-8 bg-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-0 md:px-6 lg:px-8 relative z-10">
           <div className="mb-8 animate-fade-in-up px-6 md:px-0">
             <h2 className="bestseller-heading mb-2">Best sellers</h2>

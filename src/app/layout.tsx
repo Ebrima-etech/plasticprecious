@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import { ToastProvider } from '@/components/ui/Toast';
+import LayoutClient from './LayoutClient';
 import './globals.css';
 
 const geist = Geist({
@@ -27,7 +28,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geist.variable} ${geistMono.variable}`}>
         <ToastProvider>
-          {children}
+          <LayoutClient>
+            {children}
+          </LayoutClient>
         </ToastProvider>
       </body>
     </html>

@@ -70,12 +70,6 @@ export default function ProductDetailPage() {
       ];
 
   const handleAddToCart = async () => {
-    const token = getAccessToken();
-    if (!token) {
-      router.push('/auth/login');
-      return;
-    }
-
     setAddingToCart(true);
     setError(null);
     try {
@@ -83,7 +77,7 @@ export default function ProductDetailPage() {
       setAddedToCart(true);
       setTimeout(() => setAddedToCart(false), 2000);
     } catch (err: any) {
-      setError(err.response?.data?.detail || 'Failed to add to cart');
+      setError(err.message || err.response?.data?.detail || 'Failed to add to cart');
       setTimeout(() => setError(null), 3000);
     } finally {
       setAddingToCart(false);

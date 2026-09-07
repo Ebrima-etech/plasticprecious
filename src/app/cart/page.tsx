@@ -25,12 +25,6 @@ export default function CartPage() {
 
   const fetchCart = async () => {
     try {
-      const token = getAccessToken();
-      if (!token) {
-        router.push('/auth/login');
-        return;
-      }
-
       const data = await cartService.getCart();
       setCart(data);
       setError(null);
@@ -42,19 +36,19 @@ export default function CartPage() {
     }
   };
 
-  const updateQuantity = async (cartItemId: number, quantity: number) => {
+  const updateQuantity = async (itemIndex: number, quantity: number) => {
     if (quantity < 1) return;
     try {
-      await cartService.updateCartItem(cartItemId, quantity);
+      await cartService.updateCartItem(itemIndex, quantity);
       fetchCart();
     } catch (err) {
       setError('Failed to update cart');
     }
   };
 
-  const removeItem = async (cartItemId: number) => {
+  const removeItem = async (itemIndex: number) => {
     try {
-      await cartService.removeFromCart(cartItemId);
+      await cartService.removeFromCart(itemIndex);
       fetchCart();
     } catch (err) {
       setError('Failed to remove item');
@@ -109,9 +103,9 @@ export default function CartPage() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               <div className="lg:col-span-2">
                 <div className="space-y-4">
-                  {cart.items.map((item: CartItem) => (
+                  {cart.items.map((item: CartItem, index: number) => (
                     <div
-                      key={item.id}
+                      key={index}
                       className="group cursor-pointer relative rounded-3xl overflow-hidden border border-slate-200 hover:border-emerald-400 flex flex-col hover:-translate-y-1 bg-gradient-to-br from-white to-slate-50 backdrop-blur-sm group-hover:from-emerald-50 group-hover:to-white transition-all duration-300 p-6"
                     >
                       <div className="flex items-center gap-6">
@@ -145,7 +139,7 @@ export default function CartPage() {
                         <div className="flex items-center gap-4">
                           <div className="flex items-center border-2 border-slate-200 rounded-lg bg-slate-50 hover:border-emerald-400 transition">
                             <button
-                              onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                              onClick={() => updateQuantity(index, item.quantity - 1)}
                               className="px-3 py-2 hover:bg-white text-slate-600 hover:text-emerald-600 transition font-bold"
                               disabled={item.quantity <= 1}
                             >
@@ -153,14 +147,14 @@ export default function CartPage() {
                             </button>
                             <span className="px-4 py-2 text-slate-900 font-black min-w-12 text-center">{item.quantity}</span>
                             <button
-                              onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                              onClick={() => updateQuantity(index, item.quantity + 1)}
                               className="px-3 py-2 hover:bg-white text-slate-600 hover:text-emerald-600 transition font-bold"
                             >
                               +
                             </button>
                           </div>
                           <button
-                            onClick={() => removeItem(item.id)}
+                            onClick={() => removeItem(index)}
                             className="w-10 h-10 rounded-lg flex items-center justify-center text-red-600 hover:text-red-800 hover:bg-red-50 transition"
                             title="Remove item"
                           >
@@ -203,7 +197,14 @@ export default function CartPage() {
                   </div>
 
                   <Button
-                    onClick={() => router.push('/checkout')}
+                    onClick={() => {
+                      const token = getAccessToken();
+                      if (!token) {
+                        router.push('/auth/login?redirect=/checkout');
+                      } else {
+                        router.push('/checkout');
+                      }
+                    }}
                     size="lg"
                     className="w-full text-lg font-bold py-4"
                   >

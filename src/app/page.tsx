@@ -387,10 +387,9 @@ export default function Home() {
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
-          animation: bounce-subtle 2s ease-in-out infinite;
-          font-size: clamp(2.5rem, 8vw, 4rem);
+          font-size: clamp(1.75rem, 5vw, 2.5rem);
           font-weight: 900;
-          letter-spacing: -0.02em;
+          letter-spacing: 0.08em;
           line-height: 1.1;
           position: relative;
         }

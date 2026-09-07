@@ -28,6 +28,12 @@ export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
   const [productCarouselIndex, setProductCarouselIndex] = useState(0);
+  const [badgeIndex, setBadgeIndex] = useState(0);
+
+  const badgeItems = [
+    '🌱 RECYCLED & SUSTAINABLE',
+    '♻️ TRASH TO TREASURE'
+  ];
   const [carouselItems, setCarouselItems] = useState([
     { title: 'Premium Recycled Plastic Products', image: 'https://images.pexels.com/photos/3962286/pexels-photo-3962286.jpeg?w=800&h=600&fit=crop' },
     { title: 'Eco-Friendly Packaging Solutions', image: 'https://images.pexels.com/photos/5830900/pexels-photo-5830900.jpeg?w=800&h=600&fit=crop' },
@@ -110,6 +116,13 @@ export default function Home() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setBadgeIndex((prev) => (prev + 1) % badgeItems.length);
+    }, 6000);
+    return () => clearInterval(interval);
+  }, [badgeItems.length]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -205,6 +218,34 @@ export default function Home() {
           background-size: 40px 40px;
           background-position: 0 0, 0 0;
         }
+        @keyframes badgeFadeOut {
+          0% { opacity: 1; }
+          50% { opacity: 0; }
+          100% { opacity: 0; }
+        }
+        @keyframes badgeSlideUpFadeIn {
+          0% { opacity: 0; transform: translateY(20px); }
+          15% { opacity: 1; transform: translateY(0); }
+          85% { opacity: 1; transform: translateY(0); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+        .badge-current {
+          animation: badgeFadeOut 6s ease-in-out;
+          display: inline-block;
+          position: absolute;
+        }
+        .badge-next {
+          animation: badgeSlideUpFadeIn 6s ease-in-out;
+          display: inline-block;
+          position: absolute;
+        }
+        .badge-container {
+          position: relative;
+          display: inline-block;
+          min-width: 180px;
+          height: 1.8em;
+          overflow: hidden;
+        }
       `}</style>
       <Navbar showNavLinks={true} sticky={false} showCategories={true} />
 
@@ -214,8 +255,13 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* Left Content */}
             <div className="w-full">
-              <div className="inline-block bg-emerald-100 text-emerald-700 px-4 py-2 rounded-full text-sm font-bold mb-6 animate-fade-in-up">
-                🌱 RECYCLED & SUSTAINABLE
+              <div className="badge-container bg-emerald-100 text-emerald-700 px-4 py-2 rounded-full text-sm font-bold mb-6 animate-fade-in-up">
+                <div key={`current-${badgeIndex}`} className="badge-current">
+                  {badgeItems[badgeIndex]}
+                </div>
+                <div key={`next-${(badgeIndex + 1) % badgeItems.length}`} className="badge-next">
+                  {badgeItems[(badgeIndex + 1) % badgeItems.length]}
+                </div>
               </div>
 
               <h1 className="text-5xl lg:text-7xl font-black text-slate-900 mb-6 leading-tight animate-fade-in-up animation-delay-100 tracking-tight">

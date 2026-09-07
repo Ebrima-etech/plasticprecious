@@ -364,26 +364,38 @@ export default function Home() {
 
               return (
                 <Link key={i} href="/impact" className={`group cursor-pointer animate-fade-in-up animation-delay-${i * 100}`}>
-                  <div className={`${colSpan} ${rowSpan} bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-slate-200 hover:border-emerald-400 flex flex-col h-full hover:-translate-y-2`}>
-                    {/* Image Section */}
-                    <div className={`relative overflow-hidden bg-slate-300 ${isLarge ? 'h-72' : 'h-48'}`}>
+                  <div className={`${colSpan} ${rowSpan} relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-slate-200 hover:border-emerald-400 flex flex-col h-full hover:-translate-y-3 bg-white backdrop-blur-sm`}>
+                    {/* Gradient Background Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-emerald-50/0 to-emerald-100/0 group-hover:from-emerald-50/50 group-hover:to-emerald-100/30 transition-all duration-500 pointer-events-none"></div>
+
+                    {/* Image Section with Overlay */}
+                    <div className={`relative overflow-hidden bg-gradient-to-br from-slate-300 to-slate-400 group-hover:from-slate-400 group-hover:to-slate-500 transition-all duration-500 ${isLarge ? 'h-72' : 'h-48'}`}>
                       {item.image && (
-                        <img src={item.image} alt={item.metric} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                        <img src={item.image} alt={item.metric} className="w-full h-full object-cover group-hover:scale-125 transition-transform duration-700 ease-out" />
                       )}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                      {/* Dark Overlay that intensifies on hover */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/0 group-hover:from-black/80 group-hover:via-black/40 transition-all duration-500"></div>
+
+                      {/* Floating Badge */}
+                      <div className={`absolute top-4 right-4 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 text-white font-black shadow-lg group-hover:scale-110 transition-transform duration-300 flex items-center justify-center ${isLarge ? 'w-20 h-20 text-4xl' : 'w-14 h-14 text-2xl'}`}>
+                        {i + 1}
+                      </div>
                     </div>
 
                     {/* Content Section */}
-                    <div className={`flex flex-col flex-grow p-6 ${isLarge ? 'lg:p-8' : ''}`}>
-                      <div className={`rounded-full bg-gradient-to-br from-emerald-600 to-teal-600 flex items-center justify-center mb-4 text-white font-black shadow-lg ${isLarge ? 'w-20 h-20 text-4xl' : 'w-14 h-14 text-2xl'}`}>
-                        {i + 1}
-                      </div>
-                      <h3 className={`font-black text-slate-900 mb-3 group-hover:text-emerald-600 transition ${isLarge ? 'text-3xl' : 'text-xl'}`}>{item.metric}</h3>
-                      <p className="text-slate-600 leading-relaxed flex-grow mb-4">{item.description}</p>
-                      <div className="inline-flex items-center text-emerald-600 font-bold text-sm group-hover:translate-x-2 transition">
-                        Learn more →
+                    <div className={`flex flex-col flex-grow p-6 relative z-10 ${isLarge ? 'lg:p-8' : ''}`}>
+                      <h3 className={`font-black text-slate-900 mb-3 group-hover:text-emerald-600 transition ${isLarge ? 'text-3xl' : 'text-xl'} leading-tight`}>{item.metric}</h3>
+                      <p className="text-slate-600 text-sm leading-relaxed flex-grow mb-4 group-hover:text-slate-700 transition">{item.description}</p>
+
+                      {/* Interactive CTA */}
+                      <div className="inline-flex items-center gap-2 text-emerald-600 font-bold text-sm group-hover:gap-3 transition-all duration-300">
+                        <span>Learn more</span>
+                        <span className="inline-block group-hover:translate-x-2 transition-transform duration-300">→</span>
                       </div>
                     </div>
+
+                    {/* Shine Effect */}
+                    <div className="absolute -inset-full top-0 left-0 opacity-0 group-hover:opacity-20 bg-gradient-to-r from-transparent via-white to-transparent group-hover:translate-x-full transition-all duration-1000 pointer-events-none"></div>
                   </div>
                 </Link>
               );
@@ -413,26 +425,38 @@ export default function Home() {
 
               return (
                 <Link key={i} href="/services-detail" className={`group cursor-pointer animate-fade-in-up animation-delay-${i * 100} ${colSpan}`}>
-                  <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 h-full flex flex-col border border-slate-200 hover:border-emerald-400 hover:-translate-y-3">
-                    {/* Image Section */}
-                    <div className="relative h-40 lg:h-48 overflow-hidden bg-slate-300">
+                  <div className="relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 h-full flex flex-col border border-slate-200 hover:border-emerald-400 hover:-translate-y-3 bg-white backdrop-blur-sm">
+                    {/* Gradient Background Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-emerald-50/0 to-emerald-100/0 group-hover:from-emerald-50/50 group-hover:to-emerald-100/30 transition-all duration-500 pointer-events-none"></div>
+
+                    {/* Image Section with Advanced Overlay */}
+                    <div className="relative h-40 lg:h-48 overflow-hidden bg-gradient-to-br from-slate-300 to-slate-400 group-hover:from-slate-400 group-hover:to-slate-500 transition-all duration-500">
                       {service.image && (
-                        <img src={service.image} alt={service.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                        <img src={service.image} alt={service.title} className="w-full h-full object-cover group-hover:scale-125 transition-transform duration-700 ease-out" />
                       )}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                      {/* Multi-layer overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/0 group-hover:from-black/80 group-hover:via-black/40 transition-all duration-500"></div>
+
+                      {/* Floating Icon Badge on Image */}
+                      <div className={`absolute -bottom-8 left-6 rounded-full bg-gradient-to-br ${service.color} text-white shadow-xl transform group-hover:bottom-6 transition-all duration-500 flex items-center justify-center ${isLarge ? 'w-20 h-20 text-3xl' : 'w-16 h-16 text-2xl'}`}>
+                        <IconComponent size={isLarge ? 40 : 32} />
+                      </div>
                     </div>
 
                     {/* Content Section */}
-                    <div className="p-6 lg:p-8 flex flex-col flex-grow">
-                      <div className={`rounded-full bg-gradient-to-br ${service.color} flex items-center justify-center mb-4 text-white shadow-lg transform group-hover:scale-125 transition-transform ${isLarge ? 'w-20 h-20 text-3xl' : 'w-16 h-16 text-2xl'}`}>
-                        <IconComponent size={isLarge ? 40 : 32} />
-                      </div>
-                      <h3 className={`font-black text-slate-900 mb-3 group-hover:text-emerald-600 transition ${isLarge ? 'text-3xl' : 'text-2xl'}`}>{service.title}</h3>
-                      <p className="text-slate-600 text-sm lg:text-base leading-relaxed flex-grow mb-4">{service.description}</p>
-                      <div className="inline-flex items-center text-emerald-600 font-bold text-sm group-hover:translate-x-2 transition">
-                        Explore →
+                    <div className="p-6 lg:p-8 flex flex-col flex-grow relative z-10 mt-4 lg:mt-6">
+                      <h3 className={`font-black text-slate-900 mb-3 group-hover:text-emerald-600 transition ${isLarge ? 'text-3xl' : 'text-2xl'} leading-tight`}>{service.title}</h3>
+                      <p className="text-slate-600 text-sm lg:text-base leading-relaxed flex-grow mb-4 group-hover:text-slate-700 transition">{service.description}</p>
+
+                      {/* Interactive CTA with animation */}
+                      <div className="inline-flex items-center gap-2 text-emerald-600 font-bold text-sm group-hover:gap-3 transition-all duration-300">
+                        <span>Explore</span>
+                        <span className="inline-block group-hover:translate-x-2 transition-transform duration-300">→</span>
                       </div>
                     </div>
+
+                    {/* Shine Effect */}
+                    <div className="absolute -inset-full top-0 left-0 opacity-0 group-hover:opacity-20 bg-gradient-to-r from-transparent via-white to-transparent group-hover:translate-x-full transition-all duration-1000 pointer-events-none"></div>
                   </div>
                 </Link>
               );

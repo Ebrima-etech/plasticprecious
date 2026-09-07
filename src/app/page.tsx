@@ -389,7 +389,7 @@ export default function Home() {
           <div className="relative">
             {/* Product Carousel */}
             <div className="overflow-x-auto scrollbar-hide">
-              <div className="flex gap-4 md:gap-6 pb-4 px-3 md:px-0" style={{ width: 'fit-content', minWidth: '100%' }}>
+              <div className="flex gap-4 lg:gap-6 pb-4 px-3 lg:px-0" style={{ width: 'fit-content', minWidth: '100%' }}>
                 {products.length > 0 ? (
               products.map((product, i) => {
                 const dummyImages = [
@@ -421,7 +421,7 @@ export default function Home() {
                             />
                           )}
                         </div>
-                        <div className="flex flex-col flex-grow p-4 md:p-6">
+                        <div className="flex flex-col flex-grow p-4 lg:p-6">
                           <h3 className="text-xl lg:text-xl font-black text-slate-900 mb-3 group-hover:text-emerald-600 transition">{product.name}</h3>
                           <p className="text-base lg:text-sm text-slate-600 line-clamp-2 flex-grow mb-4">{product.description || 'Premium recycled plastic product'}</p>
                           <div className="flex items-center justify-between gap-2">

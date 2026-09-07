@@ -27,6 +27,7 @@ export default function Home() {
   const [carouselIndex, setCarouselIndex] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
+  const [productCarouselIndex, setProductCarouselIndex] = useState(0);
   const [carouselItems, setCarouselItems] = useState([
     { title: 'Premium Recycled Plastic Products', image: 'https://images.pexels.com/photos/3962286/pexels-photo-3962286.jpeg?w=800&h=600&fit=crop' },
     { title: 'Eco-Friendly Packaging Solutions', image: 'https://images.pexels.com/photos/5830900/pexels-photo-5830900.jpeg?w=800&h=600&fit=crop' },
@@ -190,6 +191,13 @@ export default function Home() {
           background-size: 200% 200%;
           animation: gradient-shift 8s ease infinite;
         }
+        .grid-pattern {
+          background-image:
+            linear-gradient(90deg, rgba(16, 185, 129, 0.1) 1px, transparent 1px),
+            linear-gradient(rgba(16, 185, 129, 0.1) 1px, transparent 1px);
+          background-size: 40px 40px;
+          background-position: 0 0, 0 0;
+        }
       `}</style>
       <Navbar showNavLinks={true} sticky={false} showCategories={true} />
 
@@ -285,12 +293,19 @@ export default function Home() {
       </section>
 
       {/* Best Selling Products */}
-      <section className="pt-3 md:pt-4 lg:pt-6 pb-12 md:pb-16 lg:pb-20 bg-white">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-neutral-900 mb-12 text-left animate-fade-in-up tracking-wide">Best selling products</h2>
+      <section className="pt-3 md:pt-4 lg:pt-6 pb-12 md:pb-16 lg:pb-20 bg-gradient-to-br from-white via-emerald-50 to-white relative overflow-hidden">
+        <div className="absolute inset-0 opacity-20 pointer-events-none">
+          <div className="absolute top-20 right-10 w-64 h-64 bg-teal-300 rounded-full mix-blend-multiply filter blur-3xl animate-float" style={{animationDelay: '0s'}}></div>
+          <div className="absolute -bottom-20 left-10 w-80 h-80 bg-emerald-300 rounded-full mix-blend-multiply filter blur-3xl animate-float" style={{animationDelay: '2s'}}></div>
+        </div>
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+          <h2 className="text-2xl font-bold bg-gradient-to-r from-emerald-700 via-teal-600 to-emerald-700 bg-clip-text text-transparent mb-12 text-left animate-fade-in-up tracking-wide gradient-animate">Best selling products</h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {products.length > 0 ? (
+          <div className="relative">
+            {/* Product Carousel */}
+            <div className="overflow-x-auto scrollbar-hide">
+              <div className="flex gap-6 pb-4" style={{ width: 'fit-content', minWidth: '100%' }}>
+                {products.length > 0 ? (
               products.map((product, i) => {
                 const dummyImages = [
                   'https://images.pexels.com/photos/3962286/pexels-photo-3962286.jpeg?w=500&h=500&fit=crop',
@@ -300,13 +315,14 @@ export default function Home() {
                 ];
                 return (
                   <Link key={product.id} href={`/shop/${product.id}`}>
-                    <div className={`cursor-pointer h-full bg-white flex flex-col animate-fade-in-up ${i % 4 === 0 ? '' : i % 4 === 1 ? 'animation-delay-100' : i % 4 === 2 ? 'animation-delay-200' : 'animation-delay-300'}`}>
-                      <div className="relative h-64 overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">
+                    <div className="min-w-full md:min-w-1/2 lg:min-w-1/3">
+                      <div className={`cursor-pointer h-full bg-gradient-to-br from-white via-emerald-50 to-white flex flex-col animate-fade-in-up border border-emerald-100 hover:border-emerald-300 rounded-xl hover:shadow-2xl hover:shadow-emerald-500/20 transition-all duration-300`}>
+                      <div className="relative h-64 overflow-hidden bg-gradient-to-br from-gray-100 via-emerald-50 to-gray-200 group hover:shadow-inner transition-all">
                         {product.image ? (
                           <img
                             src={product.image}
                             alt={product.name}
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                             onError={(e) => {
                               console.warn(`Image failed to load for product ${product.id}:`, product.image);
                               (e.target as HTMLImageElement).src = dummyImages[i % dummyImages.length];
@@ -316,7 +332,7 @@ export default function Home() {
                           <img
                             src={dummyImages[i % dummyImages.length]}
                             alt={product.name}
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                           />
                         )}
                       </div>
@@ -324,30 +340,37 @@ export default function Home() {
                         <h3 className="text-lg font-bold text-neutral-900 mb-2">{product.name}</h3>
                         <p className="text-sm text-neutral-600 line-clamp-2 flex-grow">{product.description || 'Premium recycled plastic product'}</p>
                       </div>
+                      </div>
                     </div>
                   </Link>
                 );
               })
-            ) : (
-              <div className="col-span-full text-center py-12">
-                <p className="text-neutral-600">Loading products...</p>
+                ) : (
+                  <div className="text-center py-12 w-full">
+                    <p className="text-neutral-600">Loading products...</p>
+                  </div>
+                )}
               </div>
-            )}
+            </div>
           </div>
         </div>
       </section>
 
       {/* Impact Section */}
-      <section className="pt-3 md:pt-4 lg:pt-6 pb-12 md:pb-16 lg:pb-20 bg-gradient-to-b from-emerald-50 to-white">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+      <section className="pt-3 md:pt-4 lg:pt-6 pb-12 md:pb-16 lg:pb-20 bg-gradient-to-b from-emerald-50 via-white to-teal-50 relative overflow-hidden grid-pattern">
+        <div className="absolute inset-0 opacity-25 pointer-events-none">
+          <div className="absolute top-10 left-20 w-72 h-72 bg-emerald-400 rounded-full mix-blend-multiply filter blur-3xl animate-float" style={{animationDelay: '1s'}}></div>
+          <div className="absolute bottom-0 right-20 w-80 h-80 bg-teal-400 rounded-full mix-blend-multiply filter blur-3xl animate-float" style={{animationDelay: '3s'}}></div>
+        </div>
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-neutral-900 mb-3 animate-fade-in-up tracking-wide">Our Impact</h2>
+            <h2 className="text-4xl font-bold bg-gradient-to-r from-emerald-800 via-teal-700 to-emerald-600 bg-clip-text text-transparent mb-3 animate-fade-in-up tracking-wide gradient-animate">Our Impact</h2>
             <p className="text-neutral-600 font-medium animate-fade-in-up animation-delay-100 tracking-wide">Measurable change across communities and the environment</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {impacts.map((item, i) => (
               <Link key={i} href="/impact" className={`group cursor-pointer h-full animate-fade-in-up ${i === 0 ? '' : i === 1 ? 'animation-delay-100' : i === 2 ? 'animation-delay-200' : 'animation-delay-300'}`}>
-                <div className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 h-full flex flex-col border border-emerald-100 hover:border-emerald-300">
+                <div className="bg-gradient-to-br from-white via-emerald-50 to-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 h-full flex flex-col border border-emerald-200 hover:border-emerald-400 hover:shadow-emerald-400/30 animate-glow">
                   {/* Image Section */}
                   <div className="relative h-40 overflow-hidden bg-gray-200">
                     {item.image && (
@@ -375,10 +398,14 @@ export default function Home() {
       </section>
 
       {/* Services Section */}
-      <section id="services" className="pt-3 md:pt-4 lg:pt-6 pb-12 md:pb-16 lg:pb-20 bg-gradient-to-b from-white to-emerald-50">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+      <section id="services" className="pt-3 md:pt-4 lg:pt-6 pb-12 md:pb-16 lg:pb-20 bg-gradient-to-b from-white via-emerald-50 to-white relative overflow-hidden grid-pattern">
+        <div className="absolute inset-0 opacity-20 pointer-events-none">
+          <div className="absolute -top-20 right-0 w-96 h-96 bg-teal-300 rounded-full mix-blend-multiply filter blur-3xl animate-float" style={{animationDelay: '2s'}}></div>
+          <div className="absolute bottom-10 left-0 w-72 h-72 bg-emerald-300 rounded-full mix-blend-multiply filter blur-3xl animate-float" style={{animationDelay: '0s'}}></div>
+        </div>
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-neutral-900 mb-3 animate-fade-in-up tracking-wide">Our Services</h2>
+            <h2 className="text-4xl font-bold bg-gradient-to-r from-emerald-700 via-teal-600 to-emerald-700 bg-clip-text text-transparent mb-3 animate-fade-in-up tracking-wide gradient-animate">Our Services</h2>
             <p className="text-neutral-600 font-medium animate-fade-in-up animation-delay-100 tracking-wide">Comprehensive solutions for sustainable plastic management</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -386,7 +413,7 @@ export default function Home() {
               const IconComponent = service.icon;
               return (
                 <Link key={i} href="/services-detail" className={`group cursor-pointer h-full animate-fade-in-up ${i === 0 ? '' : i === 1 ? 'animation-delay-100' : 'animation-delay-200'}`}>
-                  <div className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 h-full flex flex-col">
+                  <div className="bg-gradient-to-br from-white via-emerald-50 to-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 h-full flex flex-col border border-emerald-200 hover:border-emerald-400 hover:shadow-emerald-400/30 animate-glow">
                     {/* Image Section */}
                     <div className="relative h-40 overflow-hidden bg-gray-200">
                       {service.image && (
@@ -435,7 +462,7 @@ export default function Home() {
       </section>
 
       {/* Newsletter Section */}
-      <section className="py-16 md:py-20 lg:py-24 bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-600 relative overflow-hidden">
+      <section className="py-16 md:py-20 lg:py-24 bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-600 relative overflow-hidden grid-pattern">
         {/* Decorative Background */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 left-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
@@ -447,7 +474,7 @@ export default function Home() {
             <span className="text-white text-sm font-semibold">✉️ Newsletter</span>
           </div>
 
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 tracking-wide">Stay Updated</h2>
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 tracking-wider gradient-animate">Stay Updated</h2>
           <p className="text-emerald-50 text-lg mb-8 max-w-lg mx-auto tracking-wide">
             Be the first to know about new collections, exclusive offers, and sustainable practices from our community.
           </p>

@@ -284,7 +284,9 @@ export default function Home() {
       <Navbar showNavLinks={true} sticky={false} showCategories={true} />
 
       {/* Hero Section */}
-      <section className="bg-white py-6 lg:py-8 flex items-center relative overflow-hidden grid-pattern">
+      <section className="bg-gradient-to-br from-white via-emerald-50 to-white py-6 lg:py-8 flex items-center relative overflow-hidden" style={{
+        backgroundImage: 'radial-gradient(circle at 20% 50%, rgba(16, 185, 129, 0.08) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(34, 197, 94, 0.08) 0%, transparent 50%)',
+      }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* Left Content */}
@@ -380,7 +382,12 @@ export default function Home() {
       </section>
 
       {/* Best Selling Products */}
-      <section className="py-16 lg:py-24 bg-white relative overflow-hidden grid-pattern">
+      <section className="py-16 lg:py-24 relative overflow-hidden" style={{
+        background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.03) 0%, rgba(217, 119, 6, 0.05) 50%, rgba(180, 83, 9, 0.03) 100%)',
+      }}>
+        <div className="absolute inset-0 opacity-35" style={{
+          backgroundImage: 'radial-gradient(circle at 10% 40%, rgba(245, 158, 11, 0.1) 0%, transparent 50%), radial-gradient(circle at 90% 60%, rgba(217, 119, 6, 0.1) 0%, transparent 50%)',
+        }}></div>
         <div className="max-w-7xl mx-auto px-0 md:px-6 lg:px-8 relative z-10">
           <div className="mb-16 animate-fade-in-up px-6 md:px-0">
             <div className="inline-block bg-emerald-100 text-emerald-700 px-4 py-2 rounded-full text-sm font-bold mb-4">
@@ -456,7 +463,12 @@ export default function Home() {
       </section>
 
       {/* Impact Section - Bento Grid */}
-      <section className="py-16 lg:py-24 bg-white relative overflow-hidden grid-pattern">
+      <section className="py-16 lg:py-24 relative overflow-hidden" style={{
+        background: 'linear-gradient(135deg, rgba(236, 72, 153, 0.03) 0%, rgba(239, 68, 68, 0.05) 50%, rgba(249, 115, 22, 0.03) 100%)',
+      }}>
+        <div className="absolute inset-0 opacity-30" style={{
+          backgroundImage: 'radial-gradient(circle at 15% 50%, rgba(236, 72, 153, 0.1) 0%, transparent 45%), radial-gradient(circle at 85% 50%, rgba(249, 115, 22, 0.1) 0%, transparent 45%)',
+        }}></div>
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="mb-16 animate-fade-in-up">
             <div className="inline-block bg-emerald-100 text-emerald-700 px-4 py-2 rounded-full text-sm font-bold mb-4">
@@ -497,7 +509,12 @@ export default function Home() {
       </section>
 
       {/* Services Section - Bento Grid */}
-      <section id="services" className="py-16 lg:py-24 bg-slate-50 relative overflow-hidden grid-pattern">
+      <section id="services" className="py-16 lg:py-24 relative overflow-hidden" style={{
+        background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.04) 0%, rgba(99, 102, 241, 0.06) 50%, rgba(168, 85, 247, 0.04) 100%)',
+      }}>
+        <div className="absolute inset-0 opacity-30" style={{
+          backgroundImage: 'radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.12) 0%, transparent 40%), radial-gradient(circle at 75% 75%, rgba(168, 85, 247, 0.12) 0%, transparent 40%)',
+        }}></div>
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="mb-16 animate-fade-in-up">
             <div className="inline-block bg-emerald-100 text-emerald-700 px-4 py-2 rounded-full text-sm font-bold mb-4">
@@ -541,7 +558,12 @@ export default function Home() {
       </section>
 
       {/* Partners Section */}
-      <section className="py-16 lg:py-20 bg-gradient-to-br from-slate-50 to-emerald-50 relative overflow-hidden grid-pattern">
+      <section className="py-16 lg:py-20 relative overflow-hidden" style={{
+        background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.05) 0%, rgba(20, 184, 166, 0.06) 50%, rgba(34, 197, 94, 0.04) 100%)',
+      }}>
+        <div className="absolute inset-0 opacity-35" style={{
+          backgroundImage: 'radial-gradient(circle at 30% 30%, rgba(34, 197, 94, 0.12) 0%, transparent 45%), radial-gradient(circle at 70% 70%, rgba(20, 184, 166, 0.12) 0%, transparent 45%)',
+        }}></div>
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="text-center mb-16 animate-fade-in-up">
             <div className="inline-block bg-emerald-100 text-emerald-700 px-4 py-2 rounded-full text-sm font-bold mb-4">

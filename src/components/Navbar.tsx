@@ -189,7 +189,7 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
 
             {/* Nav Links - Hidden on Mobile */}
             {showNavLinks && (
-              <div className="hidden lg:flex items-center gap-6">
+              <div className="hidden lg:flex items-center gap-8">
                 <Link href="/" className="text-white hover:text-slate-200 transition text-sm font-bold uppercase tracking-wide">
                   Mission
                 </Link>

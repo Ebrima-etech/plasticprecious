@@ -206,17 +206,17 @@ export default function ProductDetailPage() {
                       <div className="flex items-center gap-2">
                         <div className="flex gap-1">
                           {[...Array(5)].map((_, i) => (
-                            <span key={i} className={i < Math.round(product.rating!) ? 'text-amber-400' : 'text-slate-300'}>
+                            <span key={i} className={i < Math.round(Number(product.rating) || 0) ? 'text-amber-400' : 'text-slate-300'}>
                               ★
                             </span>
                           ))}
                         </div>
                         <span className="text-sm font-semibold text-slate-700">
-                          {product.rating.toFixed(1)} ({product.reviews_count || 0} reviews)
+                          {(Number(product.rating) || 0).toFixed(1)} ({product.reviews_count || 0} reviews)
                         </span>
                       </div>
                     )}
-                    <div className="h-6 w-px bg-slate-200"></div>
+                    {product.rating && <div className="h-6 w-px bg-slate-200"></div>}
                     <span className="text-sm font-semibold text-emerald-600">In Stock</span>
                   </div>
                 </div>

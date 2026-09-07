@@ -191,14 +191,18 @@ export default function VRPageLoadAnimation() {
           0% {
             opacity: 1;
             pointer-events: auto;
+            visibility: visible;
           }
-          85% {
-            opacity: 1;
-            pointer-events: auto;
+          95% {
+            opacity: 0;
+            pointer-events: none;
+            visibility: visible;
           }
           100% {
             opacity: 0;
             pointer-events: none;
+            visibility: hidden;
+            display: none;
           }
         }
 
@@ -207,17 +211,19 @@ export default function VRPageLoadAnimation() {
           top: 0;
           left: 0;
           width: 100%;
-          height: 100%;
+          height: 100vh;
           background: linear-gradient(-45deg, #059669 0%, #10b981 25%, #14b8a6 50%, #0d9488 75%, #059669 100%);
           background-size: 400% 400%;
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          z-index: 9999;
+          z-index: 99999;
           animation: vrBgGradientShift 5.5s ease-in-out, vrFadeOutScreen 5.5s ease-in-out forwards;
           perspective: 2000px;
           overflow: hidden;
+          visibility: visible;
+          opacity: 1;
         }
 
         .vr-loader-container::before {

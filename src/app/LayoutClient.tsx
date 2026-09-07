@@ -9,8 +9,30 @@ export default function LayoutClient({
 }) {
   return (
     <>
+      <style>{`
+        body {
+          overflow: hidden;
+        }
+        @keyframes contentFadeIn {
+          0% {
+            opacity: 0;
+            visibility: hidden;
+          }
+          100% {
+            opacity: 1;
+            visibility: visible;
+          }
+        }
+        .layout-client-content {
+          animation: contentFadeIn 0.3s ease-in-out 5.5s forwards;
+          opacity: 0;
+          visibility: hidden;
+        }
+      `}</style>
       <VRPageLoadAnimation />
-      {children}
+      <div className="layout-client-content">
+        {children}
+      </div>
     </>
   );
 }

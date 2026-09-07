@@ -383,7 +383,7 @@ export default function Home() {
         }
         .bestseller-heading {
           display: inline-block;
-          background: linear-gradient(135deg, #ff6b35 0%, #f7931e 50%, #1ebb89 100%);
+          background: linear-gradient(135deg, #ea580c 0%, #d97706 50%, #10b981 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;

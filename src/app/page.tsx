@@ -201,87 +201,67 @@ export default function Home() {
       `}</style>
       <Navbar showNavLinks={true} sticky={false} showCategories={true} />
 
-      {/* Hero Section */}
-      <section className="bg-gradient-to-br from-white to-emerald-50 py-6 lg:py-8 pb-0 flex items-center relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-start mb-2">
-            {/* Left Content */}
-            <div className="order-2 lg:order-1 w-full -mt-2 lg:mt-0 lg:pt-16">
-              <h1 className="text-4xl lg:text-6xl font-bold text-emerald-900 mb-4 leading-tight animate-fade-in-up tracking-wide">
-                <span className="block">From Pollution</span>
-                to <span className="text-emerald-600 italic">Solution</span>
-              </h1>
-              <p className="text-base text-emerald-700 mb-6 lg:mb-8 font-semibold leading-relaxed max-w-lg animate-fade-in-up animation-delay-100 tracking-wide">
-                Transforming plastic waste into valuable, sustainable products <br /> while creating positive change for communities and our environment.
-              </p>
+      {/* Promotional Banner */}
+      <div className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white text-center py-3 px-6">
+        <p className="text-sm lg:text-base font-bold">🌍 SUSTAINABILITY SALE: Get 20% off eco-friendly collections this week</p>
+      </div>
 
-              {/* Mobile Slider - Above buttons on mobile */}
-              <div className="lg:hidden mb-6 relative w-full animate-fade-in-up animation-delay-200">
-                <div className="relative w-full">
-                  <div className="rounded-2xl h-56 flex flex-col items-center justify-center overflow-hidden relative">
-                    {carouselItems[carouselIndex].image && (
-                      <img
-                        src={carouselItems[carouselIndex].image}
-                        alt={carouselItems[carouselIndex].title}
-                        className="absolute inset-0 w-full h-full object-cover"
-                      />
-                    )}
-                  </div>
-                  <button
-                    onClick={() => setCarouselIndex((carouselIndex - 1 + carouselItems.length) % carouselItems.length)}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 z-10 bg-white hover:bg-neutral-200 text-teal-950 w-8 h-8 flex items-center justify-center rounded-full transition">
-                    <span className="text-lg">‹</span>
-                  </button>
-                  <button
-                    onClick={() => setCarouselIndex((carouselIndex + 1) % carouselItems.length)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 z-10 bg-white hover:bg-neutral-200 text-teal-950 w-8 h-8 flex items-center justify-center rounded-full transition">
-                    <span className="text-lg">›</span>
-                  </button>
-                </div>
+      {/* Hero Section */}
+      <section className="bg-white py-12 lg:py-16 flex items-center relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+            {/* Left Content */}
+            <div className="w-full">
+              <div className="inline-block bg-emerald-100 text-emerald-700 px-4 py-2 rounded-full text-sm font-bold mb-6 animate-fade-in-up">
+                🌱 RECYCLED & SUSTAINABLE
               </div>
 
-              {/* Buttons and Descriptions */}
-              <div className="flex flex-row gap-4 md:gap-8 mb-8 justify-center md:justify-start">
-                {/* Left Button */}
-                <div className="flex flex-col items-center md:items-start gap-3 animate-fade-in-up animation-delay-300">
-                  <Link href="/services" className="relative group bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-bold px-4 py-2 md:px-8 md:py-2.5 transition text-sm md:text-base rounded-full inline-block tracking-wide shadow-lg hover:shadow-emerald-500/50 hover:shadow-2xl animate-glow">
-                    Work with us
-                  </Link>
-                  <p className="text-xs md:text-sm text-emerald-900 text-center">Custom quoting for large <br /> businesses and complex <br /> programs</p>
-                </div>
+              <h1 className="text-5xl lg:text-7xl font-black text-slate-900 mb-6 leading-tight animate-fade-in-up animation-delay-100 tracking-tight">
+                Transform <span className="bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent">Plastic Waste</span> Into Premium Products
+              </h1>
+              <p className="text-xl text-slate-700 mb-8 max-w-xl animate-fade-in-up animation-delay-200 leading-relaxed font-semibold">
+                Eco-friendly products designed to match your brand, your business, and your budget without compromise.
+              </p>
 
-                {/* Right Button */}
-                <div className="flex flex-col items-center md:items-start gap-3 animate-fade-in-up animation-delay-400">
-                  <a href="/shop" target="_blank" rel="noopener noreferrer" className="relative group border-2 border-emerald-600 text-emerald-600 hover:bg-gradient-to-r hover:from-emerald-600 hover:to-emerald-700 hover:text-white font-bold px-4 py-2 md:px-8 md:py-2.5 transition text-sm md:text-base bg-transparent rounded-full inline-block tracking-wide shadow-lg hover:shadow-emerald-600/50 hover:shadow-2xl">
-                    Shop Products
-                  </a>
-                  <p className="text-xs md:text-sm text-emerald-900 text-center">Customizable, ready-to-buy <br /> options</p>
-                </div>
+              {/* CTA Buttons */}
+              <div className="flex flex-col sm:flex-row gap-4 mb-8 animate-fade-in-up animation-delay-300">
+                <Link href="/services" className="group relative bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold px-8 py-4 rounded-lg transition-all duration-300 text-center text-lg shadow-lg hover:shadow-2xl hover:shadow-emerald-500/30 transform hover:scale-105">
+                  Work With Us
+                  <span className="block text-sm font-semibold text-emerald-50 mt-1">Custom quoting for large businesses</span>
+                </Link>
+                <a href="/shop" className="group relative border-2 border-emerald-600 text-emerald-600 hover:bg-emerald-50 font-bold px-8 py-4 rounded-lg transition-all duration-300 text-center text-lg">
+                  Shop Now
+                  <span className="block text-sm font-semibold text-emerald-700 mt-1">Ready-to-buy products</span>
+                </a>
               </div>
             </div>
 
-            {/* Desktop Carousel */}
-            <div className="hidden lg:flex relative flex-col items-center w-full lg:order-2 animate-fade-in-up animation-delay-300">
+            {/* Right - Hero Image/Carousel */}
+            <div className="hidden lg:flex relative flex-col items-center w-full animate-fade-in-up animation-delay-300">
               <div className="relative w-full">
-                <div className="rounded-2xl h-[70vh] flex flex-col items-center justify-center overflow-hidden relative">
+                <div className="rounded-2xl h-[60vh] flex flex-col items-center justify-center overflow-hidden relative shadow-2xl">
                   {carouselItems[carouselIndex].image && (
                     <img
                       src={carouselItems[carouselIndex].image}
                       alt={carouselItems[carouselIndex].title}
-                      className="absolute inset-0 w-full h-full object-cover"
+                      className="absolute inset-0 w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                     />
                   )}
                 </div>
-                <button
-                  onClick={() => setCarouselIndex((carouselIndex - 1 + carouselItems.length) % carouselItems.length)}
-                  className="absolute left-6 top-1/2 -translate-y-1/2 z-10 bg-white hover:bg-neutral-200 text-teal-950 w-10 h-10 flex items-center justify-center rounded-full transition group">
-                  <span className="text-xl group-hover:text-emerald-600">‹</span>
-                </button>
-                <button
-                  onClick={() => setCarouselIndex((carouselIndex + 1) % carouselItems.length)}
-                  className="absolute right-6 top-1/2 -translate-y-1/2 z-10 bg-white hover:bg-neutral-200 text-teal-950 w-10 h-10 flex items-center justify-center rounded-full transition group">
-                  <span className="text-xl group-hover:text-emerald-600">›</span>
-                </button>
+
+                {/* Carousel Controls */}
+                <div className="flex gap-3 mt-6 justify-center">
+                  <button
+                    onClick={() => setCarouselIndex((carouselIndex - 1 + carouselItems.length) % carouselItems.length)}
+                    className="w-12 h-12 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white flex items-center justify-center transition-all duration-300 hover:scale-110 font-bold text-lg shadow-lg">
+                    ‹
+                  </button>
+                  <button
+                    onClick={() => setCarouselIndex((carouselIndex + 1) % carouselItems.length)}
+                    className="w-12 h-12 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white flex items-center justify-center transition-all duration-300 hover:scale-110 font-bold text-lg shadow-lg">
+                    ›
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -289,9 +269,15 @@ export default function Home() {
       </section>
 
       {/* Best Selling Products */}
-      <section className="pt-3 md:pt-4 lg:pt-6 pb-12 md:pb-16 lg:pb-20 bg-white relative overflow-hidden">
+      <section className="py-16 lg:py-24 bg-slate-50 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-          <h2 className="text-2xl font-bold text-neutral-900 mb-12 text-left animate-fade-in-up tracking-wide">Best selling products</h2>
+          <div className="mb-16 animate-fade-in-up">
+            <div className="inline-block bg-emerald-100 text-emerald-700 px-4 py-2 rounded-full text-sm font-bold mb-4">
+              🏆 BESTSELLERS
+            </div>
+            <h2 className="text-4xl lg:text-5xl font-black text-slate-900 mb-4 tracking-tight">All Your Eco Needs,<br />In One Place</h2>
+            <p className="text-xl text-slate-600 max-w-2xl">Premium recycled plastic products handpicked for quality and sustainability</p>
+          </div>
 
           <div className="relative">
             {/* Product Carousel */}
@@ -308,30 +294,38 @@ export default function Home() {
                 return (
                   <Link key={product.id} href={`/shop/${product.id}`}>
                     <div className="min-w-full md:min-w-1/2 lg:min-w-1/3">
-                      <div className={`cursor-pointer h-full bg-gradient-to-br from-white via-emerald-50 to-white flex flex-col animate-fade-in-up border border-emerald-100 hover:border-emerald-300 rounded-xl hover:shadow-2xl hover:shadow-emerald-500/20 transition-all duration-300`}>
-                      <div className="relative h-64 overflow-hidden bg-gradient-to-br from-gray-100 via-emerald-50 to-gray-200 group hover:shadow-inner transition-all">
-                        {product.image ? (
-                          <img
-                            src={product.image}
-                            alt={product.name}
-                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                            onError={(e) => {
-                              console.warn(`Image failed to load for product ${product.id}:`, product.image);
-                              (e.target as HTMLImageElement).src = dummyImages[i % dummyImages.length];
-                            }}
-                          />
-                        ) : (
-                          <img
-                            src={dummyImages[i % dummyImages.length]}
-                            alt={product.name}
-                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                          />
-                        )}
-                      </div>
-                      <div className="flex flex-col flex-grow">
-                        <h3 className="text-lg font-bold text-neutral-900 mb-2">{product.name}</h3>
-                        <p className="text-sm text-neutral-600 line-clamp-2 flex-grow">{product.description || 'Premium recycled plastic product'}</p>
-                      </div>
+                      <div className={`cursor-pointer h-full bg-white flex flex-col rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group border border-slate-200 hover:border-emerald-400`}>
+                        <div className="relative h-72 overflow-hidden bg-slate-200">
+                          {product.image ? (
+                            <img
+                              src={product.image}
+                              alt={product.name}
+                              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                              onError={(e) => {
+                                console.warn(`Image failed to load for product ${product.id}:`, product.image);
+                                (e.target as HTMLImageElement).src = dummyImages[i % dummyImages.length];
+                              }}
+                            />
+                          ) : (
+                            <img
+                              src={dummyImages[i % dummyImages.length]}
+                              alt={product.name}
+                              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                            />
+                          )}
+                          <div className="absolute top-4 left-4 bg-emerald-600 text-white px-4 py-2 rounded-full text-xs font-black">NEW</div>
+                        </div>
+                        <div className="flex flex-col flex-grow p-6">
+                          <div className="text-xs font-bold text-emerald-700 uppercase tracking-wide mb-2">Recycled Plastic</div>
+                          <h3 className="text-xl font-black text-slate-900 mb-3 group-hover:text-emerald-600 transition">{product.name}</h3>
+                          <p className="text-sm text-slate-600 line-clamp-2 flex-grow mb-4">{product.description || 'Premium recycled plastic product'}</p>
+                          <div className="flex items-center justify-between">
+                            <span className="text-2xl font-black text-slate-900">${product.price}</span>
+                            <button className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded-lg transition text-sm">
+                              QUICK VIEW
+                            </button>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </Link>
@@ -339,7 +333,7 @@ export default function Home() {
               })
                 ) : (
                   <div className="text-center py-12 w-full">
-                    <p className="text-neutral-600">Loading products...</p>
+                    <p className="text-slate-600">Loading products...</p>
                   </div>
                 )}
               </div>
@@ -349,33 +343,37 @@ export default function Home() {
       </section>
 
       {/* Impact Section */}
-      <section className="pt-3 md:pt-4 lg:pt-6 pb-12 md:pb-16 lg:pb-20 bg-gradient-to-b from-emerald-50 to-white relative overflow-hidden">
+      <section className="py-16 lg:py-24 bg-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-neutral-900 mb-3 animate-fade-in-up tracking-wide">Our Impact</h2>
-            <p className="text-neutral-600 font-medium animate-fade-in-up animation-delay-100 tracking-wide">Measurable change across communities and the environment</p>
+          <div className="mb-16 animate-fade-in-up">
+            <div className="inline-block bg-emerald-100 text-emerald-700 px-4 py-2 rounded-full text-sm font-bold mb-4">
+              📊 OUR IMPACT
+            </div>
+            <h2 className="text-4xl lg:text-5xl font-black text-slate-900 mb-4 tracking-tight">Measurable Change<br />Across Communities</h2>
+            <p className="text-xl text-slate-600 max-w-2xl">Real results from sustainable practices and community-driven initiatives</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {impacts.map((item, i) => (
-              <Link key={i} href="/impact" className={`group cursor-pointer h-full animate-fade-in-up ${i === 0 ? '' : i === 1 ? 'animation-delay-100' : i === 2 ? 'animation-delay-200' : 'animation-delay-300'}`}>
-                <div className="bg-gradient-to-br from-white via-emerald-50 to-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 h-full flex flex-col border border-emerald-200 hover:border-emerald-400 hover:shadow-emerald-400/30 animate-glow">
+              <Link key={i} href="/impact" className={`group cursor-pointer h-full animate-fade-in-up animation-delay-${i * 100}`}>
+                <div className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 h-full flex flex-col border border-slate-200 hover:border-emerald-400">
                   {/* Image Section */}
-                  <div className="relative h-40 overflow-hidden bg-gray-200">
+                  <div className="relative h-56 overflow-hidden bg-slate-300">
                     {item.image && (
-                      <img src={item.image} alt={item.metric} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" />
+                      <img src={item.image} alt={item.metric} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                     )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                   </div>
 
                   {/* Content Section */}
-                  <div className="p-6 flex flex-col flex-grow">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center mb-4 text-white text-lg font-bold">
+                  <div className="p-8 flex flex-col flex-grow">
+                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-emerald-600 to-teal-600 flex items-center justify-center mb-6 text-white text-3xl font-black shadow-lg">
                       {i + 1}
                     </div>
-                    <h3 className="text-2xl font-bold text-neutral-900 mb-2 group-hover:text-emerald-600 transition">{item.metric}</h3>
-                    <p className="text-neutral-600 text-sm leading-relaxed flex-grow">{item.description}</p>
-                    <div className="mt-4 inline-flex items-center text-emerald-600 font-semibold text-sm opacity-0 group-hover:opacity-100 transition-opacity">
-                      <span className="group-hover:translate-x-1 transition">→</span>
+                    <h3 className="text-2xl font-black text-slate-900 mb-3 group-hover:text-emerald-600 transition">{item.metric}</h3>
+                    <p className="text-slate-600 text-base leading-relaxed flex-grow mb-4">{item.description}</p>
+                    <div className="inline-flex items-center text-emerald-600 font-bold text-sm group-hover:translate-x-2 transition">
+                      Learn more →
                     </div>
                   </div>
                 </div>
@@ -386,36 +384,39 @@ export default function Home() {
       </section>
 
       {/* Services Section */}
-      <section id="services" className="pt-3 md:pt-4 lg:pt-6 pb-12 md:pb-16 lg:pb-20 bg-white relative overflow-hidden">
+      <section id="services" className="py-16 lg:py-24 bg-slate-50 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-neutral-900 mb-3 animate-fade-in-up tracking-wide">Our Services</h2>
-            <p className="text-neutral-600 font-medium animate-fade-in-up animation-delay-100 tracking-wide">Comprehensive solutions for sustainable plastic management</p>
+          <div className="mb-16 animate-fade-in-up">
+            <div className="inline-block bg-emerald-100 text-emerald-700 px-4 py-2 rounded-full text-sm font-bold mb-4">
+              🔧 SERVICES
+            </div>
+            <h2 className="text-4xl lg:text-5xl font-black text-slate-900 mb-4 tracking-tight">Complete Solutions<br />For Plastic Management</h2>
+            <p className="text-xl text-slate-600 max-w-2xl">From collection to recycling to education - we handle it all</p>
           </div>
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {services.map((service, i) => {
               const IconComponent = service.icon;
               return (
-                <Link key={i} href="/services-detail" className={`group cursor-pointer h-full animate-fade-in-up ${i === 0 ? '' : i === 1 ? 'animation-delay-100' : 'animation-delay-200'}`}>
-                  <div className="bg-gradient-to-br from-white via-emerald-50 to-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 h-full flex flex-col border border-emerald-200 hover:border-emerald-400 hover:shadow-emerald-400/30 animate-glow">
+                <Link key={i} href="/services-detail" className={`group cursor-pointer h-full animate-fade-in-up animation-delay-${i * 100}`}>
+                  <div className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 h-full flex flex-col border border-slate-200 hover:border-emerald-400">
                     {/* Image Section */}
-                    <div className="relative h-40 overflow-hidden bg-gray-200">
+                    <div className="relative h-56 overflow-hidden bg-slate-300">
                       {service.image && (
-                        <img src={service.image} alt={service.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" />
+                        <img src={service.image} alt={service.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                       )}
-                      <div className={`absolute inset-0 bg-gradient-to-b ${service.color} opacity-0 group-hover:opacity-20 transition-opacity duration-300`}></div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
                     </div>
 
                     {/* Content Section */}
-                    <div className="p-6 flex flex-col flex-grow">
-                      <div className={`w-16 h-16 rounded-full bg-gradient-to-br ${service.color} flex items-center justify-center mb-4 text-white text-2xl`}>
-                        <IconComponent size={28} />
+                    <div className="p-8 flex flex-col flex-grow">
+                      <div className={`w-16 h-16 rounded-full bg-gradient-to-br ${service.color} flex items-center justify-center mb-6 text-white text-2xl shadow-lg transform group-hover:scale-110 transition-transform`}>
+                        <IconComponent size={32} />
                       </div>
-                      <h3 className="text-xl font-bold text-neutral-900 mb-3 group-hover:text-emerald-600 transition">{service.title}</h3>
-                      <p className="text-neutral-700 text-sm leading-relaxed flex-grow">{service.description}</p>
-                      <div className="mt-4 inline-flex items-center text-emerald-600 font-semibold text-sm group-hover:gap-2 gap-1 transition-all">
-                        <span>Learn more</span>
-                        <span className="group-hover:translate-x-1 transition">→</span>
+                      <h3 className="text-2xl font-black text-slate-900 mb-4 group-hover:text-emerald-600 transition">{service.title}</h3>
+                      <p className="text-slate-600 text-base leading-relaxed flex-grow mb-4">{service.description}</p>
+                      <div className="inline-flex items-center text-emerald-600 font-bold text-sm group-hover:translate-x-2 transition">
+                        Explore →
                       </div>
                     </div>
                   </div>
@@ -427,9 +428,17 @@ export default function Home() {
       </section>
 
       {/* Partners Section */}
-      <section className="pt-3 md:pt-4 lg:pt-6 pb-3 md:pb-4 lg:pb-6 bg-white">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
+      <section className="py-16 lg:py-20 bg-gradient-to-br from-slate-50 to-emerald-50 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+          <div className="text-center mb-16 animate-fade-in-up">
+            <div className="inline-block bg-emerald-100 text-emerald-700 px-4 py-2 rounded-full text-sm font-bold mb-4">
+              🤝 TRUSTED PARTNERS
+            </div>
+            <h2 className="text-3xl lg:text-4xl font-black text-slate-900 mb-4 tracking-tight">Trusted By Leading Brands</h2>
+            <p className="text-slate-600 text-lg max-w-2xl mx-auto">Join hundreds of companies making a difference with sustainable plastic solutions</p>
+          </div>
+
+          <div className="flex flex-wrap items-center justify-center gap-12 md:gap-16">
             {[
               'https://images.pexels.com/photos/3962286/pexels-photo-3962286.jpeg?w=150&h=80&fit=crop',
               'https://images.pexels.com/photos/5830900/pexels-photo-5830900.jpeg?w=150&h=80&fit=crop',
@@ -437,107 +446,121 @@ export default function Home() {
               'https://images.pexels.com/photos/6474056/pexels-photo-6474056.jpeg?w=150&h=80&fit=crop',
               'https://images.pexels.com/photos/3962286/pexels-photo-3962286.jpeg?w=150&h=80&fit=crop',
             ].map((logo, i) => (
-              <div key={i} className="flex items-center justify-center h-20 w-32 grayscale opacity-60 hover:opacity-100 transition">
-                <img src={logo} alt={`Partner ${i + 1}`} className="max-w-full max-h-full object-contain" />
+              <div key={i} className="flex items-center justify-center h-24 w-40 group hover:scale-110 transition-transform duration-300">
+                <img src={logo} alt={`Partner ${i + 1}`} className="max-w-full max-h-full object-contain group-hover:grayscale-0 grayscale opacity-60 group-hover:opacity-100 transition-all duration-300" />
               </div>
             ))}
+          </div>
+
+          <div className="mt-16 text-center">
+            <p className="text-slate-600 font-semibold text-lg mb-6">Join Our Growing Community</p>
+            <Link href="/contact" className="inline-block bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold px-8 py-3 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-emerald-500/30">
+              Become a Partner
+            </Link>
           </div>
         </div>
       </section>
 
       {/* Newsletter Section */}
-      <section className="py-16 md:py-20 lg:py-24 bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-600 relative overflow-hidden grid-pattern">
+      <section className="py-16 lg:py-24 bg-gradient-to-r from-emerald-600 to-teal-600 relative overflow-hidden">
         {/* Decorative Background */}
         <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 left-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
+          <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 left-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
         </div>
 
         <div className="max-w-3xl mx-auto px-6 lg:px-8 text-center relative z-10">
-          <div className="mb-2 inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full">
-            <span className="text-white text-sm font-semibold">✉️ Newsletter</span>
+          <div className="mb-6 inline-block">
+            <div className="inline-block bg-white/20 text-white px-4 py-2 rounded-full text-sm font-bold">
+              💌 NEWSLETTER
+            </div>
           </div>
 
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 tracking-wider gradient-animate">Stay Updated</h2>
-          <p className="text-emerald-50 text-lg mb-8 max-w-lg mx-auto tracking-wide">
-            Be the first to know about new collections, exclusive offers, and sustainable practices from our community.
+          <h2 className="text-4xl md:text-5xl font-black text-white mb-6 tracking-tight">How About 10% Off?</h2>
+          <p className="text-emerald-50 text-xl mb-8 max-w-lg mx-auto leading-relaxed">
+            Sign up for exclusive offers on our eco-friendly products and be the first to know about new collections.
           </p>
 
-          <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto mb-6">
+          <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto mb-8">
             <input
               type="email"
               placeholder="your@email.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="flex-1 px-4 py-3 bg-white/95 border-0 text-neutral-900 text-sm font-light placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-white rounded-lg"
+              className="flex-1 px-4 py-4 bg-white/20 backdrop-blur-sm border border-white/30 text-white text-sm placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white rounded-lg transition"
               required
             />
             <Button
               type="submit"
               isLoading={subscribed}
-              className="px-8 bg-white hover:bg-emerald-50 text-emerald-600 font-bold rounded-lg transition whitespace-nowrap shadow-lg hover:shadow-xl"
+              className="px-8 bg-white hover:bg-slate-100 text-emerald-600 font-black rounded-lg transition whitespace-nowrap shadow-lg hover:shadow-xl"
             >
-              {subscribed ? '✓ Subscribed!' : 'Subscribe'}
+              {subscribed ? '✓ Done!' : 'GET OFFER'}
             </Button>
           </form>
 
-          <p className="text-emerald-50 text-xs">We respect your privacy. Unsubscribe anytime.</p>
+          <p className="text-emerald-100 text-sm">We respect your privacy. Unsubscribe anytime.</p>
 
           {/* Social Proof */}
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-8 text-white text-sm">
-            <div className="flex items-center gap-2">
-              <span className="text-xl">👥</span>
-              <span>Join 5,000+ subscribers</span>
+          <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-8 text-white text-sm">
+            <div className="flex items-center gap-3">
+              <span className="text-2xl">👥</span>
+              <span className="font-semibold">Join 5,000+ subscribers</span>
             </div>
-            <div className="hidden sm:block w-px h-5 bg-white/30"></div>
-            <div className="flex items-center gap-2">
-              <span className="text-xl">📦</span>
-              <span>Weekly updates & offers</span>
+            <div className="hidden sm:block w-px h-6 bg-white/30"></div>
+            <div className="flex items-center gap-3">
+              <span className="text-2xl">📦</span>
+              <span className="font-semibold">Weekly eco tips & offers</span>
             </div>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-neutral-200 bg-white pt-12 md:pt-16 lg:pt-20 pb-8 md:pb-10 lg:pb-12">
+      <footer className="border-t border-slate-700 bg-slate-900 pt-16 pb-8">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
             <div>
-              <h5 className="font-bold text-neutral-900 mb-4 text-sm uppercase tracking-wide">Shop</h5>
-              <ul className="text-sm space-y-2 text-neutral-700 font-bold">
-                <li><Link href="#" className="hover:text-emerald-600 transition">All Products</Link></li>
-                <li><Link href="#" className="hover:text-emerald-600 transition">Custom Products</Link></li>
-                <li><Link href="#" className="hover:text-emerald-600 transition">Collections</Link></li>
+              <h5 className="font-black text-white mb-6 text-sm uppercase tracking-widest">SHOP</h5>
+              <ul className="text-sm space-y-3 text-slate-400">
+                <li><Link href="#" className="hover:text-emerald-400 transition font-semibold">All Products</Link></li>
+                <li><Link href="#" className="hover:text-emerald-400 transition font-semibold">Custom Orders</Link></li>
+                <li><Link href="#" className="hover:text-emerald-400 transition font-semibold">Collections</Link></li>
+                <li><Link href="#" className="hover:text-emerald-400 transition font-semibold">Bulk Discounts</Link></li>
               </ul>
             </div>
             <div>
-              <h5 className="font-bold text-neutral-900 mb-4 text-sm uppercase tracking-wide">Services</h5>
-              <ul className="text-sm space-y-2 text-neutral-700 font-bold">
-                <li><Link href="#services" className="hover:text-emerald-600 transition">Collections</Link></li>
-                <li><Link href="#services" className="hover:text-emerald-600 transition">Recycling</Link></li>
-                <li><Link href="#services" className="hover:text-emerald-600 transition">Workshops</Link></li>
+              <h5 className="font-black text-white mb-6 text-sm uppercase tracking-widest">SERVICES</h5>
+              <ul className="text-sm space-y-3 text-slate-400">
+                <li><Link href="#services" className="hover:text-emerald-400 transition font-semibold">Recycling Programs</Link></li>
+                <li><Link href="#services" className="hover:text-emerald-400 transition font-semibold">Workshops</Link></li>
+                <li><Link href="#services" className="hover:text-emerald-400 transition font-semibold">Consulting</Link></li>
+                <li><Link href="#services" className="hover:text-emerald-400 transition font-semibold">Custom Solutions</Link></li>
               </ul>
             </div>
             <div>
-              <h5 className="font-bold text-neutral-900 mb-4 text-sm uppercase tracking-wide">Company</h5>
-              <ul className="text-sm space-y-2 text-neutral-700 font-bold">
-                <li><a href="#" className="hover:text-emerald-600 transition">About</a></li>
-                <li><a href="#" className="hover:text-emerald-600 transition">Blog</a></li>
-                <li><a href="#" className="hover:text-emerald-600 transition">Partnerships</a></li>
+              <h5 className="font-black text-white mb-6 text-sm uppercase tracking-widest">COMPANY</h5>
+              <ul className="text-sm space-y-3 text-slate-400">
+                <li><a href="#" className="hover:text-emerald-400 transition font-semibold">About Us</a></li>
+                <li><a href="#" className="hover:text-emerald-400 transition font-semibold">Blog & News</a></li>
+                <li><a href="#" className="hover:text-emerald-400 transition font-semibold">Impact Report</a></li>
+                <li><a href="#" className="hover:text-emerald-400 transition font-semibold">Careers</a></li>
               </ul>
             </div>
             <div>
-              <h5 className="font-bold text-neutral-900 mb-4 text-sm uppercase tracking-wide">Connect</h5>
-              <ul className="text-sm space-y-2 text-neutral-700 font-bold">
-                <li><Link href="/contact" className="hover:text-emerald-600 transition">Contact</Link></li>
-                <li><a href="#" className="hover:text-emerald-600 transition">Privacy</a></li>
-                <li><a href="#" className="hover:text-emerald-600 transition">Terms</a></li>
+              <h5 className="font-black text-white mb-6 text-sm uppercase tracking-widest">CONNECT</h5>
+              <ul className="text-sm space-y-3 text-slate-400">
+                <li><Link href="/contact" className="hover:text-emerald-400 transition font-semibold">Contact Us</Link></li>
+                <li><a href="#" className="hover:text-emerald-400 transition font-semibold">Privacy Policy</a></li>
+                <li><a href="#" className="hover:text-emerald-400 transition font-semibold">Terms of Service</a></li>
+                <li><a href="#" className="hover:text-emerald-400 transition font-semibold">Sustainability</a></li>
               </ul>
             </div>
           </div>
 
-          <div className="border-t border-neutral-200 pt-6 text-center text-xs text-neutral-600 font-bold">
-            <p>&copy; 2026 Plasticprecious. All rights reserved.</p>
+          <div className="border-t border-slate-700 pt-8 text-center">
+            <p className="text-slate-400 text-sm mb-4 font-semibold">&copy; 2026 Plastic Precious. All rights reserved.</p>
+            <p className="text-slate-500 text-xs">Made with 🌱 for a better planet • Building sustainable solutions together</p>
           </div>
         </div>
       </footer>

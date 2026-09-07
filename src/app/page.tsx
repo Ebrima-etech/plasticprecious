@@ -476,10 +476,7 @@ export default function Home() {
       <section className="py-16 lg:py-24 bg-white relative overflow-hidden grid-pattern">
         <div className="max-w-7xl mx-auto px-0 md:px-6 lg:px-8 relative z-10">
           <div className="mb-16 animate-fade-in-up px-6 md:px-0">
-            <div className="inline-block bg-emerald-100 text-emerald-700 px-4 py-2 rounded-full text-sm font-bold mb-4">
-              🏆 BESTSELLERS
-            </div>
-            <h2 className="unique-heading text-slate-900 mb-4">All Your Eco Needs,<br />In One Place</h2>
+            <h2 className="unique-heading text-slate-900 mb-4">Best sellers</h2>
             <p className="text-xl text-slate-600 max-w-2xl">Premium recycled plastic products handpicked for quality and sustainability</p>
           </div>
 

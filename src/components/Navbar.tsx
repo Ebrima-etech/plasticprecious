@@ -50,13 +50,13 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
           65% { opacity: 1; transform: translateY(0); }
           100% { opacity: 1; transform: translateY(0); }
         }
-        @keyframes fadeOut {
+        @keyframes disappear {
           0% { opacity: 1; }
-          50% { opacity: 0; }
+          1% { opacity: 0; }
           100% { opacity: 0; }
         }
         .rotating-text-current {
-          animation: fadeOut 6s ease-in-out;
+          animation: disappear 6s ease-in-out;
           display: block;
           position: absolute;
           left: 0;

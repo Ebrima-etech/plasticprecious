@@ -168,7 +168,7 @@ export default function ProductDetailPage() {
             {/* Product Images Section */}
             <div className="space-y-6">
               {/* Main Image */}
-              <div className="group relative rounded-3xl overflow-hidden bg-gradient-to-br from-emerald-50 to-slate-50 border border-slate-200 aspect-square flex items-center justify-center">
+              <div className="group relative overflow-hidden bg-gradient-to-br from-emerald-50 to-slate-50 border border-slate-200 aspect-square flex items-center justify-center">
                 <img
                   src={productImages[imageIndex]}
                   alt={product.name}
@@ -203,7 +203,7 @@ export default function ProductDetailPage() {
                   <button
                     key={idx}
                     onClick={() => setImageIndex(idx)}
-                    className={`w-20 h-20 rounded-2xl overflow-hidden border-2 transition-all ${
+                    className={`w-20 h-20 overflow-hidden border-2 transition-all ${
                       imageIndex === idx
                         ? 'border-emerald-600 ring-2 ring-emerald-300'
                         : 'border-slate-200 hover:border-emerald-400'
@@ -260,10 +260,10 @@ export default function ProductDetailPage() {
                 </div>
 
                 {/* Price */}
-                <div className="group cursor-pointer relative rounded-3xl overflow-hidden border border-slate-200 hover:border-emerald-400 bg-gradient-to-br from-emerald-50 to-teal-50 p-6 transition-all duration-300">
+                <div className="group cursor-pointer relative overflow-hidden border border-slate-200 hover:border-emerald-400 bg-gradient-to-br from-emerald-50 to-teal-50 p-6 transition-all duration-300">
                   <div className="flex items-baseline gap-3">
-                    <span className="text-5xl font-black text-emerald-600">D {parseFloat(product.price).toLocaleString('en-GM')}</span>
-                    <span className="text-lg text-slate-500 line-through">D {(parseFloat(product.price) * 1.2).toLocaleString('en-GM')}</span>
+                    <span className="text-5xl font-black text-emerald-600">D {parseFloat(product.price).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                    <span className="text-lg text-slate-500 line-through">D {(parseFloat(product.price) * 1.2).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                   </div>
                   <p className="text-sm text-slate-600 mt-2">✓ Free shipping on orders over D 5,000</p>
                 </div>

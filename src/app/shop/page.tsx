@@ -94,7 +94,7 @@ export default function ProductsPage() {
                   const stockBadge = getStockBadge(product.stock);
                   return (
                     <Link key={product.id} href={`/shop/${product.id}`}>
-                      <div className="group cursor-pointer relative rounded-3xl overflow-hidden border border-slate-200 hover:border-emerald-400 flex flex-col h-full hover:-translate-y-1 bg-gradient-to-br from-white to-slate-50 backdrop-blur-sm group-hover:from-emerald-50 group-hover:to-white transition-all duration-300">
+                      <div className="group cursor-pointer relative overflow-hidden border border-slate-200 hover:border-emerald-400 flex flex-col h-full hover:-translate-y-1 bg-gradient-to-br from-white to-slate-50 backdrop-blur-sm group-hover:from-emerald-50 group-hover:to-white transition-all duration-300">
                         {/* Product Image */}
                         <div className="w-full aspect-square bg-gradient-to-br from-emerald-100 to-emerald-50 overflow-hidden flex items-center justify-center relative">
                           {product.image ? (
@@ -120,28 +120,24 @@ export default function ProductsPage() {
                           </div>
 
                           {/* Locally Made Badge */}
-                          <div className="mb-3 inline-flex items-center gap-1 bg-emerald-600 text-white px-2 py-0.5 rounded-full text-xs font-bold w-fit">
+                          <div className="mb-3 inline-flex items-center gap-1 bg-emerald-600 text-white px-2 py-0.5 text-xs font-bold w-fit">
                             🌍 Locally Made
                           </div>
 
                           {/* Sustainability Badge */}
-                          <div className="mb-3 inline-flex items-center gap-1 bg-emerald-50 text-emerald-700 px-2 py-1 rounded-lg text-xs font-semibold w-fit">
+                          <div className="mb-3 inline-flex items-center gap-1 bg-emerald-50 text-emerald-700 px-2 py-1 text-xs font-semibold w-fit">
                             ♻️ Recycled Plastic
                           </div>
 
-                          <p className="text-slate-600 text-sm mb-4 line-clamp-2 flex-grow">
-                            {product.description}
-                          </p>
-
                           <div className="flex items-center justify-between gap-3">
                             <p className="text-2xl font-bold text-emerald-600">
-                              D {parseFloat(product.price).toLocaleString('en-GM')}
+                              D {parseFloat(product.price).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                             </p>
                             <button
                               onClick={(e) => handleAddToCart(product.id, e)}
                               disabled={addingToCart === product.id}
-                              className="w-12 h-12 rounded-full bg-emerald-600 hover:bg-emerald-700 disabled:bg-emerald-400 text-white flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-lg hover:shadow-xl disabled:hover:scale-100">
-                              <FiShoppingCart size={20} />
+                              className="text-emerald-600 hover:text-emerald-700 disabled:text-emerald-400 flex items-center justify-center transition-all duration-300 hover:scale-110 disabled:hover:scale-100">
+                              <FiShoppingCart size={24} />
                             </button>
                           </div>
                         </div>

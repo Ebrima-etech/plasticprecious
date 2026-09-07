@@ -146,10 +146,10 @@ export default function Home() {
                 Transforming plastic waste into valuable, sustainable products <br /> while creating positive change for communities and our environment.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 mb-8">
-                <Link href="/services" className="bg-white hover:bg-emerald-50 text-emerald-600 font-bold px-10 py-3 transition text-lg rounded-full inline-block text-center">
+                <Link href="/services" className="bg-white hover:bg-emerald-50 text-emerald-600 font-bold px-8 py-2.5 transition text-base rounded-full inline-block text-center">
                   Explore Services
                 </Link>
-                <a href="/shop" target="_blank" rel="noopener noreferrer" className="border-2 border-white text-white hover:bg-white hover:text-emerald-600 font-bold px-10 py-3 transition text-lg bg-transparent rounded-full inline-block text-center">
+                <a href="/shop" target="_blank" rel="noopener noreferrer" className="border-2 border-white text-white hover:bg-white hover:text-emerald-600 font-bold px-8 py-2.5 transition text-base bg-transparent rounded-full inline-block text-center">
                   Shop Products
                 </a>
               </div>

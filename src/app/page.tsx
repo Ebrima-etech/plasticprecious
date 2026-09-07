@@ -111,6 +111,13 @@ export default function Home() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCarouselIndex((prev) => (prev + 1) % carouselItems.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [carouselItems.length]);
+
   return (
     <div className="min-h-screen bg-white">
       <style>{`

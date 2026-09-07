@@ -49,154 +49,172 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-50 flex items-center justify-center py-12 px-4">
-      <div className="w-full max-w-md">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <Link href="/" className="inline-block mb-4">
-            <h1 className="text-3xl font-bold text-green-600">♻️ Plasticprecious</h1>
-          </Link>
-          <p className="text-gray-600 text-lg">Join our sustainability movement</p>
+    <div className="min-h-screen bg-white">
+      <style>{`
+        .grid-pattern {
+          background-image:
+            linear-gradient(90deg, rgba(16, 185, 129, 0.03) 1px, transparent 1px),
+            linear-gradient(rgba(16, 185, 129, 0.03) 1px, transparent 1px);
+          background-size: 40px 40px;
+          background-position: 0 0, 0 0;
+        }
+      `}</style>
+
+      {/* Header */}
+      <section className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-16 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
         </div>
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+          <div className="inline-block bg-white/20 text-white px-4 py-2 rounded-full text-sm font-bold mb-6">
+            ✍️ REGISTER
+          </div>
+          <h1 className="text-5xl lg:text-6xl font-black mb-6 leading-tight">Create Account</h1>
+          <p className="text-xl max-w-2xl text-emerald-50">Join our sustainability movement today</p>
+        </div>
+      </section>
 
-        {/* Card */}
-        <div className="bg-white rounded-lg shadow-lg p-8">
-          <h2 className="text-2xl font-bold mb-2 text-center text-gray-900">Create Account</h2>
-          <p className="text-center text-gray-600 text-sm mb-6">
-            Get 15% off your first order on eco-friendly products
-          </p>
-
-          {error && (
-            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
-              {error}
-            </div>
-          )}
-
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Email Address
-              </label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
-                placeholder="you@example.com"
-              />
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  First Name
-                </label>
-                <input
-                  type="text"
-                  name="first_name"
-                  value={formData.first_name}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
-                  placeholder="John"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Last Name
-                </label>
-                <input
-                  type="text"
-                  name="last_name"
-                  value={formData.last_name}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
-                  placeholder="Doe"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Password
-              </label>
-              <input
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
-                placeholder="••••••••"
-              />
-              <p className="text-xs text-gray-500 mt-1">Must be at least 8 characters</p>
-            </div>
-
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Confirm Password
-              </label>
-              <input
-                type="password"
-                name="password_confirm"
-                value={formData.password_confirm}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
-                placeholder="••••••••"
-              />
-            </div>
-
-            <div className="flex items-start gap-2">
-              <input type="checkbox" id="terms" className="mt-1" required />
-              <label htmlFor="terms" className="text-xs text-gray-600">
-                I agree to the{' '}
-                <a href="#" className="text-green-600 hover:underline">
-                  Terms of Service
-                </a>{' '}
-                and{' '}
-                <a href="#" className="text-green-600 hover:underline">
-                  Privacy Policy
-                </a>
-              </label>
-            </div>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition mt-6"
-            >
-              {loading ? 'Creating Account...' : 'Sign Up'}
-            </button>
-          </form>
-
-          <div className="mt-6 text-center">
-            <p className="text-gray-600">
-              Already have an account?{' '}
-              <Link href="/auth/login" className="text-green-600 font-semibold hover:underline">
-                Login here
-              </Link>
+      {/* Form Section */}
+      <section className="py-16 lg:py-24 bg-white relative overflow-hidden grid-pattern">
+        <div className="max-w-md mx-auto px-6 relative z-10">
+          {/* Card */}
+          <div className="group cursor-pointer relative rounded-3xl overflow-hidden border border-slate-200 hover:border-emerald-400 flex flex-col h-full hover:-translate-y-1 bg-gradient-to-br from-white to-slate-50 backdrop-blur-sm group-hover:from-emerald-50 group-hover:to-white transition-all duration-300 p-8">
+            <p className="text-center text-slate-600 text-sm mb-6">
+              Get 15% off your first order on eco-friendly products
             </p>
+
+            {error && (
+              <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
+                {error}
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition"
+                  placeholder="you@example.com"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">
+                    First Name
+                  </label>
+                  <input
+                    type="text"
+                    name="first_name"
+                    value={formData.first_name}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition"
+                    placeholder="John"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">
+                    Last Name
+                  </label>
+                  <input
+                    type="text"
+                    name="last_name"
+                    value={formData.last_name}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition"
+                    placeholder="Doe"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition"
+                  placeholder="••••••••"
+                />
+                <p className="text-xs text-slate-500 mt-1">Must be at least 8 characters</p>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                  Confirm Password
+                </label>
+                <input
+                  type="password"
+                  name="password_confirm"
+                  value={formData.password_confirm}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition"
+                  placeholder="••••••••"
+                />
+              </div>
+
+              <div className="flex items-start gap-2">
+                <input type="checkbox" id="terms" className="mt-1" required />
+                <label htmlFor="terms" className="text-xs text-slate-600">
+                  I agree to the{' '}
+                  <a href="#" className="text-emerald-600 hover:underline">
+                    Terms of Service
+                  </a>{' '}
+                  and{' '}
+                  <a href="#" className="text-emerald-600 hover:underline">
+                    Privacy Policy
+                  </a>
+                </label>
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-emerald-600 text-white py-3 rounded-lg font-bold hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed transition mt-6"
+              >
+                {loading ? 'Creating Account...' : 'Sign Up'}
+              </button>
+            </form>
+
+            <div className="mt-6 text-center">
+              <p className="text-slate-600">
+                Already have an account?{' '}
+                <Link href="/auth/login" className="text-emerald-600 font-bold hover:underline">
+                  Login here
+                </Link>
+              </p>
+            </div>
+
+            {/* Benefits */}
+            <div className="mt-8 pt-6 border-t border-slate-200">
+              <p className="text-xs font-semibold text-slate-700 mb-3">🎁 Sign up benefits:</p>
+              <ul className="space-y-2 text-xs text-slate-600">
+                <li>✅ 15% off your first order</li>
+                <li>✅ Free eco-tips newsletter</li>
+                <li>✅ Early access to new products</li>
+                <li>✅ Exclusive member discounts</li>
+              </ul>
+            </div>
           </div>
 
-          {/* Benefits */}
-          <div className="mt-8 pt-6 border-t border-gray-200">
-            <p className="text-xs font-semibold text-gray-700 mb-3">🎁 Sign up benefits:</p>
-            <ul className="space-y-2 text-xs text-gray-600">
-              <li>✅ 15% off your first order</li>
-              <li>✅ Free eco-tips newsletter</li>
-              <li>✅ Early access to new products</li>
-              <li>✅ Exclusive member discounts</li>
-            </ul>
-          </div>
+          {/* Footer */}
+          <p className="text-center text-xs text-slate-500 mt-6">
+            We respect your privacy. Your data is secure with us.
+          </p>
         </div>
-
-        {/* Footer */}
-        <p className="text-center text-xs text-gray-500 mt-6">
-          We respect your privacy. Your data is secure with us.
-        </p>
-      </div>
+      </section>
     </div>
   );
 }

@@ -26,66 +26,9 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
 
   return (
     <>
-      {/* Top Promo Bar - Hidden on Mobile */}
-      <div className="hidden md:block bg-emerald-600">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex items-center justify-between py-2 text-xs text-white overflow-x-auto">
-            <div className="flex items-center gap-6 whitespace-nowrap">
-              <div className="flex items-center gap-2">
-                <GiRecycle className="text-white text-lg" />
-                <div>
-                  <div className="text-gray-200 text-xs">Eco-Friendly</div>
-                  <div className="font-semibold text-white">Premium Products</div>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <FiTruck className="text-white text-lg" />
-                <div>
-                  <div className="text-gray-200 text-xs">Fast</div>
-                  <div className="font-semibold text-white">Delivery Available</div>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <FiCheck className="text-white text-lg" />
-                <div>
-                  <div className="text-gray-200 text-xs">100% Certified</div>
-                  <div className="font-semibold text-white">Sustainable</div>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <FiHeart className="text-white text-lg" />
-                <div>
-                  <div className="text-gray-200 text-xs">Supporting</div>
-                  <div className="font-semibold text-white">Communities</div>
-                </div>
-              </div>
-            </div>
-            <div className="flex-1 flex items-center justify-center">
-              <div className="text-center">
-                <div className="text-gray-300 text-xs">Our Mission</div>
-                <div className="font-semibold text-white text-xs">Trash to Treasure</div>
-              </div>
-            </div>
-            <div className="flex items-center gap-6 ml-auto">
-              <a href="tel:+220872518185" className="flex items-center gap-1 text-white hover:text-gray-200 transition text-xs font-medium">
-                <FiPhone size={16} />
-                +220 872518185
-              </a>
-              <a href="mailto:info@preciousplasticgambia.com" className="flex items-center gap-1 text-white hover:text-gray-200 transition text-xs font-medium">
-                <FiMail size={16} />
-                info@preciousplasticgambia.com
-              </a>
-              <button className="flex items-center gap-1 text-white hover:text-gray-200 transition text-xs font-medium">
-                <FiHeadphones size={16} />
-                Support
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
 
       {/* Navigation */}
-      <nav className={`${sticky ? 'sticky' : ''} top-0 z-40 bg-emerald-600 md:bg-emerald-900`} style={{ borderBottom: isScrolled ? '0.75px solid rgba(255, 255, 255, 0.12)' : 'none' }}>
+      <nav className={`${sticky ? 'sticky' : ''} top-0 z-40 bg-emerald-600`} style={{ borderBottom: isScrolled ? '0.75px solid rgba(255, 255, 255, 0.12)' : 'none' }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex items-center justify-between h-12">
             {/* Mobile Menu Toggle - On the Left */}

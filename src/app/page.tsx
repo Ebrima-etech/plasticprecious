@@ -131,25 +131,25 @@ export default function Home() {
       <Navbar showNavLinks={true} sticky={false} showCategories={true} />
 
       {/* Hero Section */}
-      <section className="bg-white md:bg-emerald-900 py-6 lg:py-8 pb-0 flex items-center">
+      <section className="bg-white py-6 lg:py-8 pb-0 flex items-center">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-center">
             {/* Left Content */}
             <div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-emerald-900 md:text-white mb-4 leading-tight">
+              <h1 className="text-4xl lg:text-6xl font-bold text-emerald-900 mb-4 leading-tight">
                 From Pollution to
                 <span className="block">
-                  <span className="text-emerald-600 md:text-emerald-100 italic">Solution</span>
+                  <span className="text-emerald-600 italic">Solution</span>
                 </span>
               </h1>
-              <p className="text-base text-emerald-700 md:text-emerald-50 mb-6 font-bold leading-relaxed max-w-lg">
+              <p className="text-base text-emerald-700 mb-6 font-bold leading-relaxed max-w-lg">
                 Transforming plastic waste into valuable, sustainable products <br /> while creating positive change for communities and our environment.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 mb-8">
-                <Link href="/services" className="bg-emerald-600 md:bg-white hover:bg-emerald-700 md:hover:bg-emerald-50 text-white md:text-emerald-600 font-bold px-8 py-2.5 transition text-base rounded-full inline-block text-center">
+                <Link href="/services" className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-8 py-2.5 transition text-base rounded-full inline-block text-center">
                   Explore Services
                 </Link>
-                <a href="/shop" target="_blank" rel="noopener noreferrer" className="border-2 border-emerald-600 md:border-white text-emerald-600 md:text-white hover:bg-emerald-600 md:hover:bg-white hover:text-white md:hover:text-emerald-600 font-bold px-8 py-2.5 transition text-base bg-transparent rounded-full inline-block text-center">
+                <a href="/shop" target="_blank" rel="noopener noreferrer" className="border-2 border-emerald-600 text-emerald-600 hover:bg-emerald-600 hover:text-white font-bold px-8 py-2.5 transition text-base bg-transparent rounded-full inline-block text-center">
                   Shop Products
                 </a>
               </div>
@@ -157,12 +157,12 @@ export default function Home() {
               {/* Feature Callouts */}
               <div className="grid grid-cols-2 gap-8">
                 <div>
-                  <p className="text-emerald-600 md:text-emerald-100 text-xs font-bold uppercase mb-2">CUSTOM PRODUCTS</p>
-                  <p className="text-emerald-900 md:text-white text-sm font-bold">For large businesses <br /> and complex programs</p>
+                  <p className="text-emerald-600 text-xs font-bold uppercase mb-2">CUSTOM PRODUCTS</p>
+                  <p className="text-emerald-900 text-sm font-bold">For large businesses <br /> and complex programs</p>
                 </div>
                 <div>
-                  <p className="text-emerald-600 md:text-emerald-100 text-xs font-bold uppercase mb-2">READY PRODUCTS</p>
-                  <p className="text-emerald-900 md:text-white text-sm font-bold">Customizable, <br /> ready-to-buy options</p>
+                  <p className="text-emerald-600 text-xs font-bold uppercase mb-2">READY PRODUCTS</p>
+                  <p className="text-emerald-900 text-sm font-bold">Customizable, <br /> ready-to-buy options</p>
                 </div>
               </div>
             </div>

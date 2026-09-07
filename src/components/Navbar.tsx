@@ -85,7 +85,7 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
       </div>
 
       {/* Navigation */}
-      <nav className={`${sticky ? 'sticky' : ''} top-0 z-40 bg-emerald-600`} style={{ borderBottom: isScrolled ? '0.75px solid rgba(255, 255, 255, 0.12)' : 'none' }}>
+      <nav className={`${sticky ? 'sticky' : ''} top-0 z-40 bg-emerald-600`} style={{ borderBottom: isScrolled ? 'none' : 'none' }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex items-center justify-between h-12">
             {/* Mobile Menu Toggle - On the Left */}

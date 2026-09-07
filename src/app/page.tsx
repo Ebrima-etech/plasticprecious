@@ -124,41 +124,93 @@ export default function Home() {
             border-top-color: rgb(16, 185, 129);
           }
         }
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
         .animated-border {
           animation: borderGradient 3s ease-in-out infinite;
         }
+        .animate-fade-in-up {
+          animation: fadeInUp 0.7s ease-out forwards;
+        }
+        .animate-fade-in {
+          animation: fadeIn 0.7s ease-out forwards;
+        }
+        .animation-delay-100 { animation-delay: 0.1s; }
+        .animation-delay-200 { animation-delay: 0.2s; }
+        .animation-delay-300 { animation-delay: 0.3s; }
+        .animation-delay-400 { animation-delay: 0.4s; }
+        .animation-delay-500 { animation-delay: 0.5s; }
       `}</style>
       <Navbar showNavLinks={true} sticky={false} showCategories={true} />
 
       {/* Hero Section */}
-      <section className="bg-white py-6 lg:py-8 pb-0 flex items-center">
+      <section className="bg-gradient-to-br from-white to-emerald-50 py-6 lg:py-8 pb-0 flex items-center">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-center mb-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-start mb-2">
             {/* Left Content */}
-            <div className="order-2 lg:order-1">
-              <h1 className="text-4xl lg:text-6xl font-bold text-emerald-900 mb-4 leading-tight">
-                From Pollution to
-                <span className="block">
-                  <span className="text-emerald-600 italic">Solution</span>
-                </span>
+            <div className="order-2 lg:order-1 w-full -mt-2 lg:mt-0 lg:pt-16">
+              <h1 className="text-4xl lg:text-6xl font-bold text-emerald-900 mb-4 leading-tight animate-fade-in-up tracking-wide">
+                <span className="block">From Pollution</span>
+                to <span className="text-emerald-600 italic">Solution</span>
               </h1>
-              <p className="text-base text-emerald-700 mb-8 font-semibold leading-relaxed max-w-lg">
+              <p className="text-base text-emerald-700 mb-6 lg:mb-8 font-semibold leading-relaxed max-w-lg animate-fade-in-up animation-delay-100 tracking-wide">
                 Transforming plastic waste into valuable, sustainable products <br /> while creating positive change for communities and our environment.
               </p>
 
+              {/* Mobile Slider - Above buttons on mobile */}
+              <div className="lg:hidden mb-6 relative w-full animate-fade-in-up animation-delay-200">
+                <div className="relative w-full">
+                  <div className="rounded-2xl h-56 flex flex-col items-center justify-center overflow-hidden relative">
+                    {carouselItems[carouselIndex].image && (
+                      <img
+                        src={carouselItems[carouselIndex].image}
+                        alt={carouselItems[carouselIndex].title}
+                        className="absolute inset-0 w-full h-full object-cover"
+                      />
+                    )}
+                  </div>
+                  <button
+                    onClick={() => setCarouselIndex((carouselIndex - 1 + carouselItems.length) % carouselItems.length)}
+                    className="absolute left-3 top-1/2 -translate-y-1/2 z-10 bg-white hover:bg-neutral-200 text-teal-950 w-8 h-8 flex items-center justify-center rounded-full transition">
+                    <span className="text-lg">‹</span>
+                  </button>
+                  <button
+                    onClick={() => setCarouselIndex((carouselIndex + 1) % carouselItems.length)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 z-10 bg-white hover:bg-neutral-200 text-teal-950 w-8 h-8 flex items-center justify-center rounded-full transition">
+                    <span className="text-lg">›</span>
+                  </button>
+                </div>
+              </div>
+
               {/* Buttons and Descriptions */}
-              <div className="flex flex-col sm:flex-row gap-8 mb-8">
+              <div className="flex flex-row gap-4 md:gap-8 mb-8">
                 {/* Left Button */}
-                <div className="flex flex-col items-start gap-3">
-                  <Link href="/services" className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-8 py-2.5 transition text-base rounded-full inline-block">
-                    Explore Services
+                <div className="flex flex-col items-start gap-3 animate-fade-in-up animation-delay-300">
+                  <Link href="/services" className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-8 py-2.5 transition text-base rounded-full inline-block tracking-wide">
+                    Work with us
                   </Link>
                   <p className="text-sm text-emerald-900 text-center">Custom quoting for large <br /> businesses and complex <br /> programs</p>
                 </div>
 
                 {/* Right Button */}
-                <div className="flex flex-col items-start gap-3">
-                  <a href="/shop" target="_blank" rel="noopener noreferrer" className="border-2 border-emerald-600 text-emerald-600 hover:bg-emerald-600 hover:text-white font-bold px-8 py-2.5 transition text-base bg-transparent rounded-full inline-block">
+                <div className="flex flex-col items-start gap-3 animate-fade-in-up animation-delay-400">
+                  <a href="/shop" target="_blank" rel="noopener noreferrer" className="border-2 border-emerald-600 text-emerald-600 hover:bg-emerald-600 hover:text-white font-bold px-8 py-2.5 transition text-base bg-transparent rounded-full inline-block tracking-wide">
                     Shop Products
                   </a>
                   <p className="text-sm text-emerald-900 text-center">Customizable, ready-to-buy <br /> options</p>
@@ -166,10 +218,9 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right Product Carousel */}
-            <div className="relative flex flex-col items-center w-full order-1 lg:order-2">
+            {/* Desktop Carousel */}
+            <div className="hidden lg:flex relative flex-col items-center w-full lg:order-2 animate-fade-in-up animation-delay-300">
               <div className="relative w-full">
-                {/* Main Carousel Container */}
                 <div className="rounded-2xl h-[70vh] flex flex-col items-center justify-center overflow-hidden relative">
                   {carouselItems[carouselIndex].image && (
                     <img
@@ -179,15 +230,11 @@ export default function Home() {
                     />
                   )}
                 </div>
-
-                {/* Left Arrow */}
                 <button
                   onClick={() => setCarouselIndex((carouselIndex - 1 + carouselItems.length) % carouselItems.length)}
                   className="absolute left-6 top-1/2 -translate-y-1/2 z-10 bg-white hover:bg-neutral-200 text-teal-950 w-10 h-10 flex items-center justify-center rounded-full transition group">
                   <span className="text-xl group-hover:text-emerald-600">‹</span>
                 </button>
-
-                {/* Right Arrow */}
                 <button
                   onClick={() => setCarouselIndex((carouselIndex + 1) % carouselItems.length)}
                   className="absolute right-6 top-1/2 -translate-y-1/2 z-10 bg-white hover:bg-neutral-200 text-teal-950 w-10 h-10 flex items-center justify-center rounded-full transition group">
@@ -196,33 +243,13 @@ export default function Home() {
               </div>
             </div>
           </div>
-
         </div>
       </section>
 
-      {/* Partners Section */}
-      <section className="pt-0 pb-3 md:pb-4 lg:pb-6 bg-white">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
-            {[
-              'https://images.pexels.com/photos/3962286/pexels-photo-3962286.jpeg?w=150&h=80&fit=crop',
-              'https://images.pexels.com/photos/5830900/pexels-photo-5830900.jpeg?w=150&h=80&fit=crop',
-              'https://images.pexels.com/photos/5632399/pexels-photo-5632399.jpeg?w=150&h=80&fit=crop',
-              'https://images.pexels.com/photos/6474056/pexels-photo-6474056.jpeg?w=150&h=80&fit=crop',
-              'https://images.pexels.com/photos/3962286/pexels-photo-3962286.jpeg?w=150&h=80&fit=crop',
-            ].map((logo, i) => (
-              <div key={i} className="flex items-center justify-center h-20 w-32 grayscale opacity-60 hover:opacity-100 transition">
-                <img src={logo} alt={`Partner ${i + 1}`} className="max-w-full max-h-full object-contain" />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Featured Collections */}
+      {/* Best Selling Products */}
       <section className="pt-3 md:pt-4 lg:pt-6 pb-12 md:pb-16 lg:pb-20 bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <h2 className="text-4xl font-bold text-neutral-900 mb-12 text-center">Featured Collections</h2>
+          <h2 className="text-2xl font-bold text-neutral-900 mb-12 text-left animate-fade-in-up">Best selling products</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {products.length > 0 ? (
@@ -235,13 +262,13 @@ export default function Home() {
                 ];
                 return (
                   <Link key={product.id} href={`/shop/${product.id}`}>
-                    <div className="group cursor-pointer h-full bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 flex flex-col">
+                    <div className={`cursor-pointer h-full bg-white flex flex-col animate-fade-in-up ${i % 4 === 0 ? '' : i % 4 === 1 ? 'animation-delay-100' : i % 4 === 2 ? 'animation-delay-200' : 'animation-delay-300'}`}>
                       <div className="relative h-64 overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">
                         {product.image ? (
                           <img
                             src={product.image}
                             alt={product.name}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            className="w-full h-full object-cover"
                             onError={(e) => {
                               console.warn(`Image failed to load for product ${product.id}:`, product.image);
                               (e.target as HTMLImageElement).src = dummyImages[i % dummyImages.length];
@@ -251,23 +278,13 @@ export default function Home() {
                           <img
                             src={dummyImages[i % dummyImages.length]}
                             alt={product.name}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            className="w-full h-full object-cover"
                           />
                         )}
                       </div>
-                      <div className="p-4 flex flex-col flex-grow">
-                        <h3 className="text-lg font-bold text-neutral-900 mb-2 group-hover:text-emerald-600 transition">{product.name}</h3>
-                        <p className="text-sm text-neutral-600 mb-3 line-clamp-2 flex-grow">{product.description || 'Premium recycled plastic product'}</p>
-                        <div className="flex items-center gap-2 mb-3">
-                          <FiTag className="w-4 h-4 text-emerald-600" />
-                          <p className="text-xl font-bold text-emerald-600">D {parseFloat(product.price).toLocaleString('en-GM')}</p>
-                        </div>
-                        {product.category_name && (
-                          <div className="flex items-center gap-2">
-                            <FiPackage className="w-4 h-4 text-neutral-500" />
-                            <p className="text-xs text-neutral-600 uppercase font-semibold">{product.category_name}</p>
-                          </div>
-                        )}
+                      <div className="flex flex-col flex-grow">
+                        <h3 className="text-lg font-bold text-neutral-900 mb-2">{product.name}</h3>
+                        <p className="text-sm text-neutral-600 line-clamp-2 flex-grow">{product.description || 'Premium recycled plastic product'}</p>
                       </div>
                     </div>
                   </Link>
@@ -286,12 +303,12 @@ export default function Home() {
       <section className="pt-3 md:pt-4 lg:pt-6 pb-12 md:pb-16 lg:pb-20 bg-gradient-to-b from-emerald-50 to-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-neutral-900 mb-3">Our Impact</h2>
-            <p className="text-neutral-600 font-medium">Measurable change across communities and the environment</p>
+            <h2 className="text-4xl font-bold text-neutral-900 mb-3 animate-fade-in-up">Our Impact</h2>
+            <p className="text-neutral-600 font-medium animate-fade-in-up animation-delay-100">Measurable change across communities and the environment</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {impacts.map((item, i) => (
-              <Link key={i} href="/impact" className="group cursor-pointer h-full">
+              <Link key={i} href="/impact" className={`group cursor-pointer h-full animate-fade-in-up ${i === 0 ? '' : i === 1 ? 'animation-delay-100' : i === 2 ? 'animation-delay-200' : 'animation-delay-300'}`}>
                 <div className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 h-full flex flex-col border border-emerald-100 hover:border-emerald-300">
                   {/* Image Section */}
                   <div className="relative h-40 overflow-hidden bg-gray-200">
@@ -323,14 +340,14 @@ export default function Home() {
       <section id="services" className="pt-3 md:pt-4 lg:pt-6 pb-12 md:pb-16 lg:pb-20 bg-gradient-to-b from-white to-emerald-50">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-neutral-900 mb-3">Our Services</h2>
-            <p className="text-neutral-600 font-medium">Comprehensive solutions for sustainable plastic management</p>
+            <h2 className="text-4xl font-bold text-neutral-900 mb-3 animate-fade-in-up">Our Services</h2>
+            <p className="text-neutral-600 font-medium animate-fade-in-up animation-delay-100">Comprehensive solutions for sustainable plastic management</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {services.map((service, i) => {
               const IconComponent = service.icon;
               return (
-                <Link key={i} href="/services-detail" className="group cursor-pointer h-full">
+                <Link key={i} href="/services-detail" className={`group cursor-pointer h-full animate-fade-in-up ${i === 0 ? '' : i === 1 ? 'animation-delay-100' : 'animation-delay-200'}`}>
                   <div className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 h-full flex flex-col">
                     {/* Image Section */}
                     <div className="relative h-40 overflow-hidden bg-gray-200">
@@ -356,6 +373,25 @@ export default function Home() {
                 </Link>
               );
             })}
+          </div>
+        </div>
+      </section>
+
+      {/* Partners Section */}
+      <section className="pt-3 md:pt-4 lg:pt-6 pb-3 md:pb-4 lg:pb-6 bg-white">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
+            {[
+              'https://images.pexels.com/photos/3962286/pexels-photo-3962286.jpeg?w=150&h=80&fit=crop',
+              'https://images.pexels.com/photos/5830900/pexels-photo-5830900.jpeg?w=150&h=80&fit=crop',
+              'https://images.pexels.com/photos/5632399/pexels-photo-5632399.jpeg?w=150&h=80&fit=crop',
+              'https://images.pexels.com/photos/6474056/pexels-photo-6474056.jpeg?w=150&h=80&fit=crop',
+              'https://images.pexels.com/photos/3962286/pexels-photo-3962286.jpeg?w=150&h=80&fit=crop',
+            ].map((logo, i) => (
+              <div key={i} className="flex items-center justify-center h-20 w-32 grayscale opacity-60 hover:opacity-100 transition">
+                <img src={logo} alt={`Partner ${i + 1}`} className="max-w-full max-h-full object-contain" />
+              </div>
+            ))}
           </div>
         </div>
       </section>

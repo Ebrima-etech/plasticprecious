@@ -156,11 +156,11 @@ export default function Home() {
 
               {/* Feature Callouts */}
               <div className="grid grid-cols-2 gap-8">
-                <div>
+                <div className="text-center">
                   <p className="text-emerald-600 text-xs font-bold uppercase mb-2">CUSTOM PRODUCTS</p>
                   <p className="text-emerald-900 text-sm font-bold">For large businesses <br /> and complex programs</p>
                 </div>
-                <div>
+                <div className="text-center">
                   <p className="text-emerald-600 text-xs font-bold uppercase mb-2">READY PRODUCTS</p>
                   <p className="text-emerald-900 text-sm font-bold">Customizable, <br /> ready-to-buy options</p>
                 </div>

@@ -314,7 +314,7 @@ export default function Home() {
           transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
           position: relative;
           overflow: hidden;
-          background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(16, 185, 129, 0.01) 100%);
+          background: white;
         }
         .unique-card::before {
           content: '';

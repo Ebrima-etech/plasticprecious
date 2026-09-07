@@ -77,7 +77,7 @@ export default function AdminSettingsPage() {
                   {setting.type === 'text' && (
                     <input
                       type="text"
-                      value={setting.value}
+                      value={String(setting.value)}
                       onChange={(e) => handleChange(setting.id, e.target.value)}
                       className="ml-4 px-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
                     />

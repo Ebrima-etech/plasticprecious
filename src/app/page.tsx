@@ -202,18 +202,14 @@ export default function Home() {
       <Navbar showNavLinks={true} sticky={false} showCategories={true} />
 
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-white via-emerald-50 to-teal-50 py-6 lg:py-8 pb-0 flex items-center relative overflow-hidden">
-        <div className="absolute inset-0 opacity-30 pointer-events-none">
-          <div className="absolute top-10 left-10 w-72 h-72 bg-emerald-300 rounded-full mix-blend-multiply filter blur-3xl animate-float"></div>
-          <div className="absolute -bottom-8 right-20 w-72 h-72 bg-teal-300 rounded-full mix-blend-multiply filter blur-3xl animate-float" style={{animationDelay: '1s'}}></div>
-        </div>
+      <section className="bg-gradient-to-br from-white to-emerald-50 py-6 lg:py-8 pb-0 flex items-center relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-start mb-2">
             {/* Left Content */}
             <div className="order-2 lg:order-1 w-full -mt-2 lg:mt-0 lg:pt-16">
-              <h1 className="text-4xl lg:text-6xl font-bold bg-gradient-to-r from-emerald-900 via-teal-800 to-emerald-600 bg-clip-text text-transparent mb-4 leading-tight animate-fade-in-up tracking-wider gradient-animate">
+              <h1 className="text-4xl lg:text-6xl font-bold text-emerald-900 mb-4 leading-tight animate-fade-in-up tracking-wide">
                 <span className="block">From Pollution</span>
-                to <span className="italic">Solution</span>
+                to <span className="text-emerald-600 italic">Solution</span>
               </h1>
               <p className="text-base text-emerald-700 mb-6 lg:mb-8 font-semibold leading-relaxed max-w-lg animate-fade-in-up animation-delay-100 tracking-wide">
                 Transforming plastic waste into valuable, sustainable products <br /> while creating positive change for communities and our environment.
@@ -293,13 +289,9 @@ export default function Home() {
       </section>
 
       {/* Best Selling Products */}
-      <section className="pt-3 md:pt-4 lg:pt-6 pb-12 md:pb-16 lg:pb-20 bg-gradient-to-br from-white via-emerald-50 to-white relative overflow-hidden">
-        <div className="absolute inset-0 opacity-20 pointer-events-none">
-          <div className="absolute top-20 right-10 w-64 h-64 bg-teal-300 rounded-full mix-blend-multiply filter blur-3xl animate-float" style={{animationDelay: '0s'}}></div>
-          <div className="absolute -bottom-20 left-10 w-80 h-80 bg-emerald-300 rounded-full mix-blend-multiply filter blur-3xl animate-float" style={{animationDelay: '2s'}}></div>
-        </div>
+      <section className="pt-3 md:pt-4 lg:pt-6 pb-12 md:pb-16 lg:pb-20 bg-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-          <h2 className="text-2xl font-bold bg-gradient-to-r from-emerald-700 via-teal-600 to-emerald-700 bg-clip-text text-transparent mb-12 text-left animate-fade-in-up tracking-wide gradient-animate">Best selling products</h2>
+          <h2 className="text-2xl font-bold text-neutral-900 mb-12 text-left animate-fade-in-up tracking-wide">Best selling products</h2>
 
           <div className="relative">
             {/* Product Carousel */}
@@ -357,14 +349,10 @@ export default function Home() {
       </section>
 
       {/* Impact Section */}
-      <section className="pt-3 md:pt-4 lg:pt-6 pb-12 md:pb-16 lg:pb-20 bg-gradient-to-b from-emerald-50 via-white to-teal-50 relative overflow-hidden grid-pattern">
-        <div className="absolute inset-0 opacity-25 pointer-events-none">
-          <div className="absolute top-10 left-20 w-72 h-72 bg-emerald-400 rounded-full mix-blend-multiply filter blur-3xl animate-float" style={{animationDelay: '1s'}}></div>
-          <div className="absolute bottom-0 right-20 w-80 h-80 bg-teal-400 rounded-full mix-blend-multiply filter blur-3xl animate-float" style={{animationDelay: '3s'}}></div>
-        </div>
+      <section className="pt-3 md:pt-4 lg:pt-6 pb-12 md:pb-16 lg:pb-20 bg-gradient-to-b from-emerald-50 to-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold bg-gradient-to-r from-emerald-800 via-teal-700 to-emerald-600 bg-clip-text text-transparent mb-3 animate-fade-in-up tracking-wide gradient-animate">Our Impact</h2>
+            <h2 className="text-4xl font-bold text-neutral-900 mb-3 animate-fade-in-up tracking-wide">Our Impact</h2>
             <p className="text-neutral-600 font-medium animate-fade-in-up animation-delay-100 tracking-wide">Measurable change across communities and the environment</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -398,14 +386,10 @@ export default function Home() {
       </section>
 
       {/* Services Section */}
-      <section id="services" className="pt-3 md:pt-4 lg:pt-6 pb-12 md:pb-16 lg:pb-20 bg-gradient-to-b from-white via-emerald-50 to-white relative overflow-hidden grid-pattern">
-        <div className="absolute inset-0 opacity-20 pointer-events-none">
-          <div className="absolute -top-20 right-0 w-96 h-96 bg-teal-300 rounded-full mix-blend-multiply filter blur-3xl animate-float" style={{animationDelay: '2s'}}></div>
-          <div className="absolute bottom-10 left-0 w-72 h-72 bg-emerald-300 rounded-full mix-blend-multiply filter blur-3xl animate-float" style={{animationDelay: '0s'}}></div>
-        </div>
+      <section id="services" className="pt-3 md:pt-4 lg:pt-6 pb-12 md:pb-16 lg:pb-20 bg-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold bg-gradient-to-r from-emerald-700 via-teal-600 to-emerald-700 bg-clip-text text-transparent mb-3 animate-fade-in-up tracking-wide gradient-animate">Our Services</h2>
+            <h2 className="text-4xl font-bold text-neutral-900 mb-3 animate-fade-in-up tracking-wide">Our Services</h2>
             <p className="text-neutral-600 font-medium animate-fade-in-up animation-delay-100 tracking-wide">Comprehensive solutions for sustainable plastic management</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

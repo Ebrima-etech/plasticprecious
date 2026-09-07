@@ -221,4 +221,34 @@ class CartService {
   }
 }
 
+  async mergeAnonymousCart(): Promise<Cart> {
+    // Merge anonymous cart items into authenticated cart
+    if (!this.isAuthenticated()) {
+      return this.getAnonymousCart();
+    }
+
+    try {
+      const anonymousCart = this.getAnonymousCart();
+      if (anonymousCart.items.length === 0) {
+        // No anonymous cart to merge, just return authenticated cart
+        return this.getCart();
+      }
+
+      // Add all anonymous cart items to authenticated cart
+      for (const item of anonymousCart.items) {
+        await this.addToCart(item.product.id, item.quantity);
+      }
+
+      // Clear anonymous cart after merge
+      localStorage.removeItem(ANONYMOUS_CART_KEY);
+
+      // Return final cart
+      return this.getCart();
+    } catch (error) {
+      console.error('Failed to merge anonymous cart:', error);
+      throw error;
+    }
+  }
+}
+
 export const cartService = new CartService();

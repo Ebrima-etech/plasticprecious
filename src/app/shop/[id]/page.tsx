@@ -8,7 +8,7 @@ import { FiShoppingCart, FiLogIn, FiTruck, FiRotateCcw, FiLock, FiPackage, FiHea
 import { Button } from '@/components/ui/Button';
 import { Card, CardBody } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
-import { Spinner } from '@/components/ui/Spinner';
+import { ShimmerSkeleton } from '@/components/ShimmerSkeleton';
 import { API_BASE_URL } from '@/config/api';
 import { cartService } from '@/lib/cartService';
 import { getAccessToken } from '@/lib/auth';
@@ -92,8 +92,31 @@ export default function ProductDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <Spinner size="lg" />
+      <div className="min-h-screen bg-white">
+        <Navbar showNavLinks={true} />
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-20">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+            <div className="space-y-6">
+              <ShimmerSkeleton className="w-full aspect-square rounded-3xl" />
+              <div className="flex gap-3">
+                {[1, 2, 3].map((i) => (
+                  <ShimmerSkeleton key={i} className="w-24 h-24 rounded-lg" />
+                ))}
+              </div>
+            </div>
+            <div className="space-y-6">
+              <ShimmerSkeleton className="w-3/4 h-8" />
+              <ShimmerSkeleton className="w-full h-6" />
+              <ShimmerSkeleton className="w-1/2 h-10" />
+              <div className="space-y-3">
+                <ShimmerSkeleton className="w-full h-4" />
+                <ShimmerSkeleton className="w-full h-4" />
+                <ShimmerSkeleton className="w-3/4 h-4" />
+              </div>
+              <ShimmerSkeleton className="w-full h-12" />
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

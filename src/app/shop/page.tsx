@@ -6,7 +6,7 @@ import axios from 'axios';
 import { FiPackage } from 'react-icons/fi';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
-import { Spinner } from '@/components/ui/Spinner';
+import { ProductGridSkeleton } from '@/components/ShimmerSkeleton';
 import { API_BASE_URL } from '@/config/api';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -78,9 +78,7 @@ export default function ProductsPage() {
       <section className="py-16 lg:py-24 bg-white relative overflow-hidden grid-pattern">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           {loading ? (
-            <div className="flex justify-center items-center py-20">
-              <Spinner size="lg" />
-            </div>
+            <ProductGridSkeleton columns={3} />
           ) : products.length === 0 ? (
             <div className="text-center py-20">
               <p className="text-xl text-slate-600 mb-6">No products available yet</p>

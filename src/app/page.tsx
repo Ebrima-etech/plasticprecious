@@ -10,6 +10,7 @@ import { GiRecycle } from 'react-icons/gi';
 import { BiRecycle } from 'react-icons/bi';
 import { MdSchool } from 'react-icons/md';
 import Navbar from '@/components/Navbar';
+import { ProductGridSkeleton } from '@/components/ShimmerSkeleton';
 import { API_BASE_URL } from '@/config/api';
 
 interface Product {
@@ -27,6 +28,7 @@ export default function Home() {
   const [carouselIndex, setCarouselIndex] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
+  const [productsLoading, setProductsLoading] = useState(true);
   const [productCarouselIndex, setProductCarouselIndex] = useState(0);
   const [badgeIndex, setBadgeIndex] = useState(0);
 
@@ -102,6 +104,8 @@ export default function Home() {
         setProducts(productsToDisplay);
       } catch (error) {
         console.error('Failed to fetch products:', error);
+      } finally {
+        setProductsLoading(false);
       }
     };
 
@@ -388,6 +392,11 @@ export default function Home() {
 
           <div className="relative">
             {/* Product Grid */}
+            {productsLoading ? (
+              <div className="px-3 lg:px-0">
+                <ProductGridSkeleton columns={4} />
+              </div>
+            ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 px-3 lg:px-0">
                 {products.length > 0 ? (
               products.map((product, i) => {
@@ -441,6 +450,7 @@ export default function Home() {
                   </div>
                 )}
             </div>
+            )}
           </div>
         </div>
       </section>

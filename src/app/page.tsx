@@ -546,7 +546,7 @@ export default function Home() {
             <div>
               <h5 className="font-black text-white mb-6 text-sm uppercase tracking-widest">SHOP</h5>
               <ul className="text-sm space-y-3 text-white">
-                <li><Link href="#" className="hover:text-emerald-400 transition font-semibold">All Products</Link></li>
+                <li><Link href="#" className="text-white hover:text-emerald-400 transition font-semibold">All Products</Link></li>
                 <li><Link href="#" className="hover:text-emerald-400 transition font-semibold">Custom Orders</Link></li>
                 <li><Link href="#" className="hover:text-emerald-400 transition font-semibold">Collections</Link></li>
                 <li><Link href="#" className="hover:text-emerald-400 transition font-semibold">Bulk Discounts</Link></li>
@@ -564,7 +564,7 @@ export default function Home() {
             <div>
               <h5 className="font-black text-white mb-6 text-sm uppercase tracking-widest">COMPANY</h5>
               <ul className="text-sm space-y-3 text-white">
-                <li><a href="#" className="hover:text-emerald-400 transition font-semibold">About Us</a></li>
+                <li><a href="#" className="text-white hover:text-emerald-400 transition font-semibold">About Us</a></li>
                 <li><a href="#" className="hover:text-emerald-400 transition font-semibold">Blog & News</a></li>
                 <li><a href="#" className="hover:text-emerald-400 transition font-semibold">Impact Report</a></li>
                 <li><a href="#" className="hover:text-emerald-400 transition font-semibold">Careers</a></li>

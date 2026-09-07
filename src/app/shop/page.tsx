@@ -64,7 +64,7 @@ export default function ProductsPage() {
       <section className="py-6 lg:py-8 bg-white relative overflow-hidden grid-pattern">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           {loading ? (
-            <ProductGridSkeleton columns={3} />
+            <ProductGridSkeleton columns={4} />
           ) : products.length === 0 ? (
             <div className="text-center py-20">
               <p className="text-xl text-slate-600 mb-6">No products available yet</p>
@@ -74,7 +74,7 @@ export default function ProductsPage() {
             </div>
           ) : (
             <div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {products.map((product) => {
                   const stockBadge = getStockBadge(product.stock);
                   return (

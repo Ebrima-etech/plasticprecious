@@ -156,18 +156,56 @@ export default function Home() {
         .animation-delay-300 { animation-delay: 0.3s; }
         .animation-delay-400 { animation-delay: 0.4s; }
         .animation-delay-500 { animation-delay: 0.5s; }
+        @keyframes float {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-15px); }
+        }
+        @keyframes glow {
+          0%, 100% { box-shadow: 0 0 20px rgba(16, 185, 129, 0.3); }
+          50% { box-shadow: 0 0 40px rgba(16, 185, 129, 0.6); }
+        }
+        @keyframes pulse-scale {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.05); }
+        }
+        @keyframes shimmer {
+          0% { background-position: -1000px 0; }
+          100% { background-position: 1000px 0; }
+        }
+        @keyframes gradient-shift {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+        .animate-float {
+          animation: float 3s ease-in-out infinite;
+        }
+        .animate-glow {
+          animation: glow 2s ease-in-out infinite;
+        }
+        .animate-pulse-scale {
+          animation: pulse-scale 2s ease-in-out infinite;
+        }
+        .gradient-animate {
+          background-size: 200% 200%;
+          animation: gradient-shift 8s ease infinite;
+        }
       `}</style>
       <Navbar showNavLinks={true} sticky={false} showCategories={true} />
 
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-white to-emerald-50 py-6 lg:py-8 pb-0 flex items-center">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full">
+      <section className="bg-gradient-to-br from-white via-emerald-50 to-teal-50 py-6 lg:py-8 pb-0 flex items-center relative overflow-hidden">
+        <div className="absolute inset-0 opacity-30 pointer-events-none">
+          <div className="absolute top-10 left-10 w-72 h-72 bg-emerald-300 rounded-full mix-blend-multiply filter blur-3xl animate-float"></div>
+          <div className="absolute -bottom-8 right-20 w-72 h-72 bg-teal-300 rounded-full mix-blend-multiply filter blur-3xl animate-float" style={{animationDelay: '1s'}}></div>
+        </div>
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-start mb-2">
             {/* Left Content */}
             <div className="order-2 lg:order-1 w-full -mt-2 lg:mt-0 lg:pt-16">
-              <h1 className="text-4xl lg:text-6xl font-bold text-emerald-900 mb-4 leading-tight animate-fade-in-up tracking-wide">
+              <h1 className="text-4xl lg:text-6xl font-bold bg-gradient-to-r from-emerald-900 via-teal-800 to-emerald-600 bg-clip-text text-transparent mb-4 leading-tight animate-fade-in-up tracking-wider gradient-animate">
                 <span className="block">From Pollution</span>
-                to <span className="text-emerald-600 italic">Solution</span>
+                to <span className="italic">Solution</span>
               </h1>
               <p className="text-base text-emerald-700 mb-6 lg:mb-8 font-semibold leading-relaxed max-w-lg animate-fade-in-up animation-delay-100 tracking-wide">
                 Transforming plastic waste into valuable, sustainable products <br /> while creating positive change for communities and our environment.
@@ -202,7 +240,7 @@ export default function Home() {
               <div className="flex flex-row gap-4 md:gap-8 mb-8 justify-center md:justify-start">
                 {/* Left Button */}
                 <div className="flex flex-col items-center md:items-start gap-3 animate-fade-in-up animation-delay-300">
-                  <Link href="/services" className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 md:px-8 md:py-2.5 transition text-sm md:text-base rounded-full inline-block tracking-wide">
+                  <Link href="/services" className="relative group bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-bold px-4 py-2 md:px-8 md:py-2.5 transition text-sm md:text-base rounded-full inline-block tracking-wide shadow-lg hover:shadow-emerald-500/50 hover:shadow-2xl animate-glow">
                     Work with us
                   </Link>
                   <p className="text-xs md:text-sm text-emerald-900 text-center">Custom quoting for large <br /> businesses and complex <br /> programs</p>
@@ -210,7 +248,7 @@ export default function Home() {
 
                 {/* Right Button */}
                 <div className="flex flex-col items-center md:items-start gap-3 animate-fade-in-up animation-delay-400">
-                  <a href="/shop" target="_blank" rel="noopener noreferrer" className="border-2 border-emerald-600 text-emerald-600 hover:bg-emerald-600 hover:text-white font-bold px-4 py-2 md:px-8 md:py-2.5 transition text-sm md:text-base bg-transparent rounded-full inline-block tracking-wide">
+                  <a href="/shop" target="_blank" rel="noopener noreferrer" className="relative group border-2 border-emerald-600 text-emerald-600 hover:bg-gradient-to-r hover:from-emerald-600 hover:to-emerald-700 hover:text-white font-bold px-4 py-2 md:px-8 md:py-2.5 transition text-sm md:text-base bg-transparent rounded-full inline-block tracking-wide shadow-lg hover:shadow-emerald-600/50 hover:shadow-2xl">
                     Shop Products
                   </a>
                   <p className="text-xs md:text-sm text-emerald-900 text-center">Customizable, ready-to-buy <br /> options</p>

@@ -302,9 +302,9 @@ export default function Home() {
               </p>
 
               {/* Mobile Carousel - Above Buttons */}
-              <div className="lg:hidden mb-8 relative flex flex-col items-center w-full animate-fade-in-up animation-delay-300">
+              <div className="lg:hidden mb-8 relative flex flex-col items-center w-screen animate-fade-in-up animation-delay-300 -mx-6">
                 <div className="relative w-full">
-                  <div className="rounded-2xl h-[50vh] flex flex-col items-center justify-center overflow-hidden relative shadow-2xl">
+                  <div className="h-[50vh] flex flex-col items-center justify-center overflow-hidden relative">
                     {carouselItems[carouselIndex].image && (
                       <img
                         src={carouselItems[carouselIndex].image}

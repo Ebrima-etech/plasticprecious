@@ -86,30 +86,40 @@ export default function ImpactPage() {
 
   return (
     <div className="min-h-screen bg-white">
+      <style>{`
+        .grid-pattern {
+          background-image:
+            linear-gradient(90deg, rgba(16, 185, 129, 0.03) 1px, transparent 1px),
+            linear-gradient(rgba(16, 185, 129, 0.03) 1px, transparent 1px);
+          background-size: 40px 40px;
+          background-position: 0 0, 0 0;
+        }
+      `}</style>
       <Navbar />
 
       {/* Header */}
-      <section className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-16 md:py-20">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <Link href="/" className="text-emerald-50 hover:text-white mb-4 inline-block text-sm">
-            ← Back to Home
-          </Link>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Our Impact</h1>
-          <p className="text-lg text-emerald-50 max-w-2xl">
-            Measurable change across communities and the environment through our sustainable practices and programs.
-          </p>
+      <section className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-16 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
+        </div>
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+          <div className="inline-block bg-white/20 text-white px-4 py-2 rounded-full text-sm font-bold mb-6">
+            📊 IMPACT
+          </div>
+          <h1 className="text-5xl lg:text-6xl font-black mb-6 leading-tight">Our Impact</h1>
+          <p className="text-xl max-w-2xl text-emerald-50">Measurable change across communities and the environment through our sustainable practices</p>
         </div>
       </section>
 
       {/* Impact Details */}
-      <section className="py-16 md:py-20 lg:py-24">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+      <section className="py-16 md:py-20 lg:py-24 bg-white relative overflow-hidden grid-pattern">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="space-y-20">
             {impactDetails.map((impact, idx) => (
               <div key={impact.id} className={`grid grid-cols-1 md:grid-cols-2 gap-12 items-center ${idx % 2 === 1 ? 'md:grid-cols-2 md:auto-cols-max' : ''}`}>
                 {/* Image - alternating sides */}
                 <div className={idx % 2 === 1 ? 'md:order-2' : ''}>
-                  <div className="rounded-2xl overflow-hidden h-96 shadow-lg">
+                  <div className="rounded-3xl overflow-hidden h-96 border border-slate-200">
                     <img src={impact.image} alt={impact.title} className="w-full h-full object-cover" />
                   </div>
                 </div>
@@ -117,36 +127,36 @@ export default function ImpactPage() {
                 {/* Content */}
                 <div className={idx % 2 === 1 ? 'md:order-1' : ''}>
                   <div className="inline-flex items-center gap-3 mb-4">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center text-white text-lg font-bold">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-white text-lg font-bold">
                       {impact.id}
                     </div>
                     <span className="text-emerald-600 font-semibold text-sm uppercase tracking-wide">Impact Area</span>
                   </div>
 
-                  <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 mb-4">{impact.title}</h2>
-                  <p className="text-neutral-600 text-lg mb-6 leading-relaxed">
+                  <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">{impact.title}</h2>
+                  <p className="text-slate-600 text-lg mb-6 leading-relaxed">
                     {impact.fullDescription}
                   </p>
 
                   {/* Stats */}
                   <div className="grid grid-cols-3 gap-4 mb-8">
                     {impact.stats.map((stat, i) => (
-                      <div key={i} className="bg-emerald-50 rounded-lg p-4 border border-emerald-200">
-                        <p className="text-2xl font-bold text-emerald-600 mb-1">{stat.value}</p>
-                        <p className="text-xs text-neutral-600 font-semibold uppercase">{stat.label}</p>
-                        <p className="text-xs text-neutral-500">{stat.unit}</p>
+                      <div key={i} className="group cursor-pointer rounded-3xl overflow-hidden border border-slate-200 hover:border-emerald-400 bg-gradient-to-br from-white to-slate-50 hover:from-emerald-50 hover:to-white p-4 transition-all duration-300 hover:-translate-y-1">
+                        <p className="text-2xl font-black text-emerald-600 mb-1">{stat.value}</p>
+                        <p className="text-xs text-slate-600 font-semibold uppercase">{stat.label}</p>
+                        <p className="text-xs text-slate-500">{stat.unit}</p>
                       </div>
                     ))}
                   </div>
 
                   {/* Highlights */}
                   <div>
-                    <h3 className="text-lg font-semibold text-neutral-900 mb-4">Key Initiatives</h3>
+                    <h3 className="text-lg font-semibold text-slate-900 mb-4">Key Initiatives</h3>
                     <ul className="space-y-3">
                       {impact.highlights.map((highlight, i) => (
                         <li key={i} className="flex items-start gap-3">
                           <span className="text-emerald-600 text-xl mt-1">✓</span>
-                          <span className="text-neutral-700">{highlight}</span>
+                          <span className="text-slate-700">{highlight}</span>
                         </li>
                       ))}
                     </ul>
@@ -159,20 +169,23 @@ export default function ImpactPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 md:py-20 bg-gradient-to-b from-emerald-50 to-white">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold text-neutral-900 mb-6">Join Our Mission</h2>
-          <p className="text-neutral-600 text-lg mb-8 max-w-2xl mx-auto">
+      <section className="py-16 md:py-20 bg-gradient-to-r from-emerald-600 to-teal-600 text-white relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute bottom-0 left-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
+        </div>
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center relative z-10">
+          <h2 className="text-4xl lg:text-5xl font-black text-white mb-6">Join Our Mission</h2>
+          <p className="text-lg text-emerald-50 mb-8 max-w-2xl mx-auto">
             Be part of the solution. Whether through supporting our initiatives, volunteering, or purchasing sustainable products, together we can create meaningful change.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/services">
-              <button className="px-8 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg transition">
+              <button className="px-8 py-3 bg-white text-emerald-600 font-bold rounded-full hover:bg-emerald-50 transition duration-300">
                 Learn About Our Services
               </button>
             </Link>
             <Link href="/shop">
-              <button className="px-8 py-3 bg-white hover:bg-emerald-50 text-emerald-600 font-bold rounded-lg border border-emerald-600 transition">
+              <button className="px-8 py-3 bg-white/20 text-white font-bold rounded-full border border-white/30 hover:bg-white/30 transition duration-300">
                 Shop Sustainable Products
               </button>
             </Link>

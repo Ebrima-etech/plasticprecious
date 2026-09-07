@@ -14,6 +14,13 @@ interface NavbarProps {
 export default function Navbar({ showNavLinks = false, sticky = true, showCategories = false }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [rotatingIndex, setRotatingIndex] = useState(0);
+
+  const rotatingItems = [
+    { label: 'ECO-FRIENDLY', value: 'Premium Products' },
+    { label: 'SUSTAINABLE', value: 'Quality Assured' },
+    { label: 'INNOVATIVE', value: 'Always Improving' },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,8 +31,27 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setRotatingIndex((prev) => (prev + 1) % rotatingItems.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [rotatingItems.length]);
+
   return (
     <>
+      <style>{`
+        @keyframes slideUpFade {
+          0% { opacity: 0; transform: translateY(8px); }
+          5% { opacity: 1; transform: translateY(0); }
+          95% { opacity: 1; transform: translateY(0); }
+          100% { opacity: 0; transform: translateY(-8px); }
+        }
+        .rotating-text {
+          animation: slideUpFade 4s ease-in-out;
+          display: inline-block;
+        }
+      `}</style>
       {/* Top Promo Bar - Desktop Only */}
       <div className="hidden md:block sticky top-0 z-50 bg-gradient-to-r from-slate-900 to-slate-800 border-b border-slate-700">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -33,9 +59,9 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
             <div className="flex items-center gap-8 whitespace-nowrap">
               <div className="flex items-center gap-2">
                 <GiRecycle className="text-emerald-400 text-lg" />
-                <div>
-                  <div className="text-slate-400 text-xs font-semibold">ECO-FRIENDLY</div>
-                  <div className="font-black text-white">Premium Products</div>
+                <div className="rotating-text">
+                  <div className="text-slate-400 text-xs font-semibold">{rotatingItems[rotatingIndex].label}</div>
+                  <div className="font-black text-white">{rotatingItems[rotatingIndex].value}</div>
                 </div>
               </div>
               <div className="flex items-center gap-2">

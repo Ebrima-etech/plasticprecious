@@ -149,19 +149,19 @@ export default function Home() {
               {/* Buttons and Descriptions */}
               <div className="flex flex-col sm:flex-row gap-3 mb-8">
                 {/* Left Button */}
-                <div className="flex flex-col items-center gap-3 flex-1">
+                <div className="flex flex-col items-start gap-3">
                   <Link href="/services" className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-8 py-2.5 transition text-base rounded-full inline-block">
                     Explore Services
                   </Link>
-                  <p className="text-sm text-emerald-900 text-center">Custom quoting for large <br /> businesses and complex <br /> programs</p>
+                  <p className="text-sm text-emerald-900">Custom quoting for large <br /> businesses and complex <br /> programs</p>
                 </div>
 
                 {/* Right Button */}
-                <div className="flex flex-col items-center gap-3 flex-1">
+                <div className="flex flex-col items-start gap-3">
                   <a href="/shop" target="_blank" rel="noopener noreferrer" className="border-2 border-emerald-600 text-emerald-600 hover:bg-emerald-600 hover:text-white font-bold px-8 py-2.5 transition text-base bg-transparent rounded-full inline-block">
                     Shop Products
                   </a>
-                  <p className="text-sm text-emerald-900 text-center">Customizable, ready-to-buy <br /> options</p>
+                  <p className="text-sm text-emerald-900">Customizable, ready-to-buy <br /> options</p>
                 </div>
               </div>
             </div>

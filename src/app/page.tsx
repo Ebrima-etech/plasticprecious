@@ -636,7 +636,7 @@ export default function Home() {
           {/* Pill-shaped Grid - GetLab Inspired */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {impacts.map((item, i) => (
-              <Link key={i} href="/impact" className={`group cursor-pointer animate-fade-in-up animation-delay-${i * 100}`}>
+              <Link key={i} href="/impact" className={`group cursor-pointer animate-fade-in-up animation-delay-${i * 100} no-underline`}>
                 <div className="unique-card relative rounded-2xl overflow-hidden flex flex-col h-full">
                   {/* Icon Badge - Pill Style */}
                   <div className="px-6 pt-6 pb-3">
@@ -682,7 +682,7 @@ export default function Home() {
             {services.map((service, i) => {
               const IconComponent = service.icon;
               return (
-                <Link key={i} href="/services-detail" className={`group cursor-pointer animate-fade-in-up animation-delay-${i * 100}`}>
+                <Link key={i} href="/services-detail" className={`group cursor-pointer animate-fade-in-up animation-delay-${i * 100} no-underline`}>
                   <div className="unique-card relative rounded-2xl overflow-hidden flex flex-col h-full">
                     {/* Icon Badge - Pill Style */}
                     <div className="px-6 pt-6 pb-3">

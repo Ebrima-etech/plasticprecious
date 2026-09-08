@@ -97,28 +97,17 @@ export default function ProductsPage() {
                       <div className="w-full">
                         <div className="cursor-pointer h-full bg-white flex flex-col transition-all duration-300 overflow-hidden group">
                           {/* Product Image */}
-                          <div className="relative h-56 md:h-[24rem] lg:h-72 overflow-hidden bg-slate-200 rounded-none flex items-center justify-center relative">
-                          {product.image ? (
-                            <img
-                              src={product.image}
-                              alt={product.name}
-                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                            />
-                          ) : (
-                            <FiPackage className="w-16 h-16 text-emerald-400" />
-                          )}
-                        </div>
-
-                          {product.image ? (
-                            <img
-                              src={product.image}
-                              alt={product.name}
-                              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                            />
-                          ) : (
-                            <FiPackage className="w-16 h-16 text-emerald-400" />
-                          )}
-                        </div>
+                          <div className="relative h-56 md:h-[24rem] lg:h-72 overflow-hidden bg-slate-200 rounded-none flex items-center justify-center">
+                            {product.image ? (
+                              <img
+                                src={product.image}
+                                alt={product.name}
+                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                              />
+                            ) : (
+                              <FiPackage className="w-16 h-16 text-emerald-400" />
+                            )}
+                          </div>
 
                         {/* Product Info */}
                         <div className="flex flex-col flex-grow p-0.5">
@@ -156,6 +145,7 @@ export default function ProductsPage() {
                   );
                 })}
               </div>
+            </div>
           )}
         </div>
       </section>

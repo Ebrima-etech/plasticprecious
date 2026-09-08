@@ -152,7 +152,6 @@ export default function ProductsPage() {
                           </div>
                         </div>
                       </div>
-                    </div>
                     </Link>
                   );
                 })}

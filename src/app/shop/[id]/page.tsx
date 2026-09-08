@@ -265,6 +265,43 @@ export default function ProductDetailPage() {
         </div>
       </section>
 
+      {/* Features Section */}
+      <section className="py-16 lg:py-24 bg-white border-t border-slate-200 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+          <div className="mb-12">
+            <h3 className="text-sm font-black text-emerald-600 uppercase tracking-wide mb-2">Why Choose This Product</h3>
+            <h2 className="text-4xl font-black text-slate-900">Recycled, Reliable & Responsible</h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              { icon: '♻️', title: '100% Recycled Plastic', desc: 'Upcycled from waste plastic materials' },
+              { icon: '🌍', title: 'Reduces Waste', desc: 'Keeps plastic out of landfills' },
+              { icon: '💪', title: 'High Durability', desc: 'Built tough and long-lasting' },
+              { icon: '🏆', title: 'Certified Quality', desc: 'ISO standards & quality tested' },
+              { icon: '🌱', title: 'Climate Positive', desc: 'Supports sustainable future' },
+              { icon: '👌', title: 'Premium Finish', desc: 'Beautiful, modern design' },
+            ].map((feature, idx) => (
+              <div key={idx} className="group cursor-pointer relative rounded-3xl overflow-hidden border border-slate-200 hover:border-emerald-400 flex flex-col hover:-translate-y-1 bg-gradient-to-br from-white to-slate-50 backdrop-blur-sm group-hover:from-emerald-50 group-hover:to-white transition-all duration-300 p-6">
+                <div className="text-4xl mb-4">{feature.icon}</div>
+                <h3 className="text-lg font-black text-slate-900 mb-2 group-hover:text-emerald-600 transition">{feature.title}</h3>
+                <p className="text-sm text-slate-600">{feature.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* You Might Also Like Section */}
+      <section className="py-16 lg:py-24 bg-white border-t border-slate-200 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+          <h2 className="text-4xl font-black text-slate-900 mb-12">You Might Also Like</h2>
+          <div className="text-center py-12 text-slate-600">
+            <p className="text-lg">More products coming soon</p>
+          </div>
+        </div>
+      </section>
+
       <Footer />
     </div>
   );

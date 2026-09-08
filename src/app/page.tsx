@@ -674,14 +674,18 @@ export default function Home() {
                               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                             />
                           )}
+                          {/* NEW Badge */}
+                          <div className="absolute top-3 left-3 bg-red-500 text-white px-2 py-1 text-xs font-bold rounded">NEW</div>
                         </div>
-                        <div className="flex flex-col flex-grow p-4 lg:p-6">
-                          <h3 className="text-xl lg:text-xl font-black text-slate-900 mb-3 group-hover:text-emerald-600 transition">{product.name}</h3>
-                          <p className="text-base lg:text-sm text-slate-600 line-clamp-2 flex-grow mb-4">{product.description || 'Premium recycled plastic product'}</p>
-                          <div className="flex items-center justify-between gap-2">
-                            <span className="text-4xl lg:text-2xl font-black text-slate-900">D {parseFloat(product.price).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
-                            <button className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 lg:px-4 py-2 rounded-lg transition text-xs lg:text-sm">
-                              QUICK VIEW
+                        <div className="flex flex-col flex-grow p-3 md:p-4 lg:p-6">
+                          <h3 className="text-sm md:text-base lg:text-lg font-bold text-slate-900 mb-2 group-hover:text-emerald-600 transition line-clamp-2">{product.name}</h3>
+                          <p className="text-xs md:text-sm text-slate-500 mb-3">Only {product.stock} left!</p>
+                          <div className="flex items-center justify-between gap-2 mt-auto">
+                            <span className="text-lg md:text-xl lg:text-2xl font-black text-slate-900">D {parseFloat(product.price).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                            <button className="text-emerald-600 hover:text-emerald-700 transition text-lg md:text-xl">
+                              <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2 8m10 0l2-8m0 0h2" />
+                              </svg>
                             </button>
                           </div>
                         </div>

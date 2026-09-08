@@ -656,7 +656,7 @@ export default function Home() {
                   <Link key={product.id} href={`/shop/${product.id}`} className="no-underline hover:no-underline">
                     <div className="w-full">
                       <div className={`cursor-pointer h-full bg-white flex flex-col rounded-xl transition-all duration-300 overflow-hidden group border border-slate-200 hover:border-emerald-400`}>
-                        <div className="relative h-[28rem] lg:h-72 overflow-hidden bg-slate-200">
+                        <div className="relative h-56 md:h-[24rem] lg:h-72 overflow-hidden bg-slate-200">
                           {product.image ? (
                             <img
                               src={product.image}

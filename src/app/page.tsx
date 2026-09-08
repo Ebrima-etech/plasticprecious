@@ -402,6 +402,13 @@ export default function Home() {
           0% { transform: rotate(0deg); }
           100% { transform: rotate(360deg); }
         }
+        a.no-underline {
+          text-decoration: none;
+        }
+        a.no-underline:hover,
+        a.no-underline:hover * {
+          text-decoration: none !important;
+        }
       `}</style>
       <Navbar showNavLinks={true} sticky={false} showCategories={true} />
 

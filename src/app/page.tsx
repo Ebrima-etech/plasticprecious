@@ -192,6 +192,20 @@ export default function Home() {
         .animated-border {
           animation: borderGradient 3s ease-in-out infinite;
         }
+        @keyframes cardBorderGradient {
+          0% {
+            border-color: rgb(16, 185, 129);
+          }
+          50% {
+            border-color: rgb(34, 197, 94);
+          }
+          100% {
+            border-color: rgb(16, 185, 129);
+          }
+        }
+        .card-animated-border {
+          animation: cardBorderGradient 3s ease-in-out infinite;
+        }
         .animate-fade-in-up {
           animation: fadeInUp 0.7s ease-out forwards;
         }
@@ -655,7 +669,7 @@ export default function Home() {
                 return (
                   <Link key={product.id} href={`/shop/${product.id}`} className="no-underline hover:no-underline">
                     <div className="w-full">
-                      <div className={`cursor-pointer h-full bg-white flex flex-col md:rounded-xl transition-all duration-300 overflow-hidden group border border-slate-200 hover:border-emerald-400`}>
+                      <div className={`cursor-pointer h-full bg-white flex flex-col md:rounded-xl transition-all duration-300 overflow-hidden group border card-animated-border`}>
                         <div className="relative h-56 md:h-[24rem] lg:h-72 overflow-hidden bg-slate-200">
                           {product.image ? (
                             <img

@@ -654,8 +654,8 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-0 md:px-6 lg:px-8 relative z-10">
           <div className="pt-4 mb-4 animate-fade-in-up px-6 md:px-0 flex items-center justify-between">
             <h2 className="bestseller-heading mb-2">Best sellers</h2>
-            <Link href="/shop" className="text-emerald-600 hover:text-emerald-700 text-sm font-semibold transition">
-              View All →
+            <Link href="/shop" className="text-slate-900 hover:text-slate-700 text-sm font-semibold transition">
+              View All
             </Link>
           </div>
 

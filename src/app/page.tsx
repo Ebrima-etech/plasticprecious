@@ -481,7 +481,7 @@ export default function Home() {
           </div>
 
           {/* Carousel Content Centered */}
-          <div className="relative z-10 w-full max-w-lg px-6 pt-12 flex flex-col items-center justify-start h-full text-center">
+          <div className="relative z-10 w-full max-w-lg px-6 pt-6 flex flex-col items-center justify-start h-full text-center">
             {heroSlideIndex === 0 && (
               <>
                 <div className="mb-6 animate-fade-in-up">

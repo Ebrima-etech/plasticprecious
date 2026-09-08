@@ -145,7 +145,7 @@ export default function ProductDetailPage() {
                   <button
                     key={idx}
                     onClick={() => setImageIndex(idx)}
-                    className={`w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 border-2 transition-all ${
+                    className={`w-16 h-16 rounded-none overflow-hidden flex-shrink-0 border-2 transition-all ${
                       imageIndex === idx
                         ? 'border-emerald-600 ring-2 ring-emerald-300'
                         : 'border-slate-200 hover:border-slate-300'
@@ -157,7 +157,7 @@ export default function ProductDetailPage() {
               </div>
 
               {/* Main Image */}
-              <div className="flex-1 bg-slate-100 rounded-lg overflow-hidden aspect-square flex items-center justify-center">
+              <div className="flex-1 bg-slate-100 rounded-none overflow-hidden aspect-square flex items-center justify-center">
                 <img
                   src={productImages[imageIndex]}
                   alt={product.name}

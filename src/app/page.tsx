@@ -245,11 +245,22 @@ export default function Home() {
           background-position: 0 0, 0 0;
         }
         @keyframes badgeDisappear {
+          0% { opacity: 1; }
+          1% { opacity: 0; }
+          100% { opacity: 0; }
+        }
+        @keyframes badgeDisappearMobile {
           0% { opacity: 1; transform: translate(-50%, -50%); }
           1% { opacity: 0; transform: translate(-50%, -50%); }
           100% { opacity: 0; transform: translate(-50%, -50%); }
         }
         @keyframes badgeSlideUp {
+          0% { transform: translateY(20px); }
+          15% { transform: translateY(0); }
+          85% { transform: translateY(0); }
+          100% { transform: translateY(0); }
+        }
+        @keyframes badgeSlideUpMobile {
           0% { transform: translate(-50%, -50%) translateY(20px); }
           15% { transform: translate(-50%, -50%) translateY(0); }
           85% { transform: translate(-50%, -50%) translateY(0); }
@@ -259,9 +270,8 @@ export default function Home() {
           animation: badgeDisappear 6s ease-in-out;
           display: inline-block;
           position: absolute;
-          left: 50%;
-          top: 50%;
-          transform: translate(-50%, -50%) !important;
+          left: 0;
+          top: 0;
           background-color: rgb(209, 250, 229);
           color: rgb(5, 122, 85);
           padding: 0.5rem 1rem;
@@ -270,13 +280,18 @@ export default function Home() {
           font-weight: 700;
           white-space: nowrap;
         }
+        .badge-container-mobile .badge-current {
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%) !important;
+          animation: badgeDisappearMobile 6s ease-in-out !important;
+        }
         .badge-next {
           animation: badgeSlideUp 6s ease-in-out;
           display: inline-block;
           position: absolute;
-          left: 50%;
-          top: 50%;
-          transform: translate(-50%, -50%) !important;
+          left: 0;
+          top: 0;
           background-color: rgb(209, 250, 229);
           color: rgb(5, 122, 85);
           padding: 0.5rem 1rem;
@@ -284,6 +299,12 @@ export default function Home() {
           font-size: 0.875rem;
           font-weight: 700;
           white-space: nowrap;
+        }
+        .badge-container-mobile .badge-next {
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%) !important;
+          animation: badgeSlideUpMobile 6s ease-in-out !important;
         }
         .badge-container {
           position: relative;

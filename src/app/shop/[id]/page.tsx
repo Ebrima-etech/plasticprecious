@@ -265,6 +265,84 @@ export default function ProductDetailPage() {
         </div>
       </section>
 
+      {/* Specifications Section */}
+      <section className="py-16 lg:py-24 bg-gradient-to-br from-slate-50 to-emerald-50 border-t border-slate-200 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+          <div className="mb-12">
+            <h3 className="text-sm font-black text-emerald-600 uppercase tracking-wide mb-2">Product Information</h3>
+            <h2 className="text-4xl font-black text-slate-900 mb-4">Detailed Specifications</h2>
+            <p className="text-slate-600 text-lg">Complete details about this recycled plastic product</p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            {/* Main Specifications */}
+            <div className="bg-white rounded-3xl border border-slate-200 p-8 shadow-sm">
+              <h3 className="text-2xl font-black text-slate-900 mb-6">Product Details</h3>
+              <div className="space-y-6">
+                <div className="pb-6 border-b border-slate-100">
+                  <p className="text-sm font-bold text-slate-500 uppercase tracking-wide mb-2">Product Name</p>
+                  <p className="text-base font-semibold text-slate-900">{product.name}</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Additional Information */}
+            <div className="space-y-6">
+              {/* Warranty & Certifications Card */}
+              <div className="bg-white rounded-3xl border border-slate-200 p-8 shadow-sm">
+                <h3 className="text-2xl font-black text-slate-900 mb-6">Warranty & Certifications</h3>
+                <div className="space-y-4">
+                  <div className="flex items-start gap-3">
+                    <div className="text-2xl mt-1">🏆</div>
+                    <div>
+                      <p className="font-bold text-slate-900">ISO Certified</p>
+                      <p className="text-sm text-slate-600">International quality standards</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="text-2xl mt-1">🛡️</div>
+                    <div>
+                      <p className="font-bold text-slate-900">2-Year Limited Warranty</p>
+                      <p className="text-sm text-slate-600">Full coverage and support</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="text-2xl mt-1">♻️</div>
+                    <div>
+                      <p className="font-bold text-slate-900">Eco-Certified</p>
+                      <p className="text-sm text-slate-600">Sustainable production verified</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Care & Recycling */}
+              <div className="bg-white rounded-3xl border border-slate-200 p-8 shadow-sm">
+                <h3 className="text-2xl font-black text-slate-900 mb-6">Care & Recycling</h3>
+                <ul className="space-y-3 text-slate-700">
+                  <li className="flex gap-3">
+                    <span className="text-emerald-600 font-bold">✓</span>
+                    <span>Clean with mild soap and warm water</span>
+                  </li>
+                  <li className="flex gap-3">
+                    <span className="text-emerald-600 font-bold">✓</span>
+                    <span>Avoid direct sunlight and high heat</span>
+                  </li>
+                  <li className="flex gap-3">
+                    <span className="text-emerald-600 font-bold">✓</span>
+                    <span>Store in dry environment</span>
+                  </li>
+                  <li className="flex gap-3">
+                    <span className="text-emerald-600 font-bold">✓</span>
+                    <span>Fully recyclable when end-of-life reached</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Features Section */}
       <section className="py-16 lg:py-24 bg-white border-t border-slate-200 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">

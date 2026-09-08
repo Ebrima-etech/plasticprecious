@@ -478,7 +478,6 @@ export default function Home() {
                 className="absolute inset-0 w-full h-full object-cover"
               />
             )}
-            <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-white/90"></div>
           </div>
 
           {/* Carousel Content Centered */}

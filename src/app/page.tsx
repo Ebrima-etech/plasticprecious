@@ -643,7 +643,7 @@ export default function Home() {
                 <ProductGridSkeleton columns={4} />
               </div>
             ) : (
-            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 px-3 lg:px-0">
+            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4 lg:gap-6 px-3 lg:px-0">
                 {products.length > 0 ? (
               products.map((product, i) => {
                 const dummyImages = [
@@ -655,7 +655,7 @@ export default function Home() {
                 return (
                   <Link key={product.id} href={`/shop/${product.id}`} className="no-underline hover:no-underline">
                     <div className="w-full">
-                      <div className={`cursor-pointer h-full bg-white flex flex-col rounded-xl transition-all duration-300 overflow-hidden group border border-slate-200 hover:border-emerald-400`}>
+                      <div className={`cursor-pointer h-full bg-white flex flex-col md:rounded-xl transition-all duration-300 overflow-hidden group border border-slate-200 hover:border-emerald-400`}>
                         <div className="relative h-56 md:h-[24rem] lg:h-72 overflow-hidden bg-slate-200">
                           {product.image ? (
                             <img

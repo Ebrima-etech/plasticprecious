@@ -525,13 +525,13 @@ export default function Home() {
           <div className="absolute inset-0 flex items-center justify-between px-2 z-20 pointer-events-none">
             <button
               onClick={() => setHeroSlideIndex((heroSlideIndex - 1 + heroSlides.length) % heroSlides.length)}
-              className="pointer-events-auto w-10 h-10 rounded-full bg-white/80 hover:bg-white text-slate-900 flex items-center justify-center transition-all duration-300 hover:scale-110 font-bold text-3xl leading-none shadow-lg hover:shadow-xl backdrop-blur-sm">
-              ‹
+              className="pointer-events-auto w-10 h-10 rounded-full bg-white/80 hover:bg-white text-slate-900 flex items-center justify-center transition-all duration-300 hover:scale-110 font-bold text-2xl leading-none shadow-lg hover:shadow-xl backdrop-blur-sm">
+              &lt;
             </button>
             <button
               onClick={() => setHeroSlideIndex((heroSlideIndex + 1) % heroSlides.length)}
-              className="pointer-events-auto w-10 h-10 rounded-full bg-white/80 hover:bg-white text-slate-900 flex items-center justify-center transition-all duration-300 hover:scale-110 font-bold text-3xl leading-none shadow-lg hover:shadow-xl backdrop-blur-sm">
-              ›
+              className="pointer-events-auto w-10 h-10 rounded-full bg-white/80 hover:bg-white text-slate-900 flex items-center justify-center transition-all duration-300 hover:scale-110 font-bold text-2xl leading-none shadow-lg hover:shadow-xl backdrop-blur-sm">
+              &gt;
             </button>
           </div>
 

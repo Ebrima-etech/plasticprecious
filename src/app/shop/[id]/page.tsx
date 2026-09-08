@@ -140,7 +140,7 @@ export default function ProductDetailPage() {
             {/* Images Section */}
             <div className="lg:col-span-2 flex gap-2">
               {/* Thumbnail Images - Left Side */}
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-1">
                 {productImages.map((img, idx) => (
                   <button
                     key={idx}

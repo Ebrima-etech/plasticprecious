@@ -26,6 +26,11 @@ interface Product {
   category?: number;
   rating?: number;
   reviews_count?: number;
+  material?: string;
+  dimensions?: string;
+  weight?: string;
+  warranty?: string;
+  specifications?: Record<string, string>;
 }
 
 export default function ProductDetailPage() {
@@ -270,8 +275,11 @@ export default function ProductDetailPage() {
               </div>
 
               {/* Description */}
-              <div className="space-y-3">
-                <h3 className="text-lg font-black text-slate-900">About This Product</h3>
+              <div className="space-y-4">
+                <div>
+                  <h3 className="text-sm font-black text-emerald-600 uppercase tracking-wide mb-2">Premium Quality Product</h3>
+                  <h2 className="text-2xl lg:text-3xl font-black text-slate-900 mb-4">Sustainable & Durable</h2>
+                </div>
                 <p className="text-slate-700 leading-relaxed text-base">{product.description}</p>
               </div>
 
@@ -370,16 +378,19 @@ export default function ProductDetailPage() {
       {/* Features Section */}
       <section className="py-16 lg:py-24 bg-white border-t border-slate-200 relative overflow-hidden grid-pattern">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-          <h2 className="text-4xl font-black text-slate-900 mb-12">Key Features & Benefits</h2>
+          <div className="mb-12">
+            <h3 className="text-sm font-black text-emerald-600 uppercase tracking-wide mb-2">Why Choose This Product</h3>
+            <h2 className="text-4xl font-black text-slate-900">Recycled, Reliable & Responsible</h2>
+          </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              { icon: '♻️', title: '100% Recycled', desc: 'Made from recycled plastic materials' },
-              { icon: '🏆', title: 'Premium Quality', desc: 'ISO certified manufacturing' },
-              { icon: '💪', title: 'Durable Design', desc: 'Built to last for years' },
-              { icon: '🌍', title: 'Eco-Friendly', desc: 'Sustainable production practices' },
-              { icon: '✅', title: 'Tested & Verified', desc: 'Quality assurance passed' },
-              { icon: '🚀', title: 'Modern Design', desc: 'Contemporary styling' },
+              { icon: '♻️', title: '100% Recycled Plastic', desc: 'Upcycled from waste plastic materials' },
+              { icon: '🌍', title: 'Reduces Waste', desc: 'Keeps plastic out of landfills' },
+              { icon: '💪', title: 'High Durability', desc: 'Built tough and long-lasting' },
+              { icon: '🏆', title: 'Certified Quality', desc: 'ISO standards & quality tested' },
+              { icon: '🌱', title: 'Climate Positive', desc: 'Supports sustainable future' },
+              { icon: '👌', title: 'Premium Finish', desc: 'Beautiful, modern design' },
             ].map((feature, idx) => (
               <div key={idx} className="group cursor-pointer relative rounded-3xl overflow-hidden border border-slate-200 hover:border-emerald-400 flex flex-col hover:-translate-y-1 bg-gradient-to-br from-white to-slate-50 backdrop-blur-sm group-hover:from-emerald-50 group-hover:to-white transition-all duration-300 p-6">
                 <div className="text-4xl mb-4">{feature.icon}</div>
@@ -387,6 +398,108 @@ export default function ProductDetailPage() {
                 <p className="text-sm text-slate-600">{feature.desc}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Specifications Section */}
+      <section className="py-16 lg:py-24 bg-gradient-to-br from-slate-50 to-emerald-50 border-t border-slate-200 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+          <div className="mb-12">
+            <h3 className="text-sm font-black text-emerald-600 uppercase tracking-wide mb-2">Product Information</h3>
+            <h2 className="text-4xl font-black text-slate-900 mb-4">Detailed Specifications</h2>
+            <p className="text-slate-600 text-lg">Complete details about this recycled plastic product</p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            {/* Main Specifications */}
+            <div className="bg-white rounded-3xl border border-slate-200 p-8 shadow-sm">
+              <h3 className="text-2xl font-black text-slate-900 mb-6">Product Details</h3>
+              <div className="space-y-6">
+                <div className="pb-6 border-b border-slate-100">
+                  <p className="text-sm font-bold text-slate-500 uppercase tracking-wide mb-2">Product Name</p>
+                  <p className="text-base font-semibold text-slate-900">{product.name}</p>
+                </div>
+                {product.material && (
+                  <div className="pb-6 border-b border-slate-100">
+                    <p className="text-sm font-bold text-slate-500 uppercase tracking-wide mb-2">Material</p>
+                    <p className="text-base font-semibold text-slate-900">{product.material}</p>
+                  </div>
+                )}
+                {product.dimensions && (
+                  <div className="pb-6 border-b border-slate-100">
+                    <p className="text-sm font-bold text-slate-500 uppercase tracking-wide mb-2">Dimensions</p>
+                    <p className="text-base font-semibold text-slate-900">{product.dimensions}</p>
+                  </div>
+                )}
+                {product.weight && (
+                  <div className="pb-6 border-b border-slate-100">
+                    <p className="text-sm font-bold text-slate-500 uppercase tracking-wide mb-2">Weight</p>
+                    <p className="text-base font-semibold text-slate-900">{product.weight}</p>
+                  </div>
+                )}
+                {product.warranty && (
+                  <div>
+                    <p className="text-sm font-bold text-slate-500 uppercase tracking-wide mb-2">Warranty</p>
+                    <p className="text-base font-semibold text-slate-900">{product.warranty}</p>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Additional Information */}
+            <div className="space-y-6">
+              {/* Warranty & Certifications Card */}
+              <div className="bg-white rounded-3xl border border-slate-200 p-8 shadow-sm">
+                <h3 className="text-2xl font-black text-slate-900 mb-6">Warranty & Certifications</h3>
+                <div className="space-y-4">
+                  <div className="flex items-start gap-3">
+                    <div className="text-2xl mt-1">🏆</div>
+                    <div>
+                      <p className="font-bold text-slate-900">ISO Certified</p>
+                      <p className="text-sm text-slate-600">International quality standards</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="text-2xl mt-1">🛡️</div>
+                    <div>
+                      <p className="font-bold text-slate-900">{product.warranty || '2-Year Limited Warranty'}</p>
+                      <p className="text-sm text-slate-600">Full coverage and support</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="text-2xl mt-1">♻️</div>
+                    <div>
+                      <p className="font-bold text-slate-900">Eco-Certified</p>
+                      <p className="text-sm text-slate-600">Sustainable production verified</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Care & Maintenance */}
+              <div className="bg-white rounded-3xl border border-slate-200 p-8 shadow-sm">
+                <h3 className="text-2xl font-black text-slate-900 mb-6">Care & Recycling</h3>
+                <ul className="space-y-3 text-slate-700">
+                  <li className="flex gap-3">
+                    <span className="text-emerald-600 font-bold">✓</span>
+                    <span>Clean with mild soap and warm water</span>
+                  </li>
+                  <li className="flex gap-3">
+                    <span className="text-emerald-600 font-bold">✓</span>
+                    <span>Avoid direct sunlight and high heat</span>
+                  </li>
+                  <li className="flex gap-3">
+                    <span className="text-emerald-600 font-bold">✓</span>
+                    <span>Store in dry environment</span>
+                  </li>
+                  <li className="flex gap-3">
+                    <span className="text-emerald-600 font-bold">✓</span>
+                    <span>Fully recyclable when end-of-life reached</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
       </section>

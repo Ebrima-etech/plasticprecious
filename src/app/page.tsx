@@ -475,11 +475,11 @@ export default function Home() {
 
                 {/* CTA Buttons */}
                 <div className="flex flex-col gap-3 w-full animate-fade-in-up animation-delay-300">
-                  <Link href="/services" className="group relative bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold px-6 py-3 rounded-lg transition-all duration-300 text-center text-base shadow-lg hover:shadow-2xl hover:shadow-emerald-500/30 transform hover:scale-105">
+                  <Link href="/services" className="group relative bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold px-4 py-2 rounded-lg transition-all duration-300 text-center text-sm shadow-lg hover:shadow-2xl hover:shadow-emerald-500/30 transform hover:scale-105">
                     Work With Us
                     <span className="block text-xs font-semibold text-emerald-50 mt-0.5">Custom quoting for large businesses</span>
                   </Link>
-                  <a href="/shop" className="group relative bg-white text-emerald-600 hover:bg-emerald-50 font-bold px-6 py-3 rounded-lg transition-all duration-300 text-center text-base shadow-lg hover:shadow-xl">
+                  <a href="/shop" className="group relative bg-white text-emerald-600 hover:bg-emerald-50 font-bold px-4 py-2 rounded-lg transition-all duration-300 text-center text-sm shadow-lg hover:shadow-xl">
                     Shop Now
                     <span className="block text-xs font-semibold text-emerald-600 mt-0.5">Ready-to-buy products</span>
                   </a>

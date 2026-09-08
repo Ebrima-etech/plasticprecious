@@ -326,8 +326,6 @@ export default function Home() {
         }
         .unique-card:hover {
           border-color: rgba(16, 185, 129, 0.5);
-          box-shadow: 0 20px 40px rgba(16, 185, 129, 0.1);
-          transform: translateY(-4px);
         }
         .unique-button {
           position: relative;
@@ -599,7 +597,7 @@ export default function Home() {
                           <h3 className="text-xl lg:text-xl font-black text-slate-900 mb-3 group-hover:text-emerald-600 transition">{product.name}</h3>
                           <p className="text-base lg:text-sm text-slate-600 line-clamp-2 flex-grow mb-4">{product.description || 'Premium recycled plastic product'}</p>
                           <div className="flex items-center justify-between gap-2">
-                            <span className="text-4xl lg:text-2xl font-black text-slate-900">D {parseFloat(product.price).toLocaleString('en-GM')}</span>
+                            <span className="text-4xl lg:text-2xl font-black text-slate-900">D {parseFloat(product.price).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                             <button className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 lg:px-4 py-2 rounded-lg transition text-xs lg:text-sm">
                               QUICK VIEW
                             </button>
@@ -649,13 +647,13 @@ export default function Home() {
 
                   {/* Content Section */}
                   <div className="flex flex-col flex-grow px-6 pb-6">
-                    <h3 className="font-black text-slate-900 text-2xl leading-tight mb-3 group-hover:text-emerald-600 transition">{item.metric}</h3>
+                    <h3 className="font-black text-slate-900 text-2xl leading-tight mb-3">{item.metric}</h3>
                     <p className="text-slate-600 text-sm leading-relaxed flex-grow mb-4">{item.description}</p>
 
                     {/* Minimal CTA */}
                     <div className="inline-flex items-center gap-2 text-emerald-600 font-bold text-sm">
                       <span>Learn more</span>
-                      <span className="inline-block group-hover:translate-x-1 transition-transform duration-300">→</span>
+                      <span className="inline-block">→</span>
                     </div>
                   </div>
                 </div>
@@ -695,13 +693,13 @@ export default function Home() {
 
                     {/* Content Section */}
                     <div className="flex flex-col flex-grow px-6 pb-6">
-                      <h3 className="font-black text-slate-900 text-2xl leading-tight mb-3 group-hover:text-emerald-600 transition">{service.title}</h3>
+                      <h3 className="font-black text-slate-900 text-2xl leading-tight mb-3">{service.title}</h3>
                       <p className="text-slate-600 text-sm leading-relaxed flex-grow mb-4">{service.description}</p>
 
                       {/* Minimal CTA */}
                       <div className="inline-flex items-center gap-2 text-emerald-600 font-bold text-sm">
                         <span>Explore</span>
-                        <span className="inline-block group-hover:translate-x-1 transition-transform duration-300">→</span>
+                        <span className="inline-block">→</span>
                       </div>
                     </div>
                   </div>

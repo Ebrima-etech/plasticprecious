@@ -51,9 +51,9 @@ export default function Home() {
     },
     {
       type: 'description',
-      badge: false,
+      badge: true,
       heading: false,
-      buttons: false,
+      buttons: true,
       description: true,
       image: 'https://images.pexels.com/photos/8723319/pexels-photo-8723319.jpeg?w=800&h=600&fit=crop'
     }
@@ -515,9 +515,34 @@ export default function Home() {
             )}
 
             {heroSlideIndex === 1 && (
-              <p className="unique-subheading text-white animate-fade-in-up drop-shadow-md">
-                Transforming plastic waste into valuable, sustainable products while creating positive change for communities and our environment.
-              </p>
+              <>
+                <div className="mb-6 animate-fade-in-up">
+                  <div className="badge-container-mobile">
+                    <div key={`current-${badgeIndex}`} className="badge-current">
+                      {badgeItems[badgeIndex]}
+                    </div>
+                    <div key={`next-${(badgeIndex + 1) % badgeItems.length}`} className="badge-next">
+                      {badgeItems[(badgeIndex + 1) % badgeItems.length]}
+                    </div>
+                  </div>
+                </div>
+
+                <p className="unique-subheading text-white mb-8 animate-fade-in-up animation-delay-100 drop-shadow-md">
+                  Transforming plastic waste into valuable, sustainable products while creating positive change for communities and our environment.
+                </p>
+
+                {/* CTA Buttons */}
+                <div className="flex flex-col gap-3 w-full max-w-[280px] mx-auto animate-fade-in-up animation-delay-300">
+                  <Link href="/services" className="group relative bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold px-4 py-2 rounded-lg transition-all duration-300 text-center text-sm shadow-lg hover:shadow-2xl hover:shadow-emerald-500/30 transform hover:scale-105">
+                    Work With Us
+                    <span className="block text-xs font-semibold text-emerald-50 mt-0.5">Custom quoting for large businesses</span>
+                  </Link>
+                  <a href="/shop" className="group relative bg-white text-emerald-600 hover:bg-emerald-50 font-bold px-4 py-2 rounded-lg transition-all duration-300 text-center text-sm shadow-lg hover:shadow-xl">
+                    Shop Now
+                    <span className="block text-xs font-semibold text-emerald-600 mt-0.5">Ready-to-buy products</span>
+                  </a>
+                </div>
+              </>
             )}
           </div>
 

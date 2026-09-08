@@ -21,18 +21,11 @@ export default function VRPageLoadAnimation() {
     const stage1Timer = setTimeout(() => setStage(1), 500);
     const stage2Timer = setTimeout(() => setStage(2), 2000);
 
-    const timer = setTimeout(() => {
-      setIsVisible(false);
-    }, 5500);
-
     return () => {
       clearTimeout(stage1Timer);
       clearTimeout(stage2Timer);
-      clearTimeout(timer);
     };
   }, []);
-
-  if (!isVisible) return null;
 
   return (
     <>

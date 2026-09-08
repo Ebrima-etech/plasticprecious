@@ -22,7 +22,7 @@ export default function LayoutClient({
           }
         }
         body {
-          animation: bodyOverflowHide 5.8s ease-in-out forwards;
+          animation: bodyOverflowHide 5.6s ease-in-out forwards;
           overflow: hidden;
         }
         @keyframes contentFadeIn {
@@ -35,13 +35,34 @@ export default function LayoutClient({
             visibility: visible;
           }
         }
+        @keyframes animationFadeOut {
+          0% {
+            opacity: 1;
+            visibility: visible;
+          }
+          100% {
+            opacity: 0;
+            visibility: hidden;
+          }
+        }
         .layout-client-content {
-          animation: contentFadeIn 0.3s ease-in-out 5.5s forwards;
+          animation: contentFadeIn 0.4s ease-in-out 5.2s forwards;
           opacity: 0;
           visibility: hidden;
         }
+        .vr-animation-container {
+          animation: animationFadeOut 0.4s ease-in-out 5.2s forwards;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 99999;
+        }
       `}</style>
-      <VRPageLoadAnimation />
+      <div className="vr-animation-container">
+        <VRPageLoadAnimation />
+      </div>
       <div className="layout-client-content">
         {children}
       </div>

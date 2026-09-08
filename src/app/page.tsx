@@ -822,7 +822,11 @@ export default function Home() {
       </section>
 
       {/* Partners Section */}
-      <section className="py-16 lg:py-20 bg-gradient-to-br from-slate-50 to-emerald-50 relative overflow-hidden grid-pattern">
+      <section className="py-16 lg:py-20 bg-gradient-to-br from-slate-50 to-emerald-50 relative overflow-hidden" style={{
+        backgroundImage: `url('data:image/svg+xml,%3Csvg width="80" height="80" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M0 20 Q 20 0 40 20 T 80 20" stroke="rgba(16, 185, 129, 0.15)" stroke-width="1.5" fill="none"/%3E%3Cpath d="M0 40 Q 20 20 40 40 T 80 40" stroke="rgba(16, 185, 129, 0.15)" stroke-width="1.5" fill="none"/%3E%3Cpath d="M0 60 Q 20 40 40 60 T 80 60" stroke="rgba(16, 185, 129, 0.15)" stroke-width="1.5" fill="none"/%3E%3Cpath d="M0 80 Q 20 60 40 80 T 80 80" stroke="rgba(16, 185, 129, 0.15)" stroke-width="1.5" fill="none"/%3E%3C/svg%3E')`,
+        backgroundSize: '80px 80px',
+        backgroundPosition: '0 0',
+      }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="text-center mb-16 animate-fade-in-up">
             <div className="inline-block bg-emerald-100 text-emerald-700 px-4 py-2 rounded-full text-sm font-bold mb-4">

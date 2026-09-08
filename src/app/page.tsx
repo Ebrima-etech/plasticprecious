@@ -26,6 +26,7 @@ export default function Home() {
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
   const [carouselIndex, setCarouselIndex] = useState(0);
+  const [heroSlideIndex, setHeroSlideIndex] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
   const [productsLoading, setProductsLoading] = useState(true);
@@ -34,6 +35,23 @@ export default function Home() {
 
   const badgeItems = [
     '🌱 RECYCLED & SUSTAINABLE'
+  ];
+
+  const heroSlides = [
+    {
+      type: 'main',
+      badge: true,
+      heading: true,
+      buttons: true,
+      description: false
+    },
+    {
+      type: 'description',
+      badge: false,
+      heading: false,
+      buttons: false,
+      description: true
+    }
   ];
   const [carouselItems, setCarouselItems] = useState([
     { title: 'Plastic Waste Recycling & Processing', image: 'https://images.pexels.com/photos/3962286/pexels-photo-3962286.jpeg?w=800&h=600&fit=crop' },
@@ -429,44 +447,51 @@ export default function Home() {
 
           {/* Carousel Content Centered */}
           <div className="relative z-10 w-full max-w-lg px-6 pt-12 flex flex-col items-center justify-start h-full text-center">
-            <div className="badge-container mb-6 animate-fade-in-up">
-              <div key={`current-${badgeIndex}`} className="badge-current">
-                {badgeItems[badgeIndex]}
-              </div>
-              <div key={`next-${(badgeIndex + 1) % badgeItems.length}`} className="badge-next">
-                {badgeItems[(badgeIndex + 1) % badgeItems.length]}
-              </div>
-            </div>
+            {heroSlideIndex === 0 && (
+              <>
+                <div className="badge-container mb-6 animate-fade-in-up">
+                  <div key={`current-${badgeIndex}`} className="badge-current">
+                    {badgeItems[badgeIndex]}
+                  </div>
+                  <div key={`next-${(badgeIndex + 1) % badgeItems.length}`} className="badge-next">
+                    {badgeItems[(badgeIndex + 1) % badgeItems.length]}
+                  </div>
+                </div>
 
-            <h1 className="unique-heading text-white mb-6 animate-fade-in-up animation-delay-100 drop-shadow-lg">
-              From <span className="accent-line text-emerald-300">Pollution</span> to <span className="gradient-animate-text">Solution</span>
-            </h1>
-            <p className="unique-subheading text-white mb-8 animate-fade-in-up animation-delay-200 drop-shadow-md">
-              Transforming plastic waste into valuable, sustainable products while creating positive change for communities and our environment.
-            </p>
+                <h1 className="unique-heading text-white mb-6 animate-fade-in-up animation-delay-100 drop-shadow-lg">
+                  From <span className="accent-line text-emerald-300">Pollution</span> to <span className="gradient-animate-text">Solution</span>
+                </h1>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-col gap-3 w-full animate-fade-in-up animation-delay-300">
-              <Link href="/services" className="group relative bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold px-6 py-3 rounded-lg transition-all duration-300 text-center text-base shadow-lg hover:shadow-2xl hover:shadow-emerald-500/30 transform hover:scale-105">
-                Work With Us
-                <span className="block text-xs font-semibold text-emerald-50 mt-0.5">Custom quoting for large businesses</span>
-              </Link>
-              <a href="/shop" className="group relative bg-white text-emerald-600 hover:bg-emerald-50 font-bold px-6 py-3 rounded-lg transition-all duration-300 text-center text-base shadow-lg hover:shadow-xl">
-                Shop Now
-                <span className="block text-xs font-semibold text-emerald-600 mt-0.5">Ready-to-buy products</span>
-              </a>
-            </div>
+                {/* CTA Buttons */}
+                <div className="flex flex-col gap-3 w-full animate-fade-in-up animation-delay-300">
+                  <Link href="/services" className="group relative bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold px-6 py-3 rounded-lg transition-all duration-300 text-center text-base shadow-lg hover:shadow-2xl hover:shadow-emerald-500/30 transform hover:scale-105">
+                    Work With Us
+                    <span className="block text-xs font-semibold text-emerald-50 mt-0.5">Custom quoting for large businesses</span>
+                  </Link>
+                  <a href="/shop" className="group relative bg-white text-emerald-600 hover:bg-emerald-50 font-bold px-6 py-3 rounded-lg transition-all duration-300 text-center text-base shadow-lg hover:shadow-xl">
+                    Shop Now
+                    <span className="block text-xs font-semibold text-emerald-600 mt-0.5">Ready-to-buy products</span>
+                  </a>
+                </div>
+              </>
+            )}
+
+            {heroSlideIndex === 1 && (
+              <p className="unique-subheading text-white animate-fade-in-up drop-shadow-md">
+                Transforming plastic waste into valuable, sustainable products while creating positive change for communities and our environment.
+              </p>
+            )}
           </div>
 
           {/* Carousel Navigation Arrows */}
           <div className="absolute inset-0 flex items-center justify-between px-4 z-20 pointer-events-none">
             <button
-              onClick={() => setCarouselIndex((carouselIndex - 1 + carouselItems.length) % carouselItems.length)}
+              onClick={() => setHeroSlideIndex((heroSlideIndex - 1 + heroSlides.length) % heroSlides.length)}
               className="pointer-events-auto w-12 h-12 rounded-full bg-white/80 hover:bg-white text-slate-900 flex items-center justify-center transition-all duration-300 hover:scale-110 font-bold text-2xl shadow-lg hover:shadow-xl backdrop-blur-sm">
               ‹
             </button>
             <button
-              onClick={() => setCarouselIndex((carouselIndex + 1) % carouselItems.length)}
+              onClick={() => setHeroSlideIndex((heroSlideIndex + 1) % heroSlides.length)}
               className="pointer-events-auto w-12 h-12 rounded-full bg-white/80 hover:bg-white text-slate-900 flex items-center justify-center transition-all duration-300 hover:scale-110 font-bold text-2xl shadow-lg hover:shadow-xl backdrop-blur-sm">
               ›
             </button>
@@ -474,12 +499,12 @@ export default function Home() {
 
           {/* Carousel Indicators - Bottom Dots */}
           <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-2">
-            {carouselItems.map((_, index) => (
+            {heroSlides.map((_, index) => (
               <button
                 key={index}
-                onClick={() => setCarouselIndex(index)}
+                onClick={() => setHeroSlideIndex(index)}
                 className={`rounded-full transition-all duration-300 ${
-                  index === carouselIndex ? 'bg-white w-8 h-2' : 'bg-white/50 hover:bg-white/75 w-2 h-2'
+                  index === heroSlideIndex ? 'bg-white w-8 h-2' : 'bg-white/50 hover:bg-white/75 w-2 h-2'
                 }`}
               />
             ))}

@@ -20,6 +20,7 @@ interface Product {
   description?: string;
   image?: string;
   category_name?: string;
+  stock: number;
 }
 
 export default function Home() {
@@ -729,7 +730,7 @@ export default function Home() {
 
       {/* Impact Section - Bento Grid */}
       <section className="py-16 lg:py-24 bg-white relative overflow-hidden" style={{
-        backgroundImage: 'linear-gradient(90deg, rgba(16, 185, 129, 0.35) 1px, transparent 1px), linear-gradient(rgba(16, 185, 129, 0.35) 1px, transparent 1px)',
+        backgroundImage: 'linear-gradient(90deg, rgba(16, 185, 129, 0.55) 1px, transparent 1px), linear-gradient(rgba(16, 185, 129, 0.55) 1px, transparent 1px)',
         backgroundSize: '40px 40px',
       }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
@@ -773,7 +774,7 @@ export default function Home() {
 
       {/* Services Section - Bento Grid */}
       <section id="services" className="py-16 lg:py-24 bg-white relative overflow-hidden" style={{
-        backgroundImage: 'linear-gradient(90deg, rgba(16, 185, 129, 0.35) 1px, transparent 1px), linear-gradient(rgba(16, 185, 129, 0.35) 1px, transparent 1px)',
+        backgroundImage: 'linear-gradient(90deg, rgba(16, 185, 129, 0.55) 1px, transparent 1px), linear-gradient(rgba(16, 185, 129, 0.55) 1px, transparent 1px)',
         backgroundSize: '40px 40px',
       }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">

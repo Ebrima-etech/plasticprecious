@@ -449,12 +449,14 @@ export default function Home() {
           <div className="relative z-10 w-full max-w-lg px-6 pt-12 flex flex-col items-center justify-start h-full text-center">
             {heroSlideIndex === 0 && (
               <>
-                <div className="badge-container mb-6 animate-fade-in-up">
-                  <div key={`current-${badgeIndex}`} className="badge-current">
-                    {badgeItems[badgeIndex]}
-                  </div>
-                  <div key={`next-${(badgeIndex + 1) % badgeItems.length}`} className="badge-next">
-                    {badgeItems[(badgeIndex + 1) % badgeItems.length]}
+                <div className="w-full flex justify-center mb-6 animate-fade-in-up">
+                  <div className="badge-container">
+                    <div key={`current-${badgeIndex}`} className="badge-current">
+                      {badgeItems[badgeIndex]}
+                    </div>
+                    <div key={`next-${(badgeIndex + 1) % badgeItems.length}`} className="badge-next">
+                      {badgeItems[(badgeIndex + 1) % badgeItems.length]}
+                    </div>
                   </div>
                 </div>
 

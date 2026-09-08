@@ -46,14 +46,16 @@ export default function Home() {
       badge: true,
       heading: true,
       buttons: true,
-      description: false
+      description: false,
+      image: 'https://images.pexels.com/photos/3962286/pexels-photo-3962286.jpeg?w=800&h=600&fit=crop'
     },
     {
       type: 'description',
       badge: false,
       heading: false,
       buttons: false,
-      description: true
+      description: true,
+      image: 'https://images.pexels.com/photos/8723319/pexels-photo-8723319.jpeg?w=800&h=600&fit=crop'
     }
   ];
   const [carouselItems, setCarouselItems] = useState([
@@ -442,10 +444,10 @@ export default function Home() {
         <div className="relative w-full h-[70vh] flex items-center justify-center">
           {/* Carousel Background Image */}
           <div className="absolute inset-0 overflow-hidden">
-            {carouselItems[carouselIndex].image && (
+            {heroSlides[heroSlideIndex].image && (
               <img
-                src={carouselItems[carouselIndex].image}
-                alt={carouselItems[carouselIndex].title}
+                src={heroSlides[heroSlideIndex].image}
+                alt="Hero slide background"
                 className="absolute inset-0 w-full h-full object-cover"
               />
             )}

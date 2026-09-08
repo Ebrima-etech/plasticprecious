@@ -89,14 +89,15 @@ export default function ProductsPage() {
             </div>
           ) : (
             <div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4 lg:gap-6 px-3 lg:px-0">
                 {products.map((product) => {
                   const stockBadge = getStockBadge(product.stock);
                   return (
-                    <Link key={product.id} href={`/shop/${product.id}`}>
-                      <div className="group cursor-pointer relative overflow-hidden border border-slate-200 hover:border-emerald-400 flex flex-col h-full hover:-translate-y-1 bg-gradient-to-br from-white to-slate-50 backdrop-blur-sm group-hover:from-emerald-50 group-hover:to-white transition-all duration-300">
-                        {/* Product Image */}
-                        <div className="w-full aspect-square bg-gradient-to-br from-emerald-100 to-emerald-50 overflow-hidden flex items-center justify-center relative">
+                    <Link key={product.id} href={`/shop/${product.id}`} className="no-underline hover:no-underline">
+                      <div className="w-full">
+                        <div className="cursor-pointer h-full bg-white flex flex-col transition-all duration-300 overflow-hidden group">
+                          {/* Product Image */}
+                          <div className="relative h-56 md:h-[24rem] lg:h-72 overflow-hidden bg-slate-200 rounded-none flex items-center justify-center relative">
                           {product.image ? (
                             <img
                               src={product.image}
@@ -108,45 +109,54 @@ export default function ProductsPage() {
                           )}
                         </div>
 
+                          {product.image ? (
+                            <img
+                              src={product.image}
+                              alt={product.name}
+                              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                            />
+                          ) : (
+                            <FiPackage className="w-16 h-16 text-emerald-400" />
+                          )}
+                        </div>
+
                         {/* Product Info */}
-                        <div className="px-6 pt-6 pb-6 flex flex-col flex-grow">
-                          <div className="flex items-start justify-between gap-2 mb-3">
-                            <h3 className="text-lg font-bold text-slate-900 group-hover:text-emerald-600 transition line-clamp-2">
+                        <div className="flex flex-col flex-grow p-0.5">
+                          <div className="flex items-baseline gap-1 mb-1.5">
+                            <h3 className="text-sm md:text-base lg:text-lg font-semibold text-slate-900 group-hover:text-emerald-600 transition line-clamp-2">
                               {product.name}
                             </h3>
-                            <Badge variant={stockBadge.variant} size="sm">
-                              {stockBadge.text}
-                            </Badge>
                           </div>
+                          <p className="text-xs text-slate-500 mb-2 font-medium">Only {product.stock} left!</p>
 
                           {/* Locally Made Badge */}
-                          <div className="mb-3 inline-flex items-center gap-1 bg-emerald-600 text-white px-2 py-0.5 text-xs font-bold w-fit">
+                          <div className="mb-2 inline-flex items-center gap-1 bg-emerald-600 text-white px-2 py-0.5 text-xs font-bold w-fit">
                             🌍 Locally Made
                           </div>
 
                           {/* Sustainability Badge */}
-                          <div className="mb-3 inline-flex items-center gap-1 bg-emerald-50 text-emerald-700 px-2 py-1 text-xs font-semibold w-fit">
+                          <div className="mb-2 inline-flex items-center gap-1 bg-emerald-50 text-emerald-700 px-2 py-0.5 text-xs font-semibold w-fit">
                             ♻️ Recycled Plastic
                           </div>
 
-                          <div className="flex items-center justify-between gap-3">
-                            <p className="text-2xl font-bold text-emerald-600">
+                          <div className="flex items-center justify-between gap-2 mt-auto">
+                            <span className="text-base md:text-lg lg:text-xl font-bold text-emerald-600">
                               D {parseFloat(product.price).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                            </p>
+                            </span>
                             <button
                               onClick={(e) => handleAddToCart(product.id, e)}
                               disabled={addingToCart === product.id}
-                              className="text-emerald-600 hover:text-emerald-700 disabled:text-emerald-400 flex items-center justify-center transition-all duration-300 hover:scale-110 disabled:hover:scale-100">
-                              <FiShoppingCart size={24} />
+                              className="w-10 h-10 rounded-full bg-emerald-600 hover:bg-emerald-700 disabled:bg-emerald-400 text-white flex items-center justify-center transition-all duration-300 hover:scale-110 disabled:hover:scale-100">
+                              <FiShoppingCart size={20} />
                             </button>
                           </div>
                         </div>
                       </div>
+                    </div>
                     </Link>
                   );
                 })}
               </div>
-            </div>
           )}
         </div>
       </section>

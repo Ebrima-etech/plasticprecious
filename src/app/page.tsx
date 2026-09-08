@@ -654,7 +654,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-0 md:px-6 lg:px-8 relative z-10">
           <div className="pt-4 mb-4 animate-fade-in-up px-6 md:px-0 flex items-center justify-between">
             <h2 className="bestseller-heading mb-2">Best sellers</h2>
-            <Link href="/shop" className="text-slate-900 hover:text-slate-700 text-sm font-semibold transition">
+            <Link href="/shop" className="text-slate-900 hover:text-slate-700 text-sm font-semibold tracking-wide transition">
               View all
             </Link>
           </div>
@@ -678,8 +678,8 @@ export default function Home() {
                 return (
                   <Link key={product.id} href={`/shop/${product.id}`} className="no-underline hover:no-underline">
                     <div className="w-full">
-                      <div className={`cursor-pointer h-full bg-white flex flex-col md:rounded-xl transition-all duration-300 overflow-hidden group border-2 card-animated-border`}>
-                        <div className="relative h-56 md:h-[24rem] lg:h-72 overflow-hidden bg-slate-200">
+                      <div className={`cursor-pointer h-full bg-white flex flex-col transition-all duration-300 overflow-hidden group`}>
+                        <div className="relative h-56 md:h-[24rem] lg:h-72 overflow-hidden bg-slate-200 rounded-none">
                           {product.image ? (
                             <img
                               src={product.image}
@@ -697,15 +697,16 @@ export default function Home() {
                               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                             />
                           )}
-                          {/* NEW Badge */}
-                          <div className="absolute top-3 left-3 bg-red-500 text-white px-2 py-1 text-xs font-bold rounded">NEW</div>
                         </div>
-                        <div className="flex flex-col flex-grow p-3 md:p-4 lg:p-6">
-                          <h3 className="text-sm md:text-base lg:text-lg font-bold text-slate-900 mb-2 group-hover:text-emerald-600 transition line-clamp-2">{product.name}</h3>
-                          <p className="text-xs md:text-sm text-slate-500 mb-3">Only {product.stock} left!</p>
+                        <div className="flex flex-col flex-grow p-0.5">
+                          <div className="flex items-baseline gap-1 mb-1.5">
+                            <div className="bg-red-500 text-white px-1 py-0.5 text-[9px] font-bold whitespace-nowrap leading-none flex-shrink-0">NEW</div>
+                            <h3 className="text-sm md:text-base lg:text-lg font-semibold text-slate-900 group-hover:text-emerald-600 transition line-clamp-2">{product.name}</h3>
+                          </div>
+                          <p className="text-xs text-slate-500 mb-2 font-medium">Only {product.stock} left!</p>
                           <div className="flex items-center justify-between gap-2 mt-auto">
-                            <span className="text-lg md:text-xl lg:text-2xl font-black text-slate-900">D {parseFloat(product.price).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
-                            <button className="text-emerald-600 hover:text-emerald-700 transition">
+                            <span className="text-base md:text-lg lg:text-xl font-bold text-slate-900 tracking-tight">D {parseFloat(product.price).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                            <button className="text-slate-900 hover:text-slate-700 transition">
                               <FiShoppingCart size={24} />
                             </button>
                           </div>
@@ -728,7 +729,7 @@ export default function Home() {
 
       {/* Impact Section - Bento Grid */}
       <section className="py-16 lg:py-24 bg-white relative overflow-hidden" style={{
-        backgroundImage: 'linear-gradient(90deg, rgba(16, 185, 129, 0.2) 1px, transparent 1px), linear-gradient(rgba(16, 185, 129, 0.2) 1px, transparent 1px)',
+        backgroundImage: 'linear-gradient(90deg, rgba(16, 185, 129, 0.35) 1px, transparent 1px), linear-gradient(rgba(16, 185, 129, 0.35) 1px, transparent 1px)',
         backgroundSize: '40px 40px',
       }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
@@ -772,7 +773,7 @@ export default function Home() {
 
       {/* Services Section - Bento Grid */}
       <section id="services" className="py-16 lg:py-24 bg-white relative overflow-hidden" style={{
-        backgroundImage: 'linear-gradient(90deg, rgba(16, 185, 129, 0.2) 1px, transparent 1px), linear-gradient(rgba(16, 185, 129, 0.2) 1px, transparent 1px)',
+        backgroundImage: 'linear-gradient(90deg, rgba(16, 185, 129, 0.35) 1px, transparent 1px), linear-gradient(rgba(16, 185, 129, 0.35) 1px, transparent 1px)',
         backgroundSize: '40px 40px',
       }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">

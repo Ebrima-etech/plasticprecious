@@ -134,7 +134,7 @@ export default function ProductDetailPage() {
       </div>
 
       {/* Product Detail */}
-      <section className="py-8 lg:py-10 bg-white">
+      <section className="py-4 lg:py-6 bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 lg:gap-6">
             {/* Images Section */}

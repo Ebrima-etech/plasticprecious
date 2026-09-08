@@ -775,8 +775,9 @@ export default function Home() {
 
       {/* Services Section - Bento Grid */}
       <section id="services" className="py-16 lg:py-24 bg-white relative overflow-hidden" style={{
-        backgroundImage: 'linear-gradient(90deg, rgba(16, 185, 129, 0.55) 1px, transparent 1px), linear-gradient(rgba(16, 185, 129, 0.55) 1px, transparent 1px)',
-        backgroundSize: '40px 40px',
+        backgroundImage: `url('data:image/svg+xml,%3Csvg width="60" height="60" xmlns="http://www.w3.org/2000/svg"%3E%3Ccircle cx="10" cy="10" r="2" fill="rgba(16, 185, 129, 0.2)"/%3E%3Ccircle cx="30" cy="30" r="2" fill="rgba(16, 185, 129, 0.2)"/%3E%3Ccircle cx="50" cy="50" r="2" fill="rgba(16, 185, 129, 0.2)"/%3E%3Ccircle cx="50" cy="10" r="2" fill="rgba(16, 185, 129, 0.2)"/%3E%3Ccircle cx="10" cy="50" r="2" fill="rgba(16, 185, 129, 0.2)"/%3E%3C/svg%3E')`,
+        backgroundSize: '60px 60px',
+        backgroundPosition: '0 0',
       }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="mb-16 animate-fade-in-up">

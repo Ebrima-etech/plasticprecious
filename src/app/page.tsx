@@ -669,7 +669,7 @@ export default function Home() {
                 return (
                   <Link key={product.id} href={`/shop/${product.id}`} className="no-underline hover:no-underline">
                     <div className="w-full">
-                      <div className={`cursor-pointer h-full bg-white flex flex-col md:rounded-xl transition-all duration-300 overflow-hidden group border card-animated-border`}>
+                      <div className={`cursor-pointer h-full bg-white flex flex-col md:rounded-xl transition-all duration-300 overflow-hidden group border-2 card-animated-border`}>
                         <div className="relative h-56 md:h-[24rem] lg:h-72 overflow-hidden bg-slate-200">
                           {product.image ? (
                             <img
@@ -696,10 +696,8 @@ export default function Home() {
                           <p className="text-xs md:text-sm text-slate-500 mb-3">Only {product.stock} left!</p>
                           <div className="flex items-center justify-between gap-2 mt-auto">
                             <span className="text-lg md:text-xl lg:text-2xl font-black text-slate-900">D {parseFloat(product.price).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
-                            <button className="text-emerald-600 hover:text-emerald-700 transition text-lg md:text-xl">
-                              <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2 8m10 0l2-8m0 0h2" />
-                              </svg>
+                            <button className="text-emerald-600 hover:text-emerald-700 transition">
+                              <FiShoppingCart size={24} />
                             </button>
                           </div>
                         </div>

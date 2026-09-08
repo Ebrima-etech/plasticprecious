@@ -243,15 +243,15 @@ export default function Home() {
           background-position: 0 0, 0 0;
         }
         @keyframes badgeDisappear {
-          0% { opacity: 1; }
-          1% { opacity: 0; }
-          100% { opacity: 0; }
+          0% { opacity: 1; transform: translate(-50%, -50%); }
+          1% { opacity: 0; transform: translate(-50%, -50%); }
+          100% { opacity: 0; transform: translate(-50%, -50%); }
         }
         @keyframes badgeSlideUp {
-          0% { transform: translateY(20px); }
-          15% { transform: translateY(0); }
-          85% { transform: translateY(0); }
-          100% { transform: translateY(0); }
+          0% { transform: translate(-50%, -50%) translateY(20px); }
+          15% { transform: translate(-50%, -50%) translateY(0); }
+          85% { transform: translate(-50%, -50%) translateY(0); }
+          100% { transform: translate(-50%, -50%) translateY(0); }
         }
         .badge-current {
           animation: badgeDisappear 6s ease-in-out;

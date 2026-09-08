@@ -34,7 +34,10 @@ export default function Home() {
   const [badgeIndex, setBadgeIndex] = useState(0);
 
   const badgeItems = [
-    '🌱 RECYCLED & SUSTAINABLE'
+    '🌱 RECYCLED & SUSTAINABLE',
+    '♻️ TRASH TO TREASURE',
+    '🌍 LOCALLY MADE',
+    '💚 ECO-FRIENDLY'
   ];
 
   const heroSlides = [

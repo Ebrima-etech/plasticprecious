@@ -136,9 +136,9 @@ export default function ProductDetailPage() {
       {/* Product Detail */}
       <section className="py-4 lg:py-6 bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 lg:gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 lg:gap-12">
             {/* Images Section */}
-            <div className="lg:col-span-3 flex gap-2">
+            <div className="lg:col-span-2 w-full lg:w-[110%] flex gap-2">
               {/* Thumbnail Images - Left Side */}
               <div className="flex flex-col gap-1">
                 {productImages.map((img, idx) => (

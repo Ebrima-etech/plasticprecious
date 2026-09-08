@@ -287,6 +287,12 @@ export default function Home() {
         }
         .badge-container {
           position: relative;
+          display: inline-block;
+          height: 2.4em;
+          overflow: visible;
+        }
+        .badge-container-mobile {
+          position: relative;
           height: 2.4em;
           width: 100%;
           max-width: 400px;
@@ -458,8 +464,8 @@ export default function Home() {
           <div className="relative z-10 w-full max-w-lg px-6 pt-12 flex flex-col items-center justify-start h-full text-center">
             {heroSlideIndex === 0 && (
               <>
-                <div className="w-full flex justify-center mb-6 animate-fade-in-up">
-                  <div className="badge-container">
+                <div className="mb-6 animate-fade-in-up">
+                  <div className="badge-container-mobile">
                     <div key={`current-${badgeIndex}`} className="badge-current">
                       {badgeItems[badgeIndex]}
                     </div>

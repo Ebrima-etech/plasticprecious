@@ -830,7 +830,7 @@ export default function Home() {
             <p className="text-slate-600 text-lg max-w-2xl mx-auto">Join hundreds of companies making a difference with sustainable plastic solutions</p>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-12 md:gap-16">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 md:gap-12 lg:gap-16 place-items-center">
             {[
               'https://images.pexels.com/photos/3962286/pexels-photo-3962286.jpeg?w=150&h=80&fit=crop',
               'https://images.pexels.com/photos/5830900/pexels-photo-5830900.jpeg?w=150&h=80&fit=crop',

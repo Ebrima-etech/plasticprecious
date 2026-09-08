@@ -632,7 +632,7 @@ export default function Home() {
       {/* Best Selling Products */}
       <section className="py-4 lg:py-8 bg-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-0 md:px-6 lg:px-8 relative z-10">
-          <div className="mb-4 animate-fade-in-up px-6 md:px-0">
+          <div className="pt-8 mb-4 animate-fade-in-up px-6 md:px-0">
             <h2 className="bestseller-heading mb-2">Best sellers</h2>
           </div>
 

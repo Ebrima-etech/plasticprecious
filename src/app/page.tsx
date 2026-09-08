@@ -428,7 +428,7 @@ export default function Home() {
           </div>
 
           {/* Carousel Content Centered */}
-          <div className="relative z-10 w-full max-w-lg px-6 flex flex-col items-center justify-center h-full text-center">
+          <div className="relative z-10 w-full max-w-lg px-6 pt-12 flex flex-col items-center justify-start h-full text-center">
             <div className="badge-container mb-6 animate-fade-in-up">
               <div key={`current-${badgeIndex}`} className="badge-current">
                 {badgeItems[badgeIndex]}

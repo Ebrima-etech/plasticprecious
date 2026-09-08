@@ -259,7 +259,7 @@ export default function Home() {
           position: absolute;
           left: 50%;
           top: 50%;
-          transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%) !important;
           background-color: rgb(209, 250, 229);
           color: rgb(5, 122, 85);
           padding: 0.5rem 1rem;
@@ -274,7 +274,7 @@ export default function Home() {
           position: absolute;
           left: 50%;
           top: 50%;
-          transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%) !important;
           background-color: rgb(209, 250, 229);
           color: rgb(5, 122, 85);
           padding: 0.5rem 1rem;
@@ -285,11 +285,10 @@ export default function Home() {
         }
         .badge-container {
           position: relative;
-          display: flex;
-          justify-content: center;
-          align-items: center;
           height: 2.4em;
           width: 100%;
+          max-width: 400px;
+          margin: 0 auto;
           overflow: visible;
         }
         @keyframes gradientShift {

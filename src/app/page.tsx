@@ -196,8 +196,14 @@ export default function Home() {
           0% {
             border-color: rgb(16, 185, 129);
           }
+          25% {
+            border-color: rgb(20, 184, 166);
+          }
           50% {
             border-color: rgb(34, 197, 94);
+          }
+          75% {
+            border-color: rgb(20, 184, 166);
           }
           100% {
             border-color: rgb(16, 185, 129);

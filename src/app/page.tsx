@@ -468,7 +468,7 @@ export default function Home() {
 
       {/* Hero Section - Mobile Slider */}
       <section className="lg:hidden bg-white relative overflow-hidden grid-pattern">
-        <div className="relative w-full h-[70vh] flex items-center justify-center">
+        <div className="relative w-full h-[55vh] flex items-center justify-center">
           {/* Carousel Background Image */}
           <div className="absolute inset-0 overflow-hidden">
             {heroSlides[heroSlideIndex].image && (

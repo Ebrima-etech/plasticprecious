@@ -136,20 +136,11 @@ export default function ProductDetailPage() {
       {/* Product Detail */}
       <section className="py-12 lg:py-16 bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 lg:gap-8">
             {/* Images Section */}
-            <div className="lg:col-span-2">
-              {/* Main Image */}
-              <div className="bg-slate-100 rounded-lg overflow-hidden mb-6 aspect-square flex items-center justify-center">
-                <img
-                  src={productImages[imageIndex]}
-                  alt={product.name}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-
-              {/* Thumbnail Images */}
-              <div className="flex gap-3 overflow-x-auto">
+            <div className="lg:col-span-2 flex gap-4">
+              {/* Thumbnail Images - Left Side */}
+              <div className="flex flex-col gap-3">
                 {productImages.map((img, idx) => (
                   <button
                     key={idx}
@@ -163,6 +154,15 @@ export default function ProductDetailPage() {
                     <img src={img} alt={`View ${idx + 1}`} className="w-full h-full object-cover" />
                   </button>
                 ))}
+              </div>
+
+              {/* Main Image */}
+              <div className="flex-1 bg-slate-100 rounded-lg overflow-hidden aspect-square flex items-center justify-center">
+                <img
+                  src={productImages[imageIndex]}
+                  alt={product.name}
+                  className="w-full h-full object-cover"
+                />
               </div>
             </div>
 

@@ -560,18 +560,6 @@ export default function Home() {
             </button>
           </div>
 
-          {/* Carousel Indicators - Bottom Dots */}
-          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-2">
-            {heroSlides.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setHeroSlideIndex(index)}
-                className={`rounded-full transition-all duration-300 ${
-                  index === heroSlideIndex ? 'bg-white w-8 h-2' : 'bg-white/50 hover:bg-white/75 w-2 h-2'
-                }`}
-              />
-            ))}
-          </div>
         </div>
       </section>
 

@@ -138,7 +138,7 @@ export default function ProductDetailPage() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 lg:gap-12">
             {/* Images Section */}
-            <div className="lg:col-span-2 flex gap-3">
+            <div className="lg:col-span-2 flex gap-2">
               {/* Thumbnail Images - Left Side */}
               <div className="flex flex-col gap-2">
                 {productImages.map((img, idx) => (

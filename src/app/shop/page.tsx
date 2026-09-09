@@ -85,43 +85,44 @@ export default function ProductsPage() {
           background-size: 40px 40px;
           background-position: 0 0, 0 0;
         }
-        @keyframes slideBadgeUp {
-          0% {
+        @keyframes slideUpIn {
+          from {
+            transform: translateY(20px);
             opacity: 0;
-            top: 20px;
           }
           5% {
             opacity: 1;
-            top: 0;
+            transform: translateY(0);
           }
           95% {
             opacity: 1;
-            top: 0;
+            transform: translateY(0);
           }
-          100% {
+          to {
             opacity: 1;
-            top: 0;
+            transform: translateY(0);
           }
         }
-        @keyframes badgeFadeOut {
-          0% {
+        @keyframes fadeOut {
+          from {
             opacity: 1;
           }
           1% {
             opacity: 0;
           }
-          100% {
+          to {
             opacity: 0;
           }
         }
         .badge-rotating {
           position: relative;
           display: inline-block;
-          height: 20px;
+          height: 24px;
           overflow: hidden;
+          min-width: max-content;
         }
         .badge-current {
-          animation: badgeFadeOut 4s ease-in-out;
+          animation: fadeOut 4s linear forwards;
           position: absolute;
           display: inline-flex;
           align-items: center;
@@ -129,18 +130,17 @@ export default function ProductsPage() {
           white-space: nowrap;
           left: 0;
           top: 0;
-          will-change: opacity;
+          pointer-events: none;
         }
         .badge-next {
-          animation: slideBadgeUp 4s ease-in-out;
+          animation: slideUpIn 4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
           position: absolute;
           display: inline-flex;
           align-items: center;
           gap: 0.25rem;
           white-space: nowrap;
           left: 0;
-          top: 20px;
-          will-change: transform, opacity;
+          top: 0;
         }
       `}</style>
       <Navbar showNavLinks={true} />

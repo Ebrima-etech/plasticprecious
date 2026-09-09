@@ -28,6 +28,7 @@ export default function ProductDetailPage() {
   const productId = params.id as string;
 
   const [product, setProduct] = useState<Product | null>(null);
+  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
   const [addedToCart, setAddedToCart] = useState(false);
@@ -41,6 +42,11 @@ export default function ProductDetailPage() {
       try {
         const response = await axios.get(`${API_BASE_URL}/products/${productId}/`);
         setProduct(response.data);
+
+        // Fetch related products
+        const allProductsResponse = await axios.get(`${API_BASE_URL}/products/`);
+        const allProducts = (allProductsResponse.data.results || allProductsResponse.data).filter((p: Product) => p.is_active && p.id !== Number(productId));
+        setRelatedProducts(allProducts.slice(0, 4));
       } catch (err) {
         console.error('Failed to fetch product:', err);
       } finally {
@@ -374,9 +380,59 @@ export default function ProductDetailPage() {
       <section className="py-16 lg:py-24 bg-white border-t border-slate-200 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <h2 className="text-4xl font-black text-slate-900 mb-12">You Might Also Like</h2>
-          <div className="text-center py-12 text-slate-600">
-            <p className="text-lg">More products coming soon</p>
-          </div>
+          {relatedProducts.length === 0 ? (
+            <div className="text-center py-12 text-slate-600">
+              <p className="text-lg">More products coming soon</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4 lg:gap-6 px-3 lg:px-0">
+              {relatedProducts.map((relProduct) => (
+                <Link key={relProduct.id} href={`/shop/${relProduct.id}`} className="no-underline hover:no-underline">
+                  <div className="w-full">
+                    <div className="cursor-pointer h-full bg-white flex flex-col transition-all duration-300 overflow-hidden group">
+                      {/* Product Image */}
+                      <div className="relative h-56 md:h-[24rem] lg:h-72 overflow-hidden bg-slate-200 rounded-none flex items-center justify-center">
+                        {relProduct.image ? (
+                          <img
+                            src={relProduct.image}
+                            alt={relProduct.name}
+                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                          />
+                        ) : (
+                          <div className="w-16 h-16 text-emerald-400 text-4xl">📦</div>
+                        )}
+                      </div>
+
+                      {/* Product Info */}
+                      <div className="flex flex-col flex-grow p-0.5">
+                        <div className="flex items-baseline gap-1 mb-1.5">
+                          <h3 className="text-sm md:text-base lg:text-lg font-semibold text-slate-900 group-hover:text-emerald-600 transition line-clamp-2">
+                            {relProduct.name}
+                          </h3>
+                        </div>
+
+                        {/* Locally Made Badge */}
+                        <div className="mb-2 inline-flex items-center gap-1 bg-emerald-600 text-white px-2 py-0.5 text-xs font-bold w-fit">
+                          🌍 Locally Made
+                        </div>
+
+                        {/* Sustainability Badge */}
+                        <div className="mb-2 inline-flex items-center gap-1 bg-emerald-50 text-emerald-700 px-2 py-0.5 text-xs font-semibold w-fit">
+                          ♻️ Recycled Plastic
+                        </div>
+
+                        <div className="flex items-center justify-between gap-2 mt-auto">
+                          <span className="text-base md:text-lg lg:text-xl font-bold text-emerald-600">
+                            D {parseFloat(relProduct.price).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

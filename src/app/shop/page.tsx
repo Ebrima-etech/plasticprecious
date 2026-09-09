@@ -122,7 +122,7 @@ export default function ProductsPage() {
           min-width: max-content;
         }
         .badge-current {
-          animation: fadeOut 4s linear forwards;
+          animation: fadeOut 1s linear forwards;
           position: absolute;
           display: inline-flex;
           align-items: center;
@@ -133,7 +133,7 @@ export default function ProductsPage() {
           pointer-events: none;
         }
         .badge-next {
-          animation: slideUpIn 4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+          animation: slideUpIn 3s cubic-bezier(0.4, 0, 0.2, 1) forwards 1s;
           position: absolute;
           display: inline-flex;
           align-items: center;

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import axios from 'axios';
 import { API_BASE_URL } from '@/config/api';
 import { getToken } from '@/lib/auth';
+import { AdminDashboardSkeleton } from '@/components/ShimmerSkeleton';
 import { HiOutlineSparkles, HiOutlineCurrencyDollar, HiOutlineShoppingCart, HiOutlineShoppingBag, HiOutlineUsers } from 'react-icons/hi2';
 import { HiOutlineUser } from 'react-icons/hi2';
 
@@ -84,14 +85,7 @@ export default function AdminDashboard() {
   }, []);
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center py-20">
-        <div className="text-center">
-          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
-          <p className="mt-4 text-gray-600 font-medium">Loading dashboard...</p>
-        </div>
-      </div>
-    );
+    return <AdminDashboardSkeleton />;
   }
 
   return (

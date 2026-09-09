@@ -73,7 +73,7 @@ export default function CheckoutPage() {
       );
 
       // In a real app, integrate with Stripe here
-      router.push(`/order-confirmation/${orderId}`);
+      router.push(`/order-confirmation?order_id=${orderId}`);
     } catch (err: any) {
       setError(err.response?.data?.detail || 'Order placement failed');
     } finally {

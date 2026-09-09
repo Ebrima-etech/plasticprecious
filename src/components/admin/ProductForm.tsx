@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Card, CardBody, CardHeader, CardFooter } from '@/components/ui/Card';
 import { Spinner } from '@/components/ui/Spinner';
+import { AdminFormSkeleton } from '@/components/ShimmerSkeleton';
 
 interface ProductFormProps {
   productId?: number;
@@ -30,8 +31,8 @@ export default function ProductForm({ productId }: ProductFormProps) {
     category: '',
     is_active: true,
   });
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string>('');
+  const [imageFiles, setImageFiles] = useState<File[]>([]);
+  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [isLoadingForm, setIsLoadingForm] = useState(!!productId);
@@ -69,7 +70,7 @@ export default function ProductForm({ productId }: ProductFormProps) {
             is_active: prodRes.data.is_active,
           });
           if (prodRes.data.image) {
-            setImagePreview(prodRes.data.image);
+            setImagePreviews([prodRes.data.image]);
           }
         }
       } catch (err) {
@@ -86,14 +87,25 @@ export default function ProductForm({ productId }: ProductFormProps) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target as any;
     if (name === 'image' && type === 'file') {
-      const file = (e.target as HTMLInputElement).files?.[0];
-      if (file) {
-        setImageFile(file);
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setImagePreview(reader.result as string);
-        };
-        reader.readAsDataURL(file);
+      const files = (e.target as HTMLInputElement).files;
+      if (files && files.length > 0) {
+        const newFiles = Array.from(files);
+        setImageFiles(newFiles);
+
+        const previews: string[] = [];
+        let loadedCount = 0;
+
+        newFiles.forEach((file) => {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            previews.push(reader.result as string);
+            loadedCount++;
+            if (loadedCount === newFiles.length) {
+              setImagePreviews(previews);
+            }
+          };
+          reader.readAsDataURL(file);
+        });
       }
     } else {
       setFormData({
@@ -120,8 +132,10 @@ export default function ProductForm({ productId }: ProductFormProps) {
       submitFormData.append('category', formData.category);
       submitFormData.append('is_active', String(formData.is_active));
 
-      if (imageFile) {
-        submitFormData.append('image', imageFile);
+      if (imageFiles.length > 0) {
+        imageFiles.forEach((file) => {
+          submitFormData.append('images', file);
+        });
       }
 
       if (productId) {
@@ -151,11 +165,7 @@ export default function ProductForm({ productId }: ProductFormProps) {
   };
 
   if (isLoadingForm) {
-    return (
-      <div className="flex items-center justify-center py-20">
-        <Spinner size="lg" />
-      </div>
-    );
+    return <AdminFormSkeleton />;
   }
 
   return (
@@ -243,23 +253,33 @@ export default function ProductForm({ productId }: ProductFormProps) {
 
           <div>
             <label className="block text-sm font-medium text-neutral-700 mb-2">
-              Product Image
+              Product Images
             </label>
             <input
               type="file"
               name="image"
               accept="image/*"
+              multiple
               onChange={handleChange}
               className="w-full px-4 py-2.5 border border-neutral-200 rounded-md font-normal text-neutral-900 transition-all duration-normal focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             />
-            {imagePreview && (
+            {imagePreviews.length > 0 && (
               <div className="mt-4">
-                <p className="text-sm font-medium text-neutral-700 mb-2">Preview:</p>
-                <img
-                  src={imagePreview}
-                  alt="Preview"
-                  className="max-w-xs h-auto rounded-lg border border-neutral-200"
-                />
+                <p className="text-sm font-medium text-neutral-700 mb-2">Previews ({imagePreviews.length}):</p>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  {imagePreviews.map((preview, idx) => (
+                    <div key={idx} className="relative">
+                      <img
+                        src={preview}
+                        alt={`Preview ${idx + 1}`}
+                        className="w-full h-32 object-cover rounded-lg border border-neutral-200"
+                      />
+                      <span className="absolute top-1 right-1 bg-neutral-900 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center">
+                        {idx + 1}
+                      </span>
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
           </div>

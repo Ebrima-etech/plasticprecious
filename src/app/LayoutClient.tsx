@@ -21,37 +21,31 @@ export default function LayoutClient({
             overflow: auto;
           }
         }
+        html {
+          background: transparent;
+        }
         body {
           animation: bodyOverflowHide 5.6s ease-in-out forwards;
           overflow: hidden;
+          background: transparent;
         }
-        @keyframes contentFadeIn {
-          0% {
-            opacity: 0;
-            visibility: hidden;
-          }
-          100% {
-            opacity: 1;
-            visibility: visible;
-          }
-        }
-        @keyframes animationFadeOut {
-          0% {
+        @keyframes hideAnimation {
+          0%, 99% {
             opacity: 1;
             visibility: visible;
           }
           100% {
-            opacity: 0;
+            opacity: 1;
             visibility: hidden;
+            pointer-events: none;
           }
         }
         .layout-client-content {
-          animation: contentFadeIn 0.4s ease-in-out 5.2s forwards;
-          opacity: 0;
-          visibility: hidden;
+          opacity: 1;
+          visibility: visible;
         }
         .vr-animation-container {
-          animation: animationFadeOut 0.4s ease-in-out 5.2s forwards;
+          animation: hideAnimation 0.1s ease-out 5.2s forwards;
           position: fixed;
           top: 0;
           left: 0;

@@ -5,6 +5,7 @@ import axios from 'axios';
 import Link from 'next/link';
 import { API_BASE_URL } from '@/config/api';
 import { getToken } from '@/lib/auth';
+import { ShimmerSkeleton } from '@/components/ShimmerSkeleton';
 
 interface Category {
   id: number;
@@ -54,10 +55,28 @@ export default function AdminCategoriesPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-20">
-        <div className="text-center">
-          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
-          <p className="mt-4 text-gray-600 font-medium">Loading categories...</p>
+      <div className="space-y-6">
+        <div className="flex justify-between items-start">
+          <div>
+            <div className="w-40 h-8 bg-gray-200 rounded shimmer-loading mb-2"></div>
+            <div className="w-60 h-4 bg-gray-200 rounded shimmer-loading"></div>
+          </div>
+          <div className="w-40 h-10 bg-gray-200 rounded shimmer-loading"></div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div key={i} className="bg-white rounded-lg border border-gray-200 p-6 space-y-4">
+              <div>
+                <ShimmerSkeleton className="w-32 h-6 mb-2" />
+                <ShimmerSkeleton className="w-40 h-3" />
+              </div>
+              <ShimmerSkeleton className="w-full h-12" />
+              <div className="flex gap-3 pt-4 border-t border-gray-200">
+                <ShimmerSkeleton className="flex-1 h-8" />
+                <ShimmerSkeleton className="flex-1 h-8" />
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     );

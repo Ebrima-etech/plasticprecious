@@ -5,6 +5,7 @@ import Link from 'next/link';
 import axios from 'axios';
 import { API_BASE_URL } from '@/config/api';
 import { getToken } from '@/lib/auth';
+import { AdminTableSkeleton } from '@/components/ShimmerSkeleton';
 import { HiOutlineClock, HiOutlineArrowPath, HiOutlineCheckCircle, HiOutlineXCircle } from 'react-icons/hi2';
 
 interface Order {
@@ -49,11 +50,12 @@ export default function AdminOrdersPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-20">
-        <div className="text-center">
-          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
-          <p className="mt-4 text-gray-600 font-medium">Loading orders...</p>
+      <div className="space-y-6">
+        <div>
+          <div className="w-32 h-8 bg-gray-200 rounded shimmer-loading mb-2"></div>
+          <div className="w-60 h-4 bg-gray-200 rounded shimmer-loading"></div>
         </div>
+        <AdminTableSkeleton rows={8} />
       </div>
     );
   }

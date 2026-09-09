@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import axios from 'axios';
 import { FiShoppingCart, FiTruck, FiLock, FiRotateCcw, FiHeart } from 'react-icons/fi';
@@ -25,6 +25,7 @@ interface Product {
 
 export default function ProductDetailPage() {
   const params = useParams();
+  const router = useRouter();
   const productId = params.id as string;
 
   const [product, setProduct] = useState<Product | null>(null);
@@ -76,6 +77,20 @@ export default function ProductDetailPage() {
       await cartService.addToCart(Number(productId), quantity);
       setAddedToCart(true);
       setTimeout(() => setAddedToCart(false), 2000);
+    } catch (err: any) {
+      setError(err.message || err.response?.data?.detail || 'Failed to add to cart');
+      setTimeout(() => setError(null), 3000);
+    } finally {
+      setAddingToCart(false);
+    }
+  };
+
+  const handleBuyNow = async () => {
+    setAddingToCart(true);
+    setError(null);
+    try {
+      await cartService.addToCart(Number(productId), quantity);
+      router.push('/checkout');
     } catch (err: any) {
       setError(err.message || err.response?.data?.detail || 'Failed to add to cart');
       setTimeout(() => setError(null), 3000);
@@ -224,11 +239,21 @@ export default function ProductDetailPage() {
               )}
 
               {/* CTA Buttons */}
-              <div className="space-y-2 pt-2">
+              <div className="space-y-3 pt-4 border-t border-slate-200">
+                <Button
+                  onClick={handleBuyNow}
+                  size="lg"
+                  disabled={product.stock === 0 || addingToCart}
+                  className="w-full text-sm font-bold py-3 bg-emerald-600 hover:bg-emerald-700 text-white"
+                >
+                  {addingToCart ? 'Processing...' : '🛒 BUY NOW'}
+                </Button>
+
                 <Button
                   onClick={handleAddToCart}
                   size="lg"
                   disabled={product.stock === 0 || addingToCart}
+                  variant="secondary"
                   className="w-full text-sm font-bold py-2"
                 >
                   <FiShoppingCart className="w-4 h-4 mr-2" />

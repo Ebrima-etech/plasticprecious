@@ -17,24 +17,8 @@ export default function OrderConfirmationPage() {
     <div className="min-h-screen bg-white">
       <Navbar showNavLinks={true} />
 
-      <section className="py-16 lg:py-24 bg-gradient-to-br from-emerald-50 to-white">
+      <section className="py-16 lg:py-24 bg-white">
         <div className="max-w-2xl mx-auto px-6 lg:px-8">
-          {/* Success Icon */}
-          <div className="flex justify-center mb-8">
-            <div className="relative">
-              <div className="absolute inset-0 bg-emerald-200 rounded-full blur-lg animate-pulse"></div>
-              <div className="relative bg-white rounded-full p-4 shadow-lg">
-                <FiCheckCircle className="w-20 h-20 text-emerald-600" />
-              </div>
-            </div>
-          </div>
-
-          {/* Success Message */}
-          <div className="text-center mb-12">
-            <h1 className="text-4xl font-black text-slate-900 mb-4">Order Confirmed!</h1>
-            <p className="text-xl text-slate-600">Thank you for your purchase. Your order has been successfully placed.</p>
-          </div>
-
           {/* Order Details Card */}
           <div className="bg-white border-2 border-emerald-200 rounded-3xl p-8 shadow-sm mb-8">
             <div className="grid grid-cols-2 gap-6 mb-6 pb-6 border-b border-slate-200">

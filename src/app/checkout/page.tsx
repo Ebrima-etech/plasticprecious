@@ -94,20 +94,6 @@ export default function CheckoutPage() {
       `}</style>
       <Navbar showNavLinks={true} />
 
-      {/* Header */}
-      <section className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-16 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
-        </div>
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-          <div className="inline-block bg-white/20 text-white px-4 py-2 rounded-full text-sm font-bold mb-6">
-            💳 CHECKOUT
-          </div>
-          <h1 className="text-5xl lg:text-6xl font-black mb-6 leading-tight">Complete Your Order</h1>
-          <p className="text-xl max-w-2xl text-emerald-50">Provide your shipping details to proceed</p>
-        </div>
-      </section>
-
       {/* Content */}
       <section className="py-16 lg:py-24 bg-white relative overflow-hidden grid-pattern">
         <div className="max-w-4xl mx-auto px-6 lg:px-8 relative z-10">

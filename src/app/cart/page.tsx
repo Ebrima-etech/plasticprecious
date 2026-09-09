@@ -10,6 +10,7 @@ import { Cart, CartItem } from '@/types';
 import { API_BASE_URL, getApiUrl } from '@/config/api';
 import { getAccessToken } from '@/lib/auth';
 import { cartService } from '@/lib/cartService';
+import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 export default function CartPage() {
@@ -73,6 +74,7 @@ export default function CartPage() {
           background-position: 0 0, 0 0;
         }
       `}</style>
+      <Navbar showNavLinks={true} />
 
       {/* Header */}
       <section className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-16 relative overflow-hidden">

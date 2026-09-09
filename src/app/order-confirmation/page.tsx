@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { FiCheckCircle, FiPackage, FiTruck, FiMail } from 'react-icons/fi';
 import { Button } from '@/components/ui/Button';
+import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 export default function OrderConfirmationPage() {
@@ -14,6 +15,8 @@ export default function OrderConfirmationPage() {
 
   return (
     <div className="min-h-screen bg-white">
+      <Navbar showNavLinks={true} />
+
       <section className="py-16 lg:py-24 bg-gradient-to-br from-emerald-50 to-white">
         <div className="max-w-2xl mx-auto px-6 lg:px-8">
           {/* Success Icon */}

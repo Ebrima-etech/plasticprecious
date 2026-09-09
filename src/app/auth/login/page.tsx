@@ -114,12 +114,6 @@ export default function LoginPage() {
               </p>
             </div>
 
-            {/* Info Box */}
-            <div className="mt-8 p-4 bg-emerald-50 border border-emerald-200 rounded-lg">
-              <p className="text-xs text-slate-600">
-                <strong>Demo Mode:</strong> Use any email and password to test the platform. Your account will be automatically created.
-              </p>
-            </div>
           </div>
 
           {/* Footer */}

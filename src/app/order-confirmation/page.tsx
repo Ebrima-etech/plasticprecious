@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { FiCheckCircle, FiPackage, FiTruck, FiMail } from 'react-icons/fi';
@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/Button';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
-export default function OrderConfirmationPage() {
+function OrderConfirmationContent() {
   const searchParams = useSearchParams();
   const orderId = searchParams.get('order_id') || 'ORD-' + Math.random().toString(36).substr(2, 9).toUpperCase();
   const [orderDate] = useState(new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }));
@@ -105,5 +105,13 @@ export default function OrderConfirmationPage() {
 
       <Footer />
     </div>
+  );
+}
+
+export default function OrderConfirmationPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+      <OrderConfirmationContent />
+    </Suspense>
   );
 }

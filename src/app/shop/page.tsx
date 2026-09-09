@@ -88,26 +88,57 @@ export default function ProductsPage() {
         @keyframes slideBadgeUp {
           0% {
             opacity: 0;
-            transform: translateY(15px);
+            transform: translateY(20px);
           }
-          10% {
+          5% {
             opacity: 1;
             transform: translateY(0);
           }
-          90% {
+          95% {
             opacity: 1;
             transform: translateY(0);
           }
           100% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        @keyframes badgeFadeOut {
+          0% {
+            opacity: 1;
+          }
+          1% {
             opacity: 0;
-            transform: translateY(-15px);
+          }
+          100% {
+            opacity: 0;
           }
         }
         .badge-rotating {
-          animation: slideBadgeUp 4s ease-in-out infinite;
+          position: relative;
+          display: inline-block;
+          height: 20px;
+          overflow: hidden;
+        }
+        .badge-current {
+          animation: badgeFadeOut 4s ease-in-out;
+          position: absolute;
           display: inline-flex;
           align-items: center;
           gap: 0.25rem;
+          white-space: nowrap;
+          left: 0;
+          top: 0;
+        }
+        .badge-next {
+          animation: slideBadgeUp 4s ease-in-out;
+          position: absolute;
+          display: inline-flex;
+          align-items: center;
+          gap: 0.25rem;
+          white-space: nowrap;
+          left: 0;
+          top: 0;
         }
       `}</style>
       <Navbar showNavLinks={true} />
@@ -157,8 +188,13 @@ export default function ProductsPage() {
                             <p className="text-xs text-slate-500 mb-2 font-medium">Only {product.stock} left!</p>
 
                             {/* Rotating Badges */}
-                            <div className={`mb-2 inline-flex items-center gap-1 ${badges[badgeIndex].bg} ${badges[badgeIndex].text} px-2 py-0.5 text-xs font-bold badge-rotating`}>
-                              {badges[badgeIndex].icon} {badges[badgeIndex].label}
+                            <div className={`mb-2 ${badges[badgeIndex].bg} ${badges[badgeIndex].text} px-2 py-0.5 text-xs font-bold badge-rotating`}>
+                              <span className={`badge-current ${badges[(badgeIndex - 1 + badges.length) % badges.length].bg} ${badges[(badgeIndex - 1 + badges.length) % badges.length].text}`}>
+                                {badges[(badgeIndex - 1 + badges.length) % badges.length].icon} {badges[(badgeIndex - 1 + badges.length) % badges.length].label}
+                              </span>
+                              <span className={`badge-next ${badges[badgeIndex].bg} ${badges[badgeIndex].text}`}>
+                                {badges[badgeIndex].icon} {badges[badgeIndex].label}
+                              </span>
                             </div>
 
                             <div className="flex items-center justify-between gap-2 mt-auto">

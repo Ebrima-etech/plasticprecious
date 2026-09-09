@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { FiTruck, FiRotateCcw, FiLock, FiMapPin } from 'react-icons/fi';
 import { API_BASE_URL, getApiUrl } from '@/config/api';
 import { getAccessToken } from '@/lib/auth';
 import { cartService } from '@/lib/cartService';
@@ -90,30 +89,6 @@ export default function CheckoutPage() {
   return (
     <div className="min-h-screen bg-white">
       <Navbar showNavLinks={true} />
-
-      {/* Trust Badges */}
-      <div className="bg-slate-100 border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-3">
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-center text-sm">
-            <div className="flex items-center justify-center gap-2">
-              <FiTruck className="w-5 h-5 text-emerald-600" />
-              <span className="hidden sm:inline">Free Shipping Over D5,000</span>
-            </div>
-            <div className="flex items-center justify-center gap-2">
-              <FiRotateCcw className="w-5 h-5 text-emerald-600" />
-              <span className="hidden sm:inline">Easy Returns</span>
-            </div>
-            <div className="flex items-center justify-center gap-2">
-              <FiLock className="w-5 h-5 text-emerald-600" />
-              <span className="hidden sm:inline">Secure Payment</span>
-            </div>
-            <div className="flex items-center justify-center gap-2">
-              <FiMapPin className="w-5 h-5 text-emerald-600" />
-              <span className="hidden sm:inline">Gambia-wide</span>
-            </div>
-          </div>
-        </div>
-      </div>
 
       {/* Checkout */}
       <section className="py-12 lg:py-16 bg-white">

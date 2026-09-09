@@ -73,7 +73,7 @@ export default function CheckoutPage() {
 
       // Create payment intent
       const response = await axios.post(
-        getApiUrl('/orders/create-payment/'),
+        getApiUrl('/orders/create_payment/'),
         {
           total_amount: total,
           deliver_to: formData.full_name,

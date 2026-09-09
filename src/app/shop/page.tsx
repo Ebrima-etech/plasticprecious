@@ -88,19 +88,19 @@ export default function ProductsPage() {
         @keyframes slideBadgeUp {
           0% {
             opacity: 0;
-            transform: translateY(20px);
+            top: 20px;
           }
           5% {
             opacity: 1;
-            transform: translateY(0);
+            top: 0;
           }
           95% {
             opacity: 1;
-            transform: translateY(0);
+            top: 0;
           }
           100% {
             opacity: 1;
-            transform: translateY(0);
+            top: 0;
           }
         }
         @keyframes badgeFadeOut {
@@ -129,6 +129,7 @@ export default function ProductsPage() {
           white-space: nowrap;
           left: 0;
           top: 0;
+          will-change: opacity;
         }
         .badge-next {
           animation: slideBadgeUp 4s ease-in-out;
@@ -138,7 +139,8 @@ export default function ProductsPage() {
           gap: 0.25rem;
           white-space: nowrap;
           left: 0;
-          top: 0;
+          top: 20px;
+          will-change: transform, opacity;
         }
       `}</style>
       <Navbar showNavLinks={true} />
@@ -188,11 +190,11 @@ export default function ProductsPage() {
                             <p className="text-xs text-slate-500 mb-2 font-medium">Only {product.stock} left!</p>
 
                             {/* Rotating Badges */}
-                            <div className={`mb-2 ${badges[badgeIndex].bg} ${badges[badgeIndex].text} px-2 py-0.5 text-xs font-bold badge-rotating`}>
-                              <span className={`badge-current ${badges[(badgeIndex - 1 + badges.length) % badges.length].bg} ${badges[(badgeIndex - 1 + badges.length) % badges.length].text}`}>
+                            <div className="mb-2 text-xs font-bold badge-rotating">
+                              <span className={`badge-current ${badges[(badgeIndex - 1 + badges.length) % badges.length].bg} ${badges[(badgeIndex - 1 + badges.length) % badges.length].text} px-2 py-0.5`}>
                                 {badges[(badgeIndex - 1 + badges.length) % badges.length].icon} {badges[(badgeIndex - 1 + badges.length) % badges.length].label}
                               </span>
-                              <span className={`badge-next ${badges[badgeIndex].bg} ${badges[badgeIndex].text}`}>
+                              <span className={`badge-next ${badges[badgeIndex].bg} ${badges[badgeIndex].text} px-2 py-0.5`}>
                                 {badges[badgeIndex].icon} {badges[badgeIndex].label}
                               </span>
                             </div>

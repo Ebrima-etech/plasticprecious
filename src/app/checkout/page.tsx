@@ -180,36 +180,6 @@ export default function CheckoutPage() {
                     <option value="Other">Other</option>
                   </select>
                 </div>
-
-                {/* Street Address */}
-                <div>
-                  <label className="block text-sm font-bold text-slate-700 uppercase tracking-wide mb-2">
-                    Street Address
-                  </label>
-                  <input
-                    type="text"
-                    name="street"
-                    value={formData.street}
-                    onChange={handleChange}
-                    placeholder="Street address (optional)"
-                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-900 placeholder-slate-500"
-                  />
-                </div>
-
-                {/* Postal Code */}
-                <div>
-                  <label className="block text-sm font-bold text-slate-700 uppercase tracking-wide mb-2">
-                    Postal Code
-                  </label>
-                  <input
-                    type="text"
-                    name="postal_code"
-                    value={formData.postal_code}
-                    onChange={handleChange}
-                    placeholder="Postal code (optional)"
-                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-900 placeholder-slate-500"
-                  />
-                </div>
               </div>
             </div>
 

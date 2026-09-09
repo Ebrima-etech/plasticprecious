@@ -22,10 +22,16 @@ interface Product {
   is_active: boolean;
 }
 
+const badges = [
+  { icon: '🌍', label: 'Locally Made', bg: 'bg-emerald-600', text: 'text-white' },
+  { icon: '♻️', label: 'Recycled Plastic', bg: 'bg-emerald-50', text: 'text-emerald-700' },
+];
+
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [addingToCart, setAddingToCart] = useState<number | null>(null);
+  const [badgeIndex, setBadgeIndex] = useState(0);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -41,6 +47,13 @@ export default function ProductsPage() {
     };
 
     fetchProducts();
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setBadgeIndex((prev) => (prev + 1) % badges.length);
+    }, 4000);
+    return () => clearInterval(interval);
   }, []);
 
   const getStockBadge = (stock: number) => {
@@ -71,6 +84,30 @@ export default function ProductsPage() {
             linear-gradient(rgba(16, 185, 129, 0.03) 1px, transparent 1px);
           background-size: 40px 40px;
           background-position: 0 0, 0 0;
+        }
+        @keyframes slideBadgeUp {
+          0% {
+            opacity: 0;
+            transform: translateY(15px);
+          }
+          10% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+          90% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+          100% {
+            opacity: 0;
+            transform: translateY(-15px);
+          }
+        }
+        .badge-rotating {
+          animation: slideBadgeUp 4s ease-in-out infinite;
+          display: inline-flex;
+          align-items: center;
+          gap: 0.25rem;
         }
       `}</style>
       <Navbar showNavLinks={true} />
@@ -119,14 +156,9 @@ export default function ProductsPage() {
                             </div>
                             <p className="text-xs text-slate-500 mb-2 font-medium">Only {product.stock} left!</p>
 
-                            {/* Locally Made Badge */}
-                            <div className="mb-2 inline-flex items-center gap-1 bg-emerald-600 text-white px-2 py-0.5 text-xs font-bold w-fit">
-                              🌍 Locally Made
-                            </div>
-
-                            {/* Sustainability Badge */}
-                            <div className="mb-2 inline-flex items-center gap-1 bg-emerald-50 text-emerald-700 px-2 py-0.5 text-xs font-semibold w-fit">
-                              ♻️ Recycled Plastic
+                            {/* Rotating Badges */}
+                            <div className={`mb-2 inline-flex items-center gap-1 ${badges[badgeIndex].bg} ${badges[badgeIndex].text} px-2 py-0.5 text-xs font-bold badge-rotating`}>
+                              {badges[badgeIndex].icon} {badges[badgeIndex].label}
                             </div>
 
                             <div className="flex items-center justify-between gap-2 mt-auto">

@@ -87,21 +87,30 @@ export default function ProductsPage() {
         }
         @keyframes slideUpIn {
           from {
-            transform: translateY(25px);
+            transform: translateY(20px);
+            opacity: 0;
+          }
+          5% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+          95% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        @keyframes fadeOut {
+          from {
+            opacity: 1;
+          }
+          1% {
             opacity: 0;
           }
           to {
-            transform: translateY(0);
-            opacity: 1;
-          }
-        }
-        @keyframes fadeOutUp {
-          from {
-            transform: translateY(0);
-            opacity: 1;
-          }
-          to {
-            transform: translateY(-25px);
             opacity: 0;
           }
         }
@@ -113,7 +122,7 @@ export default function ProductsPage() {
           min-width: max-content;
         }
         .badge-current {
-          animation: fadeOutUp 1s cubic-bezier(0.4, 0, 0.2, 1) infinite 3s;
+          animation: fadeOut 4s linear infinite;
           position: absolute;
           display: inline-flex;
           align-items: center;
@@ -124,7 +133,7 @@ export default function ProductsPage() {
           pointer-events: none;
         }
         .badge-next {
-          animation: slideUpIn 1s cubic-bezier(0.4, 0, 0.2, 1) infinite 3s;
+          animation: slideUpIn 4s cubic-bezier(0.4, 0, 0.2, 1) infinite 1s;
           position: absolute;
           display: inline-flex;
           align-items: center;

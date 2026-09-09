@@ -6,6 +6,8 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { API_BASE_URL } from '@/config/api';
 import { setTokens } from '@/lib/auth';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -50,6 +52,7 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen bg-white">
+      <Navbar showNavLinks={true} />
       <style>{`
         .grid-pattern {
           background-image:
@@ -201,6 +204,7 @@ export default function RegisterPage() {
           </p>
         </div>
       </section>
+      <Footer />
     </div>
   );
 }

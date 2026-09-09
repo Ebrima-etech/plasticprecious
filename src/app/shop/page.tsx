@@ -109,38 +109,39 @@ export default function ProductsPage() {
                             )}
                           </div>
 
-                        {/* Product Info */}
-                        <div className="flex flex-col flex-grow p-0.5">
-                          <div className="flex items-baseline gap-1 mb-1.5">
-                            <h3 className="text-sm md:text-base lg:text-lg font-semibold text-slate-900 group-hover:text-emerald-600 transition line-clamp-2">
-                              {product.name}
-                            </h3>
-                          </div>
-                          <p className="text-xs text-slate-500 mb-2 font-medium">Only {product.stock} left!</p>
+                          {/* Product Info */}
+                          <div className="flex flex-col flex-grow p-0.5">
+                            <div className="flex items-baseline gap-1 mb-1.5">
+                              <div className="bg-red-500 text-white px-1 py-0.5 text-[9px] font-bold whitespace-nowrap leading-none flex-shrink-0">NEW</div>
+                              <h3 className="text-sm md:text-base lg:text-lg font-semibold text-slate-900 group-hover:text-emerald-600 transition line-clamp-2">
+                                {product.name}
+                              </h3>
+                            </div>
+                            <p className="text-xs text-slate-500 mb-2 font-medium">Only {product.stock} left!</p>
 
-                          {/* Locally Made Badge */}
-                          <div className="mb-2 inline-flex items-center gap-1 bg-emerald-600 text-white px-2 py-0.5 text-xs font-bold w-fit">
-                            🌍 Locally Made
-                          </div>
+                            {/* Locally Made Badge */}
+                            <div className="mb-2 inline-flex items-center gap-1 bg-emerald-600 text-white px-2 py-0.5 text-xs font-bold w-fit">
+                              🌍 Locally Made
+                            </div>
 
-                          {/* Sustainability Badge */}
-                          <div className="mb-2 inline-flex items-center gap-1 bg-emerald-50 text-emerald-700 px-2 py-0.5 text-xs font-semibold w-fit">
-                            ♻️ Recycled Plastic
-                          </div>
+                            {/* Sustainability Badge */}
+                            <div className="mb-2 inline-flex items-center gap-1 bg-emerald-50 text-emerald-700 px-2 py-0.5 text-xs font-semibold w-fit">
+                              ♻️ Recycled Plastic
+                            </div>
 
-                          <div className="flex items-center justify-between gap-2 mt-auto">
-                            <span className="text-base md:text-lg lg:text-xl font-bold text-emerald-600">
-                              D {parseFloat(product.price).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                            </span>
-                            <button
-                              onClick={(e) => handleAddToCart(product.id, e)}
-                              disabled={addingToCart === product.id}
-                              className="w-10 h-10 rounded-full bg-emerald-600 hover:bg-emerald-700 disabled:bg-emerald-400 text-white flex items-center justify-center transition-all duration-300 hover:scale-110 disabled:hover:scale-100">
-                              <FiShoppingCart size={20} />
-                            </button>
+                            <div className="flex items-center justify-between gap-2 mt-auto">
+                              <span className="text-base md:text-lg lg:text-xl font-bold text-slate-900 tracking-tight">
+                                D {parseFloat(product.price).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                              </span>
+                              <button
+                                onClick={(e) => handleAddToCart(product.id, e)}
+                                disabled={addingToCart === product.id}
+                                className="text-slate-900 hover:text-slate-700 transition">
+                                <FiShoppingCart size={24} />
+                              </button>
+                            </div>
                           </div>
                         </div>
-                      </div>
                       </div>
                     </Link>
                   );

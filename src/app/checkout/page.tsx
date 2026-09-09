@@ -56,27 +56,55 @@ export default function CheckoutPage() {
     setError('');
 
     try {
+      // Validate required fields
+      if (!formData.full_name || !formData.phone_number || !formData.city) {
+        setError('Please fill in all required fields');
+        setLoading(false);
+        return;
+      }
+
+      if (!cart || cart.items.length === 0) {
+        setError('Your cart is empty');
+        setLoading(false);
+        return;
+      }
+
       const token = getAccessToken();
 
+      // Create payment intent
       const response = await axios.post(
-        getApiUrl('/orders/'),
+        getApiUrl('/orders/create-payment/'),
         {
-          shipping_address: {
-            street: formData.street,
-            city: formData.city,
-            state: formData.state,
-            postal_code: formData.postal_code,
-            country: 'Gambia',
-          },
+          total_amount: total,
+          deliver_to: formData.full_name,
+          contact_number: formData.phone_number,
+          delivery_location: formData.city,
+          items: cart.items.map((item: CartItem) => ({
+            product_id: item.product.id,
+            quantity: item.quantity,
+            price: parseFloat(item.product.price),
+          })),
+          return_url: `${window.location.origin}/order-confirmation?status=success`,
+          cancel_url: `${window.location.origin}/checkout?status=cancelled`,
         },
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      const orderId = response.data.id;
+      // Store order info in session storage
+      sessionStorage.setItem(
+        'pendingOrder',
+        JSON.stringify({
+          orderId: response.data.order_id,
+          items: cart.items,
+          total,
+        })
+      );
 
-      router.push(`/order-confirmation?order_id=${orderId}`);
+      // Redirect to Wave checkout
+      window.location.href = response.data.checkout_url;
     } catch (err: any) {
-      setError(err.response?.data?.detail || 'Order placement failed');
+      console.error('Checkout error:', err);
+      setError(err.response?.data?.error || 'Checkout failed. Please try again.');
     } finally {
       setLoading(false);
     }

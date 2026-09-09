@@ -5,7 +5,6 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { API_BASE_URL, getApiUrl } from '@/config/api';
 import { getAccessToken } from '@/lib/auth';
-import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 export default function CheckoutPage() {
@@ -92,7 +91,6 @@ export default function CheckoutPage() {
           background-position: 0 0, 0 0;
         }
       `}</style>
-      <Navbar showNavLinks={true} />
 
       {/* Header */}
       <section className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-16 relative overflow-hidden">

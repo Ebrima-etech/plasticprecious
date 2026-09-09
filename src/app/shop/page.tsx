@@ -9,7 +9,6 @@ import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { ProductGridSkeleton } from '@/components/ShimmerSkeleton';
 import { API_BASE_URL } from '@/config/api';
-import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 interface Product {
@@ -143,7 +142,6 @@ export default function ProductsPage() {
           top: 0;
         }
       `}</style>
-      <Navbar showNavLinks={true} />
 
       {/* Content */}
       <section className="py-6 lg:py-8 bg-white relative overflow-hidden grid-pattern">

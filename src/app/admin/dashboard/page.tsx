@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import axios from 'axios';
 import { API_BASE_URL } from '@/config/api';
@@ -20,6 +21,8 @@ interface DashboardStats {
 }
 
 export default function AdminDashboard() {
+  const router = useRouter();
+  const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
   const [stats, setStats] = useState<DashboardStats>({
     total_products: 0,
     total_orders: 0,
@@ -32,6 +35,35 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const checkAdminAccess = async () => {
+      try {
+        const token = getToken();
+        if (!token) {
+          router.push('/auth/login');
+          return;
+        }
+
+        const userResponse = await axios.get(`${API_BASE_URL}/auth/user/`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+
+        if (!userResponse.data.is_staff && !userResponse.data.is_admin) {
+          router.push('/');
+          return;
+        }
+
+        setIsAdmin(true);
+      } catch (err) {
+        router.push('/auth/login');
+      }
+    };
+
+    checkAdminAccess();
+  }, [router]);
+
+  useEffect(() => {
+    if (isAdmin !== true) return;
+
     const fetchStats = async () => {
       try {
         const token = getToken();
@@ -82,10 +114,14 @@ export default function AdminDashboard() {
     };
 
     fetchStats();
-  }, []);
+  }, [isAdmin]);
 
-  if (loading) {
+  if (isAdmin === null || loading) {
     return <AdminDashboardSkeleton />;
+  }
+
+  if (!isAdmin) {
+    return null;
   }
 
   return (

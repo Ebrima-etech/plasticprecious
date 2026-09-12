@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/Button';
 import { ShimmerSkeleton } from '@/components/ShimmerSkeleton';
 import { API_BASE_URL } from '@/config/api';
 import { cartService } from '@/lib/cartService';
+import { getAccessToken } from '@/lib/auth';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
@@ -86,12 +87,26 @@ export default function ProductDetailPage() {
   };
 
   const handleBuyNow = async () => {
+    const token = getAccessToken();
+
+    // Check if user is logged in
+    if (!token) {
+      router.push('/auth/login');
+      return;
+    }
+
     setAddingToCart(true);
     setError(null);
     try {
       await cartService.addToCart(Number(productId), quantity);
       router.push('/checkout');
     } catch (err: any) {
+      // Check if it's a 401 (unauthorized) error
+      if (err.response?.status === 401) {
+        router.push('/auth/login');
+        setAddingToCart(false);
+        return;
+      }
       setError(err.message || err.response?.data?.detail || 'Failed to add to cart');
       setTimeout(() => setError(null), 3000);
     } finally {

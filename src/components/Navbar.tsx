@@ -1,9 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { FiShoppingCart, FiSearch, FiUser, FiChevronDown, FiTruck, FiCheck, FiHeart, FiHeadphones, FiPhone, FiMail, FiMenu, FiX } from 'react-icons/fi';
+import { useRouter } from 'next/navigation';
+import { FiShoppingCart, FiSearch, FiUser, FiChevronDown, FiTruck, FiCheck, FiHeart, FiHeadphones, FiPhone, FiMail, FiMenu, FiX, FiLogOut } from 'react-icons/fi';
 import { GiRecycle } from 'react-icons/gi';
+import { getAccessToken, clearTokens } from '@/lib/auth';
 
 interface NavbarProps {
   showNavLinks?: boolean;
@@ -12,9 +14,13 @@ interface NavbarProps {
 }
 
 export default function Navbar({ showNavLinks = false, sticky = true, showCategories = false }: NavbarProps) {
+  const router = useRouter();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [rotatingIndex, setRotatingIndex] = useState(0);
+  const [accountDropdownOpen, setAccountDropdownOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const accountDropdownRef = useRef<HTMLDivElement>(null);
 
   const rotatingItems = [
     { label: 'ECO-FRIENDLY', value: 'Premium Products' },
@@ -40,6 +46,28 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
     }, 6000);
     return () => clearInterval(interval);
   }, [rotatingItems.length]);
+
+  useEffect(() => {
+    const token = getAccessToken();
+    setIsLoggedIn(!!token);
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (accountDropdownRef.current && !accountDropdownRef.current.contains(event.target as Node)) {
+        setAccountDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleLogout = () => {
+    clearTokens();
+    setAccountDropdownOpen(false);
+    router.push('/');
+  };
 
   return (
     <>
@@ -213,13 +241,77 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
                 <FiChevronDown size={16} />
               </button>
 
-              {/* Account - Show on all screens now */}
-              <Link href="/auth/login">
-                <div className="flex items-center gap-1 md:gap-2 text-white hover:text-slate-200 transition cursor-pointer hover:scale-110">
+              {/* Account Dropdown */}
+              <div ref={accountDropdownRef} className="relative">
+                <button
+                  onClick={() => setAccountDropdownOpen(!accountDropdownOpen)}
+                  className="flex items-center gap-1 md:gap-2 text-white hover:text-slate-200 transition cursor-pointer hover:scale-110"
+                >
                   <FiUser size={20} />
                   <span className="text-xs font-bold hidden md:inline">My Account</span>
-                </div>
-              </Link>
+                </button>
+
+                {/* Dropdown Menu */}
+                {accountDropdownOpen && (
+                  <div className="absolute right-0 mt-4 w-56 bg-white rounded-2xl shadow-xl border border-slate-100 z-50 overflow-hidden">
+                    {isLoggedIn ? (
+                      <>
+                        {/* Header with User Info */}
+                        <div className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-6 py-4">
+                          <p className="text-xs font-semibold text-emerald-100 mb-1">Welcome</p>
+                          <p className="text-sm font-black">Account User</p>
+                        </div>
+
+                        {/* Menu Items */}
+                        <div className="py-2">
+                          <Link
+                            href="/account"
+                            onClick={() => setAccountDropdownOpen(false)}
+                            className="flex items-center gap-3 px-6 py-3 text-slate-700 hover:text-emerald-600 hover:bg-emerald-50 transition font-semibold text-sm"
+                          >
+                            <FiUser size={18} className="text-emerald-600" />
+                            My Account
+                          </Link>
+                          <Link
+                            href="/orders"
+                            onClick={() => setAccountDropdownOpen(false)}
+                            className="flex items-center gap-3 px-6 py-3 text-slate-700 hover:text-emerald-600 hover:bg-emerald-50 transition font-semibold text-sm"
+                          >
+                            <span className="text-lg">📦</span>
+                            My Orders
+                          </Link>
+                          <Link
+                            href="/cart"
+                            onClick={() => setAccountDropdownOpen(false)}
+                            className="flex items-center gap-3 px-6 py-3 text-slate-700 hover:text-emerald-600 hover:bg-emerald-50 transition font-semibold text-sm"
+                          >
+                            <FiShoppingCart size={18} className="text-emerald-600" />
+                            Shopping Cart
+                          </Link>
+                        </div>
+
+                        {/* Divider */}
+                        <div className="border-t border-slate-100"></div>
+
+                        {/* Logout */}
+                        <div className="py-2">
+                          <button
+                            onClick={handleLogout}
+                            className="w-full flex items-center gap-3 px-6 py-3 text-red-600 hover:bg-red-50 transition font-semibold text-sm"
+                          >
+                            <FiLogOut size={18} />
+                            Sign Out
+                          </button>
+                        </div>
+                      </>
+                    ) : (
+                      <Link href="/auth/login" onClick={() => setAccountDropdownOpen(false)} className="block px-6 py-3 text-center text-white bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 font-bold transition">
+                        Sign In
+                      </Link>
+                    )}
+                  </div>
+                )}
+              </div>
 
               {/* Cart */}
               <Link href="/cart">
@@ -253,9 +345,26 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
               <Link href="#" className="block text-white hover:text-emerald-100 transition text-sm font-medium py-2">
                 Impact
               </Link>
-              <Link href="/auth/login" className="block text-white hover:text-emerald-100 transition text-sm font-medium py-2">
-                My Account
-              </Link>
+              {isLoggedIn ? (
+                <>
+                  <Link href="/account" className="block text-white hover:text-emerald-100 transition text-sm font-medium py-2 border-t border-emerald-500 pt-2 mt-2">
+                    My Account
+                  </Link>
+                  <Link href="/orders" className="block text-white hover:text-emerald-100 transition text-sm font-medium py-2">
+                    My Orders
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="block w-full text-left text-white hover:text-emerald-100 transition text-sm font-medium py-2"
+                  >
+                    Sign Out
+                  </button>
+                </>
+              ) : (
+                <Link href="/auth/login" className="block text-white hover:text-emerald-100 transition text-sm font-medium py-2 border-t border-emerald-500 pt-2 mt-2">
+                  Sign In
+                </Link>
+              )}
             </div>
           )}
         </div>

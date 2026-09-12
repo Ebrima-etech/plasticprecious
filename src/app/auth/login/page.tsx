@@ -28,7 +28,18 @@ export default function LoginPage() {
       });
 
       setTokens(response.data.access, response.data.refresh);
-      router.push('/');
+
+      // Check if user is admin by fetching user details
+      const userResponse = await axios.get(`${API_BASE_URL}/auth/user/`, {
+        headers: { Authorization: `Bearer ${response.data.access}` }
+      });
+
+      // Redirect based on user role
+      if (userResponse.data.is_staff || userResponse.data.is_admin) {
+        router.push('/admin');
+      } else {
+        router.push('/');
+      }
     } catch (err: any) {
       setError(err.response?.data?.error || 'Login failed');
     } finally {

@@ -43,7 +43,7 @@ export default function AdminDashboard() {
           return;
         }
 
-        const userResponse = await axios.get(`${API_BASE_URL}/auth/user/`, {
+        const userResponse = await axios.get(`${API_BASE_URL}/auth/profile/`, {
           headers: { Authorization: `Bearer ${token}` }
         });
 

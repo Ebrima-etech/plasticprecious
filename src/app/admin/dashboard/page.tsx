@@ -47,7 +47,7 @@ export default function AdminDashboard() {
           headers: { Authorization: `Bearer ${token}` }
         });
 
-        if (!userResponse.data.is_staff && !userResponse.data.is_admin) {
+        if (!userResponse.data.is_staff && !userResponse.data.is_superuser) {
           router.push('/');
           return;
         }

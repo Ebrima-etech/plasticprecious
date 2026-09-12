@@ -30,7 +30,7 @@ export default function LoginPage() {
       setTokens(response.data.access, response.data.refresh);
 
       // Redirect based on user role from login response
-      if (response.data.user?.is_staff || response.data.user?.is_admin) {
+      if (response.data.user?.is_staff || response.data.user?.is_superuser) {
         router.push('/admin');
       } else {
         router.push('/');

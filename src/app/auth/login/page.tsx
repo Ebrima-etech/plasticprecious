@@ -29,13 +29,8 @@ export default function LoginPage() {
 
       setTokens(response.data.access, response.data.refresh);
 
-      // Check if user is admin by fetching user details
-      const userResponse = await axios.get(`${API_BASE_URL}/auth/user/`, {
-        headers: { Authorization: `Bearer ${response.data.access}` }
-      });
-
-      // Redirect based on user role
-      if (userResponse.data.is_staff || userResponse.data.is_admin) {
+      // Redirect based on user role from login response
+      if (response.data.user?.is_staff || response.data.user?.is_admin) {
         router.push('/admin');
       } else {
         router.push('/');

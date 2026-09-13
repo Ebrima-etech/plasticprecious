@@ -15,7 +15,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   useEffect(() => {
     const token = getToken();
     if (!token) {
-      router.push('/admin/login');
+      router.push('/login');
       return;
     }
     setIsAuthed(true);

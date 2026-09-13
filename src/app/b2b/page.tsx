@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { FiShoppingBag, FiFileText, FiBarChart3, FiUsers } from 'react-icons/fi';
+import { FiShoppingBag, FiFileText, FiBarChart, FiUsers } from 'react-icons/fi';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 

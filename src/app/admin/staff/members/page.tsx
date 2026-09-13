@@ -62,6 +62,7 @@ export default function StaffAdmin() {
     first_name: '',
     last_name: '',
     email: '',
+    password: '',
     department: '',
     role: '',
     permissions: [] as string[],
@@ -70,6 +71,7 @@ export default function StaffAdmin() {
     phone_number: '',
     address: ''
   });
+  const [showPasswordField, setShowPasswordField] = useState(false);
 
   useEffect(() => {
     fetchData();
@@ -108,6 +110,7 @@ export default function StaffAdmin() {
         first_name: '',
         last_name: '',
         email: '',
+        password: '',
         department: '',
         role: '',
         permissions: [],
@@ -242,14 +245,26 @@ export default function StaffAdmin() {
             />
           </div>
 
-          <input
-            type="email"
-            placeholder="Email Address"
-            value={formData.email}
-            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-            disabled={!!editingId}
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 disabled:bg-gray-100"
-          />
+          <div className="grid grid-cols-2 gap-4">
+            <input
+              type="email"
+              placeholder="Email Address"
+              value={formData.email}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              disabled={!!editingId}
+              className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 disabled:bg-gray-100"
+            />
+            <div>
+              <input
+                type="text"
+                placeholder="Password (leave empty to auto-generate)"
+                value={formData.password}
+                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              />
+              <p className="text-xs text-slate-500 mt-1">Min 6 characters or auto-generate</p>
+            </div>
+          </div>
 
           <div className="grid grid-cols-2 gap-4">
             <select

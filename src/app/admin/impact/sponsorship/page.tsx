@@ -6,8 +6,18 @@ import { FiGift } from 'react-icons/fi';
 import { API_BASE_URL } from '@/config/api';
 import { getAccessToken } from '@/lib/auth';
 
+interface Sponsorship {
+  id: number;
+  sponsor_name: string;
+  sponsor_email: string;
+  item_type: string;
+  items_count: number;
+  amount: string;
+  created_at: string;
+}
+
 export default function SponsorshipAdmin() {
-  const [sponsorships, setSponsorships] = useState([]);
+  const [sponsorships, setSponsorships] = useState<Sponsorship[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(function fetchData() {

@@ -15,7 +15,7 @@ export default function B2BPage() {
       color: 'from-blue-600 to-cyan-600'
     },
     {
-      icon: FiBarChart3,
+      icon: FiBarChart,
       title: 'Municipalities',
       goal: 'Source durable paving materials and public park benches',
       cta: 'Consult Infrastructure Team',

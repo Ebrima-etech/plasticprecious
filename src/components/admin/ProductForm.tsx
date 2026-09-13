@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { API_BASE_URL } from '@/config/api';
@@ -22,6 +22,7 @@ interface Category {
 
 export default function ProductForm({ productId }: ProductFormProps) {
   const router = useRouter();
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [categories, setCategories] = useState<Category[]>([]);
   const [formData, setFormData] = useState({
     name: '',
@@ -36,6 +37,7 @@ export default function ProductForm({ productId }: ProductFormProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [isLoadingForm, setIsLoadingForm] = useState(!!productId);
+  const [dragActive, setDragActive] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -84,14 +86,16 @@ export default function ProductForm({ productId }: ProductFormProps) {
     fetchData();
   }, [productId]);
 
-  const [dragActive, setDragActive] = useState(false);
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target as any;
     if (name === 'image' && type === 'file') {
       const files = (e.target as HTMLInputElement).files;
       if (files && files.length > 0) {
         handleFilesSelected(Array.from(files));
+      }
+      // Reset input value so same file can be selected again
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
       }
     } else {
       setFormData({
@@ -101,20 +105,32 @@ export default function ProductForm({ productId }: ProductFormProps) {
     }
   };
 
-  const handleFilesSelected = (newFiles: File[]) => {
-    setImageFiles(newFiles);
+  const handleFilesSelected = async (newFiles: File[]) => {
+    // Filter for image files only
+    const imageFilesOnly = newFiles.filter(f => f.type.startsWith('image/'));
+
+    if (imageFilesOnly.length === 0) {
+      setError('Please select valid image files');
+      return;
+    }
+
+    setImageFiles(imageFilesOnly);
+    setError('');
 
     const previews: string[] = [];
     let loadedCount = 0;
 
-    newFiles.forEach((file) => {
+    imageFilesOnly.forEach((file) => {
       const reader = new FileReader();
-      reader.onloadend = () => {
-        previews.push(reader.result as string);
+      reader.onload = (e) => {
+        previews.push(e.target?.result as string);
         loadedCount++;
-        if (loadedCount === newFiles.length) {
+        if (loadedCount === imageFilesOnly.length) {
           setImagePreviews(previews);
         }
+      };
+      reader.onerror = () => {
+        setError(`Failed to read file: ${file.name}`);
       };
       reader.readAsDataURL(file);
     });
@@ -298,6 +314,7 @@ export default function ProductForm({ productId }: ProductFormProps) {
               }`}
             >
               <input
+                ref={fileInputRef}
                 type="file"
                 name="image"
                 accept="image/*"

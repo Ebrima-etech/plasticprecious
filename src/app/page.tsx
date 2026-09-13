@@ -169,6 +169,17 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white">
       <style>{`
+        @keyframes carouselFade {
+          0% {
+            opacity: 0;
+          }
+          100% {
+            opacity: 1;
+          }
+        }
+        .carousel-image {
+          animation: carouselFade 0.8s ease-in-out forwards;
+        }
         @keyframes borderGradient {
           0% {
             border-top-color: rgb(16, 185, 129);
@@ -502,9 +513,10 @@ export default function Home() {
           <div className="absolute inset-0 overflow-hidden">
             {heroSlides[heroSlideIndex].image && (
               <img
+                key={heroSlideIndex}
                 src={heroSlides[heroSlideIndex].image}
                 alt="Hero slide background"
-                className="absolute inset-0 w-full h-full object-cover"
+                className="carousel-image absolute inset-0 w-full h-full object-cover"
               />
             )}
           </div>
@@ -632,9 +644,10 @@ export default function Home() {
                 <div className="rounded-2xl h-[75vh] flex flex-col items-center justify-center overflow-hidden relative">
                   {carouselItems[carouselIndex].image && (
                     <img
+                      key={carouselIndex}
                       src={carouselItems[carouselIndex].image}
                       alt={carouselItems[carouselIndex].title}
-                      className="absolute inset-0 w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                      className="carousel-image absolute inset-0 w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                     />
                   )}
 

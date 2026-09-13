@@ -181,7 +181,7 @@ export default function ImpactPage() {
 
                   {/* Stats */}
                   <div className="grid grid-cols-3 gap-4 mb-8">
-                    {impact.stats.map((stat, i) => (
+                    {impact.stats?.map((stat: any, i: number) => (
                       <div key={i} className="group cursor-pointer rounded-3xl overflow-hidden border border-slate-200 hover:border-emerald-400 bg-gradient-to-br from-white to-slate-50 hover:from-emerald-50 hover:to-white p-4 transition-all duration-300 hover:-translate-y-1">
                         <p className="text-2xl font-black text-emerald-600 mb-1">{stat.value}</p>
                         <p className="text-xs text-slate-600 font-semibold uppercase">{stat.label}</p>
@@ -194,7 +194,7 @@ export default function ImpactPage() {
                   <div>
                     <h3 className="text-lg font-semibold text-slate-900 mb-4">Key Initiatives</h3>
                     <ul className="space-y-3">
-                      {impact.highlights.map((highlight, i) => (
+                      {impact.highlights?.map((highlight: string, i: number) => (
                         <li key={i} className="flex items-start gap-3">
                           <span className="text-emerald-600 text-xl mt-1">✓</span>
                           <span className="text-slate-700">{highlight}</span>

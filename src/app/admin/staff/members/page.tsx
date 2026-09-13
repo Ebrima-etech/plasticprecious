@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { FiEdit2, FiTrash2, FiUsers } from 'react-icons/fi';
+import { FiEdit2, FiTrash2, FiUsers, FiKey, FiCheckCircle, FiXCircle } from 'react-icons/fi';
 import { API_BASE_URL } from '@/config/api';
 import { getAccessToken } from '@/lib/auth';
 
@@ -57,7 +57,11 @@ export default function StaffAdmin() {
   const [departments, setDepartments] = useState<Department[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<number | null>(null);
+  const [showPassword, setShowPassword] = useState<string | null>(null);
   const [formData, setFormData] = useState({
+    first_name: '',
+    last_name: '',
+    email: '',
     department: '',
     role: '',
     permissions: [] as string[],
@@ -95,11 +99,15 @@ export default function StaffAdmin() {
           headers: { Authorization: `Bearer ${token}` }
         });
       } else {
-        await axios.post(`${API_BASE_URL}/staff/staff/`, formData, {
+        const response = await axios.post(`${API_BASE_URL}/staff/staff/`, formData, {
           headers: { Authorization: `Bearer ${token}` }
         });
+        setShowPassword(response.data.temporary_password);
       }
       setFormData({
+        first_name: '',
+        last_name: '',
+        email: '',
         department: '',
         role: '',
         permissions: [],
@@ -112,6 +120,7 @@ export default function StaffAdmin() {
       fetchData();
     } catch (err) {
       console.error('Failed to save staff:', err);
+      alert('Error saving staff member');
     }
   };
 
@@ -129,9 +138,49 @@ export default function StaffAdmin() {
     }
   };
 
+  const handleActivate = async (id: number) => {
+    try {
+      const token = getAccessToken();
+      await axios.post(`${API_BASE_URL}/staff/staff/${id}/activate/`, {}, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      fetchData();
+    } catch (err) {
+      console.error('Failed to activate staff:', err);
+    }
+  };
+
+  const handleDeactivate = async (id: number) => {
+    try {
+      const token = getAccessToken();
+      await axios.post(`${API_BASE_URL}/staff/staff/${id}/deactivate/`, {}, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      fetchData();
+    } catch (err) {
+      console.error('Failed to deactivate staff:', err);
+    }
+  };
+
+  const handleResetPassword = async (id: number) => {
+    try {
+      const token = getAccessToken();
+      const response = await axios.post(`${API_BASE_URL}/staff/staff/${id}/reset_password/`, {}, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setShowPassword(response.data.temporary_password);
+      alert(`Password reset sent to ${response.data.email}`);
+    } catch (err) {
+      console.error('Failed to reset password:', err);
+    }
+  };
+
   const handleEdit = (s: Staff) => {
     setEditingId(s.id);
     setFormData({
+      first_name: s.user_data?.first_name || '',
+      last_name: s.user_data?.last_name || '',
+      email: s.user_data?.email || '',
       department: s.department.toString(),
       role: s.role,
       permissions: s.permissions,
@@ -158,10 +207,50 @@ export default function StaffAdmin() {
         <h1 className="text-3xl font-black text-slate-900">Staff Members</h1>
       </div>
 
+      {showPassword && (
+        <div className="bg-amber-50 border-l-4 border-amber-500 p-4 rounded">
+          <p className="text-sm text-amber-800 font-semibold mb-2">Temporary Password Created:</p>
+          <p className="text-lg font-mono text-amber-900 mb-2 bg-white p-2 rounded">{showPassword}</p>
+          <p className="text-xs text-amber-700">Share this password with the staff member. They should change it upon first login.</p>
+          <button
+            onClick={() => setShowPassword(null)}
+            className="mt-3 px-3 py-1 text-xs bg-amber-600 text-white rounded hover:bg-amber-700"
+          >
+            Close
+          </button>
+        </div>
+      )}
+
       {/* Form */}
       <div className="bg-white rounded-lg border border-slate-200 p-6">
         <h2 className="font-bold text-slate-900 mb-4">{editingId ? 'Edit Staff Member' : 'Add New Staff Member'}</h2>
         <div className="space-y-4">
+          <div className="grid grid-cols-2 gap-4">
+            <input
+              type="text"
+              placeholder="First Name"
+              value={formData.first_name}
+              onChange={(e) => setFormData({ ...formData, first_name: e.target.value })}
+              className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            />
+            <input
+              type="text"
+              placeholder="Last Name"
+              value={formData.last_name}
+              onChange={(e) => setFormData({ ...formData, last_name: e.target.value })}
+              className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            />
+          </div>
+
+          <input
+            type="email"
+            placeholder="Email Address"
+            value={formData.email}
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            disabled={!!editingId}
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 disabled:bg-gray-100"
+          />
+
           <div className="grid grid-cols-2 gap-4">
             <select
               value={formData.department}
@@ -240,13 +329,16 @@ export default function StaffAdmin() {
               onClick={handleSave}
               className="px-6 py-2 bg-emerald-600 text-white font-bold rounded-lg hover:bg-emerald-700"
             >
-              {editingId ? 'Update' : 'Add'} Staff Member
+              {editingId ? 'Update' : 'Create Account'} Staff Member
             </button>
             {editingId && (
               <button
                 onClick={() => {
                   setEditingId(null);
                   setFormData({
+                    first_name: '',
+                    last_name: '',
+                    email: '',
                     department: '',
                     role: '',
                     permissions: [],
@@ -275,7 +367,7 @@ export default function StaffAdmin() {
                 <th className="px-6 py-3 text-left font-bold text-slate-900">Role</th>
                 <th className="px-6 py-3 text-left font-bold text-slate-900">Department</th>
                 <th className="px-6 py-3 text-left font-bold text-slate-900">Email</th>
-                <th className="px-6 py-3 text-left font-bold text-slate-900">Hire Date</th>
+                <th className="px-6 py-3 text-left font-bold text-slate-900">Status</th>
                 <th className="px-6 py-3 text-left font-bold text-slate-900">Actions</th>
               </tr>
             </thead>
@@ -286,17 +378,49 @@ export default function StaffAdmin() {
                   <td className="px-6 py-3 text-slate-600">{s.role_display}</td>
                   <td className="px-6 py-3 text-slate-600">{s.department_name}</td>
                   <td className="px-6 py-3 text-slate-600">{s.user_data?.email}</td>
-                  <td className="px-6 py-3 text-slate-600">{new Date(s.hire_date).toLocaleDateString()}</td>
+                  <td className="px-6 py-3">
+                    {s.is_active ? (
+                      <span className="px-3 py-1 bg-green-100 text-green-800 text-xs font-bold rounded-full">Active</span>
+                    ) : (
+                      <span className="px-3 py-1 bg-red-100 text-red-800 text-xs font-bold rounded-full">Inactive</span>
+                    )}
+                  </td>
                   <td className="px-6 py-3 flex gap-2">
                     <button
                       onClick={() => handleEdit(s)}
                       className="p-2 text-blue-600 hover:bg-blue-50 rounded"
+                      title="Edit"
                     >
                       <FiEdit2 />
                     </button>
                     <button
+                      onClick={() => handleResetPassword(s.id)}
+                      className="p-2 text-orange-600 hover:bg-orange-50 rounded"
+                      title="Reset Password"
+                    >
+                      <FiKey />
+                    </button>
+                    {s.is_active ? (
+                      <button
+                        onClick={() => handleDeactivate(s.id)}
+                        className="p-2 text-yellow-600 hover:bg-yellow-50 rounded"
+                        title="Deactivate"
+                      >
+                        <FiXCircle />
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => handleActivate(s.id)}
+                        className="p-2 text-green-600 hover:bg-green-50 rounded"
+                        title="Activate"
+                      >
+                        <FiCheckCircle />
+                      </button>
+                    )}
+                    <button
                       onClick={() => handleDelete(s.id)}
                       className="p-2 text-red-600 hover:bg-red-50 rounded"
+                      title="Delete"
                     >
                       <FiTrash2 />
                     </button>

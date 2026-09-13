@@ -57,11 +57,20 @@ export default function Home() {
       buttons: true,
       description: true,
       image: 'https://res.cloudinary.com/divk8m0ff/image/upload/v1789311020/WhatsApp_Image_2026-09-13_at_10.04.14_4_gksbhh.jpg'
+    },
+    {
+      type: 'description',
+      badge: true,
+      heading: false,
+      buttons: true,
+      description: true,
+      image: 'https://res.cloudinary.com/divk8m0ff/image/upload/v1789311068/WhatsApp_Image_2026-09-13_at_10.04.13_jj8pfj.jpg'
     }
   ];
   const [carouselItems, setCarouselItems] = useState([
     { title: 'Community Impact & Unity', image: 'https://res.cloudinary.com/divk8m0ff/image/upload/v1789310801/WhatsApp_Image_2026-09-13_at_10.04.16_2_l3izsj.jpg' },
-    { title: 'Sustainable Community Solutions', image: 'https://res.cloudinary.com/divk8m0ff/image/upload/v1789311020/WhatsApp_Image_2026-09-13_at_10.04.14_4_gksbhh.jpg' }
+    { title: 'Sustainable Community Solutions', image: 'https://res.cloudinary.com/divk8m0ff/image/upload/v1789311020/WhatsApp_Image_2026-09-13_at_10.04.14_4_gksbhh.jpg' },
+    { title: 'Building Better Futures Together', image: 'https://res.cloudinary.com/divk8m0ff/image/upload/v1789311068/WhatsApp_Image_2026-09-13_at_10.04.13_jj8pfj.jpg' }
   ]);
 
   const services = [

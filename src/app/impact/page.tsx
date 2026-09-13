@@ -1,88 +1,129 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import axios from 'axios';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { API_BASE_URL } from '@/config/api';
+
+interface ImpactMetric {
+  id: number;
+  title: string;
+  metric_type: string;
+  description: string;
+  value: number;
+  unit: string;
+  image_url?: string;
+  details?: string;
+}
 
 export default function ImpactPage() {
-  const impactDetails = [
-    {
-      id: 1,
-      title: 'Environmental Impact',
-      metric: 'Environmental',
-      description: 'Tons of plastic diverted from oceans and landfills',
-      image: 'https://images.pexels.com/photos/3951628/pexels-photo-3951628.jpeg?w=800&h=600&fit=crop',
-      fullDescription: 'Our environmental initiatives focus on reducing plastic waste that would otherwise end up in landfills and oceans. By collecting, processing, and recycling plastic materials, we divert thousands of tons annually from harmful disposal methods.',
-      stats: [
-        { label: 'Plastic Collected', value: '500+', unit: 'Tons/Year' },
-        { label: 'Ocean Waste Prevented', value: '2000+', unit: 'Tons' },
-        { label: 'Landfill Reduction', value: '75%', unit: 'Decrease' },
-      ],
-      highlights: [
-        'Advanced sorting and processing facilities',
-        'Community-driven collection programs',
-        'Partnerships with local environmental groups',
-        'Ocean cleanup initiatives in West Africa',
-      ],
-    },
-    {
-      id: 2,
-      title: 'Economic Impact',
-      metric: 'Economic',
-      description: 'Employment created for marginalized communities',
-      image: 'https://images.pexels.com/photos/3807517/pexels-photo-3807517.jpeg?w=800&h=600&fit=crop',
-      fullDescription: 'We believe sustainable practices should also create economic opportunities for marginalized communities. Through our programs, we provide fair wages, skills training, and employment paths for hundreds of workers.',
-      stats: [
-        { label: 'Jobs Created', value: '300+', unit: 'Direct Employment' },
-        { label: 'Average Wage Increase', value: '45%', unit: 'Year-over-Year' },
-        { label: 'Women Employed', value: '60%', unit: 'Workforce' },
-      ],
-      highlights: [
-        'Fair wage employment opportunities',
-        'Skills development programs',
-        'Cooperative business models',
-        'Women-led initiatives and support',
-      ],
-    },
-    {
-      id: 3,
-      title: 'Educational Impact',
-      metric: 'Educational',
-      description: 'Awareness and skills transfer in sustainability',
-      image: 'https://images.pexels.com/photos/3807517/pexels-photo-3807517.jpeg?w=800&h=600&fit=crop',
-      fullDescription: 'Education is central to sustainable change. We conduct workshops, training programs, and awareness campaigns to educate communities about environmental responsibility and sustainable practices.',
-      stats: [
-        { label: 'People Trained', value: '2000+', unit: 'Annually' },
-        { label: 'Workshops Conducted', value: '150+', unit: 'Per Year' },
-        { label: 'Schools Engaged', value: '50+', unit: 'Partnerships' },
-      ],
-      highlights: [
-        'Hands-on sustainability workshops',
-        'School environmental programs',
-        'Community awareness campaigns',
-        'Skills transfer initiatives',
-      ],
-    },
-    {
-      id: 4,
-      title: 'Health Impact',
-      metric: 'Health',
-      description: 'Healthier communities through reduced pollution',
-      image: 'https://images.pexels.com/photos/4101143/pexels-photo-4101143.jpeg?w=800&h=600&fit=crop',
-      fullDescription: 'Plastic pollution poses serious health risks through air and water contamination. Our initiatives reduce these health hazards by preventing plastic waste from contaminating water sources and releasing harmful chemicals.',
-      stats: [
-        { label: 'People Benefited', value: '50000+', unit: 'Direct Impact' },
-        { label: 'Water Sources Cleaned', value: '100+', unit: 'Locations' },
-        { label: 'Air Quality Improved', value: '30%', unit: 'Better' },
-      ],
-      highlights: [
-        'Water source restoration projects',
-        'Reduced air pollution in communities',
-        'Health awareness programs',
-        'Medical support initiatives',
-      ],
-    },
-  ];
+  const [impactDetails, setImpactDetails] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchMetrics = async () => {
+      try {
+        const response = await axios.get(`${API_BASE_URL}/impact/metrics/`);
+        const metrics = response.data.results || response.data;
+
+        if (Array.isArray(metrics) && metrics.length > 0) {
+          setImpactDetails(metrics);
+        } else {
+          setDefaultMetrics();
+        }
+      } catch (error) {
+        console.error('Failed to fetch impact metrics:', error);
+        setDefaultMetrics();
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMetrics();
+  }, []);
+
+  const setDefaultMetrics = () => {
+    setImpactDetails([
+      {
+        id: 1,
+        title: 'Environmental Impact',
+        metric: 'Environmental',
+        description: 'Tons of plastic diverted from oceans and landfills',
+        image: 'https://images.pexels.com/photos/3951628/pexels-photo-3951628.jpeg?w=800&h=600&fit=crop',
+        fullDescription: 'Our environmental initiatives focus on reducing plastic waste that would otherwise end up in landfills and oceans.',
+        stats: [
+          { label: 'Plastic Collected', value: '500+', unit: 'Tons/Year' },
+          { label: 'Ocean Waste Prevented', value: '2000+', unit: 'Tons' },
+          { label: 'Landfill Reduction', value: '75%', unit: 'Decrease' },
+        ],
+        highlights: [
+          'Advanced sorting and processing facilities',
+          'Community-driven collection programs',
+          'Partnerships with local environmental groups',
+          'Ocean cleanup initiatives in West Africa',
+        ],
+      },
+      {
+        id: 2,
+        title: 'Economic Impact',
+        metric: 'Economic',
+        description: 'Employment created for marginalized communities',
+        image: 'https://images.pexels.com/photos/3807517/pexels-photo-3807517.jpeg?w=800&h=600&fit=crop',
+        fullDescription: 'We believe sustainable practices should also create economic opportunities for marginalized communities.',
+        stats: [
+          { label: 'Jobs Created', value: '300+', unit: 'Direct Employment' },
+          { label: 'Average Wage Increase', value: '45%', unit: 'Year-over-Year' },
+          { label: 'Women Employed', value: '60%', unit: 'Workforce' },
+        ],
+        highlights: [
+          'Fair wage employment opportunities',
+          'Skills development programs',
+          'Cooperative business models',
+          'Women-led initiatives and support',
+        ],
+      },
+      {
+        id: 3,
+        title: 'Educational Impact',
+        metric: 'Educational',
+        description: 'Awareness and skills transfer in sustainability',
+        image: 'https://images.pexels.com/photos/3807517/pexels-photo-3807517.jpeg?w=800&h=600&fit=crop',
+        fullDescription: 'Education is central to sustainable change. We conduct workshops, training programs, and awareness campaigns.',
+        stats: [
+          { label: 'People Trained', value: '2000+', unit: 'Annually' },
+          { label: 'Workshops Conducted', value: '150+', unit: 'Per Year' },
+          { label: 'Schools Engaged', value: '50+', unit: 'Partnerships' },
+        ],
+        highlights: [
+          'Hands-on sustainability workshops',
+          'School environmental programs',
+          'Community awareness campaigns',
+          'Skills transfer initiatives',
+        ],
+      },
+      {
+        id: 4,
+        title: 'Health Impact',
+        metric: 'Health',
+        description: 'Healthier communities through reduced pollution',
+        image: 'https://images.pexels.com/photos/4101143/pexels-photo-4101143.jpeg?w=800&h=600&fit=crop',
+        fullDescription: 'Plastic pollution poses serious health risks through air and water contamination.',
+        stats: [
+          { label: 'People Benefited', value: '50000+', unit: 'Direct Impact' },
+          { label: 'Water Sources Cleaned', value: '100+', unit: 'Locations' },
+          { label: 'Air Quality Improved', value: '30%', unit: 'Better' },
+        ],
+        highlights: [
+          'Water source restoration projects',
+          'Reduced air pollution in communities',
+          'Health awareness programs',
+          'Medical support initiatives',
+        ],
+      },
+    ]);
+  };
 
   return (
     <div className="min-h-screen bg-white">

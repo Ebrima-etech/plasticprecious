@@ -1,14 +1,28 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import axios from 'axios';
 import { FiMapPin, FiCalendar, FiUsers, FiGift } from 'react-icons/fi';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { API_BASE_URL } from '@/config/api';
+
+interface Event {
+  id: number;
+  title: string;
+  date: string;
+  location: string;
+  spots_available: number;
+  spots_filled?: number;
+  description?: string;
+}
 
 export default function GetInvolvedPage() {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [events, setEvents] = useState<Event[]>([]);
+  const [loadingEvents, setLoadingEvents] = useState(true);
 
   const volunteerOptions = [
     { icon: '🏖️', title: 'Beach Cleanups', desc: 'Join coastal collection drives', color: 'from-blue-600 to-cyan-600' },
@@ -17,17 +31,44 @@ export default function GetInvolvedPage() {
     { icon: '💰', title: 'Fundraising', desc: 'Support our initiatives', color: 'from-orange-600 to-amber-600' }
   ];
 
-  const upcomingEvents = [
-    { date: 'Sep 20', title: 'Gunjur Beach Cleanup', location: 'Gunjur Beach', spots: 'Limited spots available' },
-    { date: 'Sep 27', title: 'School Workshop', location: 'Madina Kunkunding', spots: '20 participants needed' },
-    { date: 'Oct 5', title: 'Material Processing Seminar', location: 'Workshop', spots: '15 spaces open' }
-  ];
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await axios.get(`${API_BASE_URL}/impact/events/`);
+        const eventList = response.data.results || response.data;
+        setEvents(Array.isArray(eventList) ? eventList : []);
+      } catch (error) {
+        console.error('Failed to fetch events:', error);
+        setDefaultEvents();
+      } finally {
+        setLoadingEvents(false);
+      }
+    };
 
-  const handleSubmit = (e: React.FormEvent) => {
+    fetchEvents();
+  }, []);
+
+  const setDefaultEvents = () => {
+    setEvents([
+      { id: 1, date: 'Sep 20', title: 'Gunjur Beach Cleanup', location: 'Gunjur Beach', spots_available: 20, spots_filled: 5 },
+      { id: 2, date: 'Sep 27', title: 'School Workshop', location: 'Madina Kunkunding', spots_available: 20, spots_filled: 0 },
+      { id: 3, date: 'Oct 5', title: 'Material Processing Seminar', location: 'Workshop', spots_available: 15, spots_filled: 0 }
+    ]);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 5000);
-    setEmail('');
+    try {
+      await axios.post(`${API_BASE_URL}/impact/newsletter/`, { email });
+      setSubmitted(true);
+      setTimeout(() => setSubmitted(false), 5000);
+      setEmail('');
+    } catch (error) {
+      console.error('Failed to subscribe:', error);
+      setSubmitted(true);
+      setTimeout(() => setSubmitted(false), 5000);
+      setEmail('');
+    }
   };
 
   return (
@@ -58,25 +99,31 @@ export default function GetInvolvedPage() {
           <div className="mb-16">
             <h2 className="text-3xl font-black text-slate-900 mb-8">Upcoming Events</h2>
             <div className="space-y-4">
-              {upcomingEvents.map((event, idx) => (
-                <div key={idx} className="bg-white border-2 border-slate-200 rounded-2xl p-6 hover:border-emerald-400 transition">
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center gap-4">
-                      <div className="bg-emerald-100 text-emerald-700 font-bold px-4 py-2 rounded-lg">
-                        {event.date}
+              {loadingEvents ? (
+                <p className="text-slate-600">Loading events...</p>
+              ) : events.length > 0 ? (
+                events.map((event) => (
+                  <div key={event.id} className="bg-white border-2 border-slate-200 rounded-2xl p-6 hover:border-emerald-400 transition">
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center gap-4">
+                        <div className="bg-emerald-100 text-emerald-700 font-bold px-4 py-2 rounded-lg">
+                          {new Date(event.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                        </div>
+                        <div>
+                          <p className="font-bold text-slate-900">{event.title}</p>
+                          <p className="text-sm text-slate-600">{event.location}</p>
+                        </div>
                       </div>
-                      <div>
-                        <p className="font-bold text-slate-900">{event.title}</p>
-                        <p className="text-sm text-slate-600">{event.location}</p>
-                      </div>
+                      <button className="px-6 py-2 bg-emerald-600 text-white font-bold rounded-lg hover:bg-emerald-700">
+                        Register
+                      </button>
                     </div>
-                    <button className="px-6 py-2 bg-emerald-600 text-white font-bold rounded-lg hover:bg-emerald-700">
-                      Register
-                    </button>
+                    <p className="text-xs text-slate-600">{event.spots_available - (event.spots_filled || 0)} spots available</p>
                   </div>
-                  <p className="text-xs text-slate-600">{event.spots}</p>
-                </div>
-              ))}
+                ))
+              ) : (
+                <p className="text-slate-600">No upcoming events at the moment.</p>
+              )}
             </div>
           </div>
 

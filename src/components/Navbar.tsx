@@ -213,22 +213,22 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
             {showNavLinks && (
               <div className="hidden lg:flex items-center gap-8">
                 <Link href="/" className="text-white hover:text-slate-200 transition text-sm font-bold uppercase tracking-wide">
-                  Mission
+                  Shop
                 </Link>
-                <Link href="/services" className="text-white hover:text-slate-200 transition text-sm font-bold uppercase tracking-wide">
-                  Services
+                <Link href="/impact" className="text-white hover:text-slate-200 transition text-sm font-bold uppercase tracking-wide">
+                  Impact
                 </Link>
-                <Link href="#" className="text-white hover:text-slate-200 transition text-sm font-bold uppercase tracking-wide">
-                  Sale
+                <Link href="/material-lab" className="text-white hover:text-slate-200 transition text-sm font-bold uppercase tracking-wide">
+                  Materials
                 </Link>
-                <Link href="/blog" className="text-white hover:text-slate-200 transition text-sm font-bold uppercase tracking-wide">
-                  Blog
+                <Link href="/get-involved" className="text-white hover:text-slate-200 transition text-sm font-bold uppercase tracking-wide">
+                  Get Involved
+                </Link>
+                <Link href="/b2b" className="text-white hover:text-slate-200 transition text-sm font-bold uppercase tracking-wide">
+                  B2B
                 </Link>
                 <Link href="/about" className="text-white hover:text-slate-200 transition text-sm font-bold uppercase tracking-wide">
-                  About Us
-                </Link>
-                <Link href="#" className="text-white hover:text-slate-200 transition text-sm font-bold uppercase tracking-wide">
-                  Impact
+                  About
                 </Link>
               </div>
             )}
@@ -328,22 +328,22 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
           {mobileMenuOpen && showNavLinks && (
             <div className="lg:hidden absolute top-full left-0 right-0 bg-emerald-600 border-t border-emerald-700 z-50 px-6 py-4">
               <Link href="/" className="block text-white hover:text-emerald-100 transition text-sm font-medium py-2">
-                Mission
+                Shop
               </Link>
-              <Link href="/services" className="block text-white hover:text-emerald-100 transition text-sm font-medium py-2">
-                Services
+              <Link href="/impact" className="block text-white hover:text-emerald-100 transition text-sm font-medium py-2">
+                Impact
               </Link>
-              <Link href="#" className="block text-white hover:text-emerald-100 transition text-sm font-medium py-2">
-                Sale
+              <Link href="/material-lab" className="block text-white hover:text-emerald-100 transition text-sm font-medium py-2">
+                Materials
               </Link>
-              <Link href="/blog" className="block text-white hover:text-emerald-100 transition text-sm font-medium py-2">
-                Blog
+              <Link href="/get-involved" className="block text-white hover:text-emerald-100 transition text-sm font-medium py-2">
+                Get Involved
+              </Link>
+              <Link href="/b2b" className="block text-white hover:text-emerald-100 transition text-sm font-medium py-2">
+                B2B
               </Link>
               <Link href="/about" className="block text-white hover:text-emerald-100 transition text-sm font-medium py-2">
-                About Us
-              </Link>
-              <Link href="#" className="block text-white hover:text-emerald-100 transition text-sm font-medium py-2">
-                Impact
+                About
               </Link>
               {isLoggedIn ? (
                 <>

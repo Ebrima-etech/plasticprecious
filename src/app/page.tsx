@@ -49,20 +49,10 @@ export default function Home() {
       buttons: true,
       description: false,
       image: 'https://res.cloudinary.com/divk8m0ff/image/upload/v1789310801/WhatsApp_Image_2026-09-13_at_10.04.16_2_l3izsj.jpg'
-    },
-    {
-      type: 'description',
-      badge: true,
-      heading: false,
-      buttons: true,
-      description: true,
-      image: 'https://images.pexels.com/photos/8723319/pexels-photo-8723319.jpeg?w=800&h=600&fit=crop'
     }
   ];
   const [carouselItems, setCarouselItems] = useState([
-    { title: 'Community Impact & Unity', image: 'https://res.cloudinary.com/divk8m0ff/image/upload/v1789310801/WhatsApp_Image_2026-09-13_at_10.04.16_2_l3izsj.jpg' },
-    { title: 'Transforming Plastic into Quality Products', image: 'https://images.pexels.com/photos/8723319/pexels-photo-8723319.jpeg?w=800&h=600&fit=crop' },
-    { title: 'Sustainable Recycled Plastic Solutions', image: 'https://images.pexels.com/photos/5632399/pexels-photo-5632399.jpeg?w=800&h=600&fit=crop' },
+    { title: 'Community Impact & Unity', image: 'https://res.cloudinary.com/divk8m0ff/image/upload/v1789310801/WhatsApp_Image_2026-09-13_at_10.04.16_2_l3izsj.jpg' }
   ]);
 
   const services = [

@@ -133,9 +133,7 @@ export default function ProductForm({ productId }: ProductFormProps) {
       submitFormData.append('is_active', String(formData.is_active));
 
       if (imageFiles.length > 0) {
-        imageFiles.forEach((file) => {
-          submitFormData.append('images', file);
-        });
+        submitFormData.append('image', imageFiles[0]);
       }
 
       if (productId) {

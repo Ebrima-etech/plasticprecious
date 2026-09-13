@@ -48,7 +48,7 @@ export default function Home() {
       heading: true,
       buttons: true,
       description: false,
-      image: 'https://images.pexels.com/photos/3962286/pexels-photo-3962286.jpeg?w=800&h=600&fit=crop'
+      image: 'https://res.cloudinary.com/divk8m0ff/image/upload/v1789310801/WhatsApp_Image_2026-09-13_at_10.04.16_2_l3izsj.jpg'
     },
     {
       type: 'description',
@@ -60,7 +60,7 @@ export default function Home() {
     }
   ];
   const [carouselItems, setCarouselItems] = useState([
-    { title: 'Plastic Waste Recycling & Processing', image: 'https://images.pexels.com/photos/3962286/pexels-photo-3962286.jpeg?w=800&h=600&fit=crop' },
+    { title: 'Community Impact & Unity', image: 'https://res.cloudinary.com/divk8m0ff/image/upload/v1789310801/WhatsApp_Image_2026-09-13_at_10.04.16_2_l3izsj.jpg' },
     { title: 'Transforming Plastic into Quality Products', image: 'https://images.pexels.com/photos/8723319/pexels-photo-8723319.jpeg?w=800&h=600&fit=crop' },
     { title: 'Sustainable Recycled Plastic Solutions', image: 'https://images.pexels.com/photos/5632399/pexels-photo-5632399.jpeg?w=800&h=600&fit=crop' },
   ]);

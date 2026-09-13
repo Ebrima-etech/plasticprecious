@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { getToken } from '@/lib/auth';
-import { HiOutlineSquares2X2, HiOutlineShoppingBag, HiOutlineTag, HiOutlineShoppingCart, HiOutlineCurrencyDollar, HiOutlineTicket, HiOutlineUsers, HiOutlineBell } from 'react-icons/hi2';
+import { HiOutlineSquares2X2, HiOutlineShoppingBag, HiOutlineTag, HiOutlineShoppingCart, HiOutlineCurrencyDollar, HiOutlineTicket, HiOutlineUsers, HiOutlineBell, HiOutlineArrowTrendingUp, HiOutlineCalendar, HiOutlineDocumentText, HiOutlineGift } from 'react-icons/hi2';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -97,6 +97,17 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <NavLink href="/admin/settings" icon={HiOutlineCurrencyDollar} label="Revenue" />
               <NavLink href="/admin/settings" icon={HiOutlineTicket} label="Vouchers" />
               <NavLink href="/admin/settings" icon={HiOutlineTag} label="Discounts" />
+            </div>
+          </div>
+
+          {/* Impact & Community Section */}
+          <div>
+            <p className="text-xs font-semibold text-gray-500 uppercase tracking-widest mb-3">Impact & Community</p>
+            <div className="space-y-1">
+              <NavLink href="/admin/impact" icon={HiOutlineArrowTrendingUp} label="Impact Metrics" />
+              <NavLink href="/admin/impact/events" icon={HiOutlineCalendar} label="Events" />
+              <NavLink href="/admin/impact/rfq" icon={HiOutlineDocumentText} label="RFQs" />
+              <NavLink href="/admin/impact/sponsorship" icon={HiOutlineGift} label="Sponsorships" />
             </div>
           </div>
 

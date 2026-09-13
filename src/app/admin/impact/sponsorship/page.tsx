@@ -8,22 +8,25 @@ import { getAccessToken } from '@/lib/auth';
 
 export default function SponsorshipAdmin() {
   const [sponsorships, setSponsorships] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  useEffect(() {
+  useEffect(function fetchData() {
     fetchSponsorships();
   }, []);
 
-  const fetchSponsorships = async () => {
+  async function fetchSponsorships() {
     try {
       const token = getAccessToken();
       const response = await axios.get(`${API_BASE_URL}/impact/sponsorship/`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setSponsorships(response.data.results || response.data);
+      setLoading(false);
     } catch (err) {
       console.error('Failed to fetch sponsorships:', err);
+      setLoading(false);
     }
-  };
+  }
 
   return (
     <div className="space-y-8">
@@ -38,12 +41,12 @@ export default function SponsorshipAdmin() {
           <p className="text-3xl font-black text-emerald-700 mt-2">{sponsorships.length}</p>
         </div>
         <div className="bg-blue-50 rounded-lg p-6 border border-blue-200">
-          <p className="text-sm text-blue-600 font-bold">Total Desks Sponsored</p>
-          <p className="text-3xl font-black text-blue-700 mt-2">{sponsorships.reduce((sum: number, s: any) => sum + s.items_count, 0)}</p>
+          <p className="text-sm text-blue-600 font-bold">Total Desks</p>
+          <p className="text-3xl font-black text-blue-700 mt-2">{sponsorships.reduce(function(sum, s) { return sum + s.items_count; }, 0)}</p>
         </div>
         <div className="bg-purple-50 rounded-lg p-6 border border-purple-200">
           <p className="text-sm text-purple-600 font-bold">Total Revenue</p>
-          <p className="text-3xl font-black text-purple-700 mt-2">D {sponsorships.reduce((sum: number, s: any) => sum + parseFloat(s.amount), 0).toLocaleString()}</p>
+          <p className="text-3xl font-black text-purple-700 mt-2">D {sponsorships.reduce(function(sum, s) { return sum + parseFloat(s.amount); }, 0).toLocaleString()}</p>
         </div>
       </div>
 
@@ -60,16 +63,18 @@ export default function SponsorshipAdmin() {
             </tr>
           </thead>
           <tbody>
-            {sponsorships.map((sponsor: any) => (
-              <tr key={sponsor.id} className="border-b hover:bg-slate-50">
-                <td className="px-6 py-3 font-semibold">{sponsor.sponsor_name}</td>
-                <td className="px-6 py-3 text-sm">{sponsor.sponsor_email}</td>
-                <td className="px-6 py-3">{sponsor.item_type}</td>
-                <td className="px-6 py-3">{sponsor.items_count}</td>
-                <td className="px-6 py-3 font-bold">D {sponsor.amount}</td>
-                <td className="px-6 py-3 text-sm text-slate-600">{new Date(sponsor.created_at).toLocaleDateString()}</td>
-              </tr>
-            ))}
+            {sponsorships.map(function(sponsor) {
+              return (
+                <tr key={sponsor.id} className="border-b hover:bg-slate-50">
+                  <td className="px-6 py-3 font-semibold">{sponsor.sponsor_name}</td>
+                  <td className="px-6 py-3 text-sm">{sponsor.sponsor_email}</td>
+                  <td className="px-6 py-3">{sponsor.item_type}</td>
+                  <td className="px-6 py-3">{sponsor.items_count}</td>
+                  <td className="px-6 py-3 font-bold">D {sponsor.amount}</td>
+                  <td className="px-6 py-3 text-sm text-slate-600">{new Date(sponsor.created_at).toLocaleDateString()}</td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

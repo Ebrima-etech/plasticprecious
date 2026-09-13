@@ -84,28 +84,14 @@ export default function ProductForm({ productId }: ProductFormProps) {
     fetchData();
   }, [productId]);
 
+  const [dragActive, setDragActive] = useState(false);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target as any;
     if (name === 'image' && type === 'file') {
       const files = (e.target as HTMLInputElement).files;
       if (files && files.length > 0) {
-        const newFiles = Array.from(files);
-        setImageFiles(newFiles);
-
-        const previews: string[] = [];
-        let loadedCount = 0;
-
-        newFiles.forEach((file) => {
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            previews.push(reader.result as string);
-            loadedCount++;
-            if (loadedCount === newFiles.length) {
-              setImagePreviews(previews);
-            }
-          };
-          reader.readAsDataURL(file);
-        });
+        handleFilesSelected(Array.from(files));
       }
     } else {
       setFormData({
@@ -113,6 +99,51 @@ export default function ProductForm({ productId }: ProductFormProps) {
         [name]: type === 'checkbox' ? (e.target as any).checked : value,
       });
     }
+  };
+
+  const handleFilesSelected = (newFiles: File[]) => {
+    setImageFiles(newFiles);
+
+    const previews: string[] = [];
+    let loadedCount = 0;
+
+    newFiles.forEach((file) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        previews.push(reader.result as string);
+        loadedCount++;
+        if (loadedCount === newFiles.length) {
+          setImagePreviews(previews);
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const handleDrag = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === 'dragenter' || e.type === 'dragover') {
+      setDragActive(true);
+    } else if (e.type === 'dragleave') {
+      setDragActive(false);
+    }
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+
+    const files = e.dataTransfer.files;
+    if (files && files.length > 0) {
+      handleFilesSelected(Array.from(files).filter(f => f.type.startsWith('image/')));
+    }
+  };
+
+  const removeImage = (idx: number) => {
+    setImageFiles(imageFiles.filter((_, i) => i !== idx));
+    setImagePreviews(imagePreviews.filter((_, i) => i !== idx));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -250,34 +281,101 @@ export default function ProductForm({ productId }: ProductFormProps) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-neutral-700 mb-2">
+            <label className="block text-sm font-medium text-neutral-700 mb-3">
               Product Images
             </label>
-            <input
-              type="file"
-              name="image"
-              accept="image/*"
-              multiple
-              onChange={handleChange}
-              className="w-full px-4 py-2.5 border border-neutral-200 rounded-md font-normal text-neutral-900 transition-all duration-normal focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-            />
+
+            {/* Drag & Drop Area */}
+            <div
+              onDragEnter={handleDrag}
+              onDragLeave={handleDrag}
+              onDragOver={handleDrag}
+              onDrop={handleDrop}
+              className={`relative w-full px-6 py-8 border-2 border-dashed rounded-lg transition-all duration-200 ${
+                dragActive
+                  ? 'border-primary-500 bg-primary-50'
+                  : 'border-neutral-300 bg-neutral-50 hover:border-primary-400'
+              }`}
+            >
+              <input
+                type="file"
+                name="image"
+                accept="image/*"
+                multiple
+                onChange={handleChange}
+                className="absolute inset-0 opacity-0 cursor-pointer"
+              />
+
+              <div className="text-center">
+                <svg className="mx-auto h-12 w-12 text-neutral-400 mb-2" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                  <path d="M28 8H12a4 4 0 00-4 4v20a4 4 0 004 4h24a4 4 0 004-4V20m-8-12l-3.172-3.172a2 2 0 00-2.828 0L28 8m0 0l8 8m-8-8v20" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                <p className="text-sm font-medium text-neutral-900">
+                  Drag and drop images here, or click to select
+                </p>
+                <p className="text-xs text-neutral-500 mt-1">
+                  PNG, JPG, GIF up to 10MB each
+                </p>
+              </div>
+            </div>
+
+            {/* Image Previews */}
             {imagePreviews.length > 0 && (
-              <div className="mt-4">
-                <p className="text-sm font-medium text-neutral-700 mb-2">Previews ({imagePreviews.length}):</p>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              <div className="mt-6">
+                <div className="flex items-center justify-between mb-3">
+                  <p className="text-sm font-semibold text-neutral-900">
+                    Selected Images ({imagePreviews.length})
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setImageFiles([]);
+                      setImagePreviews([]);
+                    }}
+                    className="text-xs text-red-600 hover:text-red-700 font-medium"
+                  >
+                    Clear All
+                  </button>
+                </div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
                   {imagePreviews.map((preview, idx) => (
-                    <div key={idx} className="relative">
+                    <div key={idx} className="group relative rounded-lg overflow-hidden border border-neutral-200 bg-neutral-50">
+                      {/* Image */}
                       <img
                         src={preview}
                         alt={`Preview ${idx + 1}`}
-                        className="w-full h-32 object-cover rounded-lg border border-neutral-200"
+                        className="w-full h-24 object-cover"
                       />
-                      <span className="absolute top-1 right-1 bg-neutral-900 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center">
+
+                      {/* Overlay */}
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                        <button
+                          type="button"
+                          onClick={() => removeImage(idx)}
+                          className="flex items-center justify-center w-7 h-7 bg-red-600 hover:bg-red-700 text-white rounded-full text-xs transition"
+                          title="Remove image"
+                        >
+                          ×
+                        </button>
+                      </div>
+
+                      {/* Badge */}
+                      <div className="absolute top-1 right-1 bg-primary-600 text-white text-xs font-semibold px-2 py-1 rounded">
                         {idx + 1}
-                      </span>
+                      </div>
+
+                      {/* File Info */}
+                      <div className="text-xs text-neutral-600 px-2 py-1 bg-neutral-50 border-t border-neutral-200 truncate">
+                        {imageFiles[idx]?.name || `Image ${idx + 1}`}
+                      </div>
                     </div>
                   ))}
                 </div>
+
+                <p className="text-xs text-neutral-500 mt-2">
+                  💡 Tip: The first image will be used as the primary product image
+                </p>
               </div>
             )}
           </div>

@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import axios from 'axios';
-import { FiMapPin, FiCalendar, FiUsers, FiGift, FiWave, FiZap, FiBook, FiTrendingUp } from 'react-icons/fi';
+import { FiMapPin, FiCalendar, FiUsers, FiGift, FiDroplet, FiTool, FiBook, FiBarChart2 } from 'react-icons/fi';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { API_BASE_URL } from '@/config/api';
@@ -26,14 +26,14 @@ export default function GetInvolvedPage() {
 
   const volunteerOptions = [
     {
-      icon: FiWave,
+      icon: FiDroplet,
       title: 'Beach Cleanups',
       desc: 'Join coastal collection drives',
       color: 'from-blue-500 to-cyan-600',
       darkColor: 'dark:from-blue-600 dark:to-cyan-700'
     },
     {
-      icon: FiZap,
+      icon: FiTool,
       title: 'Workshops',
       desc: 'Learn our recycling process',
       color: 'from-emerald-500 to-teal-600',
@@ -47,7 +47,7 @@ export default function GetInvolvedPage() {
       darkColor: 'dark:from-purple-600 dark:to-pink-700'
     },
     {
-      icon: FiTrendingUp,
+      icon: FiBarChart2,
       title: 'Fundraising',
       desc: 'Support our initiatives',
       color: 'from-orange-500 to-amber-600',

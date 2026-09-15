@@ -25,7 +25,7 @@ export default function GetInvolvedPage() {
   const [loadingEvents, setLoadingEvents] = useState(true);
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   const [showRegistrationModal, setShowRegistrationModal] = useState(false);
-  const [registrationForm, setRegistrationForm] = useState({ name: '', email: '', phone: '' });
+  const [registrationForm, setRegistrationForm] = useState({ name: '', email: '', phone: '', why_join: '' });
   const [registering, setRegistering] = useState(false);
 
   const volunteerOptions = [
@@ -102,7 +102,7 @@ export default function GetInvolvedPage() {
   const handleRegisterClick = (event: Event) => {
     setSelectedEvent(event);
     setShowRegistrationModal(true);
-    setRegistrationForm({ name: '', email: '', phone: '' });
+    setRegistrationForm({ name: '', email: '', phone: '', why_join: '' });
   };
 
   const handleRegistrationSubmit = async (e: React.FormEvent) => {
@@ -117,7 +117,7 @@ export default function GetInvolvedPage() {
       );
       alert('Successfully registered for the event!');
       setShowRegistrationModal(false);
-      setRegistrationForm({ name: '', email: '', phone: '' });
+      setRegistrationForm({ name: '', email: '', phone: '', why_join: '' });
       // Refresh events to update spot count
       fetchEvents();
     } catch (error: any) {
@@ -332,13 +332,25 @@ export default function GetInvolvedPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-slate-700 mb-2">Phone Number</label>
+                <label className="block text-sm font-bold text-slate-700 mb-2">Phone Number *</label>
                 <input
                   type="tel"
+                  required
                   value={registrationForm.phone}
                   onChange={(e) => setRegistrationForm({ ...registrationForm, phone: e.target.value })}
-                  placeholder="(optional)"
+                  placeholder="Your phone number"
                   className="w-full px-4 py-2 border-2 border-slate-200 rounded-lg focus:border-emerald-500 focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-bold text-slate-700 mb-2">Why do you want to join? *</label>
+                <textarea
+                  required
+                  value={registrationForm.why_join}
+                  onChange={(e) => setRegistrationForm({ ...registrationForm, why_join: e.target.value })}
+                  placeholder="Tell us why you're interested in this event..."
+                  className="w-full px-4 py-2 border-2 border-slate-200 rounded-lg focus:border-emerald-500 focus:outline-none h-24 resize-none"
                 />
               </div>
 

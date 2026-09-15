@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import axios from 'axios';
-import { FiMapPin, FiCalendar, FiUsers, FiGift } from 'react-icons/fi';
+import { FiMapPin, FiCalendar, FiUsers, FiGift, FiWave, FiZap, FiBook, FiTrendingUp } from 'react-icons/fi';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { API_BASE_URL } from '@/config/api';
@@ -25,10 +25,34 @@ export default function GetInvolvedPage() {
   const [loadingEvents, setLoadingEvents] = useState(true);
 
   const volunteerOptions = [
-    { icon: '🏖️', title: 'Beach Cleanups', desc: 'Join coastal collection drives', color: 'from-blue-600 to-cyan-600' },
-    { icon: '🏭', title: 'Workshops', desc: 'Learn our recycling process', color: 'from-emerald-600 to-teal-600' },
-    { icon: '📚', title: 'Education', desc: 'Teach circular economy', color: 'from-purple-600 to-pink-600' },
-    { icon: '💰', title: 'Fundraising', desc: 'Support our initiatives', color: 'from-orange-600 to-amber-600' }
+    {
+      icon: FiWave,
+      title: 'Beach Cleanups',
+      desc: 'Join coastal collection drives',
+      color: 'from-blue-500 to-cyan-600',
+      darkColor: 'dark:from-blue-600 dark:to-cyan-700'
+    },
+    {
+      icon: FiZap,
+      title: 'Workshops',
+      desc: 'Learn our recycling process',
+      color: 'from-emerald-500 to-teal-600',
+      darkColor: 'dark:from-emerald-600 dark:to-teal-700'
+    },
+    {
+      icon: FiBook,
+      title: 'Education',
+      desc: 'Teach circular economy',
+      color: 'from-purple-500 to-pink-600',
+      darkColor: 'dark:from-purple-600 dark:to-pink-700'
+    },
+    {
+      icon: FiTrendingUp,
+      title: 'Fundraising',
+      desc: 'Support our initiatives',
+      color: 'from-orange-500 to-amber-600',
+      darkColor: 'dark:from-orange-600 dark:to-amber-700'
+    }
   ];
 
   useEffect(() => {
@@ -86,13 +110,35 @@ export default function GetInvolvedPage() {
 
           {/* Ways to Help */}
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-            {volunteerOptions.map((option, idx) => (
-              <div key={idx} className={`bg-gradient-to-br ${option.color} rounded-2xl p-8 text-white shadow-lg hover:shadow-xl transition`}>
-                <div className="text-4xl mb-4">{option.icon}</div>
-                <h3 className="text-xl font-black mb-2">{option.title}</h3>
-                <p className="opacity-90 text-sm">{option.desc}</p>
-              </div>
-            ))}
+            {volunteerOptions.map((option, idx) => {
+              const IconComponent = option.icon;
+              return (
+                <div
+                  key={idx}
+                  className={`bg-gradient-to-br ${option.color} rounded-3xl p-8 text-white shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 cursor-pointer group relative overflow-hidden`}
+                >
+                  {/* Animated background accent */}
+                  <div className="absolute -top-20 -right-20 w-40 h-40 bg-white/10 rounded-full group-hover:scale-150 transition-transform duration-500"></div>
+
+                  {/* Content */}
+                  <div className="relative z-10">
+                    {/* Icon */}
+                    <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-6 group-hover:bg-white/30 transition-all duration-300">
+                      <IconComponent size={32} className="text-white" />
+                    </div>
+
+                    {/* Text */}
+                    <h3 className="text-2xl font-black mb-3 group-hover:translate-x-1 transition-transform duration-300">{option.title}</h3>
+                    <p className="opacity-95 text-sm leading-relaxed font-medium">{option.desc}</p>
+
+                    {/* Arrow indicator */}
+                    <div className="mt-4 inline-block opacity-0 group-hover:opacity-100 transform translate-x-0 group-hover:translate-x-2 transition-all duration-300">
+                      <span className="text-lg font-bold">→</span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
 
           {/* Upcoming Events */}

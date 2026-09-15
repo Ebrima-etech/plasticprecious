@@ -23,6 +23,10 @@ export default function GetInvolvedPage() {
   const [submitted, setSubmitted] = useState(false);
   const [events, setEvents] = useState<Event[]>([]);
   const [loadingEvents, setLoadingEvents] = useState(true);
+  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+  const [showRegistrationModal, setShowRegistrationModal] = useState(false);
+  const [registrationForm, setRegistrationForm] = useState({ name: '', email: '', phone: '' });
+  const [registering, setRegistering] = useState(false);
 
   const volunteerOptions = [
     {
@@ -95,6 +99,35 @@ export default function GetInvolvedPage() {
     }
   };
 
+  const handleRegisterClick = (event: Event) => {
+    setSelectedEvent(event);
+    setShowRegistrationModal(true);
+    setRegistrationForm({ name: '', email: '', phone: '' });
+  };
+
+  const handleRegistrationSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedEvent) return;
+
+    setRegistering(true);
+    try {
+      const response = await axios.post(
+        `${API_BASE_URL}/impact/events/${selectedEvent.id}/register/`,
+        registrationForm
+      );
+      alert('Successfully registered for the event!');
+      setShowRegistrationModal(false);
+      setRegistrationForm({ name: '', email: '', phone: '' });
+      // Refresh events to update spot count
+      fetchEvents();
+    } catch (error: any) {
+      console.error('Registration failed:', error);
+      alert(error.response?.data?.error || 'Registration failed. Please try again.');
+    } finally {
+      setRegistering(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <Navbar showNavLinks={true} />
@@ -160,7 +193,10 @@ export default function GetInvolvedPage() {
                           <p className="text-sm text-slate-600">{event.location}</p>
                         </div>
                       </div>
-                      <button className="px-6 py-2 bg-emerald-600 text-white font-bold rounded-lg hover:bg-emerald-700">
+                      <button
+                        onClick={() => handleRegisterClick(event)}
+                        className="px-6 py-2 bg-emerald-600 text-white font-bold rounded-lg hover:bg-emerald-700 transition"
+                      >
                         Register
                       </button>
                     </div>
@@ -257,6 +293,75 @@ export default function GetInvolvedPage() {
           </div>
         </div>
       </section>
+
+      {/* Registration Modal */}
+      {showRegistrationModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl p-8 max-w-md w-full shadow-2xl">
+            <h2 className="text-2xl font-black text-slate-900 mb-6">Register for Event</h2>
+            {selectedEvent && (
+              <p className="text-slate-600 mb-6">
+                <strong>{selectedEvent.title}</strong> on{' '}
+                {new Date(selectedEvent.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+              </p>
+            )}
+
+            <form onSubmit={handleRegistrationSubmit} className="space-y-4">
+              <div>
+                <label className="block text-sm font-bold text-slate-700 mb-2">Full Name *</label>
+                <input
+                  type="text"
+                  required
+                  value={registrationForm.name}
+                  onChange={(e) => setRegistrationForm({ ...registrationForm, name: e.target.value })}
+                  placeholder="Your name"
+                  className="w-full px-4 py-2 border-2 border-slate-200 rounded-lg focus:border-emerald-500 focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-bold text-slate-700 mb-2">Email *</label>
+                <input
+                  type="email"
+                  required
+                  value={registrationForm.email}
+                  onChange={(e) => setRegistrationForm({ ...registrationForm, email: e.target.value })}
+                  placeholder="your@email.com"
+                  className="w-full px-4 py-2 border-2 border-slate-200 rounded-lg focus:border-emerald-500 focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-bold text-slate-700 mb-2">Phone Number</label>
+                <input
+                  type="tel"
+                  value={registrationForm.phone}
+                  onChange={(e) => setRegistrationForm({ ...registrationForm, phone: e.target.value })}
+                  placeholder="(optional)"
+                  className="w-full px-4 py-2 border-2 border-slate-200 rounded-lg focus:border-emerald-500 focus:outline-none"
+                />
+              </div>
+
+              <div className="flex gap-3 pt-4">
+                <button
+                  type="submit"
+                  disabled={registering}
+                  className="flex-1 px-6 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold rounded-lg hover:from-emerald-700 hover:to-teal-700 transition disabled:opacity-50"
+                >
+                  {registering ? 'Registering...' : 'Register'}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowRegistrationModal(false)}
+                  className="flex-1 px-6 py-3 bg-slate-200 text-slate-700 font-bold rounded-lg hover:bg-slate-300 transition"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
       <Footer />
     </div>

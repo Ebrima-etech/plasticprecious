@@ -167,7 +167,6 @@ export default function GetInvolvedPage() {
                     <p className="text-xs text-slate-600">{event.spots_available - (event.spots_filled || 0)} spots available</p>
                   </div>
                 ))
-                })
               ) : (
                 <p className="text-slate-600">No upcoming events at the moment.</p>
               )}

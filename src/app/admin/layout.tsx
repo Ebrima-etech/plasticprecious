@@ -106,6 +106,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <div className="space-y-1">
               <NavLink href="/admin/impact" icon={HiOutlineArrowTrendingUp} label="Impact Metrics" />
               <NavLink href="/admin/impact/events" icon={HiOutlineCalendar} label="Events" />
+              <NavLink href="/admin/impact/registrations" icon={HiOutlineUsers} label="Registrations" />
               <NavLink href="/admin/impact/rfq" icon={HiOutlineDocumentText} label="RFQs" />
               <NavLink href="/admin/impact/sponsorship" icon={HiOutlineGift} label="Sponsorships" />
             </div>

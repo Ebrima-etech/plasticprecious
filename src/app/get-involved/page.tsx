@@ -144,61 +144,29 @@ export default function GetInvolvedPage() {
           {/* Upcoming Events */}
           <div className="mb-16">
             <h2 className="text-3xl font-black text-slate-900 mb-8">Upcoming Events</h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="space-y-4">
               {loadingEvents ? (
                 <p className="text-slate-600">Loading events...</p>
               ) : events.length > 0 ? (
-                events.map((event) => {
-                  const spotsFilled = event.spots_filled || 0;
-                  const spotsAvailable = event.spots_available || 1;
-                  const spotsRemaining = spotsAvailable - spotsFilled;
-                  const fillPercentage = (spotsFilled / spotsAvailable) * 100;
-                  return (
-                    <div key={event.id} className="bg-white border-2 border-slate-200 rounded-2xl overflow-hidden hover:shadow-2xl hover:border-emerald-400 transition-all duration-300">
-                      {/* Header with Date Badge */}
-                      <div className="bg-gradient-to-r from-emerald-500 to-teal-500 p-6 relative">
-                        <div className="absolute top-4 right-4 bg-white text-emerald-600 font-bold px-4 py-2 rounded-lg text-sm">
-                          <FiCalendar className="inline mr-2" size={16} />
+                events.map((event) => (
+                  <div key={event.id} className="bg-white border-2 border-slate-200 rounded-2xl p-6 hover:border-emerald-400 transition">
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center gap-4">
+                        <div className="bg-emerald-100 text-emerald-700 font-bold px-4 py-2 rounded-lg">
                           {new Date(event.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                         </div>
-                        <h3 className="text-xl font-black text-white pr-24">{event.title}</h3>
-                      </div>
-
-                      {/* Body */}
-                      <div className="p-6">
-                        {/* Location */}
-                        <div className="flex items-center gap-2 mb-4 text-slate-700">
-                          <FiMapPin size={18} className="text-emerald-600" />
-                          <p className="font-semibold">{event.location}</p>
+                        <div>
+                          <p className="font-bold text-slate-900">{event.title}</p>
+                          <p className="text-sm text-slate-600">{event.location}</p>
                         </div>
-
-                        {/* Spots Available */}
-                        <div className="mb-4">
-                          <div className="flex justify-between items-center mb-2">
-                            <p className="text-sm font-bold text-slate-700">Spots Remaining</p>
-                            <p className="text-sm font-bold text-emerald-600">{spotsRemaining} of {spotsAvailable}</p>
-                          </div>
-                          <div className="w-full bg-slate-200 rounded-full h-2.5 overflow-hidden">
-                            <div
-                              className="bg-gradient-to-r from-emerald-500 to-teal-500 h-full transition-all duration-300"
-                              style={{ width: `${fillPercentage}%` }}
-                            ></div>
-                          </div>
-                        </div>
-
-                        {/* Description if available */}
-                        {event.description && (
-                          <p className="text-sm text-slate-600 mb-4 line-clamp-2">{event.description}</p>
-                        )}
-
-                        {/* CTA Button */}
-                        <button className="w-full py-3 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold rounded-lg hover:from-emerald-700 hover:to-teal-700 transition-all duration-300 flex items-center justify-center gap-2">
-                          <FiUsers size={18} />
-                          Join Event
-                        </button>
                       </div>
+                      <button className="px-6 py-2 bg-emerald-600 text-white font-bold rounded-lg hover:bg-emerald-700">
+                        Register
+                      </button>
                     </div>
-                  );
+                    <p className="text-xs text-slate-600">{event.spots_available - (event.spots_filled || 0)} spots available</p>
+                  </div>
+                ))
                 })
               ) : (
                 <p className="text-slate-600">No upcoming events at the moment.</p>

@@ -59,20 +59,20 @@ export default function GetInvolvedPage() {
     }
   ];
 
-  useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const response = await axios.get(`${API_BASE_URL}/impact/events/`);
-        const eventList = response.data.results || response.data;
-        setEvents(Array.isArray(eventList) ? eventList : []);
-      } catch (error) {
-        console.error('Failed to fetch events:', error);
-        setDefaultEvents();
-      } finally {
-        setLoadingEvents(false);
-      }
-    };
+  const fetchEvents = async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/impact/events/`);
+      const eventList = response.data.results || response.data;
+      setEvents(Array.isArray(eventList) ? eventList : []);
+    } catch (error) {
+      console.error('Failed to fetch events:', error);
+      setDefaultEvents();
+    } finally {
+      setLoadingEvents(false);
+    }
+  };
 
+  useEffect(() => {
     fetchEvents();
   }, []);
 

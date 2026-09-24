@@ -23,6 +23,39 @@ interface Product {
   stock: number;
 }
 
+interface HeroSlide {
+  id: number;
+  image_url: string;
+  slide_type: string;
+  order: number;
+  is_active: boolean;
+}
+
+interface Service {
+  id: number;
+  name: string;
+  description: string;
+  icon?: string;
+  color_from: string;
+  color_to: string;
+  order: number;
+}
+
+interface TeamMember {
+  id: number;
+  name: string;
+  role: string;
+  image_url?: string;
+  order: number;
+}
+
+interface Partner {
+  id: number;
+  name: string;
+  logo_url: string;
+  order: number;
+}
+
 export default function Home() {
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
@@ -33,6 +66,11 @@ export default function Home() {
   const [productsLoading, setProductsLoading] = useState(true);
   const [productCarouselIndex, setProductCarouselIndex] = useState(0);
   const [badgeIndex, setBadgeIndex] = useState(0);
+  const [heroSlides, setHeroSlides] = useState<HeroSlide[]>([]);
+  const [services, setServices] = useState<Service[]>([]);
+  const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
+  const [partners, setPartners] = useState<Partner[]>([]);
+  const [carouselItems, setCarouselItems] = useState<{title: string; image: string}[]>([]);
 
   const badgeItems = [
     '🌱 RECYCLED & SUSTAINABLE',
@@ -41,61 +79,54 @@ export default function Home() {
     '💚 ECO-FRIENDLY'
   ];
 
-  const heroSlides = [
-    {
-      type: 'description',
-      badge: true,
-      heading: false,
-      buttons: true,
-      description: true,
-      image: 'https://res.cloudinary.com/divk8m0ff/image/upload/v1789311020/WhatsApp_Image_2026-09-13_at_10.04.14_4_gksbhh.jpg'
-    },
-    {
-      type: 'main',
-      badge: true,
-      heading: true,
-      buttons: true,
-      description: false,
-      image: 'https://res.cloudinary.com/divk8m0ff/image/upload/v1789310801/WhatsApp_Image_2026-09-13_at_10.04.16_2_l3izsj.jpg'
-    },
-    {
-      type: 'description',
-      badge: true,
-      heading: false,
-      buttons: true,
-      description: true,
-      image: 'https://res.cloudinary.com/divk8m0ff/image/upload/v1789311068/WhatsApp_Image_2026-09-13_at_10.04.13_jj8pfj.jpg'
-    }
-  ];
-  const [carouselItems, setCarouselItems] = useState([
-    { title: 'Sustainable Community Solutions', image: 'https://res.cloudinary.com/divk8m0ff/image/upload/v1789311020/WhatsApp_Image_2026-09-13_at_10.04.14_4_gksbhh.jpg' },
-    { title: 'Community Impact & Unity', image: 'https://res.cloudinary.com/divk8m0ff/image/upload/v1789310801/WhatsApp_Image_2026-09-13_at_10.04.16_2_l3izsj.jpg' },
-    { title: 'Building Better Futures Together', image: 'https://res.cloudinary.com/divk8m0ff/image/upload/v1789311068/WhatsApp_Image_2026-09-13_at_10.04.13_jj8pfj.jpg' }
-  ]);
+  useEffect(() => {
+    fetchHeroSlides();
+    fetchServices();
+    fetchTeamMembers();
+    fetchPartners();
+  }, []);
 
-  const services = [
-    {
-      icon: GiRecycle,
-      title: 'Collections',
-      description: 'Community-driven plastic collection programs to reduce environmental waste.',
-      image: 'https://images.pexels.com/photos/3945683/pexels-photo-3945683.jpeg?w=500&h=300&fit=crop',
-      color: 'from-blue-500 to-blue-600'
-    },
-    {
-      icon: BiRecycle,
-      title: 'Recycling',
-      description: 'Advanced processing and recycling of plastic waste into quality products.',
-      image: 'https://images.pexels.com/photos/3962286/pexels-photo-3962286.jpeg?w=500&h=300&fit=crop',
-      color: 'from-emerald-500 to-emerald-600'
-    },
-    {
-      icon: MdSchool,
-      title: 'Workshops',
-      description: 'Educational programs and hands-on training in sustainable practices.',
-      image: 'https://images.pexels.com/photos/3807517/pexels-photo-3807517.jpeg?w=500&h=300&fit=crop',
-      color: 'from-amber-500 to-amber-600'
-    },
-  ];
+  const fetchHeroSlides = async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/hero-slides/`);
+      const slides = (response.data.results || response.data).sort((a: HeroSlide, b: HeroSlide) => a.order - b.order);
+      setHeroSlides(slides);
+      const carousel = slides.map((s: HeroSlide) => ({ title: s.id.toString(), image: s.image_url }));
+      setCarouselItems(carousel);
+    } catch (error) {
+      console.error('Failed to fetch hero slides:', error);
+    }
+  };
+
+  const fetchServices = async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/services/`);
+      const servicesData = (response.data.results || response.data).sort((a: Service, b: Service) => a.order - b.order);
+      setServices(servicesData);
+    } catch (error) {
+      console.error('Failed to fetch services:', error);
+    }
+  };
+
+  const fetchTeamMembers = async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/team-members/`);
+      const members = (response.data.results || response.data).sort((a: TeamMember, b: TeamMember) => a.order - b.order);
+      setTeamMembers(members);
+    } catch (error) {
+      console.error('Failed to fetch team members:', error);
+    }
+  };
+
+  const fetchPartners = async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/partners/`);
+      const partnersData = (response.data.results || response.data).sort((a: Partner, b: Partner) => a.order - b.order);
+      setPartners(partnersData);
+    } catch (error) {
+      console.error('Failed to fetch partners:', error);
+    }
+  };
 
   const impacts = [
     { metric: 'Environmental', description: 'Tons of plastic diverted from oceans and landfills', image: 'https://images.pexels.com/photos/3951628/pexels-photo-3951628.jpeg?w=400&h=400&fit=crop' },
@@ -812,20 +843,25 @@ export default function Home() {
           {/* Pill-shaped Grid - GetLab Inspired */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {services.map((service, i) => {
-              const IconComponent = service.icon;
+              const iconMap: {[key: string]: React.ComponentType<{size: number}>} = {
+                'GiRecycle': GiRecycle,
+                'BiRecycle': BiRecycle,
+                'MdSchool': MdSchool
+              };
+              const IconComponent = iconMap[service.icon || 'GiRecycle'] || GiRecycle;
               return (
-                <Link key={i} href="/services-detail" className={`group cursor-pointer animate-fade-in-up animation-delay-${i * 100} no-underline`}>
+                <Link key={service.id} href="/services-detail" className={`group cursor-pointer animate-fade-in-up animation-delay-${i * 100} no-underline`}>
                   <div className="unique-card relative rounded-2xl overflow-hidden flex flex-col h-full">
                     {/* Icon Badge - Pill Style */}
                     <div className="px-6 pt-6 pb-3">
-                      <div className={`w-14 h-14 rounded-full bg-gradient-to-br ${service.color} text-white font-black flex items-center justify-center text-3xl`}>
+                      <div className={`w-14 h-14 rounded-full bg-gradient-to-br from-${service.color_from} to-${service.color_to} text-white font-black flex items-center justify-center text-3xl`}>
                         <IconComponent size={32} />
                       </div>
                     </div>
 
                     {/* Content Section */}
                     <div className="flex flex-col flex-grow px-6 pb-6">
-                      <h3 className="font-black text-slate-900 text-2xl leading-tight mb-3">{service.title}</h3>
+                      <h3 className="font-black text-slate-900 text-2xl leading-tight mb-3">{service.name}</h3>
                       <p className="text-slate-600 text-sm leading-relaxed flex-grow mb-4">{service.description}</p>
 
                       {/* Minimal CTA */}
@@ -855,23 +891,13 @@ export default function Home() {
 
           {/* Team Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              { name: 'Baai E Jaabang', role: 'Co-Founder', image: null },
-              { name: 'Alieu Sowe', role: 'Co-Founder', image: null },
-              { name: 'Rebecca Talbot', role: 'Co-Founder', image: null },
-              { name: 'Babucarr E Camara', role: 'Co-Founder & Operations Manager', image: '/team/Babucarr E Camara.jpg' },
-              { name: 'Omar Manjang', role: 'Machine Operator & Furniture Builder', image: '/team/Omar Manjang.jpg' },
-              { name: 'Mariama M Jabang', role: 'Operations & Store Associate', image: '/team/mariama m jabang.jpg' },
-              { name: 'Ramatoulie Manneh', role: 'Machine Operator & Artisan', image: '/team/Ramatoulie Manneh.jpg' },
-              { name: 'Bakary Saidy', role: 'Support Staff', image: '/team/Bakary Saidy.jpg' },
-              { name: 'Sheriffo Manneh', role: 'Support Staff', image: '/team/Sheriffo Manjang.jpg' }
-            ].map((member, idx) => (
-              <div key={idx} className="animate-fade-in-up group cursor-pointer">
+            {teamMembers.map((member, idx) => (
+              <div key={member.id} className="animate-fade-in-up group cursor-pointer">
                 <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 h-full flex flex-col">
                   <div className="relative h-64 md:h-72 lg:h-80 overflow-hidden bg-gradient-to-br from-emerald-200 to-teal-200 flex items-center justify-center">
-                    {member.image ? (
+                    {member.image_url ? (
                       <img
-                        src={member.image}
+                        src={member.image_url}
                         alt={member.name}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
@@ -922,15 +948,9 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 md:gap-12 lg:gap-16 place-items-center">
-            {[
-              'https://images.pexels.com/photos/3962286/pexels-photo-3962286.jpeg?w=150&h=80&fit=crop',
-              'https://images.pexels.com/photos/5830900/pexels-photo-5830900.jpeg?w=150&h=80&fit=crop',
-              'https://images.pexels.com/photos/5632399/pexels-photo-5632399.jpeg?w=150&h=80&fit=crop',
-              'https://images.pexels.com/photos/6474056/pexels-photo-6474056.jpeg?w=150&h=80&fit=crop',
-              'https://images.pexels.com/photos/3962286/pexels-photo-3962286.jpeg?w=150&h=80&fit=crop',
-            ].map((logo, i) => (
-              <div key={i} className="flex items-center justify-center h-24 w-40 group hover:scale-110 transition-transform duration-300">
-                <img src={logo} alt={`Partner ${i + 1}`} className="max-w-full max-h-full object-contain" />
+            {partners.map((partner) => (
+              <div key={partner.id} className="flex items-center justify-center h-24 w-40 group hover:scale-110 transition-transform duration-300">
+                <img src={partner.logo_url} alt={partner.name} className="max-w-full max-h-full object-contain" />
               </div>
             ))}
           </div>

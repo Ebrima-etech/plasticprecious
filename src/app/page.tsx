@@ -542,10 +542,10 @@ export default function Home() {
         <div className="relative w-full h-[45vh] flex items-center justify-center">
           {/* Carousel Background Image */}
           <div className="absolute inset-0 overflow-hidden">
-            {heroSlides[heroSlideIndex].image && (
+            {heroSlides.length > 0 && heroSlides[heroSlideIndex]?.image_url && (
               <img
                 key={heroSlideIndex}
-                src={heroSlides[heroSlideIndex].image}
+                src={heroSlides[heroSlideIndex].image_url}
                 alt="Hero slide background"
                 className="carousel-image absolute inset-0 w-full h-full object-cover"
               />

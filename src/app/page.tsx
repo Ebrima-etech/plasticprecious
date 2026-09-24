@@ -854,7 +854,7 @@ export default function Home() {
                   <div className="unique-card relative rounded-2xl overflow-hidden flex flex-col h-full">
                     {/* Icon Badge - Pill Style */}
                     <div className="px-6 pt-6 pb-3">
-                      <div className={`w-14 h-14 rounded-full bg-gradient-to-br from-${service.color_from} to-${service.color_to} text-white font-black flex items-center justify-center text-3xl`}>
+                      <div className="w-14 h-14 rounded-full text-white font-black flex items-center justify-center text-3xl bg-gradient-to-br from-emerald-500 to-teal-500">
                         <IconComponent size={32} />
                       </div>
                     </div>

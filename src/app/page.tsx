@@ -842,6 +842,70 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Team Section */}
+      <section className="py-16 lg:py-24 bg-gradient-to-b from-emerald-50 to-white">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="mb-16 animate-fade-in-up">
+            <div className="inline-block bg-emerald-100 text-emerald-700 px-4 py-2 rounded-full text-sm font-bold mb-4">
+              👥 OUR TEAM
+            </div>
+            <h2 className="text-4xl lg:text-5xl font-black text-slate-900 mb-4 tracking-tight">Meet the Changemakers</h2>
+            <p className="text-xl text-slate-600 max-w-2xl">The dedicated team driving the circular economy movement in The Gambia</p>
+          </div>
+
+          {/* Team Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              { name: 'Baai E Jaabang', role: 'Co-Founder', image: null },
+              { name: 'Alieu Sowe', role: 'Co-Founder', image: null },
+              { name: 'Rebecca Talbot', role: 'Co-Founder', image: null },
+              { name: 'Babucarr E Camara', role: 'Co-Founder & Operations Manager', image: '/team/Babucarr E Camara.jpg' },
+              { name: 'Omar Manjang', role: 'Machine Operator & Furniture Builder', image: '/team/Omar Manjang.jpg' },
+              { name: 'Mariama M Jabang', role: 'Operations & Store Associate', image: '/team/mariama m jabang.jpg' },
+              { name: 'Ramatoulie Manneh', role: 'Machine Operator & Artisan', image: '/team/Ramatoulie Manneh.jpg' },
+              { name: 'Bakary Saidy', role: 'Support Staff', image: '/team/Bakary Saidy.jpg' },
+              { name: 'Sheriffo Manneh', role: 'Support Staff', image: '/team/Sheriffo Manjang.jpg' }
+            ].map((member, idx) => (
+              <div key={idx} className="animate-fade-in-up group cursor-pointer">
+                <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 h-full flex flex-col">
+                  <div className="relative h-64 md:h-72 lg:h-80 overflow-hidden bg-gradient-to-br from-emerald-200 to-teal-200 flex items-center justify-center">
+                    {member.image ? (
+                      <img
+                        src={member.image}
+                        alt={member.name}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    ) : (
+                      <div className="w-24 h-24 rounded-full bg-emerald-500 flex items-center justify-center">
+                        <FiUser size={60} className="text-white" />
+                      </div>
+                    )}
+                  </div>
+                  <div className="p-6 flex flex-col flex-grow">
+                    <div className="inline-block bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-3 py-1 rounded-full text-xs font-bold mb-3 w-fit">
+                      {member.role.split(' & ')[0]}
+                    </div>
+                    <h3 className="text-xl font-black text-slate-900 mb-2">{member.name}</h3>
+                    <p className="text-sm text-slate-600">{member.role}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* CTA Section */}
+          <div className="mt-20 bg-gradient-to-r from-emerald-600 to-teal-600 rounded-3xl p-12 text-white text-center">
+            <h3 className="text-3xl font-black mb-4">Join Our Growing Team</h3>
+            <p className="mb-8 max-w-2xl mx-auto opacity-90">
+              Passionate about sustainability? We're always looking for dedicated individuals to join our mission.
+            </p>
+            <Link href="/contact" className="inline-block px-8 py-3 bg-white text-emerald-600 font-bold rounded-lg hover:bg-slate-100 transition">
+              Get In Touch
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Partners Section */}
       <section className="py-16 lg:py-20 bg-gradient-to-br from-slate-50 to-emerald-50 relative overflow-hidden" style={{
         backgroundImage: `url('data:image/svg+xml,%3Csvg width="80" height="80" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M0 20 Q 20 0 40 20 T 80 20" stroke="rgba(16, 185, 129, 0.15)" stroke-width="1.5" fill="none"/%3E%3Cpath d="M0 40 Q 20 20 40 40 T 80 40" stroke="rgba(16, 185, 129, 0.15)" stroke-width="1.5" fill="none"/%3E%3Cpath d="M0 60 Q 20 40 40 60 T 80 60" stroke="rgba(16, 185, 129, 0.15)" stroke-width="1.5" fill="none"/%3E%3Cpath d="M0 80 Q 20 60 40 80 T 80 80" stroke="rgba(16, 185, 129, 0.15)" stroke-width="1.5" fill="none"/%3E%3C/svg%3E')`,

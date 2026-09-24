@@ -230,6 +230,9 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
                 <Link href="/about" className="text-white hover:text-slate-200 transition text-sm font-bold uppercase tracking-wide">
                   About
                 </Link>
+                <Link href="/team" className="text-white hover:text-slate-200 transition text-sm font-bold uppercase tracking-wide">
+                  Team
+                </Link>
               </div>
             )}
 
@@ -344,6 +347,9 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
               </Link>
               <Link href="/about" className="block text-white hover:text-emerald-100 transition text-sm font-medium py-2">
                 About
+              </Link>
+              <Link href="/team" className="block text-white hover:text-emerald-100 transition text-sm font-medium py-2">
+                Team
               </Link>
               {isLoggedIn ? (
                 <>

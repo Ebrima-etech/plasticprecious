@@ -100,6 +100,17 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             </div>
           </div>
 
+          {/* CMS & Content Section */}
+          <div>
+            <p className="text-xs font-semibold text-gray-500 uppercase tracking-widest mb-3">CMS & Content</p>
+            <div className="space-y-1">
+              <NavLink href="/admin/cms/hero-slides" icon={HiOutlineSquares2X2} label="Hero Slides" />
+              <NavLink href="/admin/cms/services" icon={HiOutlineBriefcase} label="Services" />
+              <NavLink href="/admin/cms/team-members" icon={HiOutlineUserGroup} label="Team Members" />
+              <NavLink href="/admin/cms/partners" icon={HiOutlineTag} label="Partners" />
+            </div>
+          </div>
+
           {/* Impact & Community Section */}
           <div>
             <p className="text-xs font-semibold text-gray-500 uppercase tracking-widest mb-3">Impact & Community</p>

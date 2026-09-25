@@ -673,7 +673,7 @@ export default function Home() {
             <div className="relative flex flex-col items-center w-full animate-fade-in-up animation-delay-300">
               <div className="relative w-full">
                 <div className="rounded-2xl h-[75vh] flex flex-col items-center justify-center overflow-hidden relative">
-                  {carouselItems[carouselIndex].image && (
+                  {carouselItems.length > 0 && carouselItems[carouselIndex]?.image && (
                     <img
                       key={carouselIndex}
                       src={carouselItems[carouselIndex].image}

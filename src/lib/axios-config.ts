@@ -7,15 +7,11 @@ axios.interceptors.response.use(
   response => response,
   error => {
     if (error.response?.status === 401 && !isRedirecting) {
-      isRedirecting = true;
-      clearTokens();
-
-      if (typeof window !== 'undefined') {
-        // Check if we're in admin or regular user area
-        const currentPath = window.location.pathname;
-        const redirectPath = currentPath.startsWith('/admin') ? '/auth/login' : '/auth/login';
-
-        window.location.href = redirectPath;
+      // Only redirect if not already on login page
+      if (typeof window !== 'undefined' && !window.location.pathname.includes('/login')) {
+        isRedirecting = true;
+        clearTokens();
+        window.location.href = '/auth/login';
       }
     }
     return Promise.reject(error);

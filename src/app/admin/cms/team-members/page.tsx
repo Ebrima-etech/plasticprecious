@@ -4,12 +4,12 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API_BASE_URL } from '@/config/api';
 import { getAccessToken } from '@/lib/auth';
-import { SlideOver } from '@/components/admin/SlideOver';
 import { ListCard } from '@/components/ios/ListCard';
 import { DragHandle } from '@/components/ios/DragHandle';
 import { ToggleSwitch } from '@/components/ios/ToggleSwitch';
 import { CMSHeader } from '@/components/ios/CMSHeader';
 import { CMSActionMenu } from '@/components/ios/CMSActionMenu';
+import { MultiStepForm } from '@/components/ios/MultiStepForm';
 
 interface TeamMember {
   id: number;
@@ -20,12 +20,19 @@ interface TeamMember {
   is_active: boolean;
 }
 
+const FORM_STEPS = [
+  { id: 'personal', title: 'Personal Info', description: 'Name and photo' },
+  { id: 'role', title: 'Role & Bio', description: 'Position and description' }
+];
+
 export default function TeamMembersPage() {
   const [members, setMembers] = useState<TeamMember[]>([]);
   const [loading, setLoading] = useState(true);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isFormOpen, setIsFormOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [editingId, setEditingId] = useState<number | null>(null);
+  const [currentStep, setCurrentStep] = useState(0);
+  const [submitting, setSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     role: '',
@@ -53,6 +60,7 @@ export default function TeamMembersPage() {
   };
 
   const handleSubmit = async () => {
+    setSubmitting(true);
     const token = getAccessToken();
     try {
       if (editingId) {
@@ -65,13 +73,15 @@ export default function TeamMembersPage() {
         });
       }
       fetchMembers();
-      closeDrawer();
+      closeForm();
     } catch (error) {
       console.error('Failed to save:', error);
+    } finally {
+      setSubmitting(false);
     }
   };
 
-  const openDrawer = (member?: TeamMember) => {
+  const openForm = (member?: TeamMember) => {
     if (member) {
       setEditingId(member.id);
       setFormData({
@@ -85,14 +95,16 @@ export default function TeamMembersPage() {
       setEditingId(null);
       setFormData({ name: '', role: '', description: '', image_url: '', is_active: true });
     }
-    setIsDrawerOpen(true);
+    setCurrentStep(0);
+    setIsFormOpen(true);
   };
 
-  const closeDrawer = () => {
-    setIsDrawerOpen(false);
+  const closeForm = () => {
+    setIsFormOpen(false);
     setTimeout(() => {
       setEditingId(null);
       setFormData({ name: '', role: '', description: '', image_url: '', is_active: true });
+      setCurrentStep(0);
     }, 300);
   };
 
@@ -118,79 +130,93 @@ export default function TeamMembersPage() {
       <CMSHeader
         title="Team Members"
         itemCount={filteredMembers.length}
-        onAddClick={() => openDrawer()}
+        onAddClick={() => openForm()}
         searchValue={searchQuery}
         onSearchChange={setSearchQuery}
       />
 
-      <SlideOver
-        isOpen={isDrawerOpen}
-        onClose={closeDrawer}
-        title={editingId ? 'Edit Member' : 'Add Member'}
-        description={editingId ? 'Update team member details' : 'Add a new team member'}
-        footer={
-          <>
-            <button onClick={closeDrawer} className="px-6 py-2 text-slate-700 font-medium hover:bg-slate-200 rounded-lg transition">
-              Cancel
-            </button>
-            <button onClick={handleSubmit} className="px-6 py-2 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition">
-              {editingId ? 'Update' : 'Create'}
-            </button>
-          </>
-        }
-      >
-        <div className="space-y-6">
-          <div>
-            <label className="text-xs font-semibold text-slate-600 block mb-2">Full Name *</label>
-            <input
-              type="text"
-              placeholder="e.g., John Doe"
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition"
-              required
-            />
-          </div>
-          <div>
-            <label className="text-xs font-semibold text-slate-600 block mb-2">Role *</label>
-            <input
-              type="text"
-              placeholder="e.g., Creative Director"
-              value={formData.role}
-              onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-              className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition"
-              required
-            />
-          </div>
-          <div>
-            <label className="text-xs font-semibold text-slate-600 block mb-2">Bio</label>
-            <textarea
-              placeholder="Brief description"
-              value={formData.description}
-              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition resize-none h-24"
-            />
-          </div>
-          <div>
-            <label className="text-xs font-semibold text-slate-600 block mb-2">Photo URL</label>
-            <input
-              type="url"
-              placeholder="https://example.com/photo.jpg"
-              value={formData.image_url}
-              onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-              className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition"
-            />
-          </div>
-          <div className="pt-4 border-t border-slate-200 flex items-center justify-between">
-            <label className="text-sm font-medium text-slate-900">Active</label>
-            <ToggleSwitch
-              checked={formData.is_active}
-              onChange={(checked) => setFormData({ ...formData, is_active: checked })}
-            />
-          </div>
-        </div>
-      </SlideOver>
+      {/* Inline Form */}
+      {isFormOpen && (
+        <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6">
+          <MultiStepForm
+            steps={FORM_STEPS}
+            currentStep={currentStep}
+            onStepChange={setCurrentStep}
+            onSubmit={handleSubmit}
+            onCancel={closeForm}
+            submitLabel={editingId ? 'Update' : 'Create'}
+            loading={submitting}
+          >
+            {currentStep === 0 && (
+              <div className="space-y-5">
+                <div>
+                  <label className="text-xs font-semibold text-slate-600 block mb-2">Full Name *</label>
+                  <input
+                    type="text"
+                    placeholder="e.g., John Doe"
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    className="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-semibold text-slate-600 block mb-2">Photo URL</label>
+                  <input
+                    type="url"
+                    placeholder="https://example.com/photo.jpg"
+                    value={formData.image_url}
+                    onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
+                    className="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition"
+                  />
+                </div>
+                {formData.image_url && (
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-full overflow-hidden bg-slate-200 flex-shrink-0">
+                      <img src={formData.image_url} alt="Preview" className="w-full h-full object-cover" />
+                    </div>
+                    <span className="text-xs text-slate-600">Photo preview</span>
+                  </div>
+                )}
+              </div>
+            )}
 
+            {currentStep === 1 && (
+              <div className="space-y-5">
+                <div>
+                  <label className="text-xs font-semibold text-slate-600 block mb-2">Role *</label>
+                  <input
+                    type="text"
+                    placeholder="e.g., Creative Director"
+                    value={formData.role}
+                    onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+                    className="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-semibold text-slate-600 block mb-2">Bio</label>
+                  <textarea
+                    placeholder="Brief description"
+                    value={formData.description}
+                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                    className="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition resize-none h-24"
+                  />
+                </div>
+                <div className="flex items-center justify-between pt-2 border-t border-slate-200">
+                  <label className="text-sm font-medium text-slate-900">Active</label>
+                  <ToggleSwitch
+                    checked={formData.is_active}
+                    onChange={(checked) => setFormData({ ...formData, is_active: checked })}
+                  />
+                </div>
+              </div>
+            )}
+          </MultiStepForm>
+        </div>
+      )}
+
+      {/* Members List */}
       {loading ? (
         <div className="text-center py-12"><p className="text-slate-600">Loading...</p></div>
       ) : filteredMembers.length === 0 ? (
@@ -235,7 +261,7 @@ export default function TeamMembersPage() {
                     }}
                   />
                   <CMSActionMenu
-                    onEdit={() => openDrawer(member)}
+                    onEdit={() => openForm(member)}
                     onDelete={() => handleDelete(member.id)}
                   />
                 </div>

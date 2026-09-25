@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API_BASE_URL } from '@/config/api';
 import { getAccessToken } from '@/lib/auth';
-import { SlideOver } from '@/components/admin/SlideOver';
 import { ListCard } from '@/components/ios/ListCard';
 import { DragHandle } from '@/components/ios/DragHandle';
 import { ToggleSwitch } from '@/components/ios/ToggleSwitch';
@@ -22,9 +21,10 @@ interface Service {
 export default function ServicesPage() {
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isFormOpen, setIsFormOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [editingId, setEditingId] = useState<number | null>(null);
+  const [submitting, setSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -51,6 +51,7 @@ export default function ServicesPage() {
   };
 
   const handleSubmit = async () => {
+    setSubmitting(true);
     const token = getAccessToken();
     try {
       if (editingId) {
@@ -63,13 +64,15 @@ export default function ServicesPage() {
         });
       }
       fetchServices();
-      closeDrawer();
+      closeForm();
     } catch (error) {
       console.error('Failed to save service:', error);
+    } finally {
+      setSubmitting(false);
     }
   };
 
-  const openDrawer = (service?: Service) => {
+  const openForm = (service?: Service) => {
     if (service) {
       setEditingId(service.id);
       setFormData({
@@ -82,11 +85,11 @@ export default function ServicesPage() {
       setEditingId(null);
       setFormData({ name: '', description: '', icon: '📦', is_active: true });
     }
-    setIsDrawerOpen(true);
+    setIsFormOpen(true);
   };
 
-  const closeDrawer = () => {
-    setIsDrawerOpen(false);
+  const closeForm = () => {
+    setIsFormOpen(false);
     setTimeout(() => {
       setEditingId(null);
       setFormData({ name: '', description: '', icon: '📦', is_active: true });
@@ -115,28 +118,20 @@ export default function ServicesPage() {
       <CMSHeader
         title="Services"
         itemCount={filteredServices.length}
-        onAddClick={() => openDrawer()}
+        onAddClick={() => openForm()}
         searchValue={searchQuery}
         onSearchChange={setSearchQuery}
       />
 
-      <SlideOver
-        isOpen={isDrawerOpen}
-        onClose={closeDrawer}
-        title={editingId ? 'Edit Service' : 'New Service'}
-        description={editingId ? 'Update service details' : 'Create a new service'}
-        footer={
-          <>
-            <button onClick={closeDrawer} className="px-6 py-2 text-slate-700 font-medium hover:bg-slate-200 rounded-lg transition">
-              Cancel
-            </button>
-            <button onClick={handleSubmit} className="px-6 py-2 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition">
-              {editingId ? 'Update' : 'Create'}
-            </button>
-          </>
-        }
-      >
-        <div className="space-y-6">
+      {/* Inline Form */}
+      {isFormOpen && (
+        <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 space-y-5">
+          <div className="pb-4 border-b border-slate-200">
+            <h3 className="font-semibold text-slate-900">
+              {editingId ? 'Edit Service' : 'New Service'}
+            </h3>
+          </div>
+
           <div>
             <label className="text-xs font-semibold text-slate-600 block mb-2">Service Name *</label>
             <input
@@ -144,39 +139,64 @@ export default function ServicesPage() {
               placeholder="e.g., Consulting"
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition"
+              className="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition"
               required
             />
           </div>
+
           <div>
             <label className="text-xs font-semibold text-slate-600 block mb-2">Description</label>
             <textarea
               placeholder="Describe this service"
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition resize-none h-24"
+              className="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition resize-none h-20"
             />
           </div>
-          <div>
-            <label className="text-xs font-semibold text-slate-600 block mb-2">Icon</label>
-            <input
-              type="text"
-              placeholder="e.g., 🔧"
-              value={formData.icon}
-              onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
-              className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition text-2xl"
-            />
+
+          <div className="flex items-center gap-4">
+            <div className="flex-1">
+              <label className="text-xs font-semibold text-slate-600 block mb-2">Icon</label>
+              <input
+                type="text"
+                placeholder="e.g., 🔧"
+                value={formData.icon}
+                onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
+                className="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition text-2xl"
+              />
+            </div>
+            <div className="w-16 h-16 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold text-2xl flex-shrink-0">
+              {formData.icon}
+            </div>
           </div>
-          <div className="pt-4 border-t border-slate-200 flex items-center justify-between">
+
+          <div className="flex items-center justify-between pt-2 border-t border-slate-200">
             <label className="text-sm font-medium text-slate-900">Active</label>
             <ToggleSwitch
               checked={formData.is_active}
               onChange={(checked) => setFormData({ ...formData, is_active: checked })}
             />
           </div>
-        </div>
-      </SlideOver>
 
+          <div className="flex items-center justify-end gap-2 pt-4 border-t border-slate-200">
+            <button
+              onClick={closeForm}
+              className="px-6 py-2 text-slate-700 font-medium hover:bg-white rounded-lg transition"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleSubmit}
+              disabled={submitting}
+              className="px-6 py-2 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition disabled:opacity-50"
+            >
+              {submitting ? 'Saving...' : (editingId ? 'Update' : 'Create')}
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Services List */}
       {loading ? (
         <div className="text-center py-12"><p className="text-slate-600">Loading...</p></div>
       ) : filteredServices.length === 0 ? (
@@ -189,13 +209,16 @@ export default function ServicesPage() {
             <ListCard key={service.id}>
               <div className="flex items-center gap-4 p-4">
                 <DragHandle />
+
                 <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold text-lg flex-shrink-0">
                   {service.icon}
                 </div>
+
                 <div className="flex-1 min-w-0">
                   <h3 className="font-semibold text-slate-900 truncate">{service.name}</h3>
                   <p className="text-xs text-slate-600 line-clamp-1 mt-1">{service.description}</p>
                 </div>
+
                 <div className="flex items-center gap-4 flex-shrink-0">
                   <ToggleSwitch
                     checked={service.is_active}
@@ -212,7 +235,7 @@ export default function ServicesPage() {
                     }}
                   />
                   <CMSActionMenu
-                    onEdit={() => openDrawer(service)}
+                    onEdit={() => openForm(service)}
                     onDelete={() => handleDelete(service.id)}
                   />
                 </div>

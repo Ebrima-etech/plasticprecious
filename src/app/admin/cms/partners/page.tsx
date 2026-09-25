@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API_BASE_URL } from '@/config/api';
 import { getAccessToken } from '@/lib/auth';
-import { SlideOver } from '@/components/admin/SlideOver';
 import { ListCard } from '@/components/ios/ListCard';
 import { DragHandle } from '@/components/ios/DragHandle';
 import { ToggleSwitch } from '@/components/ios/ToggleSwitch';
@@ -21,9 +20,10 @@ interface Partner {
 export default function PartnersPage() {
   const [partners, setPartners] = useState<Partner[]>([]);
   const [loading, setLoading] = useState(true);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isFormOpen, setIsFormOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [editingId, setEditingId] = useState<number | null>(null);
+  const [submitting, setSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     logo_url: '',
@@ -49,6 +49,7 @@ export default function PartnersPage() {
   };
 
   const handleSubmit = async () => {
+    setSubmitting(true);
     const token = getAccessToken();
     try {
       if (editingId) {
@@ -61,13 +62,15 @@ export default function PartnersPage() {
         });
       }
       fetchPartners();
-      closeDrawer();
+      closeForm();
     } catch (error) {
       console.error('Failed to save:', error);
+    } finally {
+      setSubmitting(false);
     }
   };
 
-  const openDrawer = (partner?: Partner) => {
+  const openForm = (partner?: Partner) => {
     if (partner) {
       setEditingId(partner.id);
       setFormData({
@@ -79,11 +82,11 @@ export default function PartnersPage() {
       setEditingId(null);
       setFormData({ name: '', logo_url: '', is_active: true });
     }
-    setIsDrawerOpen(true);
+    setIsFormOpen(true);
   };
 
-  const closeDrawer = () => {
-    setIsDrawerOpen(false);
+  const closeForm = () => {
+    setIsFormOpen(false);
     setTimeout(() => {
       setEditingId(null);
       setFormData({ name: '', logo_url: '', is_active: true });
@@ -112,28 +115,20 @@ export default function PartnersPage() {
       <CMSHeader
         title="Partners"
         itemCount={filteredPartners.length}
-        onAddClick={() => openDrawer()}
+        onAddClick={() => openForm()}
         searchValue={searchQuery}
         onSearchChange={setSearchQuery}
       />
 
-      <SlideOver
-        isOpen={isDrawerOpen}
-        onClose={closeDrawer}
-        title={editingId ? 'Edit Partner' : 'Add Partner'}
-        description={editingId ? 'Update partner details' : 'Add a new partner'}
-        footer={
-          <>
-            <button onClick={closeDrawer} className="px-6 py-2 text-slate-700 font-medium hover:bg-slate-200 rounded-lg transition">
-              Cancel
-            </button>
-            <button onClick={handleSubmit} className="px-6 py-2 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition">
-              {editingId ? 'Update' : 'Create'}
-            </button>
-          </>
-        }
-      >
-        <div className="space-y-6">
+      {/* Inline Form */}
+      {isFormOpen && (
+        <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 space-y-5">
+          <div className="pb-4 border-b border-slate-200">
+            <h3 className="font-semibold text-slate-900">
+              {editingId ? 'Edit Partner' : 'Add Partner'}
+            </h3>
+          </div>
+
           <div>
             <label className="text-xs font-semibold text-slate-600 block mb-2">Partner Name *</label>
             <input
@@ -141,10 +136,11 @@ export default function PartnersPage() {
               placeholder="e.g., Acme Corporation"
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition"
+              className="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition"
               required
             />
           </div>
+
           <div>
             <label className="text-xs font-semibold text-slate-600 block mb-2">Logo URL</label>
             <input
@@ -152,19 +148,46 @@ export default function PartnersPage() {
               placeholder="https://example.com/logo.png"
               value={formData.logo_url}
               onChange={(e) => setFormData({ ...formData, logo_url: e.target.value })}
-              className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition"
+              className="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition"
             />
           </div>
-          <div className="pt-4 border-t border-slate-200 flex items-center justify-between">
+
+          {formData.logo_url && (
+            <div className="flex items-center gap-3">
+              <div className="w-28 h-14 rounded-xl bg-white border border-slate-200 flex items-center justify-center p-2 flex-shrink-0 overflow-hidden">
+                <img src={formData.logo_url} alt="Preview" className="h-full object-contain" />
+              </div>
+              <span className="text-xs text-slate-600">Logo preview</span>
+            </div>
+          )}
+
+          <div className="flex items-center justify-between pt-2 border-t border-slate-200">
             <label className="text-sm font-medium text-slate-900">Active</label>
             <ToggleSwitch
               checked={formData.is_active}
               onChange={(checked) => setFormData({ ...formData, is_active: checked })}
             />
           </div>
-        </div>
-      </SlideOver>
 
+          <div className="flex items-center justify-end gap-2 pt-4 border-t border-slate-200">
+            <button
+              onClick={closeForm}
+              className="px-6 py-2 text-slate-700 font-medium hover:bg-white rounded-lg transition"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleSubmit}
+              disabled={submitting}
+              className="px-6 py-2 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition disabled:opacity-50"
+            >
+              {submitting ? 'Saving...' : (editingId ? 'Update' : 'Create')}
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Partners List */}
       {loading ? (
         <div className="text-center py-12"><p className="text-slate-600">Loading...</p></div>
       ) : filteredPartners.length === 0 ? (
@@ -206,7 +229,7 @@ export default function PartnersPage() {
                     }}
                   />
                   <CMSActionMenu
-                    onEdit={() => openDrawer(partner)}
+                    onEdit={() => openForm(partner)}
                     onDelete={() => handleDelete(partner.id)}
                   />
                 </div>

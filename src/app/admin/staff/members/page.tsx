@@ -2,9 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { FiEdit2, FiTrash2, FiUsers, FiKey, FiCheckCircle, FiXCircle } from 'react-icons/fi';
+import { FiEdit2, FiTrash2, FiUsers, FiKey, FiCheckCircle, FiXCircle, FiPlus } from 'react-icons/fi';
 import { API_BASE_URL } from '@/config/api';
 import { getAccessToken } from '@/lib/auth';
+import { SlideOver } from '@/components/admin/SlideOver';
 
 interface Staff {
   id: number;
@@ -57,6 +58,7 @@ export default function StaffAdmin() {
   const [departments, setDepartments] = useState<Department[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<number | null>(null);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [showPassword, setShowPassword] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     first_name: '',
@@ -178,21 +180,59 @@ export default function StaffAdmin() {
     }
   };
 
-  const handleEdit = (s: Staff) => {
-    setEditingId(s.id);
-    setFormData({
-      first_name: s.user_data?.first_name || '',
-      last_name: s.user_data?.last_name || '',
-      email: s.user_data?.email || '',
-      password: '',
-      department: s.department.toString(),
-      role: s.role,
-      permissions: s.permissions,
-      salary: s.salary || '',
-      hire_date: s.hire_date,
-      phone_number: s.phone_number,
-      address: s.address
-    });
+  const openDrawer = (s?: Staff) => {
+    if (s) {
+      setEditingId(s.id);
+      setFormData({
+        first_name: s.user_data?.first_name || '',
+        last_name: s.user_data?.last_name || '',
+        email: s.user_data?.email || '',
+        password: '',
+        department: s.department.toString(),
+        role: s.role,
+        permissions: s.permissions,
+        salary: s.salary || '',
+        hire_date: s.hire_date,
+        phone_number: s.phone_number,
+        address: s.address
+      });
+    } else {
+      setEditingId(null);
+      setFormData({
+        first_name: '',
+        last_name: '',
+        email: '',
+        password: '',
+        department: '',
+        role: '',
+        permissions: [],
+        salary: '',
+        hire_date: '',
+        phone_number: '',
+        address: ''
+      });
+    }
+    setIsDrawerOpen(true);
+  };
+
+  const closeDrawer = () => {
+    setIsDrawerOpen(false);
+    setTimeout(() => {
+      setEditingId(null);
+      setFormData({
+        first_name: '',
+        last_name: '',
+        email: '',
+        password: '',
+        department: '',
+        role: '',
+        permissions: [],
+        salary: '',
+        hire_date: '',
+        phone_number: '',
+        address: ''
+      });
+    }, 300);
   };
 
   const togglePermission = (perm: string) => {
@@ -205,248 +245,309 @@ export default function StaffAdmin() {
   };
 
   return (
-    <div className="space-y-8">
-      <div className="flex items-center gap-3 mb-8">
-        <FiUsers className="text-emerald-600 w-8 h-8" />
-        <h1 className="text-3xl font-black text-slate-900">Staff Members</h1>
+    <div className="space-y-6">
+      {/* Page Header */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center">
+            <FiUsers className="text-emerald-600 w-6 h-6" />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold text-slate-900">Staff Members</h1>
+            <p className="text-sm text-slate-600">Manage your team and access permissions</p>
+          </div>
+        </div>
+        <button
+          onClick={() => openDrawer()}
+          className="flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition shadow-sm"
+        >
+          <FiPlus className="w-5 h-5" />
+          Add Staff Member
+        </button>
       </div>
 
+      {/* Temporary Password Alert */}
       {showPassword && (
-        <div className="bg-amber-50 border-l-4 border-amber-500 p-4 rounded">
+        <div className="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-lg">
           <p className="text-sm text-amber-800 font-semibold mb-2">Temporary Password Created:</p>
           <p className="text-lg font-mono text-amber-900 mb-2 bg-white p-2 rounded">{showPassword}</p>
           <p className="text-xs text-amber-700">Share this password with the staff member. They should change it upon first login.</p>
           <button
             onClick={() => setShowPassword(null)}
-            className="mt-3 px-3 py-1 text-xs bg-amber-600 text-white rounded hover:bg-amber-700"
+            className="mt-3 px-3 py-1 text-xs bg-amber-600 text-white rounded hover:bg-amber-700 transition"
           >
             Close
           </button>
         </div>
       )}
 
-      {/* Form */}
-      <div className="bg-white rounded-lg border border-slate-200 p-6">
-        <h2 className="font-bold text-slate-900 mb-4">{editingId ? 'Edit Staff Member' : 'Add New Staff Member'}</h2>
-        <div className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
-            <input
-              type="text"
-              placeholder="First Name"
-              value={formData.first_name}
-              onChange={(e) => setFormData({ ...formData, first_name: e.target.value })}
-              className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
-            />
-            <input
-              type="text"
-              placeholder="Last Name"
-              value={formData.last_name}
-              onChange={(e) => setFormData({ ...formData, last_name: e.target.value })}
-              className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
-            />
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <input
-              type="email"
-              placeholder="Email Address"
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              disabled={!!editingId}
-              className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 disabled:bg-gray-100"
-            />
-            <div>
-              <input
-                type="text"
-                placeholder="Password (leave empty to auto-generate)"
-                value={formData.password}
-                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
-              />
-              <p className="text-xs text-slate-500 mt-1">Min 6 characters or auto-generate</p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <select
-              value={formData.department}
-              onChange={(e) => setFormData({ ...formData, department: e.target.value })}
-              className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+      {/* Slide-over Drawer */}
+      <SlideOver
+        isOpen={isDrawerOpen}
+        onClose={closeDrawer}
+        title={editingId ? 'Edit Staff Member' : 'Add Staff Member'}
+        description={editingId ? 'Update staff details and permissions' : 'Create a new staff member account'}
+        footer={
+          <>
+            <button
+              onClick={closeDrawer}
+              className="px-6 py-2 text-slate-700 font-medium hover:bg-slate-200 rounded-lg transition"
             >
-              <option value="">Select Department</option>
-              {departments.map(dept => (
-                <option key={dept.id} value={dept.id}>{dept.name}</option>
-              ))}
-            </select>
-            <select
-              value={formData.role}
-              onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-              className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
-            >
-              <option value="">Select Role</option>
-              {ROLES.map(role => (
-                <option key={role.value} value={role.value}>{role.label}</option>
-              ))}
-            </select>
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <input
-              type="number"
-              placeholder="Salary"
-              value={formData.salary}
-              onChange={(e) => setFormData({ ...formData, salary: e.target.value })}
-              className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
-            />
-            <input
-              type="date"
-              value={formData.hire_date}
-              onChange={(e) => setFormData({ ...formData, hire_date: e.target.value })}
-              className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
-            />
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <input
-              type="tel"
-              placeholder="Phone Number"
-              value={formData.phone_number}
-              onChange={(e) => setFormData({ ...formData, phone_number: e.target.value })}
-              className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
-            />
-            <input
-              type="text"
-              placeholder="Address"
-              value={formData.address}
-              onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-              className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
-            />
-          </div>
-
-          <div className="border-t pt-4">
-            <p className="font-semibold text-sm text-slate-700 mb-3">Permissions:</p>
-            <div className="grid grid-cols-2 gap-3">
-              {PERMISSIONS.map(perm => (
-                <label key={perm.value} className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    checked={formData.permissions.includes(perm.value)}
-                    onChange={() => togglePermission(perm.value)}
-                    className="w-4 h-4"
-                  />
-                  <span className="text-sm text-slate-700">{perm.label}</span>
-                </label>
-              ))}
-            </div>
-          </div>
-
-          <div className="flex gap-2">
+              Cancel
+            </button>
             <button
               onClick={handleSave}
-              className="px-6 py-2 bg-emerald-600 text-white font-bold rounded-lg hover:bg-emerald-700"
+              className="px-6 py-2 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition"
             >
-              {editingId ? 'Update' : 'Create Account'} Staff Member
+              {editingId ? 'Update' : 'Create Account'}
             </button>
-            {editingId && (
-              <button
-                onClick={() => {
-                  setEditingId(null);
-                  setFormData({
-                    first_name: '',
-                    last_name: '',
-                    email: '',
-                    password: '',
-                    department: '',
-                    role: '',
-                    permissions: [],
-                    salary: '',
-                    hire_date: '',
-                    phone_number: '',
-                    address: ''
-                  });
-                }}
-                className="px-6 py-2 bg-slate-200 text-slate-700 font-bold rounded-lg"
-              >
-                Cancel
-              </button>
-            )}
+          </>
+        }
+      >
+        <div className="space-y-6">
+          {/* Personal Information Section */}
+          <div>
+            <label className="block text-sm font-semibold text-slate-900 mb-3">Personal Information</label>
+            <div className="space-y-3">
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-xs font-medium text-slate-600 block mb-1.5">First Name *</label>
+                  <input
+                    type="text"
+                    placeholder="John"
+                    value={formData.first_name}
+                    onChange={(e) => setFormData({ ...formData, first_name: e.target.value })}
+                    className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-slate-600 block mb-1.5">Last Name *</label>
+                  <input
+                    type="text"
+                    placeholder="Doe"
+                    value={formData.last_name}
+                    onChange={(e) => setFormData({ ...formData, last_name: e.target.value })}
+                    className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="text-xs font-medium text-slate-600 block mb-1.5">Email Address *</label>
+                <input
+                  type="email"
+                  placeholder="john@example.com"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  disabled={!!editingId}
+                  className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent disabled:bg-slate-50 disabled:text-slate-500"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-medium text-slate-600 block mb-1.5">Phone Number *</label>
+                <input
+                  type="tel"
+                  placeholder="+1 (555) 123-4567"
+                  value={formData.phone_number}
+                  onChange={(e) => setFormData({ ...formData, phone_number: e.target.value })}
+                  className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-medium text-slate-600 block mb-1.5">Address</label>
+                <input
+                  type="text"
+                  placeholder="123 Main St, City, State"
+                  value={formData.address}
+                  onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                  className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Employment & Role Section */}
+          <div className="border-t border-slate-200 pt-6">
+            <label className="block text-sm font-semibold text-slate-900 mb-3">Employment & Role</label>
+            <div className="space-y-3">
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-xs font-medium text-slate-600 block mb-1.5">Department *</label>
+                  <select
+                    value={formData.department}
+                    onChange={(e) => setFormData({ ...formData, department: e.target.value })}
+                    className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                  >
+                    <option value="">Select Department</option>
+                    {departments.map(dept => (
+                      <option key={dept.id} value={dept.id}>{dept.name}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-slate-600 block mb-1.5">Role *</label>
+                  <select
+                    value={formData.role}
+                    onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+                    className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                  >
+                    <option value="">Select Role</option>
+                    {ROLES.map(role => (
+                      <option key={role.value} value={role.value}>{role.label}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-xs font-medium text-slate-600 block mb-1.5">Hire Date *</label>
+                  <input
+                    type="date"
+                    value={formData.hire_date}
+                    onChange={(e) => setFormData({ ...formData, hire_date: e.target.value })}
+                    className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-slate-600 block mb-1.5">Salary</label>
+                  <div className="relative">
+                    <span className="absolute left-3 top-2 text-slate-600 font-medium text-sm">D</span>
+                    <input
+                      type="number"
+                      placeholder="0.00"
+                      value={formData.salary}
+                      onChange={(e) => setFormData({ ...formData, salary: e.target.value })}
+                      className="w-full pl-7 pr-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Access & Permissions Section */}
+          <div className="border-t border-slate-200 pt-6">
+            <label className="block text-sm font-semibold text-slate-900 mb-3">Access & Permissions</label>
+            <div className="space-y-3">
+              {!editingId && (
+                <div>
+                  <label className="text-xs font-medium text-slate-600 block mb-1.5">Password</label>
+                  <input
+                    type="text"
+                    placeholder="Leave empty to auto-generate"
+                    value={formData.password}
+                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                    className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                  />
+                  <p className="text-xs text-slate-500 mt-1">Minimum 6 characters or leave blank for auto-generation</p>
+                </div>
+              )}
+              <div>
+                <label className="text-xs font-medium text-slate-600 block mb-3">Permissions</label>
+                <div className="space-y-2 max-h-64 overflow-y-auto">
+                  {PERMISSIONS.map(perm => (
+                    <div key={perm.value} className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-slate-50 transition">
+                      <input
+                        type="checkbox"
+                        id={perm.value}
+                        checked={formData.permissions.includes(perm.value)}
+                        onChange={() => togglePermission(perm.value)}
+                        className="w-4 h-4 rounded accent-emerald-600 cursor-pointer"
+                      />
+                      <label htmlFor={perm.value} className="text-sm text-slate-700 cursor-pointer flex-1">{perm.label}</label>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      </SlideOver>
 
-      {/* List */}
+      {/* Staff Table */}
       <div className="bg-white rounded-lg border border-slate-200 overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-slate-50 border-b">
-              <tr>
-                <th className="px-6 py-3 text-left font-bold text-slate-900">Name</th>
-                <th className="px-6 py-3 text-left font-bold text-slate-900">Role</th>
-                <th className="px-6 py-3 text-left font-bold text-slate-900">Department</th>
-                <th className="px-6 py-3 text-left font-bold text-slate-900">Email</th>
-                <th className="px-6 py-3 text-left font-bold text-slate-900">Status</th>
-                <th className="px-6 py-3 text-left font-bold text-slate-900">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {staff.map((s) => (
-                <tr key={s.id} className="border-b hover:bg-slate-50">
-                  <td className="px-6 py-3 text-slate-900 font-semibold">{s.user_data?.first_name} {s.user_data?.last_name}</td>
-                  <td className="px-6 py-3 text-slate-600">{s.role_display}</td>
-                  <td className="px-6 py-3 text-slate-600">{s.department_name}</td>
-                  <td className="px-6 py-3 text-slate-600">{s.user_data?.email}</td>
-                  <td className="px-6 py-3">
-                    {s.is_active ? (
-                      <span className="px-3 py-1 bg-green-100 text-green-800 text-xs font-bold rounded-full">Active</span>
-                    ) : (
-                      <span className="px-3 py-1 bg-red-100 text-red-800 text-xs font-bold rounded-full">Inactive</span>
-                    )}
-                  </td>
-                  <td className="px-6 py-3 flex gap-2">
-                    <button
-                      onClick={() => handleEdit(s)}
-                      className="p-2 text-blue-600 hover:bg-blue-50 rounded"
-                      title="Edit"
-                    >
-                      <FiEdit2 />
-                    </button>
-                    <button
-                      onClick={() => handleResetPassword(s.id)}
-                      className="p-2 text-orange-600 hover:bg-orange-50 rounded"
-                      title="Reset Password"
-                    >
-                      <FiKey />
-                    </button>
-                    {s.is_active ? (
-                      <button
-                        onClick={() => handleDeactivate(s.id)}
-                        className="p-2 text-yellow-600 hover:bg-yellow-50 rounded"
-                        title="Deactivate"
-                      >
-                        <FiXCircle />
-                      </button>
-                    ) : (
-                      <button
-                        onClick={() => handleActivate(s.id)}
-                        className="p-2 text-green-600 hover:bg-green-50 rounded"
-                        title="Activate"
-                      >
-                        <FiCheckCircle />
-                      </button>
-                    )}
-                    <button
-                      onClick={() => handleDelete(s.id)}
-                      className="p-2 text-red-600 hover:bg-red-50 rounded"
-                      title="Delete"
-                    >
-                      <FiTrash2 />
-                    </button>
-                  </td>
+        {loading && (
+          <div className="p-8 text-center">
+            <p className="text-slate-600">Loading staff members...</p>
+          </div>
+        )}
+        {!loading && staff.length === 0 && (
+          <div className="p-8 text-center">
+            <p className="text-slate-600">No staff members found. Create one to get started.</p>
+          </div>
+        )}
+        {!loading && staff.length > 0 && (
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-slate-50 border-b">
+                <tr>
+                  <th className="px-6 py-3 text-left font-bold text-slate-900">Name</th>
+                  <th className="px-6 py-3 text-left font-bold text-slate-900">Role</th>
+                  <th className="px-6 py-3 text-left font-bold text-slate-900">Department</th>
+                  <th className="px-6 py-3 text-left font-bold text-slate-900">Email</th>
+                  <th className="px-6 py-3 text-left font-bold text-slate-900">Status</th>
+                  <th className="px-6 py-3 text-left font-bold text-slate-900">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {staff.map((s) => (
+                  <tr key={s.id} className="border-b hover:bg-slate-50 transition">
+                    <td className="px-6 py-3 text-slate-900 font-semibold">{s.user_data?.first_name} {s.user_data?.last_name}</td>
+                    <td className="px-6 py-3 text-slate-600 text-sm">{s.role_display}</td>
+                    <td className="px-6 py-3 text-slate-600 text-sm">{s.department_name}</td>
+                    <td className="px-6 py-3 text-slate-600 text-sm">{s.user_data?.email}</td>
+                    <td className="px-6 py-3">
+                      {s.is_active ? (
+                        <span className="px-3 py-1 bg-emerald-100 text-emerald-800 text-xs font-semibold rounded-full">Active</span>
+                      ) : (
+                        <span className="px-3 py-1 bg-red-100 text-red-800 text-xs font-semibold rounded-full">Inactive</span>
+                      )}
+                    </td>
+                    <td className="px-6 py-3 flex gap-1">
+                      <button
+                        onClick={() => openDrawer(s)}
+                        className="p-2 text-emerald-600 hover:bg-emerald-50 rounded-lg transition"
+                        title="Edit"
+                      >
+                        <FiEdit2 className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => handleResetPassword(s.id)}
+                        className="p-2 text-orange-600 hover:bg-orange-50 rounded-lg transition"
+                        title="Reset Password"
+                      >
+                        <FiKey className="w-4 h-4" />
+                      </button>
+                      {s.is_active ? (
+                        <button
+                          onClick={() => handleDeactivate(s.id)}
+                          className="p-2 text-yellow-600 hover:bg-yellow-50 rounded-lg transition"
+                          title="Deactivate"
+                        >
+                          <FiXCircle className="w-4 h-4" />
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => handleActivate(s.id)}
+                          className="p-2 text-emerald-600 hover:bg-emerald-50 rounded-lg transition"
+                          title="Activate"
+                        >
+                          <FiCheckCircle className="w-4 h-4" />
+                        </button>
+                      )}
+                      <button
+                        onClick={() => handleDelete(s.id)}
+                        className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition"
+                        title="Delete"
+                      >
+                        <FiTrash2 className="w-4 h-4" />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
     </div>
   );

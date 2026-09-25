@@ -14,13 +14,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [profileOpen, setProfileOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [expandedSections, setExpandedSections] = useState({
-    dashboard: true,
-    catalog: true,
-    orders: true,
-    cms: true,
-    impact: true,
-    staff: true,
-    users: true
+    dashboard: false,
+    catalog: false,
+    orders: false,
+    cms: false,
+    impact: false,
+    staff: false,
+    users: false
   });
 
   useEffect(() => {

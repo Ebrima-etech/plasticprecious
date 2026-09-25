@@ -20,6 +20,7 @@ interface Department {
 export default function DepartmentsAdmin() {
   const [departments, setDepartments] = useState<Department[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [formData, setFormData] = useState({ name: '', description: '', budget_allocation: '', is_active: true });
 
@@ -29,14 +30,21 @@ export default function DepartmentsAdmin() {
 
   const fetchDepartments = async () => {
     try {
+      setLoading(true);
+      setError(null);
       const token = getAccessToken();
+      console.log('Fetching departments with token:', token ? 'present' : 'missing');
       const response = await axios.get(`${API_BASE_URL}/staff/departments/`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      setDepartments(response.data.results || response.data);
+      console.log('Departments response:', response.data);
+      const deptData = response.data.results || response.data;
+      console.log('Departments data:', deptData);
+      setDepartments(Array.isArray(deptData) ? deptData : []);
       setLoading(false);
-    } catch (err) {
+    } catch (err: any) {
       console.error('Failed to fetch departments:', err);
+      setError(err.response?.data?.detail || err.message || 'Failed to fetch departments');
       setLoading(false);
     }
   };
@@ -149,47 +157,64 @@ export default function DepartmentsAdmin() {
 
       {/* List */}
       <div className="bg-white rounded-lg border border-slate-200 overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-slate-50 border-b">
-              <tr>
-                <th className="px-6 py-3 text-left font-bold text-slate-900">Department</th>
-                <th className="px-6 py-3 text-left font-bold text-slate-900">Budget (D)</th>
-                <th className="px-6 py-3 text-left font-bold text-slate-900">Staff</th>
-                <th className="px-6 py-3 text-left font-bold text-slate-900">Status</th>
-                <th className="px-6 py-3 text-left font-bold text-slate-900">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {departments.map((dept) => (
-                <tr key={dept.id} className="border-b hover:bg-slate-50">
-                  <td className="px-6 py-3 text-slate-900 font-semibold">{dept.name}</td>
-                  <td className="px-6 py-3 text-slate-600">D {dept.budget_allocation}</td>
-                  <td className="px-6 py-3 text-slate-600">{dept.staff_count || 0}</td>
-                  <td className="px-6 py-3">
-                    <span className={`px-3 py-1 rounded-full text-xs font-bold ${dept.is_active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
-                      {dept.is_active ? 'Active' : 'Inactive'}
-                    </span>
-                  </td>
-                  <td className="px-6 py-3 flex gap-2">
-                    <button
-                      onClick={() => handleEdit(dept)}
-                      className="p-2 text-blue-600 hover:bg-blue-50 rounded"
-                    >
-                      <FiEdit2 />
-                    </button>
-                    <button
-                      onClick={() => handleDelete(dept.id)}
-                      className="p-2 text-red-600 hover:bg-red-50 rounded"
-                    >
-                      <FiTrash2 />
-                    </button>
-                  </td>
+        {error && (
+          <div className="bg-red-50 border-b border-red-200 p-4">
+            <p className="text-sm text-red-800 font-semibold">Error: {error}</p>
+          </div>
+        )}
+        {loading && (
+          <div className="p-8 text-center">
+            <p className="text-slate-600">Loading departments...</p>
+          </div>
+        )}
+        {!loading && departments.length === 0 && !error && (
+          <div className="p-8 text-center">
+            <p className="text-slate-600">No departments found. Create one to get started.</p>
+          </div>
+        )}
+        {!loading && departments.length > 0 && (
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-slate-50 border-b">
+                <tr>
+                  <th className="px-6 py-3 text-left font-bold text-slate-900">Department</th>
+                  <th className="px-6 py-3 text-left font-bold text-slate-900">Budget (D)</th>
+                  <th className="px-6 py-3 text-left font-bold text-slate-900">Staff</th>
+                  <th className="px-6 py-3 text-left font-bold text-slate-900">Status</th>
+                  <th className="px-6 py-3 text-left font-bold text-slate-900">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {departments.map((dept) => (
+                  <tr key={dept.id} className="border-b hover:bg-slate-50">
+                    <td className="px-6 py-3 text-slate-900 font-semibold">{dept.name}</td>
+                    <td className="px-6 py-3 text-slate-600">D {dept.budget_allocation}</td>
+                    <td className="px-6 py-3 text-slate-600">{dept.staff_count || 0}</td>
+                    <td className="px-6 py-3">
+                      <span className={`px-3 py-1 rounded-full text-xs font-bold ${dept.is_active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
+                        {dept.is_active ? 'Active' : 'Inactive'}
+                      </span>
+                    </td>
+                    <td className="px-6 py-3 flex gap-2">
+                      <button
+                        onClick={() => handleEdit(dept)}
+                        className="p-2 text-blue-600 hover:bg-blue-50 rounded"
+                      >
+                        <FiEdit2 />
+                      </button>
+                      <button
+                        onClick={() => handleDelete(dept.id)}
+                        className="p-2 text-red-600 hover:bg-red-50 rounded"
+                      >
+                        <FiTrash2 />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
     </div>
   );

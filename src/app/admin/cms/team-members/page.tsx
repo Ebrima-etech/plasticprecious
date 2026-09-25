@@ -2,9 +2,14 @@
 
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { FiEdit2, FiTrash2, FiPlus } from 'react-icons/fi';
 import { API_BASE_URL } from '@/config/api';
 import { getAccessToken } from '@/lib/auth';
+import { SlideOver } from '@/components/admin/SlideOver';
+import { ListCard } from '@/components/ios/ListCard';
+import { DragHandle } from '@/components/ios/DragHandle';
+import { ToggleSwitch } from '@/components/ios/ToggleSwitch';
+import { CMSHeader } from '@/components/ios/CMSHeader';
+import { CMSActionMenu } from '@/components/ios/CMSActionMenu';
 
 interface TeamMember {
   id: number;
@@ -12,21 +17,20 @@ interface TeamMember {
   role: string;
   description: string;
   image_url: string;
-  order: number;
   is_active: boolean;
 }
 
 export default function TeamMembersPage() {
   const [members, setMembers] = useState<TeamMember[]>([]);
   const [loading, setLoading] = useState(true);
-  const [showForm, setShowForm] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const [editingId, setEditingId] = useState<number | null>(null);
   const [formData, setFormData] = useState({
     name: '',
     role: '',
     description: '',
     image_url: '',
-    order: 0,
     is_active: true
   });
 
@@ -48,10 +52,8 @@ export default function TeamMembersPage() {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     const token = getAccessToken();
-
     try {
       if (editingId) {
         await axios.patch(`${API_BASE_URL}/team-members/${editingId}/`, formData, {
@@ -63,25 +65,35 @@ export default function TeamMembersPage() {
         });
       }
       fetchMembers();
-      setShowForm(false);
-      setEditingId(null);
-      setFormData({ name: '', role: '', description: '', image_url: '', order: 0, is_active: true });
+      closeDrawer();
     } catch (error) {
-      console.error('Failed to save team member:', error);
+      console.error('Failed to save:', error);
     }
   };
 
-  const handleEdit = (member: TeamMember) => {
-    setFormData({
-      name: member.name,
-      role: member.role,
-      description: member.description,
-      image_url: member.image_url,
-      order: member.order,
-      is_active: member.is_active
-    });
-    setEditingId(member.id);
-    setShowForm(true);
+  const openDrawer = (member?: TeamMember) => {
+    if (member) {
+      setEditingId(member.id);
+      setFormData({
+        name: member.name,
+        role: member.role,
+        description: member.description,
+        image_url: member.image_url,
+        is_active: member.is_active
+      });
+    } else {
+      setEditingId(null);
+      setFormData({ name: '', role: '', description: '', image_url: '', is_active: true });
+    }
+    setIsDrawerOpen(true);
+  };
+
+  const closeDrawer = () => {
+    setIsDrawerOpen(false);
+    setTimeout(() => {
+      setEditingId(null);
+      setFormData({ name: '', role: '', description: '', image_url: '', is_active: true });
+    }, 300);
   };
 
   const handleDelete = async (id: number) => {
@@ -93,115 +105,142 @@ export default function TeamMembersPage() {
       });
       fetchMembers();
     } catch (error) {
-      console.error('Failed to delete team member:', error);
+      console.error('Failed to delete:', error);
     }
   };
 
+  const filteredMembers = members.filter(m =>
+    m.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-black text-slate-900">Team Members</h1>
-        <button
-          onClick={() => {
-            setShowForm(true);
-            setEditingId(null);
-            setFormData({ name: '', role: '', description: '', image_url: '', order: 0, is_active: true });
-          }}
-          className="flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-700"
-        >
-          <FiPlus /> Add Member
-        </button>
-      </div>
+      <CMSHeader
+        title="Team Members"
+        itemCount={filteredMembers.length}
+        onAddClick={() => openDrawer()}
+        searchValue={searchQuery}
+        onSearchChange={setSearchQuery}
+      />
 
-      {showForm && (
-        <div className="bg-white border-2 border-slate-200 rounded-lg p-6 space-y-4">
-          <h2 className="text-xl font-bold">{editingId ? 'Edit' : 'Add'} Team Member</h2>
-          <form onSubmit={handleSubmit} className="space-y-4">
+      <SlideOver
+        isOpen={isDrawerOpen}
+        onClose={closeDrawer}
+        title={editingId ? 'Edit Member' : 'Add Member'}
+        description={editingId ? 'Update team member details' : 'Add a new team member'}
+        footer={
+          <>
+            <button onClick={closeDrawer} className="px-6 py-2 text-slate-700 font-medium hover:bg-slate-200 rounded-lg transition">
+              Cancel
+            </button>
+            <button onClick={handleSubmit} className="px-6 py-2 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition">
+              {editingId ? 'Update' : 'Create'}
+            </button>
+          </>
+        }
+      >
+        <div className="space-y-6">
+          <div>
+            <label className="text-xs font-semibold text-slate-600 block mb-2">Full Name *</label>
             <input
               type="text"
-              placeholder="Name"
+              placeholder="e.g., John Doe"
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              className="w-full px-4 py-2 border rounded-lg"
+              className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition"
               required
             />
+          </div>
+          <div>
+            <label className="text-xs font-semibold text-slate-600 block mb-2">Role *</label>
             <input
               type="text"
-              placeholder="Role"
+              placeholder="e.g., Creative Director"
               value={formData.role}
               onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-              className="w-full px-4 py-2 border rounded-lg"
+              className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition"
               required
             />
+          </div>
+          <div>
+            <label className="text-xs font-semibold text-slate-600 block mb-2">Bio</label>
             <textarea
-              placeholder="Description"
+              placeholder="Brief description"
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              className="w-full px-4 py-2 border rounded-lg h-24"
+              className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition resize-none h-24"
             />
+          </div>
+          <div>
+            <label className="text-xs font-semibold text-slate-600 block mb-2">Photo URL</label>
             <input
               type="url"
-              placeholder="Image URL (optional)"
+              placeholder="https://example.com/photo.jpg"
               value={formData.image_url}
               onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-              className="w-full px-4 py-2 border rounded-lg"
+              className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition"
             />
-            <input
-              type="number"
-              placeholder="Order"
-              value={formData.order}
-              onChange={(e) => setFormData({ ...formData, order: parseInt(e.target.value) })}
-              className="w-full px-4 py-2 border rounded-lg"
+          </div>
+          <div className="pt-4 border-t border-slate-200 flex items-center justify-between">
+            <label className="text-sm font-medium text-slate-900">Active</label>
+            <ToggleSwitch
+              checked={formData.is_active}
+              onChange={(checked) => setFormData({ ...formData, is_active: checked })}
             />
-            <label className="flex items-center gap-2">
-              <input
-                type="checkbox"
-                checked={formData.is_active}
-                onChange={(e) => setFormData({ ...formData, is_active: e.target.checked })}
-              />
-              <span>Active</span>
-            </label>
-            <div className="flex gap-2">
-              <button type="submit" className="bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-700">
-                Save
-              </button>
-              <button
-                type="button"
-                onClick={() => setShowForm(false)}
-                className="bg-slate-300 text-slate-900 px-4 py-2 rounded-lg"
-              >
-                Cancel
-              </button>
-            </div>
-          </form>
+          </div>
         </div>
-      )}
+      </SlideOver>
 
       {loading ? (
-        <p>Loading...</p>
+        <div className="text-center py-12"><p className="text-slate-600">Loading...</p></div>
+      ) : filteredMembers.length === 0 ? (
+        <div className="text-center py-12 bg-slate-50 rounded-2xl border border-slate-200/60">
+          <p className="text-slate-600">No team members found.</p>
+        </div>
       ) : (
-        <div className="space-y-2">
-          {members.map((member) => (
-            <div key={member.id} className="bg-white border-2 border-slate-200 rounded-lg p-4 flex items-center justify-between">
-              <div className="flex-1">
-                <h3 className="font-bold text-slate-900">{member.name}</h3>
-                <p className="text-sm text-slate-600">{member.role} • Order: {member.order}</p>
+        <div className="space-y-3">
+          {filteredMembers.map((member) => (
+            <ListCard key={member.id}>
+              <div className="flex items-center gap-4 p-4">
+                <DragHandle />
+
+                <div className="w-12 h-12 rounded-full border border-slate-200 flex-shrink-0 overflow-hidden bg-slate-100">
+                  {member.image_url ? (
+                    <img src={member.image_url} alt={member.name} className="w-full h-full object-cover" />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-slate-400 font-semibold">
+                      {member.name.charAt(0).toUpperCase()}
+                    </div>
+                  )}
+                </div>
+
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-semibold text-slate-900 truncate">{member.name}</h3>
+                  <p className="text-xs text-slate-600 mt-1">{member.role}</p>
+                </div>
+
+                <div className="flex items-center gap-4 flex-shrink-0">
+                  <ToggleSwitch
+                    checked={member.is_active}
+                    onChange={async (checked) => {
+                      try {
+                        const token = getAccessToken();
+                        await axios.patch(`${API_BASE_URL}/team-members/${member.id}/`, { is_active: checked }, {
+                          headers: { Authorization: `Bearer ${token}` }
+                        });
+                        fetchMembers();
+                      } catch (error) {
+                        console.error('Failed to update:', error);
+                      }
+                    }}
+                  />
+                  <CMSActionMenu
+                    onEdit={() => openDrawer(member)}
+                    onDelete={() => handleDelete(member.id)}
+                  />
+                </div>
               </div>
-              <div className="flex gap-2">
-                <button
-                  onClick={() => handleEdit(member)}
-                  className="text-blue-600 hover:text-blue-800"
-                >
-                  <FiEdit2 />
-                </button>
-                <button
-                  onClick={() => handleDelete(member.id)}
-                  className="text-red-600 hover:text-red-800"
-                >
-                  <FiTrash2 />
-                </button>
-              </div>
-            </div>
+            </ListCard>
           ))}
         </div>
       )}

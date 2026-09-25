@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { getToken } from '@/lib/auth';
-import { HiOutlineSquares2X2, HiOutlineShoppingBag, HiOutlineTag, HiOutlineShoppingCart, HiOutlineCurrencyDollar, HiOutlineTicket, HiOutlineUsers, HiOutlineBell, HiOutlineArrowTrendingUp, HiOutlineCalendar, HiOutlineDocumentText, HiOutlineGift, HiOutlineBriefcase, HiOutlineUserGroup, HiOutlineChevronDown, HiOutlineArrowRightOnRectangle, HiOutlineHome } from 'react-icons/hi2';
+import { HiOutlineSquares2X2, HiOutlineShoppingBag, HiOutlineTag, HiOutlineShoppingCart, HiOutlineCurrencyDollar, HiOutlineTicket, HiOutlineUsers, HiOutlineBell, HiOutlineArrowTrendingUp, HiOutlineCalendar, HiOutlineDocumentText, HiOutlineGift, HiOutlineBriefcase, HiOutlineUserGroup, HiOutlineChevronDown, HiOutlineArrowRightOnRectangle, HiOutlineHome, HiOutlineBars3 } from 'react-icons/hi2';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -12,6 +12,16 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [loading, setLoading] = useState(true);
   const [activeRoute, setActiveRoute] = useState('/admin/dashboard');
   const [profileOpen, setProfileOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [expandedSections, setExpandedSections] = useState({
+    dashboard: true,
+    catalog: true,
+    orders: true,
+    cms: true,
+    impact: true,
+    staff: true,
+    users: true
+  });
 
   useEffect(() => {
     const token = getToken();
@@ -67,111 +77,184 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       `}</style>
 
       {/* Sidebar */}
-      <div className="fixed left-0 top-0 h-screen w-64 bg-white border-r border-slate-200/80 flex flex-col">
+      <div className={`fixed left-0 top-0 h-screen bg-white border-r border-slate-200/80 flex flex-col transition-all duration-300 ${sidebarOpen ? 'w-64' : 'w-20'} z-40`}>
         {/* Sidebar Header */}
-        <div className="p-6 border-b border-slate-200/60">
-          <Link href="/admin" className="flex items-center gap-3">
-            <div className="w-9 h-9 bg-emerald-600 rounded-lg flex items-center justify-center text-white shadow-sm">
-              <HiOutlineSquares2X2 className="w-5 h-5" />
-            </div>
-            <div>
-              <span className="font-bold text-sm text-slate-900">Admin</span>
-              <p className="text-xs text-slate-500">Dashboard</p>
-            </div>
-          </Link>
+        <div className="p-4 border-b border-slate-200/60 flex items-center justify-between">
+          {sidebarOpen && (
+            <Link href="/admin" className="flex items-center gap-3 flex-1">
+              <div className="w-9 h-9 bg-emerald-600 rounded-lg flex items-center justify-center text-white shadow-sm flex-shrink-0">
+                <HiOutlineSquares2X2 className="w-5 h-5" />
+              </div>
+              <div>
+                <span className="font-bold text-sm text-slate-900">Admin</span>
+                <p className="text-xs text-slate-500">Dashboard</p>
+              </div>
+            </Link>
+          )}
+          {!sidebarOpen && (
+            <Link href="/admin" className="flex items-center justify-center w-full">
+              <div className="w-9 h-9 bg-emerald-600 rounded-lg flex items-center justify-center text-white shadow-sm">
+                <HiOutlineSquares2X2 className="w-5 h-5" />
+              </div>
+            </Link>
+          )}
+          <button
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            className="p-1.5 hover:bg-slate-100 rounded-lg transition ml-2 flex-shrink-0"
+          >
+            <HiOutlineBars3 className="w-5 h-5 text-slate-600" />
+          </button>
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 overflow-y-auto px-4 py-6 space-y-6">
+        <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-3">
           {/* Dashboard Section */}
           <div>
-            <p className="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-2.5 px-1">Dashboard</p>
-            <div className="space-y-1">
-              <NavLink href="/admin/dashboard" icon={HiOutlineSquares2X2} label="Overview" />
-            </div>
+            <button
+              onClick={() => setExpandedSections({ ...expandedSections, dashboard: !expandedSections.dashboard })}
+              className={`w-full flex items-center justify-between px-3 py-2 rounded-md transition-all ${sidebarOpen ? '' : 'justify-center'}`}
+            >
+              {sidebarOpen && <p className="text-xs font-semibold text-slate-500 uppercase tracking-widest">Dashboard</p>}
+              {sidebarOpen && <HiOutlineChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${expandedSections.dashboard ? '' : '-rotate-90'}`} />}
+            </button>
+            {(expandedSections.dashboard && sidebarOpen) && (
+              <div className="space-y-1 mt-1">
+                <NavLink href="/admin/dashboard" icon={HiOutlineSquares2X2} label="Overview" />
+              </div>
+            )}
           </div>
 
           {/* Catalog Section */}
           <div>
-            <p className="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-2.5 px-1">Catalog</p>
-            <div className="space-y-1">
-              <NavLink href="/admin/products" icon={HiOutlineShoppingBag} label="Products" />
-              <NavLink href="/admin/categories" icon={HiOutlineTag} label="Categories" />
-            </div>
+            <button
+              onClick={() => setExpandedSections({ ...expandedSections, catalog: !expandedSections.catalog })}
+              className={`w-full flex items-center justify-between px-3 py-2 rounded-md transition-all ${sidebarOpen ? '' : 'justify-center'}`}
+            >
+              {sidebarOpen && <p className="text-xs font-semibold text-slate-500 uppercase tracking-widest">Catalog</p>}
+              {sidebarOpen && <HiOutlineChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${expandedSections.catalog ? '' : '-rotate-90'}`} />}
+            </button>
+            {(expandedSections.catalog && sidebarOpen) && (
+              <div className="space-y-1 mt-1">
+                <NavLink href="/admin/products" icon={HiOutlineShoppingBag} label="Products" />
+                <NavLink href="/admin/categories" icon={HiOutlineTag} label="Categories" />
+              </div>
+            )}
           </div>
 
           {/* Orders & Revenue Section */}
           <div>
-            <p className="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-2.5 px-1">Orders & Revenue</p>
-            <div className="space-y-1">
-              <NavLink href="/admin/orders" icon={HiOutlineShoppingCart} label="Orders" />
-              <NavLink href="/admin/settings" icon={HiOutlineCurrencyDollar} label="Revenue" />
-              <NavLink href="/admin/settings" icon={HiOutlineTicket} label="Vouchers" />
-              <NavLink href="/admin/settings" icon={HiOutlineTag} label="Discounts" />
-            </div>
+            <button
+              onClick={() => setExpandedSections({ ...expandedSections, orders: !expandedSections.orders })}
+              className={`w-full flex items-center justify-between px-3 py-2 rounded-md transition-all ${sidebarOpen ? '' : 'justify-center'}`}
+            >
+              {sidebarOpen && <p className="text-xs font-semibold text-slate-500 uppercase tracking-widest">Orders & Revenue</p>}
+              {sidebarOpen && <HiOutlineChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${expandedSections.orders ? '' : '-rotate-90'}`} />}
+            </button>
+            {(expandedSections.orders && sidebarOpen) && (
+              <div className="space-y-1 mt-1">
+                <NavLink href="/admin/orders" icon={HiOutlineShoppingCart} label="Orders" />
+                <NavLink href="/admin/settings" icon={HiOutlineCurrencyDollar} label="Revenue" />
+                <NavLink href="/admin/settings" icon={HiOutlineTicket} label="Vouchers" />
+                <NavLink href="/admin/settings" icon={HiOutlineTag} label="Discounts" />
+              </div>
+            )}
           </div>
 
           {/* CMS & Content Section */}
           <div>
-            <p className="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-2.5 px-1">CMS & Content</p>
-            <div className="space-y-1">
-              <NavLink href="/admin/cms/hero-slides" icon={HiOutlineSquares2X2} label="Hero Slides" />
-              <NavLink href="/admin/cms/services" icon={HiOutlineBriefcase} label="Services" />
-              <NavLink href="/admin/cms/team-members" icon={HiOutlineUserGroup} label="Team Members" />
-              <NavLink href="/admin/cms/partners" icon={HiOutlineTag} label="Partners" />
-            </div>
+            <button
+              onClick={() => setExpandedSections({ ...expandedSections, cms: !expandedSections.cms })}
+              className={`w-full flex items-center justify-between px-3 py-2 rounded-md transition-all ${sidebarOpen ? '' : 'justify-center'}`}
+            >
+              {sidebarOpen && <p className="text-xs font-semibold text-slate-500 uppercase tracking-widest">CMS & Content</p>}
+              {sidebarOpen && <HiOutlineChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${expandedSections.cms ? '' : '-rotate-90'}`} />}
+            </button>
+            {(expandedSections.cms && sidebarOpen) && (
+              <div className="space-y-1 mt-1">
+                <NavLink href="/admin/cms/hero-slides" icon={HiOutlineSquares2X2} label="Hero Slides" />
+                <NavLink href="/admin/cms/services" icon={HiOutlineBriefcase} label="Services" />
+                <NavLink href="/admin/cms/team-members" icon={HiOutlineUserGroup} label="Team Members" />
+                <NavLink href="/admin/cms/partners" icon={HiOutlineTag} label="Partners" />
+              </div>
+            )}
           </div>
 
           {/* Impact & Community Section */}
           <div>
-            <p className="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-2.5 px-1">Impact & Community</p>
-            <div className="space-y-1">
-              <NavLink href="/admin/impact" icon={HiOutlineArrowTrendingUp} label="Impact Metrics" />
-              <NavLink href="/admin/impact/events" icon={HiOutlineCalendar} label="Events" />
-              <NavLink href="/admin/impact/registrations" icon={HiOutlineUsers} label="Registrations" />
-              <NavLink href="/admin/impact/rfq" icon={HiOutlineDocumentText} label="RFQs" />
-              <NavLink href="/admin/impact/sponsorship" icon={HiOutlineGift} label="Sponsorships" />
-            </div>
+            <button
+              onClick={() => setExpandedSections({ ...expandedSections, impact: !expandedSections.impact })}
+              className={`w-full flex items-center justify-between px-3 py-2 rounded-md transition-all ${sidebarOpen ? '' : 'justify-center'}`}
+            >
+              {sidebarOpen && <p className="text-xs font-semibold text-slate-500 uppercase tracking-widest">Impact & Community</p>}
+              {sidebarOpen && <HiOutlineChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${expandedSections.impact ? '' : '-rotate-90'}`} />}
+            </button>
+            {(expandedSections.impact && sidebarOpen) && (
+              <div className="space-y-1 mt-1">
+                <NavLink href="/admin/impact" icon={HiOutlineArrowTrendingUp} label="Impact Metrics" />
+                <NavLink href="/admin/impact/events" icon={HiOutlineCalendar} label="Events" />
+                <NavLink href="/admin/impact/registrations" icon={HiOutlineUsers} label="Registrations" />
+                <NavLink href="/admin/impact/rfq" icon={HiOutlineDocumentText} label="RFQs" />
+                <NavLink href="/admin/impact/sponsorship" icon={HiOutlineGift} label="Sponsorships" />
+              </div>
+            )}
           </div>
 
           {/* Staff Management Section */}
           <div>
-            <p className="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-2.5 px-1">Staff Management</p>
-            <div className="space-y-1">
-              <NavLink href="/admin/staff/departments" icon={HiOutlineBriefcase} label="Departments" />
-              <NavLink href="/admin/staff/members" icon={HiOutlineUserGroup} label="Staff Members" />
-            </div>
+            <button
+              onClick={() => setExpandedSections({ ...expandedSections, staff: !expandedSections.staff })}
+              className={`w-full flex items-center justify-between px-3 py-2 rounded-md transition-all ${sidebarOpen ? '' : 'justify-center'}`}
+            >
+              {sidebarOpen && <p className="text-xs font-semibold text-slate-500 uppercase tracking-widest">Staff Management</p>}
+              {sidebarOpen && <HiOutlineChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${expandedSections.staff ? '' : '-rotate-90'}`} />}
+            </button>
+            {(expandedSections.staff && sidebarOpen) && (
+              <div className="space-y-1 mt-1">
+                <NavLink href="/admin/staff/departments" icon={HiOutlineBriefcase} label="Departments" />
+                <NavLink href="/admin/staff/members" icon={HiOutlineUserGroup} label="Staff Members" />
+              </div>
+            )}
           </div>
 
           {/* Users & Sellers Section */}
           <div>
-            <p className="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-2.5 px-1">Users & Sellers</p>
-            <div className="space-y-1">
-              <NavLink href="/admin/users" icon={HiOutlineUsers} label="Customers" />
-            </div>
+            <button
+              onClick={() => setExpandedSections({ ...expandedSections, users: !expandedSections.users })}
+              className={`w-full flex items-center justify-between px-3 py-2 rounded-md transition-all ${sidebarOpen ? '' : 'justify-center'}`}
+            >
+              {sidebarOpen && <p className="text-xs font-semibold text-slate-500 uppercase tracking-widest">Users & Sellers</p>}
+              {sidebarOpen && <HiOutlineChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${expandedSections.users ? '' : '-rotate-90'}`} />}
+            </button>
+            {(expandedSections.users && sidebarOpen) && (
+              <div className="space-y-1 mt-1">
+                <NavLink href="/admin/users" icon={HiOutlineUsers} label="Customers" />
+              </div>
+            )}
           </div>
         </nav>
 
         {/* User Profile Section */}
-        <div className="p-4 border-t border-slate-200/60 space-y-2">
+        <div className="p-3 border-t border-slate-200/60">
           <div className="relative">
             <button
               onClick={() => setProfileOpen(!profileOpen)}
-              className="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-100 transition group"
+              className={`w-full flex items-center ${sidebarOpen ? 'justify-between' : 'justify-center'} px-3 py-2.5 rounded-lg hover:bg-slate-100 transition group`}
             >
-              <div className="flex items-center gap-3 flex-1 min-w-0">
+              <div className={`flex items-center gap-3 ${sidebarOpen ? 'flex-1 min-w-0' : ''}`}>
                 <div className="w-8 h-8 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-lg flex items-center justify-center text-white text-xs font-semibold flex-shrink-0">
                   A
                 </div>
-                <div className="text-left min-w-0">
-                  <p className="text-sm font-medium text-slate-900">Admin</p>
-                  <p className="text-xs text-slate-500 truncate">admin@store.com</p>
-                </div>
+                {sidebarOpen && (
+                  <div className="text-left min-w-0">
+                    <p className="text-sm font-medium text-slate-900">Admin</p>
+                    <p className="text-xs text-slate-500 truncate">admin@store.com</p>
+                  </div>
+                )}
               </div>
-              <HiOutlineChevronDown className={`w-4 h-4 text-slate-400 flex-shrink-0 transition ${profileOpen ? 'rotate-180' : ''}`} />
+              {sidebarOpen && <HiOutlineChevronDown className={`w-4 h-4 text-slate-400 flex-shrink-0 transition ${profileOpen ? 'rotate-180' : ''}`} />}
             </button>
 
-            {profileOpen && (
+            {profileOpen && sidebarOpen && (
               <div className="absolute bottom-full left-0 right-0 mb-2 bg-white border border-slate-200/80 rounded-lg shadow-lg z-50">
                 <Link href="/" className="flex items-center gap-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-slate-50 border-b border-slate-100 transition">
                   <HiOutlineHome className="w-4 h-4" />
@@ -195,7 +278,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       </div>
 
       {/* Main Content */}
-      <div className="ml-64 min-h-screen flex flex-col">
+      <div className={`min-h-screen flex flex-col transition-all duration-300 ${sidebarOpen ? 'ml-64' : 'ml-20'}`}>
         {/* Top Header */}
         <div className="bg-white border-b border-slate-200/80 px-8 py-4 flex items-center justify-between sticky top-0 z-30">
           <div className="flex items-center gap-4">

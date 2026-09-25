@@ -2,9 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { FiGift } from 'react-icons/fi';
 import { API_BASE_URL } from '@/config/api';
 import { getAccessToken } from '@/lib/auth';
+import { ListCard } from '@/components/ios/ListCard';
+import { CMSHeader } from '@/components/ios/CMSHeader';
+import { CMSActionMenu } from '@/components/ios/CMSActionMenu';
 
 interface Sponsorship {
   id: number;
@@ -19,12 +21,13 @@ interface Sponsorship {
 export default function SponsorshipAdmin() {
   const [sponsorships, setSponsorships] = useState<Sponsorship[]>([]);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
 
-  useEffect(function fetchData() {
+  useEffect(() => {
     fetchSponsorships();
   }, []);
 
-  async function fetchSponsorships() {
+  const fetchSponsorships = async () => {
     try {
       const token = getAccessToken();
       const response = await axios.get(`${API_BASE_URL}/impact/sponsorship/`, {
@@ -36,58 +39,89 @@ export default function SponsorshipAdmin() {
       console.error('Failed to fetch sponsorships:', err);
       setLoading(false);
     }
-  }
+  };
+
+  const handleDelete = async (id: number) => {
+    if (!confirm('Are you sure?')) return;
+    try {
+      const token = getAccessToken();
+      await axios.delete(`${API_BASE_URL}/impact/sponsorship/${id}/`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      fetchSponsorships();
+    } catch (err) {
+      console.error('Failed to delete:', err);
+    }
+  };
+
+  const filteredSponsorships = sponsorships.filter(s =>
+    s.sponsor_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    s.item_type.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const formatDate = (dateStr: string) => {
+    if (!dateStr) return '—';
+    return new Date(dateStr).toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
+    });
+  };
 
   return (
-    <div className="space-y-8">
-      <div className="flex items-center gap-3 mb-8">
-        <FiGift className="text-pink-600 w-8 h-8" />
-        <h1 className="text-3xl font-black text-slate-900">Sponsorships</h1>
-      </div>
+    <div className="space-y-6">
+      <CMSHeader
+        title="Sponsorships"
+        itemCount={filteredSponsorships.length}
+        onAddClick={() => {}}
+        searchValue={searchQuery}
+        onSearchChange={setSearchQuery}
+      />
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-        <div className="bg-emerald-50 rounded-lg p-6 border border-emerald-200">
-          <p className="text-sm text-emerald-600 font-bold">Total Sponsorships</p>
-          <p className="text-3xl font-black text-emerald-700 mt-2">{sponsorships.length}</p>
+      {/* Sponsorships List */}
+      {loading ? (
+        <div className="text-center py-12"><p className="text-slate-600">Loading...</p></div>
+      ) : filteredSponsorships.length === 0 ? (
+        <div className="text-center py-12 bg-slate-50 rounded-2xl border border-slate-200/60">
+          <p className="text-slate-600">No sponsorships found.</p>
         </div>
-        <div className="bg-blue-50 rounded-lg p-6 border border-blue-200">
-          <p className="text-sm text-blue-600 font-bold">Total Desks</p>
-          <p className="text-3xl font-black text-blue-700 mt-2">{sponsorships.reduce(function(sum, s) { return sum + s.items_count; }, 0)}</p>
-        </div>
-        <div className="bg-purple-50 rounded-lg p-6 border border-purple-200">
-          <p className="text-sm text-purple-600 font-bold">Total Revenue</p>
-          <p className="text-3xl font-black text-purple-700 mt-2">D {sponsorships.reduce(function(sum, s) { return sum + parseFloat(s.amount); }, 0).toLocaleString()}</p>
-        </div>
-      </div>
+      ) : (
+        <div className="space-y-3">
+          {filteredSponsorships.map((sponsorship) => (
+            <ListCard key={sponsorship.id}>
+              <div className="flex items-start justify-between p-4">
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-semibold text-slate-900">{sponsorship.sponsor_name}</h3>
+                  <p className="text-xs text-slate-600">{sponsorship.sponsor_email}</p>
+                  <div className="flex gap-2 mt-2">
+                    <span className="text-xs font-medium bg-slate-100 text-slate-700 px-2 py-0.5 rounded-full">
+                      {sponsorship.item_type}
+                    </span>
+                    <span className="text-xs font-medium bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full">
+                      {sponsorship.items_count} items
+                    </span>
+                  </div>
+                  {sponsorship.amount && (
+                    <p className="text-xs font-medium text-slate-900 mt-2">
+                      Value: D {parseFloat(sponsorship.amount).toLocaleString()}
+                    </p>
+                  )}
+                  <p className="text-xs text-slate-500 mt-2">
+                    {formatDate(sponsorship.created_at)}
+                  </p>
+                </div>
 
-      <div className="bg-white rounded-lg border overflow-hidden">
-        <table className="w-full">
-          <thead className="bg-slate-50">
-            <tr>
-              <th className="px-6 py-3 text-left font-bold">Sponsor</th>
-              <th className="px-6 py-3 text-left font-bold">Email</th>
-              <th className="px-6 py-3 text-left font-bold">Item</th>
-              <th className="px-6 py-3 text-left font-bold">Qty</th>
-              <th className="px-6 py-3 text-left font-bold">Amount</th>
-              <th className="px-6 py-3 text-left font-bold">Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {sponsorships.map(function(sponsor) {
-              return (
-                <tr key={sponsor.id} className="border-b hover:bg-slate-50">
-                  <td className="px-6 py-3 font-semibold">{sponsor.sponsor_name}</td>
-                  <td className="px-6 py-3 text-sm">{sponsor.sponsor_email}</td>
-                  <td className="px-6 py-3">{sponsor.item_type}</td>
-                  <td className="px-6 py-3">{sponsor.items_count}</td>
-                  <td className="px-6 py-3 font-bold">D {sponsor.amount}</td>
-                  <td className="px-6 py-3 text-sm text-slate-600">{new Date(sponsor.created_at).toLocaleDateString()}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
+                <div className="flex-shrink-0 ml-4">
+                  <CMSActionMenu
+                    onEdit={() => {}}
+                    onDelete={() => handleDelete(sponsorship.id)}
+                  />
+                </div>
+              </div>
+            </ListCard>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

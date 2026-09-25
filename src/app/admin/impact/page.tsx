@@ -2,9 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { FiPlus, FiEdit2, FiTrash2, FiTrendingUp } from 'react-icons/fi';
 import { API_BASE_URL } from '@/config/api';
 import { getAccessToken } from '@/lib/auth';
+import { ListCard } from '@/components/ios/ListCard';
+import { DragHandle } from '@/components/ios/DragHandle';
+import { CMSHeader } from '@/components/ios/CMSHeader';
+import { CMSActionMenu } from '@/components/ios/CMSActionMenu';
+import { MultiStepForm } from '@/components/ios/MultiStepForm';
 
 interface ImpactMetric {
   id: number;
@@ -13,10 +17,19 @@ interface ImpactMetric {
   description: string;
 }
 
+const FORM_STEPS = [
+  { id: 'info', title: 'Metric Info', description: 'Label and value' },
+  { id: 'details', title: 'Details', description: 'Description' }
+];
+
 export default function ImpactMetricsAdmin() {
   const [metrics, setMetrics] = useState<ImpactMetric[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const [editingId, setEditingId] = useState<number | null>(null);
+  const [currentStep, setCurrentStep] = useState(0);
+  const [submitting, setSubmitting] = useState(false);
   const [formData, setFormData] = useState({ label: '', value: '', description: '' });
 
   useEffect(() => {
@@ -31,15 +44,16 @@ export default function ImpactMetricsAdmin() {
       });
       setMetrics(response.data.results || response.data);
       setLoading(false);
-    } catch (err) {
-      console.error('Failed to fetch metrics:', err);
+    } catch (error) {
+      console.error('Failed to fetch metrics:', error);
       setLoading(false);
     }
   };
 
-  const handleSave = async () => {
+  const handleSubmit = async () => {
+    setSubmitting(true);
+    const token = getAccessToken();
     try {
-      const token = getAccessToken();
       if (editingId) {
         await axios.patch(`${API_BASE_URL}/impact/metrics/${editingId}/`, formData, {
           headers: { Authorization: `Bearer ${token}` }
@@ -49,120 +63,164 @@ export default function ImpactMetricsAdmin() {
           headers: { Authorization: `Bearer ${token}` }
         });
       }
-      setFormData({ label: '', value: '', description: '' });
-      setEditingId(null);
       fetchMetrics();
-    } catch (err) {
-      console.error('Failed to save metric:', err);
+      closeForm();
+    } catch (error) {
+      console.error('Failed to save:', error);
+    } finally {
+      setSubmitting(false);
     }
   };
 
+  const openForm = (metric?: ImpactMetric) => {
+    if (metric) {
+      setEditingId(metric.id);
+      setFormData({ label: metric.label, value: metric.value, description: metric.description });
+    } else {
+      setEditingId(null);
+      setFormData({ label: '', value: '', description: '' });
+    }
+    setCurrentStep(0);
+    setIsFormOpen(true);
+  };
+
+  const closeForm = () => {
+    setIsFormOpen(false);
+    setTimeout(() => {
+      setEditingId(null);
+      setFormData({ label: '', value: '', description: '' });
+      setCurrentStep(0);
+    }, 300);
+  };
+
   const handleDelete = async (id: number) => {
+    if (!confirm('Are you sure?')) return;
     try {
       const token = getAccessToken();
       await axios.delete(`${API_BASE_URL}/impact/metrics/${id}/`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchMetrics();
-    } catch (err) {
-      console.error('Failed to delete metric:', err);
+    } catch (error) {
+      console.error('Failed to delete:', error);
     }
   };
 
+  const filteredMetrics = metrics.filter(m =>
+    m.label.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
-    <div className="space-y-8">
-      <div className="flex items-center gap-3 mb-8">
-        <FiTrendingUp className="text-emerald-600 w-8 h-8" />
-        <h1 className="text-3xl font-black text-slate-900">Impact Metrics</h1>
-      </div>
+    <div className="space-y-6">
+      <CMSHeader
+        title="Impact Metrics"
+        itemCount={filteredMetrics.length}
+        onAddClick={() => openForm()}
+        searchValue={searchQuery}
+        onSearchChange={setSearchQuery}
+      />
 
-      {/* Form */}
-      <div className="bg-white rounded-lg border border-slate-200 p-6">
-        <h2 className="font-bold text-slate-900 mb-4">{editingId ? 'Edit Metric' : 'Add New Metric'}</h2>
-        <div className="space-y-4">
-          <input
-            type="text"
-            placeholder="Label (e.g., Tons Recovered)"
-            value={formData.label}
-            onChange={(e) => setFormData({ ...formData, label: e.target.value })}
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
-          />
-          <input
-            type="text"
-            placeholder="Value (e.g., 6.4+)"
-            value={formData.value}
-            onChange={(e) => setFormData({ ...formData, value: e.target.value })}
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
-          />
-          <textarea
-            placeholder="Description"
-            value={formData.description}
-            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 h-24"
-          />
-          <div className="flex gap-2">
-            <button
-              onClick={handleSave}
-              className="px-6 py-2 bg-emerald-600 text-white font-bold rounded-lg hover:bg-emerald-700"
-            >
-              {editingId ? 'Update' : 'Add'} Metric
-            </button>
-            {editingId && (
-              <button
-                onClick={() => {
-                  setEditingId(null);
-                  setFormData({ label: '', value: '', description: '' });
-                }}
-                className="px-6 py-2 bg-slate-200 text-slate-700 font-bold rounded-lg"
-              >
-                Cancel
-              </button>
+      {/* Inline Multi-Step Form */}
+      {isFormOpen && (
+        <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6">
+          <MultiStepForm
+            steps={FORM_STEPS}
+            currentStep={currentStep}
+            onStepChange={setCurrentStep}
+            onSubmit={handleSubmit}
+            onCancel={closeForm}
+            submitLabel={editingId ? 'Update' : 'Create'}
+            loading={submitting}
+          >
+            {currentStep === 0 && (
+              <div className="space-y-5">
+                <div>
+                  <label className="text-xs font-semibold text-slate-600 block mb-2">Metric Label *</label>
+                  <input
+                    type="text"
+                    placeholder="e.g., Plastic Recycled"
+                    value={formData.label}
+                    onChange={(e) => setFormData({ ...formData, label: e.target.value })}
+                    className="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-semibold text-slate-600 block mb-2">Value *</label>
+                  <input
+                    type="text"
+                    placeholder="e.g., 500"
+                    value={formData.value}
+                    onChange={(e) => setFormData({ ...formData, value: e.target.value })}
+                    className="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition"
+                    required
+                  />
+                </div>
+              </div>
             )}
-          </div>
-        </div>
-      </div>
 
-      {/* List */}
-      <div className="bg-white rounded-lg border border-slate-200 overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-slate-50 border-b">
-              <tr>
-                <th className="px-6 py-3 text-left font-bold text-slate-900">Label</th>
-                <th className="px-6 py-3 text-left font-bold text-slate-900">Value</th>
-                <th className="px-6 py-3 text-left font-bold text-slate-900">Description</th>
-                <th className="px-6 py-3 text-left font-bold text-slate-900">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {metrics.map((metric) => (
-                <tr key={metric.id} className="border-b hover:bg-slate-50">
-                  <td className="px-6 py-3 text-slate-900 font-semibold">{metric.label}</td>
-                  <td className="px-6 py-3 text-slate-600">{metric.value}</td>
-                  <td className="px-6 py-3 text-slate-600 text-sm">{metric.description}</td>
-                  <td className="px-6 py-3 flex gap-2">
-                    <button
-                      onClick={() => {
-                        setEditingId(metric.id);
-                        setFormData(metric);
-                      }}
-                      className="p-2 text-blue-600 hover:bg-blue-50 rounded"
-                    >
-                      <FiEdit2 />
-                    </button>
-                    <button
-                      onClick={() => handleDelete(metric.id)}
-                      className="p-2 text-red-600 hover:bg-red-50 rounded"
-                    >
-                      <FiTrash2 />
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+            {currentStep === 1 && (
+              <div className="space-y-5">
+                <div>
+                  <label className="text-xs font-semibold text-slate-600 block mb-2">Description</label>
+                  <textarea
+                    placeholder="What does this metric measure?"
+                    value={formData.description}
+                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                    className="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition resize-none h-24"
+                  />
+                </div>
+                <div className="p-4 bg-emerald-50 border border-emerald-100 rounded-xl">
+                  <div className="flex items-center gap-3">
+                    <div className="w-20 h-16 rounded-xl bg-white border border-emerald-100 flex flex-col items-center justify-center flex-shrink-0">
+                      <div className="text-xl font-bold text-emerald-800">{formData.value}</div>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-semibold text-emerald-900">{formData.label || 'Metric'}</p>
+                      <p className="text-xs text-emerald-700 line-clamp-1 mt-1">{formData.description}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </MultiStepForm>
         </div>
-      </div>
+      )}
+
+      {/* Metrics List */}
+      {loading ? (
+        <div className="text-center py-12"><p className="text-slate-600">Loading...</p></div>
+      ) : filteredMetrics.length === 0 ? (
+        <div className="text-center py-12 bg-slate-50 rounded-2xl border border-slate-200/60">
+          <p className="text-slate-600">No impact metrics found.</p>
+        </div>
+      ) : (
+        <div className="space-y-3">
+          {filteredMetrics.map((metric) => (
+            <ListCard key={metric.id}>
+              <div className="flex items-center gap-4 p-4">
+                <DragHandle />
+
+                <div className="w-20 h-16 rounded-xl bg-emerald-50 border border-emerald-100 flex flex-col items-center justify-center flex-shrink-0">
+                  <div className="text-xl font-bold text-emerald-800">{metric.value}</div>
+                </div>
+
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-semibold text-slate-900 truncate">{metric.label}</h3>
+                  <p className="text-xs text-slate-600 line-clamp-1 mt-1">{metric.description}</p>
+                </div>
+
+                <div className="flex-shrink-0">
+                  <CMSActionMenu
+                    onEdit={() => openForm(metric)}
+                    onDelete={() => handleDelete(metric.id)}
+                  />
+                </div>
+              </div>
+            </ListCard>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

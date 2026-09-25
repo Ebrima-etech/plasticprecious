@@ -128,139 +128,156 @@ export default function AdminDashboard() {
     <div className="space-y-8">
       {/* Header */}
       <div>
-        <div className="flex items-center gap-2 mb-2">
-          <HiOutlineSparkles className="w-8 h-8 text-green-600" />
-          <h1 className="text-3xl font-bold text-green-600">Dashboard</h1>
+        <div className="flex items-center gap-3 mb-2">
+          <div className="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center">
+            <HiOutlineSparkles className="w-6 h-6 text-emerald-600" />
+          </div>
+          <h1 className="text-3xl font-bold text-slate-900">Dashboard</h1>
         </div>
-        <p className="text-sm text-gray-500">Real-time store performance metrics</p>
+        <p className="text-sm text-slate-600">Real-time store performance metrics</p>
       </div>
 
-      {/* Metrics Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* Metric Stat Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
         {/* Total Revenue */}
-        <div className="bg-gradient-to-br from-teal-50 to-emerald-50 rounded-lg p-6 border border-teal-100">
-          <div className="flex items-start justify-between mb-3">
-            <div>
-              <p className="text-xs font-semibold text-teal-600 uppercase tracking-wide">Total Revenue</p>
-            </div>
-            <HiOutlineCurrencyDollar className="w-6 h-6 text-teal-600" />
+        <div className="bg-white rounded-lg p-6 border border-slate-200/80 border-t-4 border-t-emerald-500 hover:shadow-lg transition">
+          <div className="flex items-start justify-between mb-4">
+            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Total Revenue</p>
+            <HiOutlineCurrencyDollar className="w-5 h-5 text-slate-400" />
           </div>
-          <p className="text-2xl font-bold text-gray-900">D {stats.total_revenue.toLocaleString('en-GM')}</p>
-          <div className="mt-3 flex items-center gap-1 text-teal-600 text-xs font-medium">
-            <span>↗</span>
-            <span>+12.5% this month</span>
+          <p className="text-3xl font-bold text-slate-900 font-tabular-nums">D {stats.total_revenue.toLocaleString('en-GM')}</p>
+          <div className="mt-4 flex items-center gap-2">
+            <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">
+              <span className="mr-1">↗</span>
+              +12.5% this month
+            </span>
           </div>
         </div>
 
         {/* Total Orders */}
-        <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-lg p-6 border border-blue-100">
-          <div className="flex items-start justify-between mb-3">
-            <div>
-              <p className="text-xs font-semibold text-blue-600 uppercase tracking-wide">Total Orders</p>
-            </div>
-            <HiOutlineShoppingCart className="w-6 h-6 text-blue-600" />
+        <div className="bg-white rounded-lg p-6 border border-slate-200/80 border-t-4 border-t-emerald-500 hover:shadow-lg transition">
+          <div className="flex items-start justify-between mb-4">
+            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Total Orders</p>
+            <HiOutlineShoppingCart className="w-5 h-5 text-slate-400" />
           </div>
-          <p className="text-2xl font-bold text-gray-900">{stats.total_orders}</p>
-          <div className="mt-3 flex items-center gap-1 text-blue-600 text-xs font-medium">
-            <span>↗</span>
-            <span>+8 orders today</span>
+          <p className="text-3xl font-bold text-slate-900 font-tabular-nums">{stats.total_orders}</p>
+          <div className="mt-4 flex items-center gap-2">
+            <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">
+              <span className="mr-1">↗</span>
+              +8 orders today
+            </span>
           </div>
         </div>
 
         {/* Total Products */}
-        <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg p-6 border border-purple-100">
-          <div className="flex items-start justify-between mb-3">
-            <div>
-              <p className="text-xs font-semibold text-purple-600 uppercase tracking-wide">Total Products</p>
-            </div>
-            <HiOutlineShoppingBag className="w-6 h-6 text-purple-600" />
+        <div className="bg-white rounded-lg p-6 border border-slate-200/80 border-t-4 border-t-emerald-500 hover:shadow-lg transition">
+          <div className="flex items-start justify-between mb-4">
+            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Total Products</p>
+            <HiOutlineShoppingBag className="w-5 h-5 text-slate-400" />
           </div>
-          <p className="text-2xl font-bold text-gray-900">{stats.total_products}</p>
-          <div className="mt-3 flex items-center gap-1 text-purple-600 text-xs font-medium">
-            <span>→</span>
-            <span>5 out of stock</span>
+          <p className="text-3xl font-bold text-slate-900 font-tabular-nums">{stats.total_products}</p>
+          <div className="mt-4 flex items-center gap-2">
+            <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-800">
+              <span className="mr-1">⚠</span>
+              5 out of stock
+            </span>
           </div>
         </div>
 
         {/* Total Customers */}
-        <div className="bg-gradient-to-br from-orange-50 to-amber-50 rounded-lg p-6 border border-orange-100">
-          <div className="flex items-start justify-between mb-3">
-            <div>
-              <p className="text-xs font-semibold text-orange-600 uppercase tracking-wide">Total Customers</p>
-            </div>
-            <HiOutlineUsers className="w-6 h-6 text-orange-600" />
+        <div className="bg-white rounded-lg p-6 border border-slate-200/80 border-t-4 border-t-emerald-500 hover:shadow-lg transition">
+          <div className="flex items-start justify-between mb-4">
+            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Total Customers</p>
+            <HiOutlineUsers className="w-5 h-5 text-slate-400" />
           </div>
-          <p className="text-2xl font-bold text-gray-900">{stats.total_users}</p>
-          <div className="mt-3 flex items-center gap-1 text-orange-600 text-xs font-medium">
-            <span>↗</span>
-            <span>+12 new this week</span>
+          <p className="text-3xl font-bold text-slate-900 font-tabular-nums">{stats.total_users}</p>
+          <div className="mt-4 flex items-center gap-2">
+            <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">
+              <span className="mr-1">↗</span>
+              +12 new this week
+            </span>
           </div>
         </div>
       </div>
 
-      {/* Order Status */}
+      {/* Order Status Pipeline */}
       <div>
-        <h2 className="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">Order Status Overview</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <h2 className="text-sm font-semibold text-slate-900 mb-6 uppercase tracking-wide">Order Status Pipeline</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {/* Pending Orders */}
-          <div className="bg-white rounded-lg p-6 border border-gray-200 text-center">
-            <div className="flex items-center justify-center w-10 h-10 rounded-full bg-yellow-100 mx-auto mb-3">
-              <span className="text-sm">●</span>
+          <Link href="/admin/orders?status=pending">
+            <div className="bg-white rounded-lg p-6 border border-slate-200/80 hover:shadow-lg hover:-translate-y-0.5 transition cursor-pointer">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-3 h-3 rounded-full bg-amber-400"></div>
+                  <p className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Pending Orders</p>
+                </div>
+              </div>
+              <p className="text-4xl font-bold text-slate-900 font-tabular-nums mb-4">{stats.pending_orders}</p>
+              <button className="text-sm font-medium text-emerald-600 hover:text-emerald-700 transition">View Orders →</button>
             </div>
-            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Pending Orders</p>
-            <p className="text-3xl font-bold text-gray-900">{stats.pending_orders}</p>
-          </div>
+          </Link>
 
           {/* Processing Orders */}
-          <div className="bg-white rounded-lg p-6 border border-gray-200 text-center">
-            <div className="flex items-center justify-center w-10 h-10 rounded-full bg-blue-100 mx-auto mb-3">
-              <span className="text-sm text-blue-600">●</span>
+          <Link href="/admin/orders?status=processing">
+            <div className="bg-white rounded-lg p-6 border border-slate-200/80 hover:shadow-lg hover:-translate-y-0.5 transition cursor-pointer">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-3 h-3 rounded-full bg-blue-400"></div>
+                  <p className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Processing</p>
+                </div>
+              </div>
+              <p className="text-4xl font-bold text-slate-900 font-tabular-nums mb-4">{stats.processing_orders}</p>
+              <button className="text-sm font-medium text-emerald-600 hover:text-emerald-700 transition">View Orders →</button>
             </div>
-            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Processing</p>
-            <p className="text-3xl font-bold text-gray-900">{stats.processing_orders}</p>
-          </div>
+          </Link>
 
           {/* Delivered Orders */}
-          <div className="bg-white rounded-lg p-6 border border-gray-200 text-center">
-            <div className="flex items-center justify-center w-10 h-10 rounded-full bg-green-100 mx-auto mb-3">
-              <span className="text-sm text-green-600">●</span>
+          <Link href="/admin/orders?status=delivered">
+            <div className="bg-white rounded-lg p-6 border border-slate-200/80 hover:shadow-lg hover:-translate-y-0.5 transition cursor-pointer">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-3 h-3 rounded-full bg-emerald-500"></div>
+                  <p className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Delivered</p>
+                </div>
+              </div>
+              <p className="text-4xl font-bold text-slate-900 font-tabular-nums mb-4">{stats.delivered_orders}</p>
+              <button className="text-sm font-medium text-emerald-600 hover:text-emerald-700 transition">View Orders →</button>
             </div>
-            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Delivered</p>
-            <p className="text-3xl font-bold text-gray-900">{stats.delivered_orders}</p>
-          </div>
+          </Link>
         </div>
       </div>
 
-      {/* Quick Navigation */}
+      {/* Quick Actions Toolbar */}
       <div>
-        <h2 className="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">Quick Navigation</h2>
+        <h2 className="text-sm font-semibold text-slate-900 mb-6 uppercase tracking-wide">Quick Actions</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
-          <Link href="/admin/orders">
-            <button className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg transition flex items-center justify-center gap-2 text-sm">
-              <HiOutlineShoppingCart className="w-5 h-5" />
+          <Link href="/admin/orders" className="group">
+            <div className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg p-4 transition flex items-center justify-center gap-3 font-semibold shadow-sm hover:shadow-md">
+              <HiOutlineShoppingCart className="w-5 h-5 group-hover:scale-110 transition" />
               <span>Manage Orders</span>
-            </button>
+            </div>
           </Link>
 
-          <Link href="/admin/products">
-            <button className="w-full bg-white hover:bg-gray-50 text-gray-900 font-semibold py-3 px-6 rounded-lg transition border border-gray-200 flex items-center justify-center gap-2 text-sm">
-              <HiOutlineShoppingBag className="w-5 h-5" />
+          <Link href="/admin/products" className="group">
+            <div className="bg-white hover:bg-slate-50 border border-slate-200 text-slate-900 rounded-lg p-4 transition flex items-center justify-center gap-3 font-semibold hover:shadow-md">
+              <HiOutlineShoppingBag className="w-5 h-5 group-hover:scale-110 transition" />
               <span>Manage Products</span>
-            </button>
+            </div>
           </Link>
 
-          <Link href="/admin/users">
-            <button className="w-full bg-white hover:bg-gray-50 text-gray-900 font-semibold py-3 px-6 rounded-lg transition border border-gray-200 flex items-center justify-center gap-2 text-sm">
-              <HiOutlineUsers className="w-5 h-5" />
+          <Link href="/admin/users" className="group">
+            <div className="bg-white hover:bg-slate-50 border border-slate-200 text-slate-900 rounded-lg p-4 transition flex items-center justify-center gap-3 font-semibold hover:shadow-md">
+              <HiOutlineUsers className="w-5 h-5 group-hover:scale-110 transition" />
               <span>View Customers</span>
-            </button>
+            </div>
           </Link>
 
-          <Link href="/admin/settings">
-            <button className="w-full bg-white hover:bg-gray-50 text-gray-900 font-semibold py-3 px-6 rounded-lg transition border border-gray-200 flex items-center justify-center gap-2 text-sm">
-              <HiOutlineCurrencyDollar className="w-5 h-5" />
+          <Link href="/admin/settings" className="group">
+            <div className="bg-white hover:bg-slate-50 border border-slate-200 text-slate-900 rounded-lg p-4 transition flex items-center justify-center gap-3 font-semibold hover:shadow-md">
+              <HiOutlineCurrencyDollar className="w-5 h-5 group-hover:scale-110 transition" />
               <span>Revenue Report</span>
-            </button>
+            </div>
           </Link>
         </div>
       </div>

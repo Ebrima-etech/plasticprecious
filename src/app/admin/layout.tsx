@@ -153,7 +153,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             onClick={() => {
               localStorage.removeItem('access_token');
               localStorage.removeItem('refresh_token');
-              router.push('/admin/login');
+              router.push('/auth/login');
             }}
             className="w-full px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg transition"
           >

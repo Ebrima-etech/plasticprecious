@@ -1,6 +1,8 @@
 'use client';
 
+import { useEffect } from 'react';
 import VRPageLoadAnimation from '@/components/VRPageLoadAnimation';
+import '@/lib/axios-config';
 
 export default function LayoutClient({
   children,

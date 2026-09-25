@@ -8,7 +8,8 @@ import { getToken } from '@/lib/auth';
 import { AdminTableSkeleton } from '@/components/ShimmerSkeleton';
 import { ActionMenu } from '@/components/admin/ActionMenu';
 import { formatCurrency, getStockStatus } from '@/lib/format-utils';
-import { FiSearch, FiImage, FiEye, FiEdit2, FiTrash2, FiCopy, HiOutlineBriefcase } from 'react-icons/fi';
+import { FiSearch, FiImage, FiEye, FiEdit2, FiTrash2, FiCopy } from 'react-icons/fi';
+import { HiOutlineShoppingBag } from 'react-icons/hi2';
 
 interface Product {
   id: number;
@@ -120,7 +121,7 @@ export default function AdminProductsPage() {
         <div>
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center">
-              <HiOutlineBriefcase className="text-emerald-600 w-6 h-6" />
+              <HiOutlineShoppingBag className="text-emerald-600 w-6 h-6" />
             </div>
             <div>
               <h1 className="text-2xl font-bold text-slate-900">Products</h1>

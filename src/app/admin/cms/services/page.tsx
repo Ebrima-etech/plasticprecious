@@ -2,33 +2,33 @@
 
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { FiEdit2, FiTrash2, FiPlus } from 'react-icons/fi';
 import { API_BASE_URL } from '@/config/api';
 import { getAccessToken } from '@/lib/auth';
+import { SlideOver } from '@/components/admin/SlideOver';
+import { ListCard } from '@/components/ios/ListCard';
+import { DragHandle } from '@/components/ios/DragHandle';
+import { ToggleSwitch } from '@/components/ios/ToggleSwitch';
+import { CMSHeader } from '@/components/ios/CMSHeader';
+import { CMSActionMenu } from '@/components/ios/CMSActionMenu';
 
 interface Service {
   id: number;
   name: string;
   description: string;
   icon: string;
-  color_from: string;
-  color_to: string;
-  order: number;
   is_active: boolean;
 }
 
 export default function ServicesPage() {
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
-  const [showForm, setShowForm] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const [editingId, setEditingId] = useState<number | null>(null);
   const [formData, setFormData] = useState({
     name: '',
     description: '',
-    icon: '',
-    color_from: 'emerald-600',
-    color_to: 'teal-600',
-    order: 0,
+    icon: '📦',
     is_active: true
   });
 
@@ -50,10 +50,8 @@ export default function ServicesPage() {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     const token = getAccessToken();
-
     try {
       if (editingId) {
         await axios.patch(`${API_BASE_URL}/services/${editingId}/`, formData, {
@@ -65,26 +63,34 @@ export default function ServicesPage() {
         });
       }
       fetchServices();
-      setShowForm(false);
-      setEditingId(null);
-      setFormData({ name: '', description: '', icon: '', color_from: 'emerald-600', color_to: 'teal-600', order: 0, is_active: true });
+      closeDrawer();
     } catch (error) {
       console.error('Failed to save service:', error);
     }
   };
 
-  const handleEdit = (service: Service) => {
-    setFormData({
-      name: service.name,
-      description: service.description,
-      icon: service.icon,
-      color_from: service.color_from,
-      color_to: service.color_to,
-      order: service.order,
-      is_active: service.is_active
-    });
-    setEditingId(service.id);
-    setShowForm(true);
+  const openDrawer = (service?: Service) => {
+    if (service) {
+      setEditingId(service.id);
+      setFormData({
+        name: service.name,
+        description: service.description,
+        icon: service.icon,
+        is_active: service.is_active
+      });
+    } else {
+      setEditingId(null);
+      setFormData({ name: '', description: '', icon: '📦', is_active: true });
+    }
+    setIsDrawerOpen(true);
+  };
+
+  const closeDrawer = () => {
+    setIsDrawerOpen(false);
+    setTimeout(() => {
+      setEditingId(null);
+      setFormData({ name: '', description: '', icon: '📦', is_active: true });
+    }, 300);
   };
 
   const handleDelete = async (id: number) => {
@@ -100,126 +106,118 @@ export default function ServicesPage() {
     }
   };
 
+  const filteredServices = services.filter(s =>
+    s.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-black text-slate-900">Services</h1>
-        <button
-          onClick={() => {
-            setShowForm(true);
-            setEditingId(null);
-            setFormData({ name: '', description: '', icon: '', color_from: 'emerald-600', color_to: 'teal-600', order: 0, is_active: true });
-          }}
-          className="flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-700"
-        >
-          <FiPlus /> Add Service
-        </button>
-      </div>
+      <CMSHeader
+        title="Services"
+        itemCount={filteredServices.length}
+        onAddClick={() => openDrawer()}
+        searchValue={searchQuery}
+        onSearchChange={setSearchQuery}
+      />
 
-      {showForm && (
-        <div className="bg-white border-2 border-slate-200 rounded-lg p-6 space-y-4">
-          <h2 className="text-xl font-bold">{editingId ? 'Edit' : 'Add'} Service</h2>
-          <form onSubmit={handleSubmit} className="space-y-4">
+      <SlideOver
+        isOpen={isDrawerOpen}
+        onClose={closeDrawer}
+        title={editingId ? 'Edit Service' : 'New Service'}
+        description={editingId ? 'Update service details' : 'Create a new service'}
+        footer={
+          <>
+            <button onClick={closeDrawer} className="px-6 py-2 text-slate-700 font-medium hover:bg-slate-200 rounded-lg transition">
+              Cancel
+            </button>
+            <button onClick={handleSubmit} className="px-6 py-2 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition">
+              {editingId ? 'Update' : 'Create'}
+            </button>
+          </>
+        }
+      >
+        <div className="space-y-6">
+          <div>
+            <label className="text-xs font-semibold text-slate-600 block mb-2">Service Name *</label>
             <input
               type="text"
-              placeholder="Service Name"
+              placeholder="e.g., Consulting"
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              className="w-full px-4 py-2 border rounded-lg"
+              className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition"
               required
             />
+          </div>
+          <div>
+            <label className="text-xs font-semibold text-slate-600 block mb-2">Description</label>
             <textarea
-              placeholder="Description"
+              placeholder="Describe this service"
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              className="w-full px-4 py-2 border rounded-lg"
-              required
+              className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition resize-none h-24"
             />
+          </div>
+          <div>
+            <label className="text-xs font-semibold text-slate-600 block mb-2">Icon</label>
             <input
               type="text"
-              placeholder="Icon (e.g., GiRecycle)"
+              placeholder="e.g., 🔧"
               value={formData.icon}
               onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
-              className="w-full px-4 py-2 border rounded-lg"
+              className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition text-2xl"
             />
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="text-sm font-semibold">Color From</label>
-                <input
-                  type="text"
-                  placeholder="e.g., emerald-600"
-                  value={formData.color_from}
-                  onChange={(e) => setFormData({ ...formData, color_from: e.target.value })}
-                  className="w-full px-4 py-2 border rounded-lg"
-                />
-              </div>
-              <div>
-                <label className="text-sm font-semibold">Color To</label>
-                <input
-                  type="text"
-                  placeholder="e.g., teal-600"
-                  value={formData.color_to}
-                  onChange={(e) => setFormData({ ...formData, color_to: e.target.value })}
-                  className="w-full px-4 py-2 border rounded-lg"
-                />
-              </div>
-            </div>
-            <input
-              type="number"
-              placeholder="Order"
-              value={formData.order}
-              onChange={(e) => setFormData({ ...formData, order: parseInt(e.target.value) })}
-              className="w-full px-4 py-2 border rounded-lg"
+          </div>
+          <div className="pt-4 border-t border-slate-200 flex items-center justify-between">
+            <label className="text-sm font-medium text-slate-900">Active</label>
+            <ToggleSwitch
+              checked={formData.is_active}
+              onChange={(checked) => setFormData({ ...formData, is_active: checked })}
             />
-            <label className="flex items-center gap-2">
-              <input
-                type="checkbox"
-                checked={formData.is_active}
-                onChange={(e) => setFormData({ ...formData, is_active: e.target.checked })}
-              />
-              <span>Active</span>
-            </label>
-            <div className="flex gap-2">
-              <button type="submit" className="bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-700">
-                Save
-              </button>
-              <button
-                type="button"
-                onClick={() => setShowForm(false)}
-                className="bg-slate-300 text-slate-900 px-4 py-2 rounded-lg"
-              >
-                Cancel
-              </button>
-            </div>
-          </form>
+          </div>
         </div>
-      )}
+      </SlideOver>
 
       {loading ? (
-        <p>Loading...</p>
+        <div className="text-center py-12"><p className="text-slate-600">Loading...</p></div>
+      ) : filteredServices.length === 0 ? (
+        <div className="text-center py-12 bg-slate-50 rounded-2xl border border-slate-200/60">
+          <p className="text-slate-600">No services found.</p>
+        </div>
       ) : (
-        <div className="space-y-2">
-          {services.map((service) => (
-            <div key={service.id} className="bg-white border-2 border-slate-200 rounded-lg p-4 flex items-center justify-between">
-              <div className="flex-1">
-                <h3 className="font-bold text-slate-900">{service.name}</h3>
-                <p className="text-sm text-slate-600">Order: {service.order} • {service.color_from} → {service.color_to}</p>
+        <div className="space-y-3">
+          {filteredServices.map((service) => (
+            <ListCard key={service.id}>
+              <div className="flex items-center gap-4 p-4">
+                <DragHandle />
+                <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold text-lg flex-shrink-0">
+                  {service.icon}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-semibold text-slate-900 truncate">{service.name}</h3>
+                  <p className="text-xs text-slate-600 line-clamp-1 mt-1">{service.description}</p>
+                </div>
+                <div className="flex items-center gap-4 flex-shrink-0">
+                  <ToggleSwitch
+                    checked={service.is_active}
+                    onChange={async (checked) => {
+                      try {
+                        const token = getAccessToken();
+                        await axios.patch(`${API_BASE_URL}/services/${service.id}/`, { is_active: checked }, {
+                          headers: { Authorization: `Bearer ${token}` }
+                        });
+                        fetchServices();
+                      } catch (error) {
+                        console.error('Failed to update:', error);
+                      }
+                    }}
+                  />
+                  <CMSActionMenu
+                    onEdit={() => openDrawer(service)}
+                    onDelete={() => handleDelete(service.id)}
+                  />
+                </div>
               </div>
-              <div className="flex gap-2">
-                <button
-                  onClick={() => handleEdit(service)}
-                  className="text-blue-600 hover:text-blue-800"
-                >
-                  <FiEdit2 />
-                </button>
-                <button
-                  onClick={() => handleDelete(service.id)}
-                  className="text-red-600 hover:text-red-800"
-                >
-                  <FiTrash2 />
-                </button>
-              </div>
-            </div>
+            </ListCard>
           ))}
         </div>
       )}

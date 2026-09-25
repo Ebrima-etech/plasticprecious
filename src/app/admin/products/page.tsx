@@ -1,12 +1,14 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
 import { API_BASE_URL } from '@/config/api';
 import { getToken } from '@/lib/auth';
 import { AdminTableSkeleton } from '@/components/ShimmerSkeleton';
-import { FiSearch, FiImage, FiAlertTriangle, FiEye, FiEdit2 } from 'react-icons/fi';
+import { ActionMenu } from '@/components/admin/ActionMenu';
+import { formatCurrency, getStockStatus } from '@/lib/format-utils';
+import { FiSearch, FiImage, FiEye, FiEdit2, FiTrash2, FiCopy, HiOutlineBriefcase } from 'react-icons/fi';
 
 interface Product {
   id: number;
@@ -87,6 +89,10 @@ export default function AdminProductsPage() {
     return matchesSearch && matchesStock && matchesCategory;
   });
 
+  const debouncedSearch = useCallback((query: string) => {
+    setSearchQuery(query);
+  }, []);
+
   if (loading) {
     return (
       <div className="space-y-6">
@@ -110,20 +116,27 @@ export default function AdminProductsPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex justify-between items-start">
+      <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Products</h1>
-          <p className="text-sm text-gray-500 mt-1">{filteredProducts.length} products in Neon</p>
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center">
+              <HiOutlineBriefcase className="text-emerald-600 w-6 h-6" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold text-slate-900">Products</h1>
+              <p className="text-sm text-slate-600 mt-0.5">{filteredProducts.length} products available</p>
+            </div>
+          </div>
         </div>
         <Link href="/admin/products/new">
-          <button className="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg transition text-sm">
+          <button className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2.5 px-4 rounded-lg transition text-sm shadow-sm">
             + Add Product
           </button>
         </Link>
       </div>
 
       {error && (
-        <div className="p-4 bg-green-50 border border-green-200 text-green-700 rounded-lg text-sm">
+        <div className="p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm font-medium">
           {error}
         </div>
       )}
@@ -135,16 +148,16 @@ export default function AdminProductsPage() {
             type="text"
             placeholder="Search name, category, SKU..."
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+            onChange={(e) => debouncedSearch(e.target.value)}
+            className="w-full px-4 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
           />
-          <FiSearch className="absolute right-3 top-2.5 w-5 h-5 text-gray-400" />
+          <FiSearch className="absolute right-3 top-2.5 w-5 h-5 text-slate-400" />
         </div>
 
         <select
           value={stockFilter}
           onChange={(e) => setStockFilter(e.target.value)}
-          className="px-4 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+          className="px-4 py-2 border border-slate-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
         >
           <option value="all">All Stock</option>
           <option value="in-stock">In Stock</option>
@@ -155,9 +168,9 @@ export default function AdminProductsPage() {
         <select
           value={categoryFilter}
           onChange={(e) => setCategoryFilter(e.target.value)}
-          className="px-4 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+          className="px-4 py-2 border border-slate-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
         >
-          <option value="all">All</option>
+          <option value="all">All Categories</option>
           {categories.map((cat) => (
             <option key={cat.id} value={cat.id}>
               {cat.name}
@@ -168,82 +181,78 @@ export default function AdminProductsPage() {
 
       {/* Products Table */}
       {filteredProducts.length === 0 ? (
-        <div className="bg-white rounded-lg border border-gray-200 p-12 text-center">
-          <p className="text-gray-600 font-medium">No products found</p>
-          <p className="text-sm text-gray-500 mt-1">Try adjusting your search or filters</p>
+        <div className="bg-white rounded-lg border border-slate-200 p-12 text-center">
+          <p className="text-slate-600 font-medium">No products found</p>
+          <p className="text-sm text-slate-500 mt-1">Try adjusting your search or filters</p>
         </div>
       ) : (
-        <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+        <div className="bg-white rounded-lg border border-slate-200 overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50 border-b border-gray-200">
+              <thead className="bg-slate-50/50 border-b border-slate-200/80 h-12">
                 <tr>
-                  <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wide">Product</th>
-                  <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wide">Category</th>
-                  <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wide">Price</th>
-                  <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wide">Stock</th>
-                  <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wide">Status</th>
-                  <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wide">Actions</th>
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-slate-900 uppercase tracking-wide">Product</th>
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-slate-900 uppercase tracking-wide">Category</th>
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-slate-900 uppercase tracking-wide">Price</th>
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-slate-900 uppercase tracking-wide">Stock</th>
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-slate-900 uppercase tracking-wide">Status</th>
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-slate-900 uppercase tracking-wide">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
-                {filteredProducts.map((product) => (
-                  <tr key={product.id} className="hover:bg-gray-50 transition-colors">
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-gray-100 rounded flex items-center justify-center flex-shrink-0 border border-gray-200">
-                          {product.image ? (
-                            <img
-                              src={product.image}
-                              alt={product.name}
-                              className="w-full h-full rounded object-cover"
-                              onError={(e) => {
-                                (e.target as HTMLImageElement).style.display = 'none';
-                              }}
-                            />
-                          ) : null}
-                          {!product.image && (
-                            <FiImage className="w-5 h-5 text-gray-400" />
-                          )}
+              <tbody className="divide-y divide-slate-200">
+                {filteredProducts.map((product) => {
+                  const stockStatus = getStockStatus(product.stock);
+                  return (
+                    <tr key={product.id} className="hover:bg-slate-50/50 transition-colors">
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-4">
+                          <div className="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center flex-shrink-0 border border-slate-200 overflow-hidden">
+                            {product.image ? (
+                              <img
+                                src={product.image}
+                                alt={product.name}
+                                className="w-full h-full object-cover"
+                                onError={(e) => {
+                                  (e.target as HTMLImageElement).style.display = 'none';
+                                }}
+                              />
+                            ) : (
+                              <FiImage className="w-6 h-6 text-slate-400" />
+                            )}
+                          </div>
+                          <div className="min-w-0">
+                            <p className="text-sm font-semibold text-slate-900 truncate">{product.name}</p>
+                            {product.images_count && (
+                              <p className="text-xs text-slate-500 mt-0.5">{product.images_count} photos</p>
+                            )}
+                          </div>
                         </div>
-                        <div>
-                          <p className="text-sm font-medium text-gray-900">{product.name}</p>
-                          {product.images_count && (
-                            <p className="text-xs text-gray-500">{product.images_count} photos</p>
-                          )}
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 text-sm text-gray-600">{product.category_name || 'Uncategorized'}</td>
-                    <td className="px-6 py-4 text-sm font-medium text-gray-900">D {parseFloat(product.price).toLocaleString('en-GM')}</td>
-                    <td className="px-6 py-4">
-                      <span className="text-sm font-medium text-gray-900">{product.stock}</span>
-                      {product.stock <= 10 && product.stock > 0 && (
-                        <span className="ml-2 inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-yellow-100 text-yellow-800 gap-1">
-                          <FiAlertTriangle className="w-3.5 h-3.5" />
-                          Low Stock
+                      </td>
+                      <td className="px-6 py-4 text-sm text-slate-600">{product.category_name || '—'}</td>
+                      <td className="px-6 py-4 text-sm font-semibold text-slate-900 font-tabular-nums">{formatCurrency(product.price)}</td>
+                      <td className="px-6 py-4">
+                        <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold ${stockStatus.color}`}>
+                          {stockStatus.label}
                         </span>
-                      )}
-                    </td>
-                    <td className="px-6 py-4">
-                      <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-green-600 text-white">
-                        Published
-                      </span>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-2">
-                        <button className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition" title="View">
-                          <FiEye className="w-5 h-5" />
-                        </button>
-                        <Link href={`/admin/products/${product.id}/edit`}>
-                          <button className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition" title="Edit">
-                            <FiEdit2 className="w-5 h-5" />
-                          </button>
-                        </Link>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">
+                          Published
+                        </span>
+                      </td>
+                      <td className="px-6 py-4">
+                        <ActionMenu
+                          actions={[
+                            { label: 'View', icon: <FiEye className="w-4 h-4" />, onClick: () => {} },
+                            { label: 'Edit', icon: <FiEdit2 className="w-4 h-4" />, onClick: () => window.location.href = `/admin/products/${product.id}/edit` },
+                            { label: 'Duplicate', icon: <FiCopy className="w-4 h-4" />, onClick: () => {} },
+                            { label: 'Delete', icon: <FiTrash2 className="w-4 h-4" />, variant: 'danger', onClick: () => handleDelete(product.id) }
+                          ]}
+                        />
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>

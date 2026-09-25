@@ -7,7 +7,8 @@ import { API_BASE_URL } from '@/config/api';
 import { getToken } from '@/lib/auth';
 import { ShimmerSkeleton } from '@/components/ShimmerSkeleton';
 import { formatDate } from '@/lib/format-utils';
-import { HiOutlineTag, FiEdit2, FiTrash2 } from 'react-icons/fi';
+import { FiEdit2, FiTrash2 } from 'react-icons/fi';
+import { HiOutlineTag } from 'react-icons/hi2';
 
 interface Category {
   id: number;

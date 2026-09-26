@@ -35,7 +35,7 @@ export default function AdminOrdersPage() {
       try {
         const token = getToken();
         let allOrders: Order[] = [];
-        let nextUrl = `${API_BASE_URL}/orders/?limit=100`;
+        let nextUrl = `${API_BASE_URL}/orders/?limit=1000&offset=0`;
 
         while (nextUrl) {
           const response = await axios.get(nextUrl, {
@@ -43,9 +43,19 @@ export default function AdminOrdersPage() {
           });
 
           const pageOrders = response.data.results || response.data || [];
+          if (!Array.isArray(pageOrders)) {
+            console.error('Unexpected response format:', response.data);
+            break;
+          }
+
           allOrders = [...allOrders, ...pageOrders];
 
           nextUrl = response.data.next || null;
+          if (!nextUrl && response.data.results && response.data.count > allOrders.length) {
+            // If there's no next URL but count suggests more results, try offset
+            const nextOffset = allOrders.length;
+            nextUrl = `${API_BASE_URL}/orders/?limit=1000&offset=${nextOffset}`;
+          }
         }
 
         setOrders(allOrders);

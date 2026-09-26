@@ -42,24 +42,40 @@ export default function AdminProductsPage() {
 
         // Fetch all products (handle pagination)
         let allProducts: Product[] = [];
-        let nextUrl = `${API_BASE_URL}/products/?limit=100`;
+        let nextUrl = `${API_BASE_URL}/products/?limit=1000&offset=0`;
         while (nextUrl) {
           const productsRes = await axios.get(nextUrl);
           const pageProducts = productsRes.data.results || productsRes.data || [];
+          if (!Array.isArray(pageProducts)) {
+            break;
+          }
           allProducts = [...allProducts, ...pageProducts];
           nextUrl = productsRes.data.next || null;
+
+          if (!nextUrl && productsRes.data.results && productsRes.data.count > allProducts.length) {
+            const nextOffset = allProducts.length;
+            nextUrl = `${API_BASE_URL}/products/?limit=1000&offset=${nextOffset}`;
+          }
         }
         setProducts(allProducts);
 
         // Fetch all categories (handle pagination)
         try {
           let allCategories: { id: number; name: string }[] = [];
-          let catNextUrl = `${API_BASE_URL}/categories/?limit=100`;
+          let catNextUrl = `${API_BASE_URL}/categories/?limit=1000&offset=0`;
           while (catNextUrl) {
             const categoriesRes = await axios.get(catNextUrl, { headers });
             const pageCategories = categoriesRes.data.results || categoriesRes.data || [];
+            if (!Array.isArray(pageCategories)) {
+              break;
+            }
             allCategories = [...allCategories, ...pageCategories];
             catNextUrl = categoriesRes.data.next || null;
+
+            if (!catNextUrl && categoriesRes.data.results && categoriesRes.data.count > allCategories.length) {
+              const nextOffset = allCategories.length;
+              catNextUrl = `${API_BASE_URL}/categories/?limit=1000&offset=${nextOffset}`;
+            }
           }
           setCategories(allCategories);
         } catch {

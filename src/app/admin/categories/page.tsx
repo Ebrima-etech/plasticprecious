@@ -28,13 +28,21 @@ export default function AdminCategoriesPage() {
     const fetchAllCategories = async () => {
       try {
         let allCategories: Category[] = [];
-        let nextUrl = `${API_BASE_URL}/categories/?limit=100`;
+        let nextUrl = `${API_BASE_URL}/categories/?limit=1000&offset=0`;
 
         while (nextUrl) {
           const response = await axios.get(nextUrl);
           const pageCategories = response.data.results || response.data || [];
+          if (!Array.isArray(pageCategories)) {
+            break;
+          }
           allCategories = [...allCategories, ...pageCategories];
           nextUrl = response.data.next || null;
+
+          if (!nextUrl && response.data.results && response.data.count > allCategories.length) {
+            const nextOffset = allCategories.length;
+            nextUrl = `${API_BASE_URL}/categories/?limit=1000&offset=${nextOffset}`;
+          }
         }
 
         setCategories(allCategories);

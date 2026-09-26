@@ -3,7 +3,9 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import axios from 'axios';
 import { getToken } from '@/lib/auth';
+import { API_BASE_URL } from '@/config/api';
 import { HiOutlineSquares2X2, HiOutlineShoppingBag, HiOutlineTag, HiOutlineShoppingCart, HiOutlineCurrencyDollar, HiOutlineTicket, HiOutlineUsers, HiOutlineBell, HiOutlineArrowTrendingUp, HiOutlineCalendar, HiOutlineDocumentText, HiOutlineGift, HiOutlineBriefcase, HiOutlineUserGroup, HiOutlineChevronDown, HiOutlineArrowRightOnRectangle, HiOutlineHome, HiOutlineBars3 } from 'react-icons/hi2';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -24,14 +26,37 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   });
 
   useEffect(() => {
-    const token = getToken();
-    if (!token) {
-      router.push('/auth/login');
-      return;
-    }
-    setIsAuthed(true);
-    setLoading(false);
-    setActiveRoute(window.location.pathname);
+    const checkAdminAccess = async () => {
+      try {
+        const token = getToken();
+        if (!token) {
+          router.push('/auth/login');
+          return;
+        }
+
+        // Fetch user data to check if admin
+        const response = await axios.get(`${API_BASE_URL}/auth/user/`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+
+        const user = response.data;
+        if (!user.is_staff && !user.is_superuser) {
+          // Not an admin, redirect to home
+          router.push('/');
+          return;
+        }
+
+        setIsAuthed(true);
+        setActiveRoute(window.location.pathname);
+      } catch (error) {
+        // Auth failed, redirect to login
+        router.push('/auth/login');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkAdminAccess();
   }, [router]);
 
   if (loading) {

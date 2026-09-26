@@ -35,29 +35,28 @@ export default function AdminOrdersPage() {
       try {
         const token = getToken();
         let allOrders: Order[] = [];
-        let nextUrl = `${API_BASE_URL}/orders/?limit=1000&offset=0`;
+        let nextUrl = `${API_BASE_URL}/orders/`;
+
+        console.log('Starting to fetch orders from:', nextUrl);
 
         while (nextUrl) {
+          console.log('Fetching from:', nextUrl);
           const response = await axios.get(nextUrl, {
             headers: { Authorization: `Bearer ${token}` },
           });
 
+          console.log('Response data:', response.data);
           const pageOrders = response.data.results || response.data || [];
-          if (!Array.isArray(pageOrders)) {
-            console.error('Unexpected response format:', response.data);
-            break;
-          }
+          console.log('Page orders:', pageOrders.length, 'Total count:', response.data.count);
 
-          allOrders = [...allOrders, ...pageOrders];
+          if (Array.isArray(pageOrders)) {
+            allOrders = [...allOrders, ...pageOrders];
+          }
 
           nextUrl = response.data.next || null;
-          if (!nextUrl && response.data.results && response.data.count > allOrders.length) {
-            // If there's no next URL but count suggests more results, try offset
-            const nextOffset = allOrders.length;
-            nextUrl = `${API_BASE_URL}/orders/?limit=1000&offset=${nextOffset}`;
-          }
         }
 
+        console.log('Total orders fetched:', allOrders.length);
         setOrders(allOrders);
       } catch (err: any) {
         setError('Failed to load orders');

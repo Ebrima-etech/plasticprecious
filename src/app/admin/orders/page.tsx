@@ -31,13 +31,23 @@ export default function AdminOrdersPage() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    const fetchOrders = async () => {
+    const fetchAllOrders = async () => {
       try {
         const token = getToken();
-        const response = await axios.get(`${API_BASE_URL}/orders/?limit=1000`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        const allOrders = response.data.results || response.data || [];
+        let allOrders: Order[] = [];
+        let nextUrl = `${API_BASE_URL}/orders/?limit=100`;
+
+        while (nextUrl) {
+          const response = await axios.get(nextUrl, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+
+          const pageOrders = response.data.results || response.data || [];
+          allOrders = [...allOrders, ...pageOrders];
+
+          nextUrl = response.data.next || null;
+        }
+
         setOrders(allOrders);
       } catch (err: any) {
         setError('Failed to load orders');
@@ -47,7 +57,7 @@ export default function AdminOrdersPage() {
       }
     };
 
-    fetchOrders();
+    fetchAllOrders();
   }, []);
 
   if (loading) {

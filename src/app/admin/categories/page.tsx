@@ -25,10 +25,19 @@ export default function AdminCategoriesPage() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    const fetchCategories = async () => {
+    const fetchAllCategories = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/categories/?limit=1000`);
-        setCategories(response.data.results || response.data || []);
+        let allCategories: Category[] = [];
+        let nextUrl = `${API_BASE_URL}/categories/?limit=100`;
+
+        while (nextUrl) {
+          const response = await axios.get(nextUrl);
+          const pageCategories = response.data.results || response.data || [];
+          allCategories = [...allCategories, ...pageCategories];
+          nextUrl = response.data.next || null;
+        }
+
+        setCategories(allCategories);
       } catch (err: any) {
         setError('Failed to load categories');
         console.error(err);
@@ -37,7 +46,7 @@ export default function AdminCategoriesPage() {
       }
     };
 
-    fetchCategories();
+    fetchAllCategories();
   }, []);
 
   const handleDelete = (id: number) => {

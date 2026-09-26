@@ -40,14 +40,28 @@ export default function AdminProductsPage() {
         const token = getToken();
         const headers = { Authorization: `Bearer ${token}` };
 
-        // Fetch products (public endpoint)
-        const productsRes = await axios.get(`${API_BASE_URL}/products/?limit=1000`);
-        setProducts(productsRes.data.results || productsRes.data || []);
+        // Fetch all products (handle pagination)
+        let allProducts: Product[] = [];
+        let nextUrl = `${API_BASE_URL}/products/?limit=100`;
+        while (nextUrl) {
+          const productsRes = await axios.get(nextUrl);
+          const pageProducts = productsRes.data.results || productsRes.data || [];
+          allProducts = [...allProducts, ...pageProducts];
+          nextUrl = productsRes.data.next || null;
+        }
+        setProducts(allProducts);
 
-        // Fetch categories
+        // Fetch all categories (handle pagination)
         try {
-          const categoriesRes = await axios.get(`${API_BASE_URL}/categories/?limit=1000`, { headers });
-          setCategories(categoriesRes.data.results || categoriesRes.data || []);
+          let allCategories: { id: number; name: string }[] = [];
+          let catNextUrl = `${API_BASE_URL}/categories/?limit=100`;
+          while (catNextUrl) {
+            const categoriesRes = await axios.get(catNextUrl, { headers });
+            const pageCategories = categoriesRes.data.results || categoriesRes.data || [];
+            allCategories = [...allCategories, ...pageCategories];
+            catNextUrl = categoriesRes.data.next || null;
+          }
+          setCategories(allCategories);
         } catch {
           // Categories fetch failed, continue without them
         }

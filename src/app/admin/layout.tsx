@@ -102,7 +102,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       `}</style>
 
       {/* Sidebar */}
-      <div className={`fixed left-0 top-0 h-screen bg-white border-r border-slate-200/80 flex flex-col transition-all duration-300 ${sidebarOpen ? 'w-64' : 'w-20'} z-40`}>
+      <div className={`fixed left-0 top-0 h-screen bg-white border-r border-slate-200/80 flex flex-col transition-all duration-300 overflow-hidden ${sidebarOpen ? 'w-64' : 'w-20'} z-40`}>
         {/* Sidebar Header */}
         <div className="p-4 border-b border-slate-200/60 flex items-center justify-between">
           {sidebarOpen && (

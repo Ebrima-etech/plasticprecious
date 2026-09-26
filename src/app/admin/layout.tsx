@@ -178,9 +178,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             {(expandedSections.orders && sidebarOpen) && (
               <div className="space-y-1 mt-1">
                 <NavLink href="/admin/orders" icon={HiOutlineShoppingCart} label="Orders" />
-                <NavLink href="/admin/settings" icon={HiOutlineCurrencyDollar} label="Revenue" />
-                <NavLink href="/admin/settings" icon={HiOutlineTicket} label="Vouchers" />
-                <NavLink href="/admin/settings" icon={HiOutlineTag} label="Discounts" />
+                <NavLink href="/admin/revenue" icon={HiOutlineCurrencyDollar} label="Revenue" />
+                <NavLink href="/admin/vouchers" icon={HiOutlineTicket} label="Vouchers" />
+                <NavLink href="/admin/discounts" icon={HiOutlineTag} label="Discounts" />
               </div>
             )}
           </div>

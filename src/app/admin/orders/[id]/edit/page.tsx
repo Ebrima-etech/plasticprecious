@@ -2,18 +2,15 @@
 
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import { API_BASE_URL } from '@/config/api';
 import { getToken } from '@/lib/auth';
 
-interface EditOrderPageProps {
-  params: {
-    id: string;
-  };
-}
-
-export default function EditOrderPage({ params }: EditOrderPageProps) {
+export default function EditOrderPage() {
   const router = useRouter();
+  const params = useParams();
+  const orderId = params?.id as string;
+
   const [order, setOrder] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState('');
@@ -21,6 +18,8 @@ export default function EditOrderPage({ params }: EditOrderPageProps) {
   const [error, setError] = useState('');
 
   useEffect(() => {
+    if (!orderId) return;
+
     const fetchOrder = async () => {
       try {
         const token = getToken();
@@ -29,7 +28,7 @@ export default function EditOrderPage({ params }: EditOrderPageProps) {
           setLoading(false);
           return;
         }
-        const response = await axios.get(`${API_BASE_URL}/orders/${params.id}/`, {
+        const response = await axios.get(`${API_BASE_URL}/orders/${orderId}/`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setOrder(response.data);
@@ -37,7 +36,7 @@ export default function EditOrderPage({ params }: EditOrderPageProps) {
       } catch (err: any) {
         console.error('Order fetch error:', err);
         if (err.response?.status === 404) {
-          setError(`Order #${params.id} not found`);
+          setError(`Order #${orderId} not found`);
         } else if (err.response?.status === 401) {
           setError('Unauthorized - please login again');
         } else {
@@ -49,7 +48,7 @@ export default function EditOrderPage({ params }: EditOrderPageProps) {
     };
 
     fetchOrder();
-  }, [params.id]);
+  }, [orderId]);
 
   const handleStatusChange = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -59,7 +58,7 @@ export default function EditOrderPage({ params }: EditOrderPageProps) {
     try {
       const token = getToken();
       await axios.patch(
-        `${API_BASE_URL}/orders/${params.id}/update_status/`,
+        `${API_BASE_URL}/orders/${orderId}/update_status/`,
         { status },
         { headers: { Authorization: `Bearer ${token}` } }
       );

@@ -9,7 +9,7 @@ import { getToken } from '@/lib/auth';
 export default function EditOrderPage() {
   const router = useRouter();
   const params = useParams();
-  const orderId = params?.id as string;
+  const orderNumber = params?.order_number as string;
 
   const [order, setOrder] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -18,7 +18,7 @@ export default function EditOrderPage() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    if (!orderId) return;
+    if (!orderNumber) return;
 
     const fetchOrder = async () => {
       try {
@@ -28,15 +28,23 @@ export default function EditOrderPage() {
           setLoading(false);
           return;
         }
-        const response = await axios.get(`${API_BASE_URL}/orders/${orderId}/`, {
+        // Fetch by order_number instead of id
+        const response = await axios.get(`${API_BASE_URL}/orders/?order_number=${orderNumber}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        setOrder(response.data);
-        setStatus(response.data.status);
+
+        // Get first result from filtered list
+        if (response.data.results && response.data.results.length > 0) {
+          const foundOrder = response.data.results[0];
+          setOrder(foundOrder);
+          setStatus(foundOrder.status);
+        } else {
+          setError(`Order ${orderNumber} not found`);
+        }
       } catch (err: any) {
         console.error('Order fetch error:', err);
         if (err.response?.status === 404) {
-          setError(`Order #${orderId} not found`);
+          setError(`Order ${orderNumber} not found`);
         } else if (err.response?.status === 401) {
           setError('Unauthorized - please login again');
         } else {
@@ -48,17 +56,19 @@ export default function EditOrderPage() {
     };
 
     fetchOrder();
-  }, [orderId]);
+  }, [orderNumber]);
 
   const handleStatusChange = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!order) return;
+
     setSaving(true);
     setError('');
 
     try {
       const token = getToken();
       await axios.patch(
-        `${API_BASE_URL}/orders/${orderId}/update_status/`,
+        `${API_BASE_URL}/orders/${order.id}/update_status/`,
         { status },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -102,7 +112,7 @@ export default function EditOrderPage() {
   return (
     <div className="min-h-screen bg-slate-50 p-8">
       <div className="bg-white rounded-2xl shadow-sm p-8 max-w-2xl">
-        <h1 className="text-3xl font-bold text-slate-900 mb-8">Order {order.order_number || `#${order.id}`}</h1>
+        <h1 className="text-3xl font-bold text-slate-900 mb-8">Order {order.order_number}</h1>
 
         {error && (
           <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">

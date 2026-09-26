@@ -11,6 +11,7 @@ import { HiOutlineClock, HiOutlineArrowPath, HiOutlineCheckCircle, HiOutlineXCir
 
 interface Order {
   id: number;
+  order_number: string;
   user_email: string;
   total_price: string;
   status: string;
@@ -126,7 +127,7 @@ export default function AdminOrdersPage() {
                   const statusInfo = formatStatusBadge(order.status);
                   return (
                     <tr key={order.id} className="hover:bg-slate-50/50 transition-colors">
-                      <td className="px-6 py-4 text-sm font-semibold text-slate-900">#{order.id}</td>
+                      <td className="px-6 py-4 text-sm font-semibold text-slate-900">{order.order_number}</td>
                       <td className="px-6 py-4 text-sm text-slate-600 truncate">{order.user_email}</td>
                       <td className="px-6 py-4 text-sm font-semibold text-slate-900 font-tabular-nums">
                         {formatCurrency(order.total_price)}
@@ -140,7 +141,7 @@ export default function AdminOrdersPage() {
                         {formatDate(order.created_at, 'MMM dd, yyyy')}
                       </td>
                       <td className="px-6 py-4">
-                        <Link href={`/admin/orders/${order.id}/edit`}>
+                        <Link href={`/admin/orders/${order.order_number}/edit`}>
                           <button className="px-3 py-1.5 text-sm font-medium text-emerald-600 hover:bg-emerald-50 rounded-lg transition">
                             View →
                           </button>

@@ -27,7 +27,7 @@ export default function AdminCategoriesPage() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/categories/`);
+        const response = await axios.get(`${API_BASE_URL}/categories/?limit=1000`);
         setCategories(response.data.results || response.data || []);
       } catch (err: any) {
         setError('Failed to load categories');

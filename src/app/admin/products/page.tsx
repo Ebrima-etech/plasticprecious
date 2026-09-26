@@ -41,12 +41,12 @@ export default function AdminProductsPage() {
         const headers = { Authorization: `Bearer ${token}` };
 
         // Fetch products (public endpoint)
-        const productsRes = await axios.get(`${API_BASE_URL}/products/`);
+        const productsRes = await axios.get(`${API_BASE_URL}/products/?limit=1000`);
         setProducts(productsRes.data.results || productsRes.data || []);
 
         // Fetch categories
         try {
-          const categoriesRes = await axios.get(`${API_BASE_URL}/categories/`, { headers });
+          const categoriesRes = await axios.get(`${API_BASE_URL}/categories/?limit=1000`, { headers });
           setCategories(categoriesRes.data.results || categoriesRes.data || []);
         } catch {
           // Categories fetch failed, continue without them

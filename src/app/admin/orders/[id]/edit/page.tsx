@@ -68,41 +68,49 @@ export default function EditOrderPage({ params }: EditOrderPageProps) {
   }
 
   return (
-    <div className="bg-white rounded-lg shadow p-8 max-w-2xl">
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Order #{order.id}</h1>
+    <div className="min-h-screen bg-slate-50 p-8">
+      <div className="bg-white rounded-2xl shadow-sm p-8 max-w-2xl">
+        <h1 className="text-3xl font-bold text-slate-900 mb-8">Order {order.order_number || `#${order.id}`}</h1>
 
-      {error && (
-        <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg text-green-700">
-          {error}
+        {error && (
+          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
+            {error}
+          </div>
+        )}
+
+        <div className="mb-8 space-y-6">
+          <div className="border-b border-slate-200 pb-4">
+            <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Customer Email</label>
+            <p className="text-lg text-slate-900 font-medium">{order.user_email}</p>
+          </div>
+
+          <div className="border-b border-slate-200 pb-4">
+            <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Total Price</label>
+            <p className="text-2xl text-slate-900 font-bold">D {parseFloat(order.total_price).toLocaleString('en-GM')}</p>
+          </div>
+
+          <div className="border-b border-slate-200 pb-4">
+            <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Order Date</label>
+            <p className="text-lg text-slate-900">{new Date(order.created_at).toLocaleDateString('en-GM', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit'
+            })}</p>
+          </div>
         </div>
-      )}
 
-      <div className="mb-8 space-y-4">
+      <form onSubmit={handleStatusChange} className="space-y-6">
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">Customer Email</label>
-          <p className="text-gray-600">{order.user_email}</p>
-        </div>
-
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">Total Price</label>
-          <p className="text-gray-600">D {parseFloat(order.total_price).toLocaleString('en-GM')}</p>
-        </div>
-
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">Created Date</label>
-          <p className="text-gray-600">{new Date(order.created_at).toLocaleString()}</p>
-        </div>
-      </div>
-
-      <form onSubmit={handleStatusChange}>
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">Status</label>
+          <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-3">Update Status</label>
           <select
             value={status}
             onChange={(e) => setStatus(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+            className="w-full px-4 py-3 border border-slate-300 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-slate-900 font-medium"
           >
             <option value="pending">Pending</option>
+            <option value="payment_pending">Payment Pending</option>
             <option value="processing">Processing</option>
             <option value="shipped">Shipped</option>
             <option value="delivered">Delivered</option>
@@ -110,23 +118,24 @@ export default function EditOrderPage({ params }: EditOrderPageProps) {
           </select>
         </div>
 
-        <div className="mt-8 flex gap-4">
+        <div className="mt-8 flex gap-3">
           <button
             type="submit"
             disabled={saving}
-            className="flex-1 bg-green-600 text-white py-2 rounded-lg font-semibold hover:bg-green-700 transition disabled:opacity-50"
+            className="flex-1 bg-emerald-600 text-white py-3 rounded-xl font-semibold hover:bg-emerald-700 transition disabled:opacity-50"
           >
             {saving ? 'Saving...' : 'Update Status'}
           </button>
           <button
             type="button"
             onClick={() => router.back()}
-            className="flex-1 bg-gray-300 text-gray-900 py-2 rounded-lg font-semibold hover:bg-gray-400 transition"
+            className="flex-1 bg-slate-100 text-slate-700 py-3 rounded-xl font-semibold hover:bg-slate-200 transition"
           >
             Cancel
           </button>
         </div>
       </form>
+      </div>
     </div>
   );
 }

@@ -34,10 +34,11 @@ export default function AdminOrdersPage() {
     const fetchOrders = async () => {
       try {
         const token = getToken();
-        const response = await axios.get(`${API_BASE_URL}/orders/`, {
+        const response = await axios.get(`${API_BASE_URL}/orders/?limit=1000`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        setOrders(response.data.results || response.data || []);
+        const allOrders = response.data.results || response.data || [];
+        setOrders(allOrders);
       } catch (err: any) {
         setError('Failed to load orders');
         console.error(err);

@@ -24,13 +24,25 @@ export default function EditOrderPage({ params }: EditOrderPageProps) {
     const fetchOrder = async () => {
       try {
         const token = getToken();
+        if (!token) {
+          setError('Not authenticated');
+          setLoading(false);
+          return;
+        }
         const response = await axios.get(`${API_BASE_URL}/orders/${params.id}/`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setOrder(response.data);
         setStatus(response.data.status);
-      } catch (err) {
-        setError('Failed to load order');
+      } catch (err: any) {
+        console.error('Order fetch error:', err);
+        if (err.response?.status === 404) {
+          setError(`Order #${params.id} not found`);
+        } else if (err.response?.status === 401) {
+          setError('Unauthorized - please login again');
+        } else {
+          setError(err.message || 'Failed to load order');
+        }
       } finally {
         setLoading(false);
       }
@@ -60,11 +72,32 @@ export default function EditOrderPage({ params }: EditOrderPageProps) {
   };
 
   if (loading) {
-    return <div className="text-center py-12"><div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div></div>;
+    return (
+      <div className="min-h-screen bg-slate-50 p-8 flex items-center justify-center">
+        <div className="text-center">
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-2 border-slate-300 border-t-emerald-600"></div>
+          <p className="mt-4 text-slate-600 font-medium text-sm">Loading order...</p>
+        </div>
+      </div>
+    );
   }
 
   if (!order) {
-    return <div className="text-center py-12 text-green-600">Order not found</div>;
+    return (
+      <div className="min-h-screen bg-slate-50 p-8">
+        <div className="bg-white rounded-2xl shadow-sm p-8 max-w-2xl mx-auto">
+          <div className="text-center">
+            <p className="text-lg font-semibold text-slate-900">{error || 'Order not found'}</p>
+            <button
+              onClick={() => router.back()}
+              className="mt-6 bg-emerald-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-emerald-700 transition"
+            >
+              Go Back
+            </button>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -91,13 +124,16 @@ export default function EditOrderPage({ params }: EditOrderPageProps) {
 
           <div className="border-b border-slate-200 pb-4">
             <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Order Date</label>
-            <p className="text-lg text-slate-900">{new Date(order.created_at).toLocaleDateString('en-GM', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-              hour: '2-digit',
-              minute: '2-digit'
-            })}</p>
+            <p className="text-lg text-slate-900">
+              {new Date(order.created_at).toLocaleString('en-GM', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+              })}
+            </p>
           </div>
         </div>
 

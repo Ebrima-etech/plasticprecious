@@ -111,7 +111,7 @@ export default function LocationsPage() {
     setFormData({
       name: location.name,
       description: location.description,
-      default_delivery_price: location.default_delivery_price.toString(),
+      default_delivery_price: (location.default_delivery_price || 0).toString(),
       is_active: location.is_active,
     });
     setEditingId(location.id);

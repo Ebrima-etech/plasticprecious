@@ -111,7 +111,7 @@ export default function LocationsPage() {
     setFormData({
       name: location.name,
       description: location.description,
-      default_delivery_price: (location.default_delivery_price || 0).toString(),
+      default_delivery_price: (parseFloat(location.default_delivery_price as any) || 0).toString(),
       is_active: location.is_active,
     });
     setEditingId(location.id);
@@ -199,7 +199,7 @@ export default function LocationsPage() {
               <tr key={location.id} className="hover:bg-slate-50 transition">
                 <td className="px-6 py-4 font-semibold text-slate-900">{location.name}</td>
                 <td className="px-6 py-4 text-slate-600 text-sm">{location.description || '-'}</td>
-                <td className="px-6 py-4 font-bold text-emerald-600">D {(location.default_delivery_price || 0).toFixed(2)}</td>
+                <td className="px-6 py-4 font-bold text-emerald-600">D {(parseFloat(location.default_delivery_price as any) || 0).toFixed(2)}</td>
                 <td className="px-6 py-4">
                   <span className={`px-3 py-1 rounded-full text-xs font-bold ${
                     location.is_active

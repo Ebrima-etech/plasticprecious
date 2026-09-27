@@ -894,12 +894,12 @@ export default function Home() {
             {teamMembers.map((member, idx) => (
               <div key={member.id} className="animate-fade-in-up group cursor-pointer">
                 <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 h-full flex flex-col">
-                  <div className="relative h-64 md:h-72 lg:h-80 overflow-hidden bg-gradient-to-br from-emerald-200 to-teal-200 flex items-center justify-center">
+                  <div className="relative aspect-square overflow-hidden bg-gradient-to-br from-emerald-200 to-teal-200 flex items-center justify-center">
                     {member.image_url ? (
                       <img
                         src={member.image_url}
                         alt={member.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
                       />
                     ) : (
                       <div className="w-24 h-24 rounded-full bg-emerald-500 flex items-center justify-center">

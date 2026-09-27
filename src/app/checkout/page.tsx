@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import axios from 'axios';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { API_BASE_URL, getApiUrl } from '@/config/api';
@@ -22,7 +22,7 @@ interface Product {
   image?: string;
 }
 
-export default function CheckoutPage() {
+function CheckoutContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const directProductId = searchParams.get('product_id');
@@ -432,5 +432,17 @@ export default function CheckoutPage() {
 
       <Footer />
     </div>
+  );
+}
+
+export default function CheckoutPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-xl text-gray-600">Loading checkout...</div>
+      </div>
+    }>
+      <CheckoutContent />
+    </Suspense>
   );
 }

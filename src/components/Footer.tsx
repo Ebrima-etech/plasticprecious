@@ -38,7 +38,7 @@ export default function Footer() {
               <li><Link href="/contact" className="text-white hover:text-emerald-400 transition font-semibold">Contact Us</Link></li>
               <li><a href="/contact" className="text-white hover:text-emerald-400 transition font-semibold">Privacy Policy</a></li>
               <li><a href="/contact" className="text-white hover:text-emerald-400 transition font-semibold">Terms of Service</a></li>
-              <li><Link href="/impact" className="text-white hover:text-emerald-400 transition font-semibold">Sustainability</a></li>
+              <li><Link href="/impact" className="text-white hover:text-emerald-400 transition font-semibold">Sustainability</Link></li>
             </ul>
           </div>
         </div>

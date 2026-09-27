@@ -188,8 +188,7 @@ class CartService {
     }
 
     try {
-      const response = await axios.delete(getApiUrl('/cart/remove_item/'), {
-        data: { cart_item_id: cartItemId },
+      const response = await axios.delete(getApiUrl(`/cart/remove_item/${cartItemId}/`), {
         headers: this.getAuthHeaders(),
       });
       return response.data;

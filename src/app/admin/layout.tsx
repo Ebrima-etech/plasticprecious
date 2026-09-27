@@ -16,7 +16,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [profileOpen, setProfileOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [expandedSections, setExpandedSections] = useState({
-    dashboard: false,
     catalog: false,
     orders: false,
     cms: false,
@@ -154,21 +153,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
         {/* Navigation */}
         <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-6">
-          {/* Dashboard Section */}
-          <div>
-            <button
-              onClick={() => setExpandedSections({ ...expandedSections, dashboard: !expandedSections.dashboard })}
-              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 transition-all ${sidebarOpen ? '' : 'justify-center'}`}
-            >
-              {sidebarOpen && <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Dashboard</p>}
-              {sidebarOpen && <HiOutlineChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${expandedSections.dashboard ? 'rotate-0' : '-rotate-90'}`} />}
-            </button>
-            {(expandedSections.dashboard && sidebarOpen) && (
-              <div className="space-y-1.5 mt-2">
-                <NavLink href="/admin/dashboard" icon={HiOutlineSquares2X2} label="Overview" />
-              </div>
-            )}
-          </div>
+          {/* Dashboard Link */}
+          <NavLink href="/admin/dashboard" icon={HiOutlineSquares2X2} label="Dashboard" />
 
           {/* Catalog Section */}
           <div>

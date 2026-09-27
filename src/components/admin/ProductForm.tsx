@@ -72,25 +72,47 @@ export default function ProductForm({ productId }: ProductFormProps) {
           console.error('Failed to fetch categories:', err);
         }
 
-        // Fetch locations
+        // Fetch locations with timeout
+        const defaultLocations = [
+          { id: 1, name: 'Banjul' },
+          { id: 2, name: 'Serekunda' },
+          { id: 3, name: 'Bakau' },
+          { id: 4, name: 'Fajara' },
+          { id: 5, name: 'Kotu' },
+          { id: 6, name: 'Brufut' },
+          { id: 7, name: 'Lamin' },
+          { id: 8, name: 'Gunjur' },
+          { id: 9, name: 'Sanyang' },
+          { id: 10, name: 'Kartong' },
+          { id: 11, name: 'Brikama' },
+          { id: 12, name: 'Mandinari' },
+          { id: 13, name: 'Kaur' },
+          { id: 14, name: 'Basse' },
+          { id: 15, name: 'Farafenni' },
+        ];
+
         try {
-          const locRes = await axios.get(`${API_BASE_URL}/locations/`, { headers });
-          setLocations(locRes.data.results || locRes.data || []);
+          const controller = new AbortController();
+          const timeout = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+
+          const locRes = await axios.get(`${API_BASE_URL}/locations/`, {
+            headers,
+            signal: controller.signal
+          });
+          clearTimeout(timeout);
+
+          const fetchedLocations = locRes.data.results || locRes.data || [];
+          setLocations(fetchedLocations.length > 0 ? fetchedLocations : defaultLocations);
+
           // Initialize delivery prices for all locations
           const initialPrices: DeliveryPrice = {};
-          (locRes.data.results || locRes.data || []).forEach((loc: Location) => {
+          (fetchedLocations.length > 0 ? fetchedLocations : defaultLocations).forEach((loc: Location) => {
             initialPrices[loc.id] = '';
           });
           setDeliveryPrices(initialPrices);
         } catch (err: any) {
-          console.error('Failed to fetch locations:', err);
-          // Fallback: create default locations if API fails
-          const defaultLocations = [
-            { id: 1, name: 'Banjul' },
-            { id: 2, name: 'Serekunda' },
-            { id: 3, name: 'Bakau' },
-            { id: 4, name: 'Kololi' },
-          ];
+          console.error('Failed to fetch locations, using defaults:', err);
+          // Fallback: use default Gambian locations if API fails
           setLocations(defaultLocations);
           const initialPrices: DeliveryPrice = {};
           defaultLocations.forEach(loc => {

@@ -260,9 +260,10 @@ export default function StaffAdmin() {
     }
   };
 
-  const openForm = (s?: Staff) => {
+  const openForm = (s?: Staff, loadPreviousDraft: boolean = false) => {
     setCurrentStep(1);
     if (s) {
+      // Editing existing staff member
       setEditingId(s.id);
       setFormData({
         first_name: s.user_data?.first_name || '',
@@ -278,8 +279,27 @@ export default function StaffAdmin() {
         address: s.address
       });
     } else {
+      // Creating new staff member
       setEditingId(null);
-      loadDraft();
+      if (loadPreviousDraft) {
+        // Load draft if explicitly requested
+        loadDraft();
+      } else {
+        // Fresh form for new staff
+        setFormData({
+          first_name: '',
+          last_name: '',
+          email: '',
+          password: '',
+          department: '',
+          role: '',
+          permissions: [],
+          salary: '',
+          hire_date: '',
+          phone_number: '',
+          address: ''
+        });
+      }
     }
     setShowForm(true);
   };
@@ -359,7 +379,7 @@ export default function StaffAdmin() {
           </div>
           <p className="text-sm text-slate-600 mb-4">You have unsaved form data. Click "Continue" below to resume editing.</p>
           <button
-            onClick={() => openForm()}
+            onClick={() => openForm(undefined, true)}
             className="px-4 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium text-sm"
           >
             Continue Editing Draft

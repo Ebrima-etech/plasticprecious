@@ -241,7 +241,7 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
             )}
 
             {/* Right Navigation & Actions */}
-            <div className="flex items-center gap-2 md:gap-5 ml-auto">
+            <div className="flex items-center gap-2 md:gap-8 ml-auto">
               {/* Language Selector - Visible on all screens */}
               <button className="flex items-center gap-1 text-white hover:text-slate-200 transition text-xs md:text-sm font-bold hover:scale-110">
                 Eng

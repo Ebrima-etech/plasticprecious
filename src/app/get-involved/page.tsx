@@ -228,8 +228,8 @@ export default function GetInvolvedPage() {
 
           {/* Newsletter */}
           <div className="bg-gradient-to-r from-emerald-600 to-teal-600 rounded-3xl p-12 text-white text-center mb-16">
-            <h2 className="text-3xl font-black mb-4">Stay Updated</h2>
-            <p className="opacity-90 mb-8 max-w-2xl mx-auto">
+            <h2 className="text-3xl font-black mb-4 text-white">Stay Updated</h2>
+            <p className="opacity-90 mb-8 max-w-2xl mx-auto text-white">
               Subscribe to get updates on cleanup events, new workshops, and impact reports
             </p>
             {submitted ? (

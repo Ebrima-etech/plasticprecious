@@ -140,7 +140,7 @@ export default function CartPage() {
                             </button>
                           </div>
                           <button
-                            onClick={() => removeItem(index)}
+                            onClick={() => removeItem(item.id!)}
                             className="w-10 h-10 rounded-lg flex items-center justify-center text-red-600 hover:text-red-800 hover:bg-red-50 transition"
                             title="Remove item"
                           >

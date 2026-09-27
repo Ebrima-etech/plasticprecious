@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { FiShoppingCart, FiSearch, FiUser, FiChevronDown, FiTruck, FiCheck, FiHeart, FiHeadphones, FiPhone, FiMail, FiMenu, FiX, FiLogOut } from 'react-icons/fi';
 import { GiRecycle } from 'react-icons/gi';
 import { getAccessToken, clearTokens } from '@/lib/auth';
+import { cartService } from '@/lib/cartService';
 
 interface NavbarProps {
   showNavLinks?: boolean;
@@ -20,6 +21,7 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
   const [rotatingIndex, setRotatingIndex] = useState(0);
   const [accountDropdownOpen, setAccountDropdownOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [cartCount, setCartCount] = useState(0);
   const accountDropdownRef = useRef<HTMLDivElement>(null);
 
   const rotatingItems = [
@@ -50,7 +52,19 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
   useEffect(() => {
     const token = getAccessToken();
     setIsLoggedIn(!!token);
+    fetchCartCount();
   }, []);
+
+  const fetchCartCount = async () => {
+    try {
+      const cart = await cartService.getCart();
+      const count = cart?.items?.reduce((sum: number, item: any) => sum + item.quantity, 0) || 0;
+      setCartCount(count);
+    } catch (err) {
+      console.error('Failed to fetch cart count:', err);
+      setCartCount(0);
+    }
+  };
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -325,7 +339,11 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
                 <div className="flex items-center gap-1 md:gap-2 text-white hover:text-slate-200 transition cursor-pointer relative hover:scale-110">
                   <FiShoppingCart size={20} />
                   <span className="text-xs font-bold hidden md:inline">Cart</span>
-                  <span className="absolute -top-3 -right-3 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-black shadow-lg">0</span>
+                  {cartCount > 0 && (
+                    <span className="absolute -top-3 -right-3 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-black shadow-lg">
+                      {cartCount > 99 ? '99+' : cartCount}
+                    </span>
+                  )}
                 </div>
               </Link>
             </div>

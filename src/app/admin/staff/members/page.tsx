@@ -62,7 +62,6 @@ export default function StaffAdmin() {
   const [currentStep, setCurrentStep] = useState(1);
   const [showPassword, setShowPassword] = useState<string | null>(null);
   const [draftSaved, setDraftSaved] = useState(false);
-  const [drafts, setDrafts] = useState<Array<{ id: string; data: typeof formData; createdAt: number }>>([]);
   const [formData, setFormData] = useState({
     first_name: '',
     last_name: '',
@@ -76,6 +75,7 @@ export default function StaffAdmin() {
     phone_number: '',
     address: ''
   });
+  const [drafts, setDrafts] = useState<Array<{ id: string; data: typeof formData; createdAt: number }>>([]);
 
   const DRAFT_KEY = 'staff_form_draft';
 

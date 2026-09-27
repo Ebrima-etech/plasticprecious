@@ -88,7 +88,7 @@ export default function ProductDetailPage() {
     }
   };
 
-  const handleBuyNow = async () => {
+  const handleBuyNow = () => {
     const token = getAccessToken();
 
     // Check if user is logged in
@@ -97,23 +97,8 @@ export default function ProductDetailPage() {
       return;
     }
 
-    setAddingToCart(true);
-    setError(null);
-    try {
-      await cartService.addToCart(Number(productId), quantity);
-      router.push('/checkout');
-    } catch (err: any) {
-      // Check if it's a 401 (unauthorized) error
-      if (err.response?.status === 401) {
-        router.push('/auth/login');
-        setAddingToCart(false);
-        return;
-      }
-      setError(err.message || err.response?.data?.detail || 'Failed to add to cart');
-      setTimeout(() => setError(null), 3000);
-    } finally {
-      setAddingToCart(false);
-    }
+    // Redirect to checkout with product_id and qty as query parameters
+    router.push(`/checkout?product_id=${productId}&qty=${quantity}`);
   };
 
   if (loading) {

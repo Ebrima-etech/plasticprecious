@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { API_BASE_URL, getApiUrl } from '@/config/api';
 import { getAccessToken } from '@/lib/auth';
 import { cartService } from '@/lib/cartService';
@@ -15,8 +15,19 @@ interface LocationOption {
   name: string;
 }
 
+interface Product {
+  id: number;
+  name: string;
+  price: string;
+  image?: string;
+}
+
 export default function CheckoutPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const directProductId = searchParams.get('product_id');
+  const directProductQty = parseInt(searchParams.get('qty') || '1');
+
   const [loading, setLoading] = useState(false);
   const [cartLoading, setCartLoading] = useState(true);
   const [error, setError] = useState('');
@@ -37,9 +48,13 @@ export default function CheckoutPage() {
     if (!token) {
       router.push('/auth/login');
     }
-    fetchCart();
+    if (directProductId) {
+      fetchDirectProduct();
+    } else {
+      fetchCart();
+    }
     fetchLocations();
-  }, []);
+  }, [directProductId]);
 
   const fetchLocations = async () => {
     // Default locations - MUST match ProductForm fallback locations for synchronization
@@ -77,6 +92,50 @@ export default function CheckoutPage() {
       console.error('Failed to load locations, using defaults:', err);
       // Fallback to default locations - synchronized with ProductForm
       setLocations(defaultLocations);
+    }
+  };
+
+  const fetchDirectProduct = async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/products/${directProductId}/`);
+      const product: Product = response.data;
+
+      // Create a temporary cart with just this product
+      const tempCart: Cart = {
+        id: 0,
+        user: null,
+        items: [
+          {
+            id: 0,
+            product: {
+              id: product.id,
+              name: product.name,
+              price: product.price,
+              image: product.image,
+            },
+            quantity: directProductQty,
+            total: (parseFloat(product.price) * directProductQty).toString(),
+          }
+        ],
+        total_price: (parseFloat(product.price) * directProductQty).toString(),
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      };
+
+      setCart(tempCart);
+
+      // Fetch delivery price for this product
+      const productRes = await axios.get(`${API_BASE_URL}/products/${product.id}/`);
+      if (productRes.data.delivery_prices) {
+        setProductDeliveryPrices({
+          [product.id]: productRes.data.delivery_prices
+        });
+      }
+
+      setCartLoading(false);
+    } catch (err) {
+      console.error('Failed to load product:', err);
+      setCartLoading(false);
     }
   };
 

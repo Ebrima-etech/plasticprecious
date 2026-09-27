@@ -21,10 +21,16 @@ export default function DiscountsPage() {
   const [discounts, setDiscounts] = useState<Discount[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    name: string;
+    description: string;
+    discount_type: 'percentage' | 'fixed';
+    discount_value: string;
+    valid_until: string;
+  }>({
     name: '',
     description: '',
-    discount_type: 'percentage' as const,
+    discount_type: 'percentage',
     discount_value: '',
     valid_until: '',
   });

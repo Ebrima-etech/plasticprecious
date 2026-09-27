@@ -133,8 +133,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 <HiOutlineSquares2X2 className="w-5 h-5" />
               </div>
               <div>
-                <span className="font-bold text-sm text-slate-900">Dashboard</span>
-                <p className="text-xs text-slate-500 font-medium">Management</p>
+                <span className="font-bold text-sm text-slate-900">Admin Suite</span>
               </div>
             </Link>
           )}

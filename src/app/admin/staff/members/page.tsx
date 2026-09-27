@@ -62,6 +62,7 @@ export default function StaffAdmin() {
   const [currentStep, setCurrentStep] = useState(1);
   const [showPassword, setShowPassword] = useState<string | null>(null);
   const [draftSaved, setDraftSaved] = useState(false);
+  const [drafts, setDrafts] = useState<Array<{ id: string; data: typeof formData; createdAt: number }>>([]);
   const [formData, setFormData] = useState({
     first_name: '',
     last_name: '',
@@ -246,8 +247,6 @@ export default function StaffAdmin() {
         : [...prev.permissions, perm]
     }));
   };
-
-  const [drafts, setDrafts] = useState<Array<{ id: string; data: typeof formData; createdAt: number }>>([]);
 
   useEffect(() => {
     // Load drafts from localStorage

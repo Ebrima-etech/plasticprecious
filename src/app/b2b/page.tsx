@@ -25,13 +25,22 @@ export default function B2BPage() {
     e.preventDefault();
     setSubmitting(true);
     try {
-      // Submit to backend API
-      const response = await fetch('/api/b2b-rfq/', {
+      const rfqData = {
+        organization_name: formData.company,
+        contact_person_name: formData.contact,
+        contact_email: formData.email,
+        contact_phone: formData.phone,
+        product_category: formData.category,
+        quantity: parseInt(formData.quantity) || 0,
+        custom_requirements: formData.specifications,
+      };
+
+      const response = await fetch('https://preciousback.onrender.com/api/impact/rfq/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(rfqData),
       });
 
       if (response.ok) {
@@ -42,7 +51,6 @@ export default function B2BPage() {
           email: '',
           phone: '',
           category: '',
-          customCategory: '',
           quantity: '',
           specifications: ''
         });
@@ -50,6 +58,8 @@ export default function B2BPage() {
           setShowRFQForm(false);
           setSubmitSuccess(false);
         }, 2000);
+      } else {
+        console.error('RFQ submission failed:', response.status);
       }
     } catch (error) {
       console.error('Error submitting RFQ:', error);

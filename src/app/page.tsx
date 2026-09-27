@@ -115,6 +115,31 @@ export default function Home() {
       setTeamMembers(members);
     } catch (error) {
       console.error('Failed to fetch team members:', error);
+      // Fallback to hardcoded founders
+      const founders: TeamMember[] = [
+        {
+          id: 1,
+          name: 'Baai E Jaabang',
+          role: 'Co-Founder',
+          image_url: '/team/baai.png',
+          order: 1
+        },
+        {
+          id: 2,
+          name: 'Alieu Sowe',
+          role: 'Co-Founder',
+          image_url: '/team/alieu.png',
+          order: 2
+        },
+        {
+          id: 3,
+          name: 'Rebecca Talbot',
+          role: 'Co-Founder',
+          image_url: '/team/rebecca.png',
+          order: 3
+        }
+      ];
+      setTeamMembers(founders);
     }
   };
 

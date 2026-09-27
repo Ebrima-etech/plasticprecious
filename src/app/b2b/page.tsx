@@ -117,7 +117,10 @@ export default function B2BPage() {
                   <Icon className="w-12 h-12 mb-4" />
                   <h3 className="text-2xl font-black mb-3">{audience.title}</h3>
                   <p className="opacity-90 mb-6">{audience.goal}</p>
-                  <button className="px-6 py-2 bg-white text-slate-900 font-bold rounded-lg hover:bg-slate-100">
+                  <button
+                    onClick={() => setShowRFQForm(true)}
+                    className="px-6 py-2 bg-white text-slate-900 font-bold rounded-lg hover:bg-slate-100 transition"
+                  >
                     {audience.cta} →
                   </button>
                 </div>
@@ -149,7 +152,10 @@ export default function B2BPage() {
                   <h3 className="font-black text-slate-900 mb-2 text-lg">{cat.name}</h3>
                   <p className="text-sm text-slate-600 mb-4">{cat.items}</p>
                   <p className="font-bold text-emerald-600">{cat.price}</p>
-                  <button className="mt-6 w-full px-4 py-2 border-2 border-emerald-600 text-emerald-600 font-bold rounded-lg hover:bg-emerald-50">
+                  <button
+                    onClick={() => setShowRFQForm(true)}
+                    className="mt-6 w-full px-4 py-2 border-2 border-emerald-600 text-emerald-600 font-bold rounded-lg hover:bg-emerald-50 transition"
+                  >
                     Request Quote
                   </button>
                 </div>
@@ -228,7 +234,10 @@ export default function B2BPage() {
             <p className="text-slate-600 mb-8 max-w-2xl mx-auto">
               Contact our B2B team to discuss bulk orders, custom fabrication, and partnership opportunities
             </p>
-            <button className="px-8 py-4 bg-emerald-600 text-white font-bold rounded-xl hover:bg-emerald-700 mr-4">
+            <button
+              onClick={() => setShowRFQForm(true)}
+              className="px-8 py-4 bg-emerald-600 text-white font-bold rounded-xl hover:bg-emerald-700 mr-4 transition"
+            >
               Contact Us
             </button>
             <Link href="/impact">

@@ -75,7 +75,7 @@ export default function StaffAdmin() {
     phone_number: '',
     address: ''
   });
-  const [drafts, setDrafts] = useState<Array<{ id: string; data: typeof formData; createdAt: number }>>([]);
+  const [drafts, setDrafts] = useState<any[]>([]);
 
   const DRAFT_KEY = 'staff_form_draft';
 

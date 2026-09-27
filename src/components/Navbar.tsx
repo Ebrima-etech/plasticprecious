@@ -222,7 +222,7 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
               <FiSearch size={18} className="text-emerald-600" />
               <input
                 type="text"
-                placeholder="Cire kunjafoŋ..."
+                placeholder="Search products..."
                 className="animated-placeholder bg-transparent text-slate-900 text-sm placeholder-slate-400 ml-3 w-full focus:outline-none font-medium"
               />
             </div>
@@ -404,7 +404,7 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
           <FiSearch size={16} className="text-emerald-600" />
           <input
             type="text"
-            placeholder="Cire kunjafoŋ..."
+            placeholder="Search products..."
             className="animated-placeholder bg-transparent text-teal-900 text-sm placeholder-gray-500 placeholder-opacity-50 ml-3 w-full focus:outline-none"
           />
         </div>

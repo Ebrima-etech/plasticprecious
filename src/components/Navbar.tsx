@@ -216,7 +216,7 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
             {/* Nav Links - Hidden on Mobile */}
             {showNavLinks && (
               <div className="hidden lg:flex items-center gap-8">
-                <Link href="/" className="text-white hover:text-slate-200 transition text-sm font-bold uppercase tracking-wide">
+                <Link href="/shop" className="text-white hover:text-slate-200 transition text-sm font-bold uppercase tracking-wide">
                   Shop
                 </Link>
                 <Link href="/impact" className="text-white hover:text-slate-200 transition text-sm font-bold uppercase tracking-wide">
@@ -334,7 +334,7 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
           {/* Mobile Menu */}
           {mobileMenuOpen && showNavLinks && (
             <div className="lg:hidden absolute top-full left-0 right-0 bg-emerald-600 border-t border-emerald-700 z-50 px-6 py-4">
-              <Link href="/" className="block text-white hover:text-emerald-100 transition text-sm font-medium py-2">
+              <Link href="/shop" className="block text-white hover:text-emerald-100 transition text-sm font-medium py-2">
                 Shop
               </Link>
               <Link href="/impact" className="block text-white hover:text-emerald-100 transition text-sm font-medium py-2">

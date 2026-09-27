@@ -422,7 +422,7 @@ export default function StaffAdmin() {
                       <label className="text-xs font-medium text-slate-600 block mb-2">Email Address *</label>
                       <input
                         type="email"
-                        placeholder="muhammed@preciousplastic.gm"
+                        placeholder="muhammed@preciousplastic.com"
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         disabled={!!editingId}

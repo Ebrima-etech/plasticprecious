@@ -393,9 +393,9 @@ export default function ProductForm({ productId }: ProductFormProps) {
                         <label className="text-sm font-medium text-neutral-700">
                           {location.name}
                         </label>
-                        {location.default_delivery_price !== undefined && location.default_delivery_price > 0 && (
+                        {location.default_delivery_price !== undefined && parseFloat(location.default_delivery_price as any) > 0 && (
                           <span className="text-xs text-neutral-500">
-                            Default: D {location.default_delivery_price.toFixed(2)}
+                            Default: D {(parseFloat(location.default_delivery_price as any) || 0).toFixed(2)}
                           </span>
                         )}
                       </div>

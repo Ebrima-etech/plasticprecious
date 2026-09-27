@@ -195,8 +195,12 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
             </button>
 
             {/* Logo */}
-            <Link href="/" className="text-xl md:text-2xl font-black text-white hover:text-slate-100 transition flex-1 md:flex-none">
-              PreciousPlastic
+            <Link href="/" className="flex items-center hover:opacity-80 transition flex-1 md:flex-none">
+              <img
+                src="https://res.cloudinary.com/divk8m0ff/image/upload/v1790497366/ChatGPT_Image_Sep_27_2026_08_22_15_AM_clf6eq.png"
+                alt="PreciousPlastic Logo"
+                className="h-10 md:h-12 w-auto object-contain"
+              />
             </Link>
 
             {/* Search Bar - Hidden on Mobile */}

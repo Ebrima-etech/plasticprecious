@@ -401,7 +401,7 @@ export default function StaffAdmin() {
                         <label className="text-xs font-medium text-slate-600 block mb-2">First Name *</label>
                         <input
                           type="text"
-                          placeholder="John"
+                          placeholder="Ousman"
                           value={formData.first_name}
                           onChange={(e) => setFormData({ ...formData, first_name: e.target.value })}
                           className="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
@@ -411,7 +411,7 @@ export default function StaffAdmin() {
                         <label className="text-xs font-medium text-slate-600 block mb-2">Last Name *</label>
                         <input
                           type="text"
-                          placeholder="Doe"
+                          placeholder="Jallow"
                           value={formData.last_name}
                           onChange={(e) => setFormData({ ...formData, last_name: e.target.value })}
                           className="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
@@ -422,7 +422,7 @@ export default function StaffAdmin() {
                       <label className="text-xs font-medium text-slate-600 block mb-2">Email Address *</label>
                       <input
                         type="email"
-                        placeholder="john@example.com"
+                        placeholder="ousman.jallow@preciousplastic.gm"
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         disabled={!!editingId}
@@ -433,7 +433,7 @@ export default function StaffAdmin() {
                       <label className="text-xs font-medium text-slate-600 block mb-2">Phone Number *</label>
                       <input
                         type="tel"
-                        placeholder="+1 (555) 123-4567"
+                        placeholder="+220 3011234"
                         value={formData.phone_number}
                         onChange={(e) => setFormData({ ...formData, phone_number: e.target.value })}
                         className="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
@@ -443,7 +443,7 @@ export default function StaffAdmin() {
                       <label className="text-xs font-medium text-slate-600 block mb-2">Address</label>
                       <input
                         type="text"
-                        placeholder="123 Main St, City, State"
+                        placeholder="Serrekunda, Banjul"
                         value={formData.address}
                         onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                         className="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"

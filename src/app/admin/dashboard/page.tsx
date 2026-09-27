@@ -125,75 +125,93 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-10">
       {/* Header */}
       <div>
-        <div className="flex items-center gap-3 mb-2">
-          <div className="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center">
-            <HiOutlineSparkles className="w-6 h-6 text-emerald-600" />
+        <div className="flex items-center gap-4 mb-2">
+          <div className="w-12 h-12 bg-gradient-to-br from-emerald-100 to-emerald-200 rounded-xl flex items-center justify-center shadow-sm">
+            <HiOutlineSparkles className="w-7 h-7 text-emerald-700" />
           </div>
-          <h1 className="text-3xl font-bold text-slate-900">Dashboard</h1>
+          <div>
+            <h1 className="text-4xl font-bold text-slate-900">Dashboard</h1>
+            <p className="text-sm text-slate-600 font-medium">Real-time store performance metrics</p>
+          </div>
         </div>
-        <p className="text-sm text-slate-600">Real-time store performance metrics</p>
       </div>
 
       {/* Metric Stat Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {/* Total Revenue */}
-        <div className="bg-white rounded-lg p-6 border border-slate-200/80 border-t-4 border-t-emerald-500 hover:shadow-lg transition">
-          <div className="flex items-start justify-between mb-4">
-            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Total Revenue</p>
-            <HiOutlineCurrencyDollar className="w-5 h-5 text-slate-400" />
+        <div className="group bg-white rounded-2xl p-7 border border-slate-200/50 hover:border-emerald-200 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+          <div className="flex items-start justify-between mb-6">
+            <div>
+              <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Total Revenue</p>
+            </div>
+            <div className="w-10 h-10 bg-emerald-100 rounded-xl flex items-center justify-center group-hover:bg-emerald-200 transition">
+              <HiOutlineCurrencyDollar className="w-5 h-5 text-emerald-700" />
+            </div>
           </div>
-          <p className="text-3xl font-bold text-slate-900 font-tabular-nums">D {stats.total_revenue.toLocaleString('en-GM')}</p>
-          <div className="mt-4 flex items-center gap-2">
-            <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">
-              <span className="mr-1">↗</span>
+          <p className="text-4xl font-bold text-slate-900 font-tabular-nums mb-4">D {stats.total_revenue.toLocaleString('en-GM')}</p>
+          <div className="flex items-center gap-2">
+            <span className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">
+              <span className="mr-1.5 text-sm">↗</span>
               +12.5% this month
             </span>
           </div>
         </div>
 
         {/* Total Orders */}
-        <div className="bg-white rounded-lg p-6 border border-slate-200/80 border-t-4 border-t-emerald-500 hover:shadow-lg transition">
-          <div className="flex items-start justify-between mb-4">
-            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Total Orders</p>
-            <HiOutlineShoppingCart className="w-5 h-5 text-slate-400" />
+        <div className="group bg-white rounded-2xl p-7 border border-slate-200/50 hover:border-blue-200 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+          <div className="flex items-start justify-between mb-6">
+            <div>
+              <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Total Orders</p>
+            </div>
+            <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center group-hover:bg-blue-200 transition">
+              <HiOutlineShoppingCart className="w-5 h-5 text-blue-700" />
+            </div>
           </div>
-          <p className="text-3xl font-bold text-slate-900 font-tabular-nums">{stats.total_orders}</p>
-          <div className="mt-4 flex items-center gap-2">
-            <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">
-              <span className="mr-1">↗</span>
+          <p className="text-4xl font-bold text-slate-900 font-tabular-nums mb-4">{stats.total_orders}</p>
+          <div className="flex items-center gap-2">
+            <span className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-800">
+              <span className="mr-1.5 text-sm">↗</span>
               +8 orders today
             </span>
           </div>
         </div>
 
         {/* Total Products */}
-        <div className="bg-white rounded-lg p-6 border border-slate-200/80 border-t-4 border-t-emerald-500 hover:shadow-lg transition">
-          <div className="flex items-start justify-between mb-4">
-            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Total Products</p>
-            <HiOutlineShoppingBag className="w-5 h-5 text-slate-400" />
+        <div className="group bg-white rounded-2xl p-7 border border-slate-200/50 hover:border-purple-200 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+          <div className="flex items-start justify-between mb-6">
+            <div>
+              <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Total Products</p>
+            </div>
+            <div className="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center group-hover:bg-purple-200 transition">
+              <HiOutlineShoppingBag className="w-5 h-5 text-purple-700" />
+            </div>
           </div>
-          <p className="text-3xl font-bold text-slate-900 font-tabular-nums">{stats.total_products}</p>
-          <div className="mt-4 flex items-center gap-2">
-            <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-800">
-              <span className="mr-1">⚠</span>
+          <p className="text-4xl font-bold text-slate-900 font-tabular-nums mb-4">{stats.total_products}</p>
+          <div className="flex items-center gap-2">
+            <span className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-red-100 text-red-800">
+              <span className="mr-1.5 text-sm">⚠</span>
               5 out of stock
             </span>
           </div>
         </div>
 
         {/* Total Customers */}
-        <div className="bg-white rounded-lg p-6 border border-slate-200/80 border-t-4 border-t-emerald-500 hover:shadow-lg transition">
-          <div className="flex items-start justify-between mb-4">
-            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Total Customers</p>
-            <HiOutlineUsers className="w-5 h-5 text-slate-400" />
+        <div className="group bg-white rounded-2xl p-7 border border-slate-200/50 hover:border-amber-200 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+          <div className="flex items-start justify-between mb-6">
+            <div>
+              <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Total Customers</p>
+            </div>
+            <div className="w-10 h-10 bg-amber-100 rounded-xl flex items-center justify-center group-hover:bg-amber-200 transition">
+              <HiOutlineUsers className="w-5 h-5 text-amber-700" />
+            </div>
           </div>
-          <p className="text-3xl font-bold text-slate-900 font-tabular-nums">{stats.total_users}</p>
-          <div className="mt-4 flex items-center gap-2">
-            <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">
-              <span className="mr-1">↗</span>
+          <p className="text-4xl font-bold text-slate-900 font-tabular-nums mb-4">{stats.total_users}</p>
+          <div className="flex items-center gap-2">
+            <span className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-amber-100 text-amber-800">
+              <span className="mr-1.5 text-sm">↗</span>
               +12 new this week
             </span>
           </div>

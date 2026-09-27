@@ -102,12 +102,31 @@ export default function StaffAdmin() {
   const handleSave = async () => {
     try {
       const token = getAccessToken();
+
+      // Validation
+      if (!formData.first_name || !formData.last_name || !formData.email) {
+        alert('Please fill in all personal information fields');
+        return;
+      }
+      if (!formData.department || !formData.role || !formData.hire_date) {
+        alert('Please fill in all employment details');
+        return;
+      }
+
+      // Prepare data with proper null handling
+      const submitData = {
+        ...formData,
+        salary: formData.salary ? parseFloat(formData.salary) : null,
+        phone_number: formData.phone_number || '',
+        address: formData.address || ''
+      };
+
       if (editingId) {
-        await axios.patch(`${API_BASE_URL}/staff/staff/${editingId}/`, formData, {
+        await axios.patch(`${API_BASE_URL}/staff/staff/${editingId}/`, submitData, {
           headers: { Authorization: `Bearer ${token}` }
         });
       } else {
-        const response = await axios.post(`${API_BASE_URL}/staff/staff/`, formData, {
+        const response = await axios.post(`${API_BASE_URL}/staff/staff/`, submitData, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setShowPassword(response.data.temporary_password);
@@ -126,10 +145,12 @@ export default function StaffAdmin() {
         address: ''
       });
       setEditingId(null);
+      setShowForm(false);
       fetchData();
-    } catch (err) {
+    } catch (err: any) {
       console.error('Failed to save staff:', err);
-      alert('Error saving staff member');
+      const errorMsg = err.response?.data?.detail || err.response?.data?.error || 'Error saving staff member';
+      alert(errorMsg);
     }
   };
 
@@ -184,60 +205,6 @@ export default function StaffAdmin() {
     }
   };
 
-  const openDrawer = (s?: Staff) => {
-    if (s) {
-      setEditingId(s.id);
-      setFormData({
-        first_name: s.user_data?.first_name || '',
-        last_name: s.user_data?.last_name || '',
-        email: s.user_data?.email || '',
-        password: '',
-        department: s.department.toString(),
-        role: s.role,
-        permissions: s.permissions,
-        salary: s.salary || '',
-        hire_date: s.hire_date,
-        phone_number: s.phone_number,
-        address: s.address
-      });
-    } else {
-      setEditingId(null);
-      setFormData({
-        first_name: '',
-        last_name: '',
-        email: '',
-        password: '',
-        department: '',
-        role: '',
-        permissions: [],
-        salary: '',
-        hire_date: '',
-        phone_number: '',
-        address: ''
-      });
-    }
-    setIsDrawerOpen(true);
-  };
-
-  const closeDrawer = () => {
-    setIsDrawerOpen(false);
-    setTimeout(() => {
-      setEditingId(null);
-      setFormData({
-        first_name: '',
-        last_name: '',
-        email: '',
-        password: '',
-        department: '',
-        role: '',
-        permissions: [],
-        salary: '',
-        hire_date: '',
-        phone_number: '',
-        address: ''
-      });
-    }, 300);
-  };
 
   const togglePermission = (perm: string) => {
     setFormData(prev => ({
@@ -739,7 +706,7 @@ export default function StaffAdmin() {
                     </td>
                     <td className="px-6 py-3 flex gap-1">
                       <button
-                        onClick={() => openDrawer(s)}
+                        onClick={() => openForm(s)}
                         className="p-2 text-emerald-600 hover:bg-emerald-50 rounded-lg transition"
                         title="Edit"
                       >

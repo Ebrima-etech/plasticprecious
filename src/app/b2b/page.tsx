@@ -136,8 +136,8 @@ export default function B2BPage() {
 
       <section className="py-16 lg:py-24 bg-gradient-to-b from-slate-900 to-slate-800 text-white">
         <div className="max-w-6xl mx-auto px-6 lg:px-8">
-          <h1 className="text-5xl font-black mb-4 text-center">B2B & Institutional Services</h1>
-          <p className="text-xl opacity-90 max-w-2xl mx-auto text-center">
+          <h1 className="text-5xl font-black mb-4 text-center text-white">B2B & Institutional Services</h1>
+          <p className="text-xl opacity-90 max-w-2xl mx-auto text-center text-white">
             Partner with us for custom recycled plastic products and sustainable solutions
           </p>
         </div>
@@ -152,9 +152,9 @@ export default function B2BPage() {
               const Icon = audience.icon;
               return (
                 <div key={audience.title} className={`bg-gradient-to-br ${audience.color} rounded-2xl p-8 text-white shadow-lg`}>
-                  <Icon className="w-12 h-12 mb-4" />
-                  <h3 className="text-2xl font-black mb-3">{audience.title}</h3>
-                  <p className="opacity-90 mb-6">{audience.goal}</p>
+                  <Icon className="w-12 h-12 mb-4 text-white" />
+                  <h3 className="text-2xl font-black mb-3 text-white">{audience.title}</h3>
+                  <p className="opacity-90 mb-6 text-white">{audience.goal}</p>
                   <button
                     onClick={() => setShowRFQForm(true)}
                     className="px-6 py-2 bg-white text-slate-900 font-bold rounded-lg hover:bg-slate-100 transition"
@@ -204,8 +204,8 @@ export default function B2BPage() {
           {/* RFQ Builder CTA */}
           <div className="bg-gradient-to-r from-emerald-600 to-teal-600 rounded-3xl p-12 text-white mb-20">
             <div className="max-w-2xl">
-              <h2 className="text-3xl font-black mb-4">Instant Bulk RFQ Builder</h2>
-              <p className="opacity-90 mb-8">
+              <h2 className="text-3xl font-black mb-4 text-white">Instant Bulk RFQ Builder</h2>
+              <p className="opacity-90 mb-8 text-white">
                 Select items, customize colors, upload your logo, and get an instant quote. Perfect for schools, municipalities, and resorts.
               </p>
               <button

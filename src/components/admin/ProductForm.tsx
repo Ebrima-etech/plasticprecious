@@ -20,10 +20,20 @@ interface Category {
   name: string;
 }
 
+interface Location {
+  id: number;
+  name: string;
+}
+
+interface DeliveryPrice {
+  [locationId: number]: string;
+}
+
 export default function ProductForm({ productId }: ProductFormProps) {
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [categories, setCategories] = useState<Category[]>([]);
+  const [locations, setLocations] = useState<Location[]>([]);
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -32,6 +42,7 @@ export default function ProductForm({ productId }: ProductFormProps) {
     category: '',
     is_active: true,
   });
+  const [deliveryPrices, setDeliveryPrices] = useState<DeliveryPrice>({});
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
@@ -61,6 +72,33 @@ export default function ProductForm({ productId }: ProductFormProps) {
           console.error('Failed to fetch categories:', err);
         }
 
+        // Fetch locations
+        try {
+          const locRes = await axios.get(`${API_BASE_URL}/locations/`, { headers });
+          setLocations(locRes.data.results || locRes.data || []);
+          // Initialize delivery prices for all locations
+          const initialPrices: DeliveryPrice = {};
+          (locRes.data.results || locRes.data || []).forEach((loc: Location) => {
+            initialPrices[loc.id] = '';
+          });
+          setDeliveryPrices(initialPrices);
+        } catch (err: any) {
+          console.error('Failed to fetch locations:', err);
+          // Fallback: create default locations if API fails
+          const defaultLocations = [
+            { id: 1, name: 'Banjul' },
+            { id: 2, name: 'Serekunda' },
+            { id: 3, name: 'Bakau' },
+            { id: 4, name: 'Kololi' },
+          ];
+          setLocations(defaultLocations);
+          const initialPrices: DeliveryPrice = {};
+          defaultLocations.forEach(loc => {
+            initialPrices[loc.id] = '';
+          });
+          setDeliveryPrices(initialPrices);
+        }
+
         if (productId) {
           const prodRes = await axios.get(`${API_BASE_URL}/products/${productId}/`, { headers });
           setFormData({
@@ -73,6 +111,10 @@ export default function ProductForm({ productId }: ProductFormProps) {
           });
           if (prodRes.data.image) {
             setImagePreviews([prodRes.data.image]);
+          }
+          // Load delivery prices for existing product
+          if (prodRes.data.delivery_prices) {
+            setDeliveryPrices(prodRes.data.delivery_prices);
           }
         }
       } catch (err) {
@@ -162,6 +204,13 @@ export default function ProductForm({ productId }: ProductFormProps) {
     setImagePreviews(imagePreviews.filter((_, i) => i !== idx));
   };
 
+  const handleDeliveryPriceChange = (locationId: number, value: string) => {
+    setDeliveryPrices({
+      ...deliveryPrices,
+      [locationId]: value,
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -182,6 +231,15 @@ export default function ProductForm({ productId }: ProductFormProps) {
       if (imageFiles.length > 0) {
         submitFormData.append('image', imageFiles[0]);
       }
+
+      // Add delivery prices as JSON
+      const deliveryPricesJson = Object.entries(deliveryPrices).reduce((acc, [locId, price]) => {
+        if (price) {
+          acc[locId] = price;
+        }
+        return acc;
+      }, {} as Record<string, string>);
+      submitFormData.append('delivery_prices', JSON.stringify(deliveryPricesJson));
 
       if (productId) {
         await axios.put(`${API_BASE_URL}/products/${productId}/`, submitFormData, {
@@ -294,6 +352,41 @@ export default function ProductForm({ productId }: ProductFormProps) {
                 </option>
               ))}
             </select>
+          </div>
+
+          {/* Delivery Prices by Location */}
+          <div>
+            <label className="block text-sm font-medium text-neutral-700 mb-3">
+              Delivery Prices by Location
+            </label>
+            <div className="space-y-2 p-4 bg-neutral-50 rounded-lg border border-neutral-200">
+              {locations.length > 0 ? (
+                locations.map((location) => (
+                  <div key={location.id} className="flex items-center gap-3">
+                    <label className="text-sm font-medium text-neutral-700 w-32">
+                      {location.name}
+                    </label>
+                    <div className="flex items-center gap-1">
+                      <span className="text-sm text-neutral-600">D</span>
+                      <input
+                        type="number"
+                        value={deliveryPrices[location.id] || ''}
+                        onChange={(e) => handleDeliveryPriceChange(location.id, e.target.value)}
+                        step="0.01"
+                        min="0"
+                        placeholder="0.00"
+                        className="flex-1 px-3 py-2 border border-neutral-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                      />
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <p className="text-sm text-neutral-500">Loading locations...</p>
+              )}
+            </div>
+            <p className="text-xs text-neutral-500 mt-2">
+              Set delivery prices for each location. Leave empty for no delivery to that location.
+            </p>
           </div>
 
           <div>

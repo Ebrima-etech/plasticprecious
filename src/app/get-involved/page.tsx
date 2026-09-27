@@ -161,8 +161,8 @@ export default function GetInvolvedPage() {
                     </div>
 
                     {/* Text */}
-                    <h3 className="text-2xl font-black mb-3 group-hover:translate-x-1 transition-transform duration-300">{option.title}</h3>
-                    <p className="opacity-95 text-sm leading-relaxed font-medium">{option.desc}</p>
+                    <h3 className="text-2xl font-black mb-3 text-white group-hover:translate-x-1 transition-transform duration-300">{option.title}</h3>
+                    <p className="opacity-95 text-sm leading-relaxed font-medium text-white">{option.desc}</p>
 
                     {/* Arrow indicator */}
                     <div className="mt-4 inline-block opacity-0 group-hover:opacity-100 transform translate-x-0 group-hover:translate-x-2 transition-all duration-300">

@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { FiBarChart3, FiTrendingUp, FiAward, FiGlobe } from 'react-icons/fi';
+import { FiBarChart, FiTrendingUp, FiAward, FiGlobe } from 'react-icons/fi';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
@@ -32,7 +32,7 @@ const metrics: MetricCard[] = [
     description: 'From recycled plastic materials'
   },
   {
-    icon: <FiBarChart3 className="w-8 h-8" />,
+    icon: <FiBarChart className="w-8 h-8" />,
     value: '156',
     label: 'Lives Impacted',
     description: 'Jobs created in waste management'

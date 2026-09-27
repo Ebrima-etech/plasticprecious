@@ -247,20 +247,50 @@ export default function StaffAdmin() {
     }));
   };
 
+  const [drafts, setDrafts] = useState<Array<{ id: string; data: typeof formData; createdAt: number }>>([]);
+
+  useEffect(() => {
+    // Load drafts from localStorage
+    const saved = localStorage.getItem(DRAFT_KEY);
+    if (saved) {
+      try {
+        setDrafts(JSON.parse(saved));
+      } catch (err) {
+        console.error('Failed to load drafts:', err);
+      }
+    }
+  }, []);
+
   const saveDraft = () => {
-    localStorage.setItem(DRAFT_KEY, JSON.stringify(formData));
+    const draftId = `draft_${Date.now()}`;
+    const newDraft = {
+      id: draftId,
+      data: formData,
+      createdAt: Date.now()
+    };
+
+    const updatedDrafts = [...drafts, newDraft];
+    setDrafts(updatedDrafts);
+    localStorage.setItem(DRAFT_KEY, JSON.stringify(updatedDrafts));
     setDraftSaved(true);
     setTimeout(() => setDraftSaved(false), 2000);
   };
 
-  const loadDraft = () => {
-    const draft = localStorage.getItem(DRAFT_KEY);
+  const loadDraft = (draftId: string) => {
+    const draft = drafts.find(d => d.id === draftId);
     if (draft) {
-      setFormData(JSON.parse(draft));
+      setFormData(draft.data);
+      setCurrentStep(1);
     }
   };
 
-  const openForm = (s?: Staff, loadPreviousDraft: boolean = false) => {
+  const deleteDraft = (draftId: string) => {
+    const updatedDrafts = drafts.filter(d => d.id !== draftId);
+    setDrafts(updatedDrafts);
+    localStorage.setItem(DRAFT_KEY, JSON.stringify(updatedDrafts));
+  };
+
+  const openForm = (s?: Staff) => {
     setCurrentStep(1);
     if (s) {
       // Editing existing staff member
@@ -279,27 +309,21 @@ export default function StaffAdmin() {
         address: s.address
       });
     } else {
-      // Creating new staff member
+      // Creating new staff member - fresh form
       setEditingId(null);
-      if (loadPreviousDraft) {
-        // Load draft if explicitly requested
-        loadDraft();
-      } else {
-        // Fresh form for new staff
-        setFormData({
-          first_name: '',
-          last_name: '',
-          email: '',
-          password: '',
-          department: '',
-          role: '',
-          permissions: [],
-          salary: '',
-          hire_date: '',
-          phone_number: '',
-          address: ''
-        });
-      }
+      setFormData({
+        first_name: '',
+        last_name: '',
+        email: '',
+        password: '',
+        department: '',
+        role: '',
+        permissions: [],
+        salary: '',
+        hire_date: '',
+        phone_number: '',
+        address: ''
+      });
     }
     setShowForm(true);
   };
@@ -369,21 +393,50 @@ export default function StaffAdmin() {
       </div>
 
       {/* Drafts Display */}
-      {!showForm && (
+      {!showForm && drafts.length > 0 && (
         <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl border border-blue-200 p-6">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-bold text-slate-900">Saved Drafts</h3>
             <span className="bg-blue-100 text-blue-700 text-sm font-semibold px-3 py-1 rounded-full">
-              In Progress
+              {drafts.length} {drafts.length === 1 ? 'Draft' : 'Drafts'}
             </span>
           </div>
-          <p className="text-sm text-slate-600 mb-4">You have unsaved form data. Click "Continue" below to resume editing.</p>
-          <button
-            onClick={() => openForm(undefined, true)}
-            className="px-4 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium text-sm"
-          >
-            Continue Editing Draft
-          </button>
+
+          <div className="space-y-2 mb-4">
+            {drafts.map((draft) => (
+              <div
+                key={draft.id}
+                className="bg-white rounded-lg p-3 border border-blue-100 flex items-center justify-between hover:border-blue-300 transition"
+              >
+                <div className="flex-1 min-w-0">
+                  <p className="font-semibold text-slate-900 truncate">
+                    {draft.data.first_name || 'Unnamed'} {draft.data.last_name}
+                  </p>
+                  <p className="text-xs text-slate-500">
+                    {new Date(draft.createdAt).toLocaleDateString()} {new Date(draft.createdAt).toLocaleTimeString()}
+                  </p>
+                </div>
+                <div className="flex items-center gap-2 ml-4">
+                  <button
+                    onClick={() => {
+                      loadDraft(draft.id);
+                      setShowForm(true);
+                    }}
+                    className="px-3 py-1.5 bg-blue-600 text-white text-xs font-semibold rounded hover:bg-blue-700 transition whitespace-nowrap"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => deleteDraft(draft.id)}
+                    className="p-1.5 text-red-600 hover:bg-red-100 rounded transition"
+                    title="Delete draft"
+                  >
+                    <FiTrash2 className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       )}
 

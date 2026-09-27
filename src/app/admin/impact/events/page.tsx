@@ -10,6 +10,7 @@ import { ToggleSwitch } from '@/components/ios/ToggleSwitch';
 import { CMSHeader } from '@/components/ios/CMSHeader';
 import { CMSActionMenu } from '@/components/ios/CMSActionMenu';
 import { MultiStepForm } from '@/components/ios/MultiStepForm';
+import { ListCardGridSkeleton } from '@/components/ShimmerSkeleton';
 
 interface Event {
   id: number;
@@ -263,7 +264,7 @@ export default function EventsAdmin() {
 
       {/* Events List */}
       {loading ? (
-        <div className="text-center py-12"><p className="text-slate-600">Loading...</p></div>
+        <ListCardGridSkeleton count={5} />
       ) : filteredEvents.length === 0 ? (
         <div className="text-center py-12 bg-slate-50 rounded-2xl border border-slate-200/60">
           <p className="text-slate-600">No events found.</p>

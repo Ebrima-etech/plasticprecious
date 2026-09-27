@@ -205,3 +205,69 @@ export function AdminDashboardSkeleton() {
     </div>
   );
 }
+
+export function AdminPageHeaderSkeleton() {
+  return (
+    <div className="space-y-2 mb-6">
+      <div className="flex items-center gap-3">
+        <ShimmerSkeleton className="w-10 h-10 rounded-lg" />
+        <div className="flex-1">
+          <ShimmerSkeleton className="w-40 h-8 mb-2" />
+          <ShimmerSkeleton className="w-60 h-4" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function AdminStatCardSkeleton() {
+  return (
+    <div className="bg-white rounded-lg border border-slate-200 p-6">
+      <ShimmerSkeleton className="w-24 h-4 mb-4" />
+      <ShimmerSkeleton className="w-32 h-10 mb-2" />
+      <ShimmerSkeleton className="w-28 h-3" />
+    </div>
+  );
+}
+
+export function AdminStatsGridSkeleton({ cols = 4 }: { cols?: number }) {
+  return (
+    <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-${cols} gap-6`}>
+      {Array.from({ length: cols }).map((_, i) => (
+        <AdminStatCardSkeleton key={i} />
+      ))}
+    </div>
+  );
+}
+
+export function ListCardSkeleton() {
+  return (
+    <div className="bg-white rounded-2xl border border-slate-200 p-4">
+      <div className="flex items-start justify-between gap-4">
+        <div className="flex-1 space-y-3">
+          <ShimmerSkeleton className="w-40 h-5" />
+          <ShimmerSkeleton className="w-48 h-3" />
+          <ShimmerSkeleton className="w-44 h-3" />
+          <div className="flex gap-2 mt-3">
+            <ShimmerSkeleton className="w-24 h-5 rounded-full" />
+            <ShimmerSkeleton className="w-28 h-5 rounded-full" />
+          </div>
+        </div>
+        <div className="flex gap-2">
+          <ShimmerSkeleton className="w-12 h-6 rounded" />
+          <ShimmerSkeleton className="w-10 h-10 rounded" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function ListCardGridSkeleton({ count = 5 }: { count?: number }) {
+  return (
+    <div className="space-y-3">
+      {Array.from({ length: count }).map((_, i) => (
+        <ListCardSkeleton key={i} />
+      ))}
+    </div>
+  );
+}

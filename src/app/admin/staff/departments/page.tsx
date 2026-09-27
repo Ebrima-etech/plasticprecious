@@ -6,6 +6,7 @@ import { FiPlus, FiEdit2, FiTrash2, FiBriefcase } from 'react-icons/fi';
 import { API_BASE_URL } from '@/config/api';
 import { getAccessToken } from '@/lib/auth';
 import { SlideOver } from '@/components/admin/SlideOver';
+import { AdminPageHeaderSkeleton, AdminTableSkeleton } from '@/components/ShimmerSkeleton';
 
 interface Department {
   id: number;
@@ -122,24 +123,28 @@ export default function DepartmentsAdmin() {
   return (
     <div className="space-y-6">
       {/* Page Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center">
-            <FiBriefcase className="text-emerald-600 w-6 h-6" />
+      {loading ? (
+        <AdminPageHeaderSkeleton />
+      ) : (
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center">
+              <FiBriefcase className="text-emerald-600 w-6 h-6" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold text-slate-900">Departments</h1>
+              <p className="text-sm text-slate-600">Manage organization departments and budgets</p>
+            </div>
           </div>
-          <div>
-            <h1 className="text-2xl font-bold text-slate-900">Departments</h1>
-            <p className="text-sm text-slate-600">Manage organization departments and budgets</p>
-          </div>
+          <button
+            onClick={() => openDrawer()}
+            className="flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition shadow-sm"
+          >
+            <FiPlus className="w-5 h-5" />
+            Add Department
+          </button>
         </div>
-        <button
-          onClick={() => openDrawer()}
-          className="flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition shadow-sm"
-        >
-          <FiPlus className="w-5 h-5" />
-          Add Department
-        </button>
-      </div>
+      )}
 
       {/* Slide-over Drawer */}
       <SlideOver
@@ -223,15 +228,13 @@ export default function DepartmentsAdmin() {
       </SlideOver>
 
       {/* List */}
+      {loading ? (
+        <AdminTableSkeleton rows={5} />
+      ) : (
       <div className="bg-white rounded-lg border border-slate-200 overflow-hidden">
         {error && (
           <div className="bg-red-50 border-b border-red-200 p-4">
             <p className="text-sm text-red-800 font-semibold">Error: {error}</p>
-          </div>
-        )}
-        {loading && (
-          <div className="p-8 text-center">
-            <p className="text-slate-600">Loading departments...</p>
           </div>
         )}
         {!loading && departments.length === 0 && !error && (
@@ -283,6 +286,7 @@ export default function DepartmentsAdmin() {
           </div>
         )}
       </div>
+      )}
     </div>
   );
 }

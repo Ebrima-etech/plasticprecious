@@ -8,6 +8,7 @@ import { ListCard } from '@/components/ios/ListCard';
 import { ToggleSwitch } from '@/components/ios/ToggleSwitch';
 import { CMSHeader } from '@/components/ios/CMSHeader';
 import { CMSActionMenu } from '@/components/ios/CMSActionMenu';
+import { ListCardGridSkeleton } from '@/components/ShimmerSkeleton';
 
 interface Registration {
   id: number;
@@ -98,7 +99,7 @@ export default function RegistrationsAdmin() {
 
       {/* Registrations List */}
       {loading ? (
-        <div className="text-center py-12"><p className="text-slate-600">Loading...</p></div>
+        <ListCardGridSkeleton count={5} />
       ) : filteredRegistrations.length === 0 ? (
         <div className="text-center py-12 bg-slate-50 rounded-2xl border border-slate-200/60">
           <p className="text-slate-600">No registrations found.</p>

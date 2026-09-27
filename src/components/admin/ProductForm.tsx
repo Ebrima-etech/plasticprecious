@@ -178,19 +178,21 @@ export default function ProductForm({ productId }: ProductFormProps) {
       return;
     }
 
-    setImageFiles(imageFilesOnly);
+    // Append new files to existing files (not replace)
+    setImageFiles([...imageFiles, ...imageFilesOnly]);
     setError('');
 
-    const previews: string[] = [];
+    const newPreviews: string[] = [];
     let loadedCount = 0;
 
     imageFilesOnly.forEach((file) => {
       const reader = new FileReader();
       reader.onload = (e) => {
-        previews.push(e.target?.result as string);
+        newPreviews.push(e.target?.result as string);
         loadedCount++;
         if (loadedCount === imageFilesOnly.length) {
-          setImagePreviews(previews);
+          // Append new previews to existing previews (not replace)
+          setImagePreviews([...imagePreviews, ...newPreviews]);
         }
       };
       reader.onerror = () => {

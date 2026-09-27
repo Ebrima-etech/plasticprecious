@@ -8,23 +8,27 @@ interface TeamMember {
   name: string;
   role: string;
   description: string;
+  image?: string;
 }
 
 const founders: TeamMember[] = [
   {
     name: 'Baai E Jaabang',
     role: 'Co-Founder',
-    description: 'Co-founder of Precious Plastic Gambia and Executive Director of the Trust Agency for Rural Development, Baai is deeply committed to environmental enhancement. He works passionately to create a greener, healthier Gambia, driving sustainable development and community-led solutions to eliminate plastic waste pollution.'
+    description: 'Co-founder of Precious Plastic Gambia and Executive Director of the Trust Agency for Rural Development, Baai is deeply committed to environmental enhancement. He works passionately to create a greener, healthier Gambia, driving sustainable development and community-led solutions to eliminate plastic waste pollution.',
+    image: '/team/baai.png'
   },
   {
     name: 'Alieu Sowe',
     role: 'Co-Founder',
-    description: 'Co-founder of Precious Plastic Gambia and Founder & CEO of Plastic Recycling Gambia LTD, Alieu brings entrepreneurial leadership to the circular economy. Driven by a passion for environmental protection, he works to advance sustainable waste management solutions and build a cleaner Gambia free from plastic pollution diverting tons of discarded plastics from waste to wealth.'
+    description: 'Co-founder of Precious Plastic Gambia and Founder & CEO of Plastic Recycling Gambia LTD, Alieu brings entrepreneurial leadership to the circular economy. Driven by a passion for environmental protection, he works to advance sustainable waste management solutions and build a cleaner Gambia free from plastic pollution diverting tons of discarded plastics from waste to wealth.',
+    image: '/team/alieu.png'
   },
   {
     name: 'Rebecca Talbot',
     role: 'Co-Founder',
-    description: 'Co-founder of Precious Plastic Gambia and Founder of Growing Green Communities, Rebecca is dedicated to environmental enhancement and grassroots sustainability. She works passionately to empower communities, eliminate plastic waste, and cultivate a greener, healthier environment across The Gambia and beyond.'
+    description: 'Co-founder of Precious Plastic Gambia and Founder of Growing Green Communities, Rebecca is dedicated to environmental enhancement and grassroots sustainability. She works passionately to empower communities, eliminate plastic waste, and cultivate a greener, healthier environment across The Gambia and beyond.',
+    image: '/team/rebecca.png'
   },
   {
     name: 'Babucarr E Camara',
@@ -84,17 +88,26 @@ export default function TeamPage() {
             </div>
             <div className="grid md:grid-cols-2 gap-8">
               {founders.map((member, idx) => (
-                <div key={idx} className="bg-white border-2 border-slate-200 rounded-2xl p-8 hover:shadow-lg hover:border-emerald-400 transition-all duration-300">
-                  {/* Role Badge */}
-                  <div className="inline-block bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-4 py-1 rounded-full text-sm font-bold mb-4">
-                    {member.role}
+                <div key={idx} className="bg-white border-2 border-slate-200 rounded-2xl overflow-hidden hover:shadow-lg hover:border-emerald-400 transition-all duration-300">
+                  {/* Image */}
+                  {member.image && (
+                    <div className="w-full h-64 overflow-hidden bg-gradient-to-br from-emerald-100 to-emerald-50">
+                      <img src={member.image} alt={member.name} className="w-full h-full object-cover" />
+                    </div>
+                  )}
+
+                  <div className="p-8">
+                    {/* Role Badge */}
+                    <div className="inline-block bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-4 py-1 rounded-full text-sm font-bold mb-4">
+                      {member.role}
+                    </div>
+
+                    {/* Name */}
+                    <h3 className="text-2xl font-black text-slate-900 mb-3">{member.name}</h3>
+
+                    {/* Description */}
+                    <p className="text-slate-600 leading-relaxed">{member.description}</p>
                   </div>
-
-                  {/* Name */}
-                  <h3 className="text-2xl font-black text-slate-900 mb-3">{member.name}</h3>
-
-                  {/* Description */}
-                  <p className="text-slate-600 leading-relaxed">{member.description}</p>
                 </div>
               ))}
             </div>

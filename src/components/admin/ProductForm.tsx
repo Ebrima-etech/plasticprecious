@@ -23,6 +23,7 @@ interface Category {
 interface Location {
   id: number;
   name: string;
+  default_delivery_price?: number;
 }
 
 interface DeliveryPrice {
@@ -383,24 +384,33 @@ export default function ProductForm({ productId }: ProductFormProps) {
             <label className="block text-sm font-medium text-neutral-700 mb-3">
               Delivery Prices by Location
             </label>
-            <div className="space-y-2 p-4 bg-neutral-50 rounded-lg border border-neutral-200">
+            <div className="space-y-3 p-4 bg-neutral-50 rounded-lg border border-neutral-200">
               {locations.length > 0 ? (
                 locations.map((location) => (
-                  <div key={location.id} className="flex items-center gap-3">
-                    <label className="text-sm font-medium text-neutral-700 w-32">
-                      {location.name}
-                    </label>
-                    <div className="flex items-center gap-1">
-                      <span className="text-sm text-neutral-600">D</span>
-                      <input
-                        type="number"
-                        value={deliveryPrices[location.id] || ''}
-                        onChange={(e) => handleDeliveryPriceChange(location.id, e.target.value)}
-                        step="0.01"
-                        min="0"
-                        placeholder="0.00"
-                        className="flex-1 px-3 py-2 border border-neutral-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                      />
+                  <div key={location.id} className="flex items-start gap-3">
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between">
+                        <label className="text-sm font-medium text-neutral-700">
+                          {location.name}
+                        </label>
+                        {location.default_delivery_price !== undefined && location.default_delivery_price > 0 && (
+                          <span className="text-xs text-neutral-500">
+                            Default: D {location.default_delivery_price.toFixed(2)}
+                          </span>
+                        )}
+                      </div>
+                      <div className="flex items-center gap-1 mt-1">
+                        <span className="text-sm text-neutral-600">D</span>
+                        <input
+                          type="number"
+                          value={deliveryPrices[location.id] || ''}
+                          onChange={(e) => handleDeliveryPriceChange(location.id, e.target.value)}
+                          step="0.01"
+                          min="0"
+                          placeholder={location.default_delivery_price ? `${location.default_delivery_price.toFixed(2)} (default)` : '0.00'}
+                          className="flex-1 px-3 py-2 border border-neutral-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                        />
+                      </div>
                     </div>
                   </div>
                 ))

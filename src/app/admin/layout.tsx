@@ -6,7 +6,7 @@ import Link from 'next/link';
 import axios from 'axios';
 import { getToken } from '@/lib/auth';
 import { API_BASE_URL } from '@/config/api';
-import { HiOutlineSquares2X2, HiOutlineShoppingBag, HiOutlineTag, HiOutlineShoppingCart, HiOutlineCurrencyDollar, HiOutlineTicket, HiOutlineUsers, HiOutlineBell, HiOutlineArrowTrendingUp, HiOutlineCalendar, HiOutlineDocumentText, HiOutlineGift, HiOutlineBriefcase, HiOutlineUserGroup, HiOutlineChevronRight, HiOutlineArrowRightOnRectangle, HiOutlineHome, HiOutlineBars3, HiOutlineCog } from 'react-icons/hi2';
+import { HiOutlineSquares2X2, HiOutlineShoppingBag, HiOutlineTag, HiOutlineShoppingCart, HiOutlineCurrencyDollar, HiOutlineTicket, HiOutlineUsers, HiOutlineBell, HiOutlineArrowTrendingUp, HiOutlineCalendar, HiOutlineDocumentText, HiOutlineGift, HiOutlineBriefcase, HiOutlineUserGroup, HiOutlineChevronRight, HiOutlineChevronDown, HiOutlineArrowRightOnRectangle, HiOutlineHome, HiOutlineBars3, HiOutlineCog } from 'react-icons/hi2';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();

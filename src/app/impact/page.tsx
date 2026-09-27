@@ -1,207 +1,122 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import axios from 'axios';
+import { FiBarChart3, FiTrendingUp, FiAward, FiGlobe } from 'react-icons/fi';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { API_BASE_URL } from '@/config/api';
 
-interface ImpactMetric {
-  id: number;
-  title: string;
-  metric_type: string;
+interface MetricCard {
+  icon: React.ReactNode;
+  value: string;
+  label: string;
   description: string;
-  value: number;
-  unit: string;
-  image_url?: string;
-  details?: string;
 }
 
+const metrics: MetricCard[] = [
+  {
+    icon: <FiTrendingUp className="w-8 h-8" />,
+    value: '2,847',
+    label: 'Tons of Plastic Recycled',
+    description: 'Diverted from landfills and oceans'
+  },
+  {
+    icon: <FiGlobe className="w-8 h-8" />,
+    value: '145K',
+    label: 'CO₂ Emissions Avoided',
+    description: 'Equivalent to planting 12,000 trees'
+  },
+  {
+    icon: <FiAward className="w-8 h-8" />,
+    value: '8,500+',
+    label: 'Products Created',
+    description: 'From recycled plastic materials'
+  },
+  {
+    icon: <FiBarChart3 className="w-8 h-8" />,
+    value: '156',
+    label: 'Lives Impacted',
+    description: 'Jobs created in waste management'
+  }
+];
+
+const impactAreas = [
+  {
+    title: 'Ocean Conservation',
+    description: 'We recover and upcycle ghost nets and ocean-bound plastic, preventing harm to marine ecosystems.',
+    stats: '523 tons of ocean plastic recovered',
+    icon: '🌊'
+  },
+  {
+    title: 'Carbon Reduction',
+    description: 'Recycling plastic reduces manufacturing emissions by up to 40% compared to virgin plastic production.',
+    stats: '145,000 kg CO₂ saved annually',
+    icon: '🌍'
+  },
+  {
+    title: 'Community Impact',
+    description: 'We partner with local communities to create employment and provide sustainable livelihoods.',
+    stats: '156 jobs created in West Africa',
+    icon: '👥'
+  },
+  {
+    title: 'Circular Economy',
+    description: 'Our products support a circular economy model, reducing waste and maximizing resource efficiency.',
+    stats: '8,500+ products from recycled materials',
+    icon: '♻️'
+  }
+];
+
 export default function ImpactPage() {
-  const [impactDetails, setImpactDetails] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchMetrics = async () => {
-      try {
-        const response = await axios.get(`${API_BASE_URL}/impact/metrics/`);
-        const metrics = response.data.results || response.data;
-
-        if (Array.isArray(metrics) && metrics.length > 0) {
-          setImpactDetails(metrics);
-        } else {
-          setDefaultMetrics();
-        }
-      } catch (error) {
-        console.error('Failed to fetch impact metrics:', error);
-        setDefaultMetrics();
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchMetrics();
-  }, []);
-
-  const setDefaultMetrics = () => {
-    setImpactDetails([
-      {
-        id: 1,
-        title: 'Environmental Impact',
-        metric: 'Environmental',
-        description: 'Tons of plastic diverted from oceans and landfills',
-        image: 'https://images.pexels.com/photos/3951628/pexels-photo-3951628.jpeg?w=800&h=600&fit=crop',
-        fullDescription: 'Our environmental initiatives focus on reducing plastic waste that would otherwise end up in landfills and oceans.',
-        stats: [
-          { label: 'Plastic Collected', value: '500+', unit: 'Tons/Year' },
-          { label: 'Ocean Waste Prevented', value: '2000+', unit: 'Tons' },
-          { label: 'Landfill Reduction', value: '75%', unit: 'Decrease' },
-        ],
-        highlights: [
-          'Advanced sorting and processing facilities',
-          'Community-driven collection programs',
-          'Partnerships with local environmental groups',
-          'Ocean cleanup initiatives in West Africa',
-        ],
-      },
-      {
-        id: 2,
-        title: 'Economic Impact',
-        metric: 'Economic',
-        description: 'Employment created for marginalized communities',
-        image: 'https://images.pexels.com/photos/3807517/pexels-photo-3807517.jpeg?w=800&h=600&fit=crop',
-        fullDescription: 'We believe sustainable practices should also create economic opportunities for marginalized communities.',
-        stats: [
-          { label: 'Jobs Created', value: '300+', unit: 'Direct Employment' },
-          { label: 'Average Wage Increase', value: '45%', unit: 'Year-over-Year' },
-          { label: 'Women Employed', value: '60%', unit: 'Workforce' },
-        ],
-        highlights: [
-          'Fair wage employment opportunities',
-          'Skills development programs',
-          'Cooperative business models',
-          'Women-led initiatives and support',
-        ],
-      },
-      {
-        id: 3,
-        title: 'Educational Impact',
-        metric: 'Educational',
-        description: 'Awareness and skills transfer in sustainability',
-        image: 'https://images.pexels.com/photos/3807517/pexels-photo-3807517.jpeg?w=800&h=600&fit=crop',
-        fullDescription: 'Education is central to sustainable change. We conduct workshops, training programs, and awareness campaigns.',
-        stats: [
-          { label: 'People Trained', value: '2000+', unit: 'Annually' },
-          { label: 'Workshops Conducted', value: '150+', unit: 'Per Year' },
-          { label: 'Schools Engaged', value: '50+', unit: 'Partnerships' },
-        ],
-        highlights: [
-          'Hands-on sustainability workshops',
-          'School environmental programs',
-          'Community awareness campaigns',
-          'Skills transfer initiatives',
-        ],
-      },
-      {
-        id: 4,
-        title: 'Health Impact',
-        metric: 'Health',
-        description: 'Healthier communities through reduced pollution',
-        image: 'https://images.pexels.com/photos/4101143/pexels-photo-4101143.jpeg?w=800&h=600&fit=crop',
-        fullDescription: 'Plastic pollution poses serious health risks through air and water contamination.',
-        stats: [
-          { label: 'People Benefited', value: '50000+', unit: 'Direct Impact' },
-          { label: 'Water Sources Cleaned', value: '100+', unit: 'Locations' },
-          { label: 'Air Quality Improved', value: '30%', unit: 'Better' },
-        ],
-        highlights: [
-          'Water source restoration projects',
-          'Reduced air pollution in communities',
-          'Health awareness programs',
-          'Medical support initiatives',
-        ],
-      },
-    ]);
-  };
-
   return (
     <div className="min-h-screen bg-white">
-      <style>{`
-        .grid-pattern {
-          background-image:
-            linear-gradient(90deg, rgba(16, 185, 129, 0.03) 1px, transparent 1px),
-            linear-gradient(rgba(16, 185, 129, 0.03) 1px, transparent 1px);
-          background-size: 40px 40px;
-          background-position: 0 0, 0 0;
-        }
-      `}</style>
       <Navbar showNavLinks={true} />
 
-      {/* Header */}
-      <section className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-16 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
-        </div>
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-          <div className="inline-block bg-white/20 text-white px-4 py-2 rounded-full text-sm font-bold mb-6">
-            📊 IMPACT
-          </div>
-          <h1 className="text-5xl lg:text-6xl font-black mb-6 leading-tight">Our Impact</h1>
-          <p className="text-xl max-w-2xl text-emerald-50">Measurable change across communities and the environment through our sustainable practices</p>
+      {/* Hero Section */}
+      <section className="py-16 lg:py-24 bg-gradient-to-b from-emerald-900 to-emerald-800 text-white">
+        <div className="max-w-6xl mx-auto px-6 lg:px-8 text-center">
+          <h1 className="text-5xl lg:text-6xl font-black mb-6">Our Impact</h1>
+          <p className="text-xl text-emerald-100 max-w-2xl mx-auto">
+            Measuring our commitment to a sustainable future through plastic recycling and community transformation
+          </p>
         </div>
       </section>
 
-      {/* Impact Details */}
-      <section className="py-16 md:py-20 lg:py-24 bg-white relative overflow-hidden grid-pattern">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-          <div className="space-y-20">
-            {impactDetails.map((impact, idx) => (
-              <div key={impact.id} className={`grid grid-cols-1 md:grid-cols-2 gap-12 items-center ${idx % 2 === 1 ? 'md:grid-cols-2 md:auto-cols-max' : ''}`}>
-                {/* Image - alternating sides */}
-                <div className={idx % 2 === 1 ? 'md:order-2' : ''}>
-                  <div className="rounded-3xl overflow-hidden h-96 border border-slate-200">
-                    <img src={impact.image} alt={impact.title} className="w-full h-full object-cover" />
-                  </div>
-                </div>
+      {/* Key Metrics */}
+      <section className="py-16 lg:py-24 bg-slate-50">
+        <div className="max-w-6xl mx-auto px-6 lg:px-8">
+          <h2 className="text-4xl font-black text-slate-900 mb-16 text-center">Our Achievements</h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {metrics.map((metric, idx) => (
+              <div
+                key={idx}
+                className="bg-white rounded-2xl p-8 border-2 border-emerald-100 hover:border-emerald-400 hover:shadow-lg transition"
+              >
+                <div className="text-emerald-600 mb-4">{metric.icon}</div>
+                <p className="text-4xl font-black text-slate-900 mb-2">{metric.value}</p>
+                <p className="font-bold text-slate-900 mb-2">{metric.label}</p>
+                <p className="text-sm text-slate-600">{metric.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-                {/* Content */}
-                <div className={idx % 2 === 1 ? 'md:order-1' : ''}>
-                  <div className="inline-flex items-center gap-3 mb-4">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-white text-lg font-bold">
-                      {impact.id}
-                    </div>
-                    <span className="text-emerald-600 font-semibold text-sm uppercase tracking-wide">Impact Area</span>
-                  </div>
-
-                  <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">{impact.title}</h2>
-                  <p className="text-slate-600 text-lg mb-6 leading-relaxed">
-                    {impact.fullDescription}
-                  </p>
-
-                  {/* Stats */}
-                  <div className="grid grid-cols-3 gap-4 mb-8">
-                    {impact.stats?.map((stat: any, i: number) => (
-                      <div key={i} className="group cursor-pointer rounded-3xl overflow-hidden border border-slate-200 hover:border-emerald-400 bg-gradient-to-br from-white to-slate-50 hover:from-emerald-50 hover:to-white p-4 transition-all duration-300 hover:-translate-y-1">
-                        <p className="text-2xl font-black text-emerald-600 mb-1">{stat.value}</p>
-                        <p className="text-xs text-slate-600 font-semibold uppercase">{stat.label}</p>
-                        <p className="text-xs text-slate-500">{stat.unit}</p>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Highlights */}
-                  <div>
-                    <h3 className="text-lg font-semibold text-slate-900 mb-4">Key Initiatives</h3>
-                    <ul className="space-y-3">
-                      {impact.highlights?.map((highlight: string, i: number) => (
-                        <li key={i} className="flex items-start gap-3">
-                          <span className="text-emerald-600 text-xl mt-1">✓</span>
-                          <span className="text-slate-700">{highlight}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+      {/* Impact Areas */}
+      <section className="py-16 lg:py-24">
+        <div className="max-w-6xl mx-auto px-6 lg:px-8">
+          <h2 className="text-4xl font-black text-slate-900 mb-16 text-center">Impact Areas</h2>
+          <div className="grid md:grid-cols-2 gap-8">
+            {impactAreas.map((area, idx) => (
+              <div
+                key={idx}
+                className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-2xl p-8 border-2 border-emerald-200"
+              >
+                <div className="text-5xl mb-4">{area.icon}</div>
+                <h3 className="text-2xl font-black text-slate-900 mb-4">{area.title}</h3>
+                <p className="text-slate-700 mb-6">{area.description}</p>
+                <div className="bg-white rounded-lg p-4 border-l-4 border-emerald-600">
+                  <p className="text-sm font-bold text-emerald-600 uppercase">Key Metric</p>
+                  <p className="text-lg font-black text-slate-900">{area.stats}</p>
                 </div>
               </div>
             ))}
@@ -209,27 +124,49 @@ export default function ImpactPage() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-16 md:py-20 bg-gradient-to-r from-emerald-600 to-teal-600 text-white relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute bottom-0 left-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
-        </div>
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center relative z-10">
-          <h2 className="text-4xl lg:text-5xl font-black text-white mb-6">Join Our Mission</h2>
-          <p className="text-lg text-emerald-50 mb-8 max-w-2xl mx-auto">
-            Be part of the solution. Whether through supporting our initiatives, volunteering, or purchasing sustainable products, together we can create meaningful change.
+      {/* Call to Action */}
+      <section className="py-16 lg:py-24 bg-gradient-to-r from-emerald-600 to-teal-600 text-white">
+        <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
+          <h2 className="text-4xl font-black mb-6">Be Part of the Change</h2>
+          <p className="text-xl text-emerald-100 mb-12 max-w-2xl mx-auto">
+            Every product you buy contributes to reducing plastic waste and transforming lives. Join thousands of customers making a difference.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/services">
-              <button className="px-8 py-3 bg-white text-emerald-600 font-bold rounded-full hover:bg-emerald-50 transition duration-300">
-                Learn About Our Services
-              </button>
-            </Link>
             <Link href="/shop">
-              <button className="px-8 py-3 bg-white/20 text-white font-bold rounded-full border border-white/30 hover:bg-white/30 transition duration-300">
+              <button className="px-8 py-4 bg-white text-emerald-600 font-bold rounded-xl hover:bg-emerald-50 transition">
                 Shop Sustainable Products
               </button>
             </Link>
+            <Link href="/material-lab">
+              <button className="px-8 py-4 border-2 border-white text-white font-bold rounded-xl hover:bg-white hover:text-emerald-600 transition">
+                Explore Materials
+              </button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Transparency */}
+      <section className="py-16 lg:py-24 bg-slate-50">
+        <div className="max-w-6xl mx-auto px-6 lg:px-8">
+          <h2 className="text-4xl font-black text-slate-900 mb-8 text-center">Our Commitment to Transparency</h2>
+          <div className="max-w-3xl mx-auto">
+            <div className="bg-white rounded-2xl p-12 border-2 border-emerald-100">
+              <p className="text-slate-700 mb-6 leading-relaxed">
+                We believe in measuring and sharing our impact honestly. All metrics are independently verified and updated quarterly. Our impact reports include verified data from our supply chain partners, production facilities, and community partners across West Africa.
+              </p>
+              <p className="text-slate-700 mb-8 leading-relaxed">
+                We're committed to continuous improvement and transparency in all our operations. Our goal is not just to sell products, but to create measurable positive change in environmental conservation and community development.
+              </p>
+              <div className="flex gap-4">
+                <button className="px-6 py-3 bg-emerald-600 text-white font-bold rounded-lg hover:bg-emerald-700 transition">
+                  Download Impact Report
+                </button>
+                <button className="px-6 py-3 border-2 border-emerald-600 text-emerald-600 font-bold rounded-lg hover:bg-emerald-50 transition">
+                  Contact Us
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </section>

@@ -16,6 +16,7 @@ export default function B2BPage() {
     email: '',
     phone: '',
     category: '',
+    customCategory: '',
     quantity: '',
     specifications: ''
   });
@@ -41,6 +42,7 @@ export default function B2BPage() {
           email: '',
           phone: '',
           category: '',
+          customCategory: '',
           quantity: '',
           specifications: ''
         });
@@ -405,6 +407,22 @@ export default function B2BPage() {
                     />
                   </div>
                 </div>
+
+                {/* Custom Category Input - Shows when "custom" is selected */}
+                {formData.category === 'custom' && (
+                  <div className="mt-4 p-5 bg-blue-50 border-2 border-blue-200 rounded-xl animate-slideDown">
+                    <label className="block text-xs font-bold text-slate-600 uppercase mb-2.5 tracking-wide">Describe Your Custom Product *</label>
+                    <input
+                      type="text"
+                      required={formData.category === 'custom'}
+                      value={formData.customCategory}
+                      onChange={(e) => setFormData({ ...formData, customCategory: e.target.value })}
+                      className="w-full px-4 py-3.5 border-2 border-blue-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white hover:bg-blue-50 transition"
+                      placeholder="e.g., Custom plastic signage with logo branding..."
+                    />
+                    <p className="text-xs text-blue-600 mt-2">✨ Tell us what custom product you need and we'll provide a tailored quote</p>
+                  </div>
+                )}
               </div>
 
               {/* Specifications Section */}

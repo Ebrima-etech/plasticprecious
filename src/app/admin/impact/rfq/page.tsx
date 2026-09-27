@@ -11,10 +11,13 @@ import { CMSActionMenu } from '@/components/ios/CMSActionMenu';
 
 interface RFQ {
   id: number;
-  requester_name: string;
-  requester_company: string;
-  category: string;
-  budget: number | null;
+  contact_person_name: string;
+  organization_name: string;
+  contact_email: string;
+  contact_phone: string;
+  product_category: string;
+  quantity: number;
+  custom_requirements: string;
   status: string;
   created_at: string;
 }
@@ -68,18 +71,22 @@ export default function RFQAdmin() {
   };
 
   const filteredRfqs = rfqs.filter(r =>
-    r.requester_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    r.category.toLowerCase().includes(searchQuery.toLowerCase())
+    (r.contact_person_name?.toLowerCase().includes(searchQuery.toLowerCase()) || false) ||
+    (r.organization_name?.toLowerCase().includes(searchQuery.toLowerCase()) || false) ||
+    (r.product_category?.toLowerCase().includes(searchQuery.toLowerCase()) || false) ||
+    (r.contact_email?.toLowerCase().includes(searchQuery.toLowerCase()) || false)
   );
 
   const getStatusColor = (status: string) => {
     switch (status?.toLowerCase()) {
       case 'pending':
         return 'bg-amber-100 text-amber-800';
-      case 'approved':
+      case 'reviewed':
+        return 'bg-blue-100 text-blue-800';
+      case 'quoted':
         return 'bg-emerald-100 text-emerald-800';
-      case 'rejected':
-        return 'bg-red-100 text-red-800';
+      case 'closed':
+        return 'bg-slate-100 text-slate-800';
       default:
         return 'bg-slate-100 text-slate-800';
     }
@@ -113,14 +120,14 @@ export default function RFQAdmin() {
                       RFQ #{rfq.id}
                     </span>
                   </div>
-                  <h3 className="font-semibold text-slate-900">{rfq.requester_name}</h3>
-                  <p className="text-xs text-slate-600">{rfq.requester_company}</p>
-                  <p className="text-xs text-slate-600 mt-1">{rfq.category}</p>
-                  {rfq.budget && (
-                    <p className="text-xs font-medium text-slate-900 mt-2">
-                      Budget: D {rfq.budget.toLocaleString()}
-                    </p>
-                  )}
+                  <h3 className="font-semibold text-slate-900">{rfq.contact_person_name}</h3>
+                  <p className="text-xs text-slate-600">{rfq.organization_name}</p>
+                  <p className="text-xs text-slate-600">{rfq.contact_email}</p>
+                  <p className="text-xs text-slate-600">{rfq.contact_phone}</p>
+                  <p className="text-xs text-slate-600 mt-1">Category: {rfq.product_category}</p>
+                  <p className="text-xs font-medium text-slate-900 mt-2">
+                    Quantity: {rfq.quantity} units
+                  </p>
                   <p className="text-xs text-slate-500 mt-2">
                     {new Date(rfq.created_at).toLocaleDateString('en-US', {
                       month: 'short',
@@ -137,8 +144,9 @@ export default function RFQAdmin() {
                     className={`text-xs font-semibold px-3 py-1 rounded-full border-0 cursor-pointer transition ${getStatusColor(rfq.status)}`}
                   >
                     <option value="pending">Pending</option>
-                    <option value="approved">Approved</option>
-                    <option value="rejected">Rejected</option>
+                    <option value="reviewed">Reviewed</option>
+                    <option value="quoted">Quoted</option>
+                    <option value="closed">Closed</option>
                   </select>
                   <CMSActionMenu
                     onEdit={() => {}}

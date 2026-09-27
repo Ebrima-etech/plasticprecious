@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import VRPageLoadAnimation from '@/components/VRPageLoadAnimation';
 import '@/lib/axios-config';
 
@@ -9,6 +9,9 @@ export default function LayoutClient({
 }: {
   children: React.ReactNode;
 }) {
+  const pathname = usePathname();
+  const isLandingPage = pathname === '/';
+
   return (
     <>
       <style>{`
@@ -27,8 +30,8 @@ export default function LayoutClient({
           background: transparent;
         }
         body {
-          animation: bodyOverflowHide 5.6s ease-in-out forwards;
-          overflow: hidden;
+          animation: ${isLandingPage ? 'bodyOverflowHide 5.6s ease-in-out forwards' : 'none'};
+          overflow: ${isLandingPage ? 'hidden' : 'auto'};
           background: transparent;
         }
         @keyframes hideAnimation {
@@ -54,11 +57,14 @@ export default function LayoutClient({
           width: 100%;
           height: 100%;
           z-index: 99999;
+          display: ${isLandingPage ? 'block' : 'none'};
         }
       `}</style>
-      <div className="vr-animation-container">
-        <VRPageLoadAnimation />
-      </div>
+      {isLandingPage && (
+        <div className="vr-animation-container">
+          <VRPageLoadAnimation />
+        </div>
+      )}
       <div className="layout-client-content">
         {children}
       </div>

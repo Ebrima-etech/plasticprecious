@@ -971,10 +971,10 @@ export default function Home() {
             <div>
               <h5 className="font-black text-white mb-6 text-sm uppercase tracking-widest">SHOP</h5>
               <ul className="text-sm space-y-3 text-white">
-                <li><Link href="#" className="text-white hover:text-emerald-400 transition font-semibold">All Products</Link></li>
-                <li><Link href="#" className="text-white hover:text-emerald-400 transition font-semibold">Custom Orders</Link></li>
-                <li><Link href="#" className="text-white hover:text-emerald-400 transition font-semibold">Collections</Link></li>
-                <li><Link href="#" className="text-white hover:text-emerald-400 transition font-semibold">Bulk Discounts</Link></li>
+                <li><Link href="/shop" className="text-white hover:text-emerald-400 transition font-semibold">All Products</Link></li>
+                <li><Link href="/b2b" className="text-white hover:text-emerald-400 transition font-semibold">Custom Orders</Link></li>
+                <li><Link href="/shop" className="text-white hover:text-emerald-400 transition font-semibold">Collections</Link></li>
+                <li><Link href="/b2b" className="text-white hover:text-emerald-400 transition font-semibold">Bulk Discounts</Link></li>
               </ul>
             </div>
             <div>
@@ -989,19 +989,19 @@ export default function Home() {
             <div>
               <h5 className="font-black text-white mb-6 text-sm uppercase tracking-widest">COMPANY</h5>
               <ul className="text-sm space-y-3 text-white">
-                <li><a href="#" className="text-white hover:text-emerald-400 transition font-semibold">About Us</a></li>
-                <li><a href="#" className="text-white hover:text-emerald-400 transition font-semibold">Blog & News</a></li>
-                <li><a href="#" className="text-white hover:text-emerald-400 transition font-semibold">Impact Report</a></li>
-                <li><a href="#" className="text-white hover:text-emerald-400 transition font-semibold">Careers</a></li>
+                <li><Link href="/about" className="text-white hover:text-emerald-400 transition font-semibold">About Us</Link></li>
+                <li><Link href="/blog" className="text-white hover:text-emerald-400 transition font-semibold">Blog & News</Link></li>
+                <li><Link href="/impact" className="text-white hover:text-emerald-400 transition font-semibold">Impact Report</Link></li>
+                <li><Link href="/contact" className="text-white hover:text-emerald-400 transition font-semibold">Careers</Link></li>
               </ul>
             </div>
             <div>
               <h5 className="font-black text-white mb-6 text-sm uppercase tracking-widest">CONNECT</h5>
               <ul className="text-sm space-y-3 text-white">
                 <li><Link href="/contact" className="text-white hover:text-emerald-400 transition font-semibold">Contact Us</Link></li>
-                <li><a href="#" className="text-white hover:text-emerald-400 transition font-semibold">Privacy Policy</a></li>
-                <li><a href="#" className="text-white hover:text-emerald-400 transition font-semibold">Terms of Service</a></li>
-                <li><a href="#" className="text-white hover:text-emerald-400 transition font-semibold">Sustainability</a></li>
+                <li><Link href="/contact" className="text-white hover:text-emerald-400 transition font-semibold">Privacy Policy</Link></li>
+                <li><Link href="/contact" className="text-white hover:text-emerald-400 transition font-semibold">Terms of Service</Link></li>
+                <li><Link href="/impact" className="text-white hover:text-emerald-400 transition font-semibold">Sustainability</Link></li>
               </ul>
             </div>
           </div>

@@ -29,16 +29,16 @@ export default function Footer() {
               <li><Link href="/about" className="text-white hover:text-emerald-400 transition font-semibold">About Us</Link></li>
               <li><Link href="/blog" className="text-white hover:text-emerald-400 transition font-semibold">Blog & News</Link></li>
               <li><Link href="/impact" className="text-white hover:text-emerald-400 transition font-semibold">Impact Report</Link></li>
-              <li><a href="#" className="text-white hover:text-emerald-400 transition font-semibold">Careers</a></li>
+              <li><Link href="/contact" className="text-white hover:text-emerald-400 transition font-semibold">Careers</Link></li>
             </ul>
           </div>
           <div>
             <h5 className="font-black text-white mb-6 text-sm uppercase tracking-widest">CONNECT</h5>
             <ul className="text-sm space-y-3 text-white">
               <li><Link href="/contact" className="text-white hover:text-emerald-400 transition font-semibold">Contact Us</Link></li>
-              <li><a href="#" className="text-white hover:text-emerald-400 transition font-semibold">Privacy Policy</a></li>
-              <li><a href="#" className="text-white hover:text-emerald-400 transition font-semibold">Terms of Service</a></li>
-              <li><a href="#" className="text-white hover:text-emerald-400 transition font-semibold">Sustainability</a></li>
+              <li><a href="/contact" className="text-white hover:text-emerald-400 transition font-semibold">Privacy Policy</a></li>
+              <li><a href="/contact" className="text-white hover:text-emerald-400 transition font-semibold">Terms of Service</a></li>
+              <li><Link href="/impact" className="text-white hover:text-emerald-400 transition font-semibold">Sustainability</a></li>
             </ul>
           </div>
         </div>

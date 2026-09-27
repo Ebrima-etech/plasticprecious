@@ -8,6 +8,8 @@ import Footer from '@/components/Footer';
 
 export default function B2BPage() {
   const [showRFQForm, setShowRFQForm] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
   const [formData, setFormData] = useState({
     company: '',
     contact: '',
@@ -17,6 +19,42 @@ export default function B2BPage() {
     quantity: '',
     specifications: ''
   });
+
+  const handleRFQSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setSubmitting(true);
+    try {
+      // Submit to backend API
+      const response = await fetch('/api/b2b-rfq/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setSubmitSuccess(true);
+        setFormData({
+          company: '',
+          contact: '',
+          email: '',
+          phone: '',
+          category: '',
+          quantity: '',
+          specifications: ''
+        });
+        setTimeout(() => {
+          setShowRFQForm(false);
+          setSubmitSuccess(false);
+        }, 2000);
+      }
+    } catch (error) {
+      console.error('Error submitting RFQ:', error);
+    } finally {
+      setSubmitting(false);
+    }
+  };
   const audiences = [
     {
       icon: FiUsers,
@@ -205,9 +243,11 @@ export default function B2BPage() {
                     <span>Custom reporting for CSR initiatives</span>
                   </li>
                 </ul>
-                <button className="px-8 py-4 bg-emerald-600 text-white font-bold rounded-xl hover:bg-emerald-700">
-                  Learn More
-                </button>
+                <Link href="/impact">
+                  <button className="px-8 py-4 bg-emerald-600 text-white font-bold rounded-xl hover:bg-emerald-700">
+                    Learn More
+                  </button>
+                </Link>
               </div>
               <div className="bg-emerald-50 rounded-2xl p-8">
                 <div className="space-y-6">
@@ -263,7 +303,13 @@ export default function B2BPage() {
               </button>
             </div>
 
-            <form className="p-8 space-y-6">
+            <form onSubmit={handleRFQSubmit} className="p-8 space-y-6">
+              {submitSuccess && (
+                <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-lg text-emerald-700 font-semibold">
+                  Thank you! Your RFQ has been submitted successfully. We'll contact you soon.
+                </div>
+              )}
+
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-semibold text-slate-700 mb-2">Company Name *</label>
@@ -358,15 +404,17 @@ export default function B2BPage() {
                 <button
                   type="button"
                   onClick={() => setShowRFQForm(false)}
-                  className="px-6 py-2.5 border-2 border-slate-300 text-slate-700 font-semibold rounded-lg hover:bg-slate-50 transition"
+                  disabled={submitting}
+                  className="px-6 py-2.5 border-2 border-slate-300 text-slate-700 font-semibold rounded-lg hover:bg-slate-50 transition disabled:opacity-50"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2.5 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition"
+                  disabled={submitting}
+                  className="px-6 py-2.5 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition disabled:opacity-50"
                 >
-                  Submit RFQ
+                  {submitting ? 'Submitting...' : 'Submit RFQ'}
                 </button>
               </div>
             </form>

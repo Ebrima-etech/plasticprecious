@@ -10,12 +10,19 @@ import { Cart, CartItem } from '@/types';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
+interface LocationOption {
+  id: number;
+  name: string;
+}
+
 export default function CheckoutPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [cartLoading, setCartLoading] = useState(true);
   const [error, setError] = useState('');
   const [cart, setCart] = useState<Cart | null>(null);
+  const [locations, setLocations] = useState<LocationOption[]>([]);
+  const [productDeliveryPrices, setProductDeliveryPrices] = useState<Record<number, Record<number, string>>>({});
   const [formData, setFormData] = useState({
     full_name: '',
     phone_number: '',
@@ -31,17 +38,81 @@ export default function CheckoutPage() {
       router.push('/auth/login');
     }
     fetchCart();
+    fetchLocations();
   }, []);
+
+  const fetchLocations = async () => {
+    try {
+      // Fetch locations from API
+      try {
+        const response = await axios.get(`${API_BASE_URL}/locations/`);
+        const locs = response.data.results || response.data || [];
+        setLocations(locs);
+      } catch (err) {
+        // Fallback to default locations
+        setLocations([
+          { id: 1, name: 'Banjul' },
+          { id: 2, name: 'Serekunda' },
+          { id: 3, name: 'Bakau' },
+          { id: 4, name: 'Kololi' },
+          { id: 5, name: 'Kotu' },
+          { id: 6, name: 'Other' },
+        ]);
+      }
+    } catch (err) {
+      console.error('Failed to load locations:', err);
+    }
+  };
 
   const fetchCart = async () => {
     try {
       const data = await cartService.getCart();
       setCart(data);
+
+      // Fetch delivery prices for each product in cart
+      if (data && data.items && data.items.length > 0) {
+        const deliveryPricesData: Record<number, Record<number, string>> = {};
+
+        for (const item of data.items) {
+          try {
+            const productRes = await axios.get(`${API_BASE_URL}/products/${item.product.id}/`);
+            if (productRes.data.delivery_prices) {
+              deliveryPricesData[item.product.id] = productRes.data.delivery_prices;
+            }
+          } catch (err) {
+            console.error(`Failed to fetch delivery prices for product ${item.product.id}`);
+          }
+        }
+
+        setProductDeliveryPrices(deliveryPricesData);
+      }
+
       setCartLoading(false);
     } catch (err) {
       console.error('Failed to load cart:', err);
       setCartLoading(false);
     }
+  };
+
+  const getDeliveryPrice = (locationId: number | string): number => {
+    if (!cart || !cart.items || cart.items.length === 0) {
+      return 0;
+    }
+
+    let totalDelivery = 0;
+    for (const item of cart.items) {
+      const productDelivery = productDeliveryPrices[item.product.id];
+      if (productDelivery && productDelivery[locationId as any]) {
+        totalDelivery += parseFloat(productDelivery[locationId as any]);
+      }
+    }
+
+    return totalDelivery;
+  };
+
+  const getLocationIdByName = (cityName: string): number | string => {
+    const location = locations.find(loc => loc.name === cityName);
+    return location ? location.id : cityName;
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -71,11 +142,12 @@ export default function CheckoutPage() {
 
       const token = getAccessToken();
 
-      // Create payment intent
+      // Create payment intent with dynamic delivery price
       const response = await axios.post(
         getApiUrl('/orders/create_payment/'),
         {
           total_amount: total,
+          delivery_fee: delivery,
           deliver_to: formData.full_name,
           contact_number: formData.phone_number,
           delivery_location: formData.city,
@@ -111,8 +183,9 @@ export default function CheckoutPage() {
   };
 
   const subtotal = cart?.items.reduce((sum: number, item: CartItem) => sum + (parseFloat(item.product.price) * item.quantity), 0) || 0;
-  const shipping = subtotal > 5000 ? 0 : 500;
-  const total = subtotal + shipping;
+  const locationId = getLocationIdByName(formData.city);
+  const delivery = formData.city ? getDeliveryPrice(locationId) : 0;
+  const total = subtotal + delivery;
 
   return (
     <div className="min-h-screen bg-white">
@@ -175,12 +248,22 @@ export default function CheckoutPage() {
                     className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-900 bg-white"
                   >
                     <option value="">Select your location</option>
-                    <option value="Banjul">Banjul</option>
-                    <option value="Serekunda">Serekunda</option>
-                    <option value="Bakau">Bakau</option>
-                    <option value="Kololi">Kololi</option>
-                    <option value="Kotu">Kotu</option>
-                    <option value="Other">Other</option>
+                    {locations.length > 0 ? (
+                      locations.map((loc) => (
+                        <option key={loc.id} value={loc.name}>
+                          {loc.name}
+                        </option>
+                      ))
+                    ) : (
+                      <>
+                        <option value="Banjul">Banjul</option>
+                        <option value="Serekunda">Serekunda</option>
+                        <option value="Bakau">Bakau</option>
+                        <option value="Kololi">Kololi</option>
+                        <option value="Kotu">Kotu</option>
+                        <option value="Other">Other</option>
+                      </>
+                    )}
                   </select>
                 </div>
               </div>
@@ -224,9 +307,13 @@ export default function CheckoutPage() {
                     <span>D {subtotal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                   </div>
                   <div className="flex justify-between text-slate-700">
-                    <span>Shipping</span>
-                    <span className={shipping === 0 ? 'text-emerald-600 font-semibold' : ''}>
-                      {shipping === 0 ? 'Free' : `D ${shipping}`}
+                    <span>Delivery</span>
+                    <span className={delivery === 0 ? 'text-emerald-600 font-semibold' : ''}>
+                      {formData.city ? (
+                        delivery === 0 ? 'Free' : `D ${delivery.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+                      ) : (
+                        <span className="text-slate-500">Select location</span>
+                      )}
                     </span>
                   </div>
                   <div className="flex justify-between text-lg font-black text-slate-900 pt-3 border-t border-slate-200">

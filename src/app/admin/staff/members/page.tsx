@@ -401,7 +401,7 @@ export default function StaffAdmin() {
                         <label className="text-xs font-medium text-slate-600 block mb-2">First Name *</label>
                         <input
                           type="text"
-                          placeholder="Ousman"
+                          placeholder="Muhammed"
                           value={formData.first_name}
                           onChange={(e) => setFormData({ ...formData, first_name: e.target.value })}
                           className="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
@@ -411,7 +411,7 @@ export default function StaffAdmin() {
                         <label className="text-xs font-medium text-slate-600 block mb-2">Last Name *</label>
                         <input
                           type="text"
-                          placeholder="Jallow"
+                          placeholder="Sanneh"
                           value={formData.last_name}
                           onChange={(e) => setFormData({ ...formData, last_name: e.target.value })}
                           className="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
@@ -422,7 +422,7 @@ export default function StaffAdmin() {
                       <label className="text-xs font-medium text-slate-600 block mb-2">Email Address *</label>
                       <input
                         type="email"
-                        placeholder="ousman.jallow@preciousplastic.gm"
+                        placeholder="muhammed.sanneh@preciousplastic.gm"
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         disabled={!!editingId}

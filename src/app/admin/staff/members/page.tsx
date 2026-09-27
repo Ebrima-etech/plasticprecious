@@ -2,10 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { FiEdit2, FiTrash2, FiUsers, FiKey, FiCheckCircle, FiXCircle, FiPlus } from 'react-icons/fi';
+import { FiEdit2, FiTrash2, FiUsers, FiKey, FiCheckCircle, FiXCircle, FiPlus, FiChevronLeft, FiChevronRight, FiSave } from 'react-icons/fi';
 import { API_BASE_URL } from '@/config/api';
 import { getAccessToken } from '@/lib/auth';
-import { SlideOver } from '@/components/admin/SlideOver';
 import { AdminTableSkeleton } from '@/components/ShimmerSkeleton';
 
 interface Staff {
@@ -59,8 +58,10 @@ export default function StaffAdmin() {
   const [departments, setDepartments] = useState<Department[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<number | null>(null);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [showForm, setShowForm] = useState(false);
+  const [currentStep, setCurrentStep] = useState(1);
   const [showPassword, setShowPassword] = useState<string | null>(null);
+  const [draftSaved, setDraftSaved] = useState(false);
   const [formData, setFormData] = useState({
     first_name: '',
     last_name: '',
@@ -74,7 +75,8 @@ export default function StaffAdmin() {
     phone_number: '',
     address: ''
   });
-  const [showPasswordField, setShowPasswordField] = useState(false);
+
+  const DRAFT_KEY = 'staff_form_draft';
 
   useEffect(() => {
     fetchData();
@@ -245,8 +247,87 @@ export default function StaffAdmin() {
     }));
   };
 
+  const saveDraft = () => {
+    localStorage.setItem(DRAFT_KEY, JSON.stringify(formData));
+    setDraftSaved(true);
+    setTimeout(() => setDraftSaved(false), 2000);
+  };
+
+  const loadDraft = () => {
+    const draft = localStorage.getItem(DRAFT_KEY);
+    if (draft) {
+      setFormData(JSON.parse(draft));
+    }
+  };
+
+  const openForm = (s?: Staff) => {
+    setCurrentStep(1);
+    if (s) {
+      setEditingId(s.id);
+      setFormData({
+        first_name: s.user_data?.first_name || '',
+        last_name: s.user_data?.last_name || '',
+        email: s.user_data?.email || '',
+        password: '',
+        department: s.department.toString(),
+        role: s.role,
+        permissions: s.permissions,
+        salary: s.salary || '',
+        hire_date: s.hire_date,
+        phone_number: s.phone_number,
+        address: s.address
+      });
+    } else {
+      setEditingId(null);
+      loadDraft();
+    }
+    setShowForm(true);
+  };
+
+  const closeForm = () => {
+    setShowForm(false);
+    setCurrentStep(1);
+    setEditingId(null);
+    setFormData({
+      first_name: '',
+      last_name: '',
+      email: '',
+      password: '',
+      department: '',
+      role: '',
+      permissions: [],
+      salary: '',
+      hire_date: '',
+      phone_number: '',
+      address: ''
+    });
+  };
+
+  const nextStep = () => {
+    if (currentStep < 3) setCurrentStep(currentStep + 1);
+  };
+
+  const prevStep = () => {
+    if (currentStep > 1) setCurrentStep(currentStep - 1);
+  };
+
   return (
     <div className="space-y-6">
+      <style>{`
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .animate-fadeIn {
+          animation: fadeIn 300ms ease-out;
+        }
+      `}</style>
       {/* Page Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -259,7 +340,7 @@ export default function StaffAdmin() {
           </div>
         </div>
         <button
-          onClick={() => openDrawer()}
+          onClick={() => openForm()}
           className="flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition shadow-sm"
         >
           <FiPlus className="w-5 h-5" />
@@ -282,187 +363,251 @@ export default function StaffAdmin() {
         </div>
       )}
 
-      {/* Slide-over Drawer */}
-      <SlideOver
-        isOpen={isDrawerOpen}
-        onClose={closeDrawer}
-        title={editingId ? 'Edit Staff Member' : 'Add Staff Member'}
-        description={editingId ? 'Update staff details and permissions' : 'Create a new staff member account'}
-        footer={
-          <>
-            <button
-              onClick={closeDrawer}
-              className="px-6 py-2 text-slate-700 font-medium hover:bg-slate-200 rounded-lg transition"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={handleSave}
-              className="px-6 py-2 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition"
-            >
-              {editingId ? 'Update' : 'Create Account'}
-            </button>
-          </>
-        }
-      >
-        <div className="space-y-6">
-          {/* Personal Information Section */}
-          <div>
-            <label className="block text-sm font-semibold text-slate-900 mb-3">Personal Information</label>
-            <div className="space-y-3">
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="text-xs font-medium text-slate-600 block mb-1.5">First Name *</label>
-                  <input
-                    type="text"
-                    placeholder="John"
-                    value={formData.first_name}
-                    onChange={(e) => setFormData({ ...formData, first_name: e.target.value })}
-                    className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-                  />
-                </div>
-                <div>
-                  <label className="text-xs font-medium text-slate-600 block mb-1.5">Last Name *</label>
-                  <input
-                    type="text"
-                    placeholder="Doe"
-                    value={formData.last_name}
-                    onChange={(e) => setFormData({ ...formData, last_name: e.target.value })}
-                    className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-                  />
-                </div>
-              </div>
-              <div>
-                <label className="text-xs font-medium text-slate-600 block mb-1.5">Email Address *</label>
-                <input
-                  type="email"
-                  placeholder="john@example.com"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  disabled={!!editingId}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent disabled:bg-slate-50 disabled:text-slate-500"
+      {/* Multi-Step Inline Form */}
+      {showForm && (
+        <div className="bg-white rounded-2xl border border-slate-200 p-8">
+          {/* Step Indicator */}
+          <div className="mb-8">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-2xl font-bold text-slate-900">
+                {editingId ? 'Edit Staff Member' : 'Add New Staff Member'}
+              </h2>
+              <span className="text-sm font-semibold text-slate-600 bg-emerald-50 px-3 py-1 rounded-full">
+                Step {currentStep} of 3
+              </span>
+            </div>
+            <div className="flex gap-2">
+              {[1, 2, 3].map((step) => (
+                <div
+                  key={step}
+                  className={`flex-1 h-1.5 rounded-full transition-all ${
+                    step <= currentStep ? 'bg-emerald-600' : 'bg-slate-200'
+                  }`}
                 />
-              </div>
-              <div>
-                <label className="text-xs font-medium text-slate-600 block mb-1.5">Phone Number *</label>
-                <input
-                  type="tel"
-                  placeholder="+1 (555) 123-4567"
-                  value={formData.phone_number}
-                  onChange={(e) => setFormData({ ...formData, phone_number: e.target.value })}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-                />
-              </div>
-              <div>
-                <label className="text-xs font-medium text-slate-600 block mb-1.5">Address</label>
-                <input
-                  type="text"
-                  placeholder="123 Main St, City, State"
-                  value={formData.address}
-                  onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-                />
-              </div>
+              ))}
             </div>
           </div>
 
-          {/* Employment & Role Section */}
-          <div className="border-t border-slate-200 pt-6">
-            <label className="block text-sm font-semibold text-slate-900 mb-3">Employment & Role</label>
-            <div className="space-y-3">
-              <div className="grid grid-cols-2 gap-3">
+          {/* Step Content */}
+          <div className="space-y-6 mb-8">
+            {/* Step 1: Personal Information */}
+            {currentStep === 1 && (
+              <div className="space-y-6 animate-fadeIn">
                 <div>
-                  <label className="text-xs font-medium text-slate-600 block mb-1.5">Department *</label>
-                  <select
-                    value={formData.department}
-                    onChange={(e) => setFormData({ ...formData, department: e.target.value })}
-                    className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-                  >
-                    <option value="">Select Department</option>
-                    {departments.map(dept => (
-                      <option key={dept.id} value={dept.id}>{dept.name}</option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label className="text-xs font-medium text-slate-600 block mb-1.5">Role *</label>
-                  <select
-                    value={formData.role}
-                    onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-                    className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-                  >
-                    <option value="">Select Role</option>
-                    {ROLES.map(role => (
-                      <option key={role.value} value={role.value}>{role.label}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="text-xs font-medium text-slate-600 block mb-1.5">Hire Date *</label>
-                  <input
-                    type="date"
-                    value={formData.hire_date}
-                    onChange={(e) => setFormData({ ...formData, hire_date: e.target.value })}
-                    className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-                  />
-                </div>
-                <div>
-                  <label className="text-xs font-medium text-slate-600 block mb-1.5">Salary</label>
-                  <div className="relative">
-                    <span className="absolute left-3 top-2 text-slate-600 font-medium text-sm">D</span>
-                    <input
-                      type="number"
-                      placeholder="0.00"
-                      value={formData.salary}
-                      onChange={(e) => setFormData({ ...formData, salary: e.target.value })}
-                      className="w-full pl-7 pr-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-                    />
+                  <label className="block text-sm font-semibold text-slate-900 mb-4">Personal Information</label>
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="text-xs font-medium text-slate-600 block mb-2">First Name *</label>
+                        <input
+                          type="text"
+                          placeholder="John"
+                          value={formData.first_name}
+                          onChange={(e) => setFormData({ ...formData, first_name: e.target.value })}
+                          className="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-xs font-medium text-slate-600 block mb-2">Last Name *</label>
+                        <input
+                          type="text"
+                          placeholder="Doe"
+                          value={formData.last_name}
+                          onChange={(e) => setFormData({ ...formData, last_name: e.target.value })}
+                          className="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="text-xs font-medium text-slate-600 block mb-2">Email Address *</label>
+                      <input
+                        type="email"
+                        placeholder="john@example.com"
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        disabled={!!editingId}
+                        className="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent disabled:bg-slate-50 disabled:text-slate-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-xs font-medium text-slate-600 block mb-2">Phone Number *</label>
+                      <input
+                        type="tel"
+                        placeholder="+1 (555) 123-4567"
+                        value={formData.phone_number}
+                        onChange={(e) => setFormData({ ...formData, phone_number: e.target.value })}
+                        className="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-xs font-medium text-slate-600 block mb-2">Address</label>
+                      <input
+                        type="text"
+                        placeholder="123 Main St, City, State"
+                        value={formData.address}
+                        onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                        className="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
+            )}
 
-          {/* Access & Permissions Section */}
-          <div className="border-t border-slate-200 pt-6">
-            <label className="block text-sm font-semibold text-slate-900 mb-3">Access & Permissions</label>
-            <div className="space-y-3">
-              {!editingId && (
+            {/* Step 2: Employment Details */}
+            {currentStep === 2 && (
+              <div className="space-y-6 animate-fadeIn">
                 <div>
-                  <label className="text-xs font-medium text-slate-600 block mb-1.5">Password</label>
-                  <input
-                    type="text"
-                    placeholder="Leave empty to auto-generate"
-                    value={formData.password}
-                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                    className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-                  />
-                  <p className="text-xs text-slate-500 mt-1">Minimum 6 characters or leave blank for auto-generation</p>
-                </div>
-              )}
-              <div>
-                <label className="text-xs font-medium text-slate-600 block mb-3">Permissions</label>
-                <div className="space-y-2 max-h-64 overflow-y-auto">
-                  {PERMISSIONS.map(perm => (
-                    <div key={perm.value} className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-slate-50 transition">
-                      <input
-                        type="checkbox"
-                        id={perm.value}
-                        checked={formData.permissions.includes(perm.value)}
-                        onChange={() => togglePermission(perm.value)}
-                        className="w-4 h-4 rounded accent-emerald-600 cursor-pointer"
-                      />
-                      <label htmlFor={perm.value} className="text-sm text-slate-700 cursor-pointer flex-1">{perm.label}</label>
+                  <label className="block text-sm font-semibold text-slate-900 mb-4">Employment Details</label>
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="text-xs font-medium text-slate-600 block mb-2">Department *</label>
+                        <select
+                          value={formData.department}
+                          onChange={(e) => setFormData({ ...formData, department: e.target.value })}
+                          className="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                        >
+                          <option value="">Select Department</option>
+                          {departments.map(dept => (
+                            <option key={dept.id} value={dept.id}>{dept.name}</option>
+                          ))}
+                        </select>
+                      </div>
+                      <div>
+                        <label className="text-xs font-medium text-slate-600 block mb-2">Role *</label>
+                        <select
+                          value={formData.role}
+                          onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+                          className="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                        >
+                          <option value="">Select Role</option>
+                          {ROLES.map(role => (
+                            <option key={role.value} value={role.value}>{role.label}</option>
+                          ))}
+                        </select>
+                      </div>
                     </div>
-                  ))}
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="text-xs font-medium text-slate-600 block mb-2">Hire Date *</label>
+                        <input
+                          type="date"
+                          value={formData.hire_date}
+                          onChange={(e) => setFormData({ ...formData, hire_date: e.target.value })}
+                          className="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-xs font-medium text-slate-600 block mb-2">Salary</label>
+                        <div className="relative">
+                          <span className="absolute left-4 top-2.5 text-slate-600 font-medium text-sm">D</span>
+                          <input
+                            type="number"
+                            placeholder="0.00"
+                            value={formData.salary}
+                            onChange={(e) => setFormData({ ...formData, salary: e.target.value })}
+                            className="w-full pl-8 pr-4 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
+            )}
+
+            {/* Step 3: Permissions */}
+            {currentStep === 3 && (
+              <div className="space-y-6 animate-fadeIn">
+                <div>
+                  <label className="block text-sm font-semibold text-slate-900 mb-4">Access & Permissions</label>
+                  {!editingId && (
+                    <div className="mb-6 p-4 bg-slate-50 rounded-lg border border-slate-200">
+                      <label className="text-xs font-medium text-slate-600 block mb-2">Password</label>
+                      <input
+                        type="text"
+                        placeholder="Leave empty to auto-generate"
+                        value={formData.password}
+                        onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                        className="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                      />
+                      <p className="text-xs text-slate-500 mt-2">Minimum 6 characters or leave blank for auto-generation</p>
+                    </div>
+                  )}
+                  <div>
+                    <label className="text-xs font-medium text-slate-600 block mb-3">Select Permissions</label>
+                    <div className="space-y-2 max-h-96 overflow-y-auto">
+                      {PERMISSIONS.map(perm => (
+                        <div key={perm.value} className="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 transition">
+                          <input
+                            type="checkbox"
+                            id={perm.value}
+                            checked={formData.permissions.includes(perm.value)}
+                            onChange={() => togglePermission(perm.value)}
+                            className="w-4 h-4 rounded accent-emerald-600 cursor-pointer"
+                          />
+                          <label htmlFor={perm.value} className="text-sm text-slate-700 cursor-pointer flex-1">{perm.label}</label>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Form Actions */}
+          <div className="flex items-center justify-between pt-6 border-t border-slate-200">
+            <div className="flex gap-3">
+              <button
+                onClick={prevStep}
+                disabled={currentStep === 1}
+                className="flex items-center gap-2 px-4 py-2.5 text-slate-700 border border-slate-200 rounded-lg hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition font-medium"
+              >
+                <FiChevronLeft className="w-4 h-4" />
+                Previous
+              </button>
+              {currentStep < 3 && (
+                <button
+                  onClick={nextStep}
+                  className="flex items-center gap-2 px-4 py-2.5 text-slate-700 border border-slate-200 rounded-lg hover:bg-slate-50 transition font-medium"
+                >
+                  Next
+                  <FiChevronRight className="w-4 h-4" />
+                </button>
+              )}
+            </div>
+
+            <div className="flex gap-3">
+              {draftSaved && (
+                <span className="px-3 py-2.5 text-sm text-emerald-700 bg-emerald-50 rounded-lg">✓ Draft saved</span>
+              )}
+              <button
+                onClick={saveDraft}
+                className="flex items-center gap-2 px-4 py-2.5 text-slate-700 border border-slate-200 rounded-lg hover:bg-slate-50 transition font-medium"
+              >
+                <FiSave className="w-4 h-4" />
+                Save Draft
+              </button>
+              {currentStep === 3 && (
+                <button
+                  onClick={handleSave}
+                  className="flex items-center gap-2 px-6 py-2.5 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition font-medium"
+                >
+                  {editingId ? 'Update' : 'Create Account'}
+                </button>
+              )}
+              <button
+                onClick={closeForm}
+                className="px-4 py-2.5 text-slate-700 hover:bg-slate-100 rounded-lg transition font-medium"
+              >
+                Cancel
+              </button>
             </div>
           </div>
         </div>
-      </SlideOver>
+      )}
 
       {/* Staff Table */}
       {loading ? (

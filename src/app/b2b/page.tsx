@@ -51,6 +51,7 @@ export default function B2BPage() {
           email: '',
           phone: '',
           category: '',
+          customCategory: '',
           quantity: '',
           specifications: ''
         });

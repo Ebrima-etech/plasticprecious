@@ -103,7 +103,6 @@ export default function CheckoutPage() {
       // Create a temporary cart with just this product
       const tempCart: Cart = {
         id: 0,
-        user: null,
         items: [
           {
             id: 0,
@@ -114,10 +113,10 @@ export default function CheckoutPage() {
               image: product.image,
             },
             quantity: directProductQty,
-            total: (parseFloat(product.price) * directProductQty).toString(),
           }
         ],
         total_price: (parseFloat(product.price) * directProductQty).toString(),
+        total_items: directProductQty,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
       };

@@ -291,130 +291,157 @@ export default function B2BPage() {
 
       {/* RFQ Form Modal */}
       {showRFQForm && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-3xl max-w-2xl w-full max-h-96 overflow-y-auto">
-            <div className="sticky top-0 bg-white border-b border-slate-200 px-8 py-6 flex items-center justify-between">
-              <h2 className="text-2xl font-black text-slate-900">Request for Quote (RFQ)</h2>
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fadeIn">
+          <div className="bg-white rounded-2xl max-w-2xl w-full shadow-2xl">
+            {/* Header */}
+            <div className="bg-gradient-to-r from-emerald-600 to-teal-600 px-8 py-8 flex items-center justify-between rounded-t-2xl">
+              <div>
+                <h2 className="text-3xl font-black text-white">Request for Quote</h2>
+                <p className="text-emerald-50 text-sm mt-1">Fill in your details to get a custom quote</p>
+              </div>
               <button
                 onClick={() => setShowRFQForm(false)}
-                className="p-2 hover:bg-slate-100 rounded-lg transition"
+                className="p-2 hover:bg-white/20 rounded-lg transition text-white"
               >
-                <FiX className="w-5 h-5 text-slate-600" />
+                <FiX className="w-6 h-6" />
               </button>
             </div>
 
-            <form onSubmit={handleRFQSubmit} className="p-8 space-y-6">
+            {/* Form Content */}
+            <form onSubmit={handleRFQSubmit} className="p-8 max-h-[calc(100vh-200px)] overflow-y-auto space-y-8">
               {submitSuccess && (
-                <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-lg text-emerald-700 font-semibold">
-                  Thank you! Your RFQ has been submitted successfully. We'll contact you soon.
+                <div className="p-6 bg-emerald-50 border-2 border-emerald-200 rounded-xl text-emerald-700 font-semibold text-center animate-slideDown">
+                  <p className="text-lg">✓ Success!</p>
+                  <p className="text-sm mt-2">Your RFQ has been submitted. We'll contact you within 24 hours.</p>
                 </div>
               )}
 
-              <div className="grid md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">Company Name *</label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.company}
-                    onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                    className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                    placeholder="Your Company"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">Contact Person *</label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.contact}
-                    onChange={(e) => setFormData({ ...formData, contact: e.target.value })}
-                    className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                    placeholder="Full Name"
-                  />
-                </div>
-              </div>
-
-              <div className="grid md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">Email *</label>
-                  <input
-                    type="email"
-                    required
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                    placeholder="your@email.com"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">Phone *</label>
-                  <input
-                    type="tel"
-                    required
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                    placeholder="+220 XXXX XXXX"
-                  />
-                </div>
-              </div>
-
-              <div className="grid md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">Product Category *</label>
-                  <select
-                    required
-                    value={formData.category}
-                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                    className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                  >
-                    <option value="">Select Category</option>
-                    <option value="educational">Educational & Institutional</option>
-                    <option value="infrastructure">Building & Infrastructure</option>
-                    <option value="lifestyle">Coastal & Lifestyle</option>
-                    <option value="custom">Custom</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">Quantity *</label>
-                  <input
-                    type="number"
-                    required
-                    value={formData.quantity}
-                    onChange={(e) => setFormData({ ...formData, quantity: e.target.value })}
-                    className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                    placeholder="Units needed"
-                  />
-                </div>
-              </div>
-
+              {/* Contact Information Section */}
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-2">Specifications & Details</label>
-                <textarea
-                  value={formData.specifications}
-                  onChange={(e) => setFormData({ ...formData, specifications: e.target.value })}
-                  className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                  rows={4}
-                  placeholder="Describe your custom requirements, colors, designs, etc."
-                />
+                <h3 className="text-sm font-black text-slate-900 uppercase tracking-wide mb-4 flex items-center gap-2">
+                  <span className="w-1 h-4 bg-emerald-600 rounded-full"></span>
+                  Contact Information
+                </h3>
+                <div className="grid md:grid-cols-2 gap-5">
+                  <div>
+                    <label className="block text-xs font-bold text-slate-600 uppercase mb-2.5 tracking-wide">Company Name *</label>
+                    <input
+                      type="text"
+                      required
+                      value={formData.company}
+                      onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                      className="w-full px-4 py-3.5 border-2 border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-slate-50 hover:bg-white transition"
+                      placeholder="Your Company"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-slate-600 uppercase mb-2.5 tracking-wide">Contact Person *</label>
+                    <input
+                      type="text"
+                      required
+                      value={formData.contact}
+                      onChange={(e) => setFormData({ ...formData, contact: e.target.value })}
+                      className="w-full px-4 py-3.5 border-2 border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-slate-50 hover:bg-white transition"
+                      placeholder="Full Name"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-slate-600 uppercase mb-2.5 tracking-wide">Email *</label>
+                    <input
+                      type="email"
+                      required
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      className="w-full px-4 py-3.5 border-2 border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-slate-50 hover:bg-white transition"
+                      placeholder="your@email.com"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-slate-600 uppercase mb-2.5 tracking-wide">Phone *</label>
+                    <input
+                      type="tel"
+                      required
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      className="w-full px-4 py-3.5 border-2 border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-slate-50 hover:bg-white transition"
+                      placeholder="+220 XXXX XXXX"
+                    />
+                  </div>
+                </div>
               </div>
 
-              <div className="flex gap-4 justify-end">
+              {/* Product Information Section */}
+              <div className="pt-4 border-t-2 border-slate-100">
+                <h3 className="text-sm font-black text-slate-900 uppercase tracking-wide mb-4 flex items-center gap-2">
+                  <span className="w-1 h-4 bg-teal-600 rounded-full"></span>
+                  Product Details
+                </h3>
+                <div className="grid md:grid-cols-2 gap-5">
+                  <div>
+                    <label className="block text-xs font-bold text-slate-600 uppercase mb-2.5 tracking-wide">Product Category *</label>
+                    <select
+                      required
+                      value={formData.category}
+                      onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                      className="w-full px-4 py-3.5 border-2 border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-slate-50 hover:bg-white transition font-medium"
+                    >
+                      <option value="">Select Category</option>
+                      <option value="educational">🎓 Educational & Institutional</option>
+                      <option value="infrastructure">🏗️ Building & Infrastructure</option>
+                      <option value="lifestyle">🌊 Coastal & Lifestyle</option>
+                      <option value="custom">✨ Custom</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-slate-600 uppercase mb-2.5 tracking-wide">Quantity *</label>
+                    <input
+                      type="number"
+                      required
+                      value={formData.quantity}
+                      onChange={(e) => setFormData({ ...formData, quantity: e.target.value })}
+                      className="w-full px-4 py-3.5 border-2 border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-slate-50 hover:bg-white transition"
+                      placeholder="Units needed"
+                      min="1"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Specifications Section */}
+              <div className="pt-4 border-t-2 border-slate-100">
+                <h3 className="text-sm font-black text-slate-900 uppercase tracking-wide mb-4 flex items-center gap-2">
+                  <span className="w-1 h-4 bg-blue-600 rounded-full"></span>
+                  Specifications
+                </h3>
+                <div>
+                  <label className="block text-xs font-bold text-slate-600 uppercase mb-2.5 tracking-wide">Custom Requirements</label>
+                  <textarea
+                    value={formData.specifications}
+                    onChange={(e) => setFormData({ ...formData, specifications: e.target.value })}
+                    className="w-full px-4 py-3.5 border-2 border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-slate-50 hover:bg-white transition"
+                    rows={4}
+                    placeholder="Describe your custom requirements, colors, designs, materials, delivery timeline, etc."
+                  />
+                  <p className="text-xs text-slate-500 mt-2">Include any specific colors, branding, materials, or delivery requirements</p>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="pt-4 border-t-2 border-slate-100 flex gap-3 justify-end">
                 <button
                   type="button"
                   onClick={() => setShowRFQForm(false)}
                   disabled={submitting}
-                  className="px-6 py-2.5 border-2 border-slate-300 text-slate-700 font-semibold rounded-lg hover:bg-slate-50 transition disabled:opacity-50"
+                  className="px-6 py-3 border-2 border-slate-300 text-slate-700 font-bold rounded-xl hover:bg-slate-50 transition disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-6 py-2.5 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition disabled:opacity-50"
+                  className="px-8 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold rounded-xl hover:from-emerald-700 hover:to-teal-700 transition disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
                 >
-                  {submitting ? 'Submitting...' : 'Submit RFQ'}
+                  {submitting ? '⏳ Submitting...' : '✓ Submit RFQ'}
                 </button>
               </div>
             </form>

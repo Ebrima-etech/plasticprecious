@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { API_BASE_URL } from '@/config/api';
-import { HiOutlineX } from 'react-icons/hi2';
+import { IoClose } from 'react-icons/io5';
 
 interface ContactFormProps {
   isOpen: boolean;
@@ -74,7 +74,7 @@ export default function ContactForm({ isOpen, onClose }: ContactFormProps) {
             onClick={onClose}
             className="text-white hover:bg-white/20 p-2 rounded-lg transition"
           >
-            <HiOutlineX size={24} />
+            <IoClose size={24} />
           </button>
         </div>
 

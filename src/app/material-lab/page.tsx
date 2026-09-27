@@ -72,7 +72,7 @@ export default function MaterialLabPage() {
       <section className="py-16 lg:py-24 bg-gradient-to-b from-slate-900 to-slate-800 text-white">
         <div className="max-w-6xl mx-auto px-6 lg:px-8">
           <h1 className="text-5xl font-black mb-4 text-center">Material Lab</h1>
-          <p className="text-xl opacity-90 max-w-2xl mx-auto text-center">
+          <p className="text-xl text-white opacity-90 max-w-2xl mx-auto text-center">
             Explore plastic types, color blends, and durability ratings
           </p>
         </div>

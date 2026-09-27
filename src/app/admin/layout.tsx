@@ -163,7 +163,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 transition-all ${sidebarOpen ? '' : 'justify-center'}`}
             >
               {sidebarOpen && <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Products</p>}
-              {sidebarOpen && <HiOutlineChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${expandedSections.catalog ? 'rotate-0' : '-rotate-90'}`} />}
+              {sidebarOpen && <HiOutlineChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${expandedSections.catalog ? 'rotate-180' : 'rotate-0'}`} />}
             </button>
             {(expandedSections.catalog && sidebarOpen) && (
               <div className="space-y-1.5 mt-2">
@@ -180,7 +180,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 transition-all ${sidebarOpen ? '' : 'justify-center'}`}
             >
               {sidebarOpen && <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Commerce</p>}
-              {sidebarOpen && <HiOutlineChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${expandedSections.orders ? 'rotate-0' : '-rotate-90'}`} />}
+              {sidebarOpen && <HiOutlineChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${expandedSections.orders ? 'rotate-180' : 'rotate-0'}`} />}
             </button>
             {(expandedSections.orders && sidebarOpen) && (
               <div className="space-y-1.5 mt-2">
@@ -199,7 +199,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 transition-all ${sidebarOpen ? '' : 'justify-center'}`}
             >
               {sidebarOpen && <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Content</p>}
-              {sidebarOpen && <HiOutlineChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${expandedSections.cms ? 'rotate-0' : '-rotate-90'}`} />}
+              {sidebarOpen && <HiOutlineChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${expandedSections.cms ? 'rotate-180' : 'rotate-0'}`} />}
             </button>
             {(expandedSections.cms && sidebarOpen) && (
               <div className="space-y-1.5 mt-2">
@@ -218,7 +218,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 transition-all ${sidebarOpen ? '' : 'justify-center'}`}
             >
               {sidebarOpen && <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Impact</p>}
-              {sidebarOpen && <HiOutlineChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${expandedSections.impact ? 'rotate-0' : '-rotate-90'}`} />}
+              {sidebarOpen && <HiOutlineChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${expandedSections.impact ? 'rotate-180' : 'rotate-0'}`} />}
             </button>
             {(expandedSections.impact && sidebarOpen) && (
               <div className="space-y-1.5 mt-2">
@@ -238,7 +238,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 transition-all ${sidebarOpen ? '' : 'justify-center'}`}
             >
               {sidebarOpen && <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Organization</p>}
-              {sidebarOpen && <HiOutlineChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${expandedSections.staff ? 'rotate-0' : '-rotate-90'}`} />}
+              {sidebarOpen && <HiOutlineChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${expandedSections.staff ? 'rotate-180' : 'rotate-0'}`} />}
             </button>
             {(expandedSections.staff && sidebarOpen) && (
               <div className="space-y-1.5 mt-2">
@@ -255,7 +255,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 transition-all ${sidebarOpen ? '' : 'justify-center'}`}
             >
               {sidebarOpen && <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Community</p>}
-              {sidebarOpen && <HiOutlineChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${expandedSections.users ? 'rotate-0' : '-rotate-90'}`} />}
+              {sidebarOpen && <HiOutlineChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${expandedSections.users ? 'rotate-180' : 'rotate-0'}`} />}
             </button>
             {(expandedSections.users && sidebarOpen) && (
               <div className="space-y-1.5 mt-2">

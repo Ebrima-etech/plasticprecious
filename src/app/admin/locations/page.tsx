@@ -18,6 +18,7 @@ interface Location {
 export default function LocationsPage() {
   const [locations, setLocations] = useState<Location[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -34,13 +35,31 @@ export default function LocationsPage() {
   const fetchLocations = async () => {
     try {
       setLoading(true);
+      setError(null);
       const token = getAccessToken();
+
+      if (!token) {
+        setError('Authentication required. Please log in.');
+        setLoading(false);
+        return;
+      }
+
       const response = await axios.get(`${API_BASE_URL}/locations/`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setLocations(response.data.results || response.data);
-    } catch (err) {
+
+      console.log('Locations response:', response.data);
+      const locationsData = response.data.results || response.data || [];
+      setLocations(Array.isArray(locationsData) ? locationsData : []);
+
+      if (Array.isArray(locationsData) && locationsData.length === 0) {
+        setError('No locations found. Create one to get started.');
+      }
+    } catch (err: any) {
       console.error('Failed to fetch locations:', err);
+      const errorMsg = err.response?.data?.detail || err.message || 'Failed to load locations';
+      setError(errorMsg);
+      setLocations([]);
     } finally {
       setLoading(false);
     }
@@ -148,7 +167,22 @@ export default function LocationsPage() {
         </button>
       </div>
 
+      {/* Error Message */}
+      {error && (
+        <div className="p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 font-semibold mb-6">
+          ⚠️ {error}
+        </div>
+      )}
+
+      {/* Loading State */}
+      {loading && (
+        <div className="p-8 text-center text-slate-500">
+          <p>Loading locations...</p>
+        </div>
+      )}
+
       {/* Locations Table */}
+      {!loading && (
       <div className="bg-white rounded-lg border border-slate-200 overflow-hidden">
         <table className="w-full">
           <thead className="bg-slate-50 border-b border-slate-200">
@@ -194,6 +228,7 @@ export default function LocationsPage() {
           </tbody>
         </table>
       </div>
+      )}
 
       {/* Form Modal */}
       {showForm && (

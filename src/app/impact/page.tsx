@@ -1,9 +1,11 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { FiBarChart, FiTrendingUp, FiAward, FiGlobe } from 'react-icons/fi';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import ContactForm from '@/components/ContactForm';
 
 interface MetricCard {
   icon: React.ReactNode;
@@ -67,6 +69,8 @@ const impactAreas = [
 ];
 
 export default function ImpactPage() {
+  const [isContactFormOpen, setIsContactFormOpen] = useState(false);
+
   return (
     <div className="min-h-screen bg-white">
       <Navbar showNavLinks={true} />
@@ -162,7 +166,10 @@ export default function ImpactPage() {
                 <button className="px-6 py-3 bg-emerald-600 text-white font-bold rounded-lg hover:bg-emerald-700 transition">
                   Download Impact Report
                 </button>
-                <button className="px-6 py-3 border-2 border-emerald-600 text-emerald-600 font-bold rounded-lg hover:bg-emerald-50 transition">
+                <button
+                  onClick={() => setIsContactFormOpen(true)}
+                  className="px-6 py-3 border-2 border-emerald-600 text-emerald-600 font-bold rounded-lg hover:bg-emerald-50 transition"
+                >
                   Contact Us
                 </button>
               </div>
@@ -172,6 +179,11 @@ export default function ImpactPage() {
       </section>
 
       <Footer />
+
+      <ContactForm
+        isOpen={isContactFormOpen}
+        onClose={() => setIsContactFormOpen(false)}
+      />
     </div>
   );
 }

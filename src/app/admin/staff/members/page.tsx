@@ -6,6 +6,7 @@ import { FiEdit2, FiTrash2, FiUsers, FiKey, FiCheckCircle, FiXCircle, FiPlus } f
 import { API_BASE_URL } from '@/config/api';
 import { getAccessToken } from '@/lib/auth';
 import { SlideOver } from '@/components/admin/SlideOver';
+import { AdminTableSkeleton } from '@/components/ShimmerSkeleton';
 
 interface Staff {
   id: number;
@@ -464,18 +465,16 @@ export default function StaffAdmin() {
       </SlideOver>
 
       {/* Staff Table */}
+      {loading ? (
+        <AdminTableSkeleton rows={6} />
+      ) : (
       <div className="bg-white rounded-lg border border-slate-200 overflow-hidden">
-        {loading && (
-          <div className="p-8 text-center">
-            <p className="text-slate-600">Loading staff members...</p>
-          </div>
-        )}
-        {!loading && staff.length === 0 && (
+        {staff.length === 0 && (
           <div className="p-8 text-center">
             <p className="text-slate-600">No staff members found. Create one to get started.</p>
           </div>
         )}
-        {!loading && staff.length > 0 && (
+        {staff.length > 0 && (
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead className="bg-slate-50 border-b">
@@ -549,6 +548,7 @@ export default function StaffAdmin() {
           </div>
         )}
       </div>
+      )}
     </div>
   );
 }

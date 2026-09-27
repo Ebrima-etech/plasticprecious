@@ -1,4 +1,5 @@
 'use client';
+import { ListCardGridSkeleton } from '@/components/ShimmerSkeleton';
 
 import { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -189,7 +190,7 @@ export default function PartnersPage() {
 
       {/* Partners List */}
       {loading ? (
-        <div className="text-center py-12"><p className="text-slate-600">Loading...</p></div>
+        <ListCardGridSkeleton count={5} />
       ) : filteredPartners.length === 0 ? (
         <div className="text-center py-12 bg-slate-50 rounded-2xl border border-slate-200/60">
           <p className="text-slate-600">No partners found.</p>

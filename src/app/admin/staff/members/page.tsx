@@ -348,6 +348,25 @@ export default function StaffAdmin() {
         </button>
       </div>
 
+      {/* Drafts Display */}
+      {!showForm && (
+        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl border border-blue-200 p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-bold text-slate-900">Saved Drafts</h3>
+            <span className="bg-blue-100 text-blue-700 text-sm font-semibold px-3 py-1 rounded-full">
+              In Progress
+            </span>
+          </div>
+          <p className="text-sm text-slate-600 mb-4">You have unsaved form data. Click "Continue" below to resume editing.</p>
+          <button
+            onClick={() => openForm()}
+            className="px-4 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium text-sm"
+          >
+            Continue Editing Draft
+          </button>
+        </div>
+      )}
+
       {/* Temporary Password Alert */}
       {showPassword && (
         <div className="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-lg">

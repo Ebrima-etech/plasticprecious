@@ -13,6 +13,13 @@ import { getAccessToken } from '@/lib/auth';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
+interface ProductImage {
+  id: number;
+  image_url: string;
+  alt_text: string;
+  order: number;
+}
+
 interface Product {
   id: number;
   name: string;
@@ -20,6 +27,7 @@ interface Product {
   price: string;
   stock: number;
   image?: string;
+  product_images?: ProductImage[];
   is_active: boolean;
   category?: number;
 }
@@ -59,17 +67,11 @@ export default function ProductDetailPage() {
     fetchProduct();
   }, [productId]);
 
-  const productImages = product?.image
-    ? [
-        product.image,
-        'https://images.pexels.com/photos/3962286/pexels-photo-3962286.jpeg?w=500&h=500&fit=crop',
-        'https://images.pexels.com/photos/3945683/pexels-photo-3945683.jpeg?w=500&h=500&fit=crop',
-      ]
-    : [
-        'https://via.placeholder.com/500x500?text=Product+Image',
-        'https://images.pexels.com/photos/3962286/pexels-photo-3962286.jpeg?w=500&h=500&fit=crop',
-        'https://images.pexels.com/photos/3945683/pexels-photo-3945683.jpeg?w=500&h=500&fit=crop',
-      ];
+  const productImages = product?.product_images && product.product_images.length > 0
+    ? product.product_images.map((img: ProductImage) => img.image_url)
+    : product?.image
+    ? [product.image]
+    : ['https://via.placeholder.com/500x500?text=Product+Image'];
 
   const handleAddToCart = async () => {
     setAddingToCart(true);

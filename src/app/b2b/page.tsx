@@ -1,11 +1,22 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
-import { FiShoppingBag, FiFileText, FiBarChart, FiUsers } from 'react-icons/fi';
+import { FiShoppingBag, FiFileText, FiBarChart, FiUsers, FiX } from 'react-icons/fi';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 export default function B2BPage() {
+  const [showRFQForm, setShowRFQForm] = useState(false);
+  const [formData, setFormData] = useState({
+    company: '',
+    contact: '',
+    email: '',
+    phone: '',
+    category: '',
+    quantity: '',
+    specifications: ''
+  });
   const audiences = [
     {
       icon: FiUsers,
@@ -153,7 +164,10 @@ export default function B2BPage() {
               <p className="opacity-90 mb-8">
                 Select items, customize colors, upload your logo, and get an instant quote. Perfect for schools, municipalities, and resorts.
               </p>
-              <button className="px-8 py-4 bg-white text-emerald-600 font-bold rounded-xl hover:bg-slate-100">
+              <button
+                onClick={() => setShowRFQForm(true)}
+                className="px-8 py-4 bg-white text-emerald-600 font-bold rounded-xl hover:bg-slate-100 transition"
+              >
                 Start RFQ Process →
               </button>
             </div>
@@ -225,6 +239,131 @@ export default function B2BPage() {
           </div>
         </div>
       </section>
+
+      {/* RFQ Form Modal */}
+      {showRFQForm && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-3xl max-w-2xl w-full max-h-96 overflow-y-auto">
+            <div className="sticky top-0 bg-white border-b border-slate-200 px-8 py-6 flex items-center justify-between">
+              <h2 className="text-2xl font-black text-slate-900">Request for Quote (RFQ)</h2>
+              <button
+                onClick={() => setShowRFQForm(false)}
+                className="p-2 hover:bg-slate-100 rounded-lg transition"
+              >
+                <FiX className="w-5 h-5 text-slate-600" />
+              </button>
+            </div>
+
+            <form className="p-8 space-y-6">
+              <div className="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">Company Name *</label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.company}
+                    onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                    className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    placeholder="Your Company"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">Contact Person *</label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.contact}
+                    onChange={(e) => setFormData({ ...formData, contact: e.target.value })}
+                    className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    placeholder="Full Name"
+                  />
+                </div>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">Email *</label>
+                  <input
+                    type="email"
+                    required
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    placeholder="your@email.com"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">Phone *</label>
+                  <input
+                    type="tel"
+                    required
+                    value={formData.phone}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    placeholder="+220 XXXX XXXX"
+                  />
+                </div>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">Product Category *</label>
+                  <select
+                    required
+                    value={formData.category}
+                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                    className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  >
+                    <option value="">Select Category</option>
+                    <option value="educational">Educational & Institutional</option>
+                    <option value="infrastructure">Building & Infrastructure</option>
+                    <option value="lifestyle">Coastal & Lifestyle</option>
+                    <option value="custom">Custom</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">Quantity *</label>
+                  <input
+                    type="number"
+                    required
+                    value={formData.quantity}
+                    onChange={(e) => setFormData({ ...formData, quantity: e.target.value })}
+                    className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    placeholder="Units needed"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">Specifications & Details</label>
+                <textarea
+                  value={formData.specifications}
+                  onChange={(e) => setFormData({ ...formData, specifications: e.target.value })}
+                  className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  rows={4}
+                  placeholder="Describe your custom requirements, colors, designs, etc."
+                />
+              </div>
+
+              <div className="flex gap-4 justify-end">
+                <button
+                  type="button"
+                  onClick={() => setShowRFQForm(false)}
+                  className="px-6 py-2.5 border-2 border-slate-300 text-slate-700 font-semibold rounded-lg hover:bg-slate-50 transition"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-6 py-2.5 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition"
+                >
+                  Submit RFQ
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
       <Footer />
     </div>

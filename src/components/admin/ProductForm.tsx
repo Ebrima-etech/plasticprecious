@@ -407,7 +407,7 @@ export default function ProductForm({ productId }: ProductFormProps) {
                           onChange={(e) => handleDeliveryPriceChange(location.id, e.target.value)}
                           step="0.01"
                           min="0"
-                          placeholder={location.default_delivery_price ? `${location.default_delivery_price.toFixed(2)} (default)` : '0.00'}
+                          placeholder={location.default_delivery_price ? `${(parseFloat(location.default_delivery_price as any) || 0).toFixed(2)} (default)` : '0.00'}
                           className="flex-1 px-3 py-2 border border-neutral-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                         />
                       </div>

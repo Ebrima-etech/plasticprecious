@@ -42,25 +42,41 @@ export default function CheckoutPage() {
   }, []);
 
   const fetchLocations = async () => {
+    // Default locations - MUST match ProductForm fallback locations for synchronization
+    const defaultLocations = [
+      { id: 1, name: 'Banjul' },
+      { id: 2, name: 'Serekunda' },
+      { id: 3, name: 'Bakau' },
+      { id: 4, name: 'Fajara' },
+      { id: 5, name: 'Kotu' },
+      { id: 6, name: 'Brufut' },
+      { id: 7, name: 'Lamin' },
+      { id: 8, name: 'Gunjur' },
+      { id: 9, name: 'Sanyang' },
+      { id: 10, name: 'Kartong' },
+      { id: 11, name: 'Brikama' },
+      { id: 12, name: 'Mandinari' },
+      { id: 13, name: 'Kaur' },
+      { id: 14, name: 'Basse' },
+      { id: 15, name: 'Farafenni' },
+    ];
+
     try {
-      // Fetch locations from API
-      try {
-        const response = await axios.get(`${API_BASE_URL}/locations/`);
-        const locs = response.data.results || response.data || [];
-        setLocations(locs);
-      } catch (err) {
-        // Fallback to default locations
-        setLocations([
-          { id: 1, name: 'Banjul' },
-          { id: 2, name: 'Serekunda' },
-          { id: 3, name: 'Bakau' },
-          { id: 4, name: 'Kololi' },
-          { id: 5, name: 'Kotu' },
-          { id: 6, name: 'Other' },
-        ]);
-      }
+      // Fetch locations from API with timeout
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+
+      const response = await axios.get(`${API_BASE_URL}/locations/`, {
+        signal: controller.signal
+      });
+      clearTimeout(timeout);
+
+      const fetchedLocations = response.data.results || response.data || [];
+      setLocations(fetchedLocations.length > 0 ? fetchedLocations : defaultLocations);
     } catch (err) {
-      console.error('Failed to load locations:', err);
+      console.error('Failed to load locations, using defaults:', err);
+      // Fallback to default locations - synchronized with ProductForm
+      setLocations(defaultLocations);
     }
   };
 
@@ -259,9 +275,18 @@ export default function CheckoutPage() {
                         <option value="Banjul">Banjul</option>
                         <option value="Serekunda">Serekunda</option>
                         <option value="Bakau">Bakau</option>
-                        <option value="Kololi">Kololi</option>
+                        <option value="Fajara">Fajara</option>
                         <option value="Kotu">Kotu</option>
-                        <option value="Other">Other</option>
+                        <option value="Brufut">Brufut</option>
+                        <option value="Lamin">Lamin</option>
+                        <option value="Gunjur">Gunjur</option>
+                        <option value="Sanyang">Sanyang</option>
+                        <option value="Kartong">Kartong</option>
+                        <option value="Brikama">Brikama</option>
+                        <option value="Mandinari">Mandinari</option>
+                        <option value="Kaur">Kaur</option>
+                        <option value="Basse">Basse</option>
+                        <option value="Farafenni">Farafenni</option>
                       </>
                     )}
                   </select>

@@ -6,7 +6,7 @@ import Link from 'next/link';
 import axios from 'axios';
 import { getToken } from '@/lib/auth';
 import { API_BASE_URL } from '@/config/api';
-import { HiOutlineSquares2X2, HiOutlineShoppingBag, HiOutlineTag, HiOutlineShoppingCart, HiOutlineCurrencyDollar, HiOutlineTicket, HiOutlineUsers, HiOutlineBell, HiOutlineArrowTrendingUp, HiOutlineCalendar, HiOutlineDocumentText, HiOutlineGift, HiOutlineBriefcase, HiOutlineUserGroup, HiOutlineChevronRight, HiOutlineChevronDown, HiOutlineArrowRightOnRectangle, HiOutlineHome, HiOutlineBars3, HiOutlineCog } from 'react-icons/hi2';
+import { HiOutlineSquares2X2, HiOutlineShoppingBag, HiOutlineTag, HiOutlineShoppingCart, HiOutlineCurrencyDollar, HiOutlineTicket, HiOutlineUsers, HiOutlineBell, HiOutlineArrowTrendingUp, HiOutlineCalendar, HiOutlineDocumentText, HiOutlineGift, HiOutlineBriefcase, HiOutlineUserGroup, HiOutlineChevronRight, HiOutlineChevronDown, HiOutlineArrowRightOnRectangle, HiOutlineHome, HiOutlineBars3, HiOutlineCog, HiOutlineMapPin } from 'react-icons/hi2';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -177,6 +177,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 <div className="space-y-1.5 mt-2">
                   <NavLink href="/admin/products" icon={HiOutlineShoppingBag} label="All Products" />
                   <NavLink href="/admin/categories" icon={HiOutlineTag} label="Categories" />
+                  <NavLink href="/admin/locations" icon={HiOutlineMapPin} label="Delivery Locations" />
                 </div>
               )}
             </div>

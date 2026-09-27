@@ -128,9 +128,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <div className="px-4 py-5 border-b border-slate-200/50 flex items-center justify-between">
           {sidebarOpen && (
             <Link href="/admin" className="flex items-center gap-3 flex-1 group">
-              <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-emerald-700 rounded-xl flex items-center justify-center text-white shadow-md group-hover:shadow-lg transition flex-shrink-0">
-                <HiOutlineSquares2X2 className="w-5 h-5" />
-              </div>
+              <img
+                src="https://res.cloudinary.com/divk8m0ff/image/upload/v1790497366/ChatGPT_Image_Sep_27_2026_08_22_15_AM_clf6eq.png"
+                alt="Logo"
+                className="w-10 h-10 rounded-xl shadow-md group-hover:shadow-lg transition flex-shrink-0"
+              />
               <div>
                 <span className="font-bold text-sm text-slate-900">Admin Suite</span>
               </div>
@@ -138,9 +140,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           )}
           {!sidebarOpen && (
             <Link href="/admin" className="flex items-center justify-center w-full group">
-              <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-emerald-700 rounded-xl flex items-center justify-center text-white shadow-md group-hover:shadow-lg transition">
-                <HiOutlineSquares2X2 className="w-5 h-5" />
-              </div>
+              <img
+                src="https://res.cloudinary.com/divk8m0ff/image/upload/v1790497366/ChatGPT_Image_Sep_27_2026_08_22_15_AM_clf6eq.png"
+                alt="Logo"
+                className="w-10 h-10 rounded-xl shadow-md group-hover:shadow-lg transition"
+              />
             </Link>
           )}
           <button

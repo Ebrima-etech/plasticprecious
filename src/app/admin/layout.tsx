@@ -152,120 +152,125 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-6">
-          {/* Dashboard Link */}
-          <NavLink href="/admin/dashboard" icon={HiOutlineSquares2X2} label="Dashboard" />
-
-          {/* Catalog Section */}
-          <div>
-            <button
-              onClick={() => setExpandedSections({ ...expandedSections, catalog: !expandedSections.catalog })}
-              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 transition-all ${sidebarOpen ? '' : 'justify-center'}`}
-            >
-              {sidebarOpen && <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Products</p>}
-              {sidebarOpen && <HiOutlineChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${expandedSections.catalog ? 'rotate-180' : 'rotate-0'}`} />}
-            </button>
-            {(expandedSections.catalog && sidebarOpen) && (
-              <div className="space-y-1.5 mt-2">
-                <NavLink href="/admin/products" icon={HiOutlineShoppingBag} label="Products" />
-                <NavLink href="/admin/categories" icon={HiOutlineTag} label="Categories" />
-              </div>
-            )}
+        <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-1">
+          {/* Primary Navigation - Always Visible */}
+          <div className="space-y-1.5 pb-4 border-b border-slate-200/50">
+            <NavLink href="/admin/dashboard" icon={HiOutlineSquares2X2} label="Dashboard" />
           </div>
 
-          {/* Orders & Revenue Section */}
-          <div>
-            <button
-              onClick={() => setExpandedSections({ ...expandedSections, orders: !expandedSections.orders })}
-              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 transition-all ${sidebarOpen ? '' : 'justify-center'}`}
-            >
-              {sidebarOpen && <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Commerce</p>}
-              {sidebarOpen && <HiOutlineChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${expandedSections.orders ? 'rotate-180' : 'rotate-0'}`} />}
-            </button>
-            {(expandedSections.orders && sidebarOpen) && (
-              <div className="space-y-1.5 mt-2">
-                <NavLink href="/admin/orders" icon={HiOutlineShoppingCart} label="Orders" />
-                <NavLink href="/admin/revenue" icon={HiOutlineCurrencyDollar} label="Revenue" />
-                <NavLink href="/admin/vouchers" icon={HiOutlineTicket} label="Vouchers" />
-                <NavLink href="/admin/discounts" icon={HiOutlineTag} label="Discounts" />
-              </div>
-            )}
+          {/* Business Tools - Collapsible Sections */}
+          <div className="space-y-5 py-4">
+            {/* Products & Catalog */}
+            <div>
+              <button
+                onClick={() => setExpandedSections({ ...expandedSections, catalog: !expandedSections.catalog })}
+                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 transition-all ${sidebarOpen ? '' : 'justify-center'}`}
+              >
+                {sidebarOpen && <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Products</p>}
+                {sidebarOpen && <HiOutlineChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${expandedSections.catalog ? 'rotate-180' : 'rotate-0'}`} />}
+              </button>
+              {(expandedSections.catalog && sidebarOpen) && (
+                <div className="space-y-1.5 mt-2">
+                  <NavLink href="/admin/products" icon={HiOutlineShoppingBag} label="All Products" />
+                  <NavLink href="/admin/categories" icon={HiOutlineTag} label="Categories" />
+                </div>
+              )}
+            </div>
+
+            {/* Sales & Commerce */}
+            <div>
+              <button
+                onClick={() => setExpandedSections({ ...expandedSections, orders: !expandedSections.orders })}
+                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 transition-all ${sidebarOpen ? '' : 'justify-center'}`}
+              >
+                {sidebarOpen && <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Sales</p>}
+                {sidebarOpen && <HiOutlineChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${expandedSections.orders ? 'rotate-180' : 'rotate-0'}`} />}
+              </button>
+              {(expandedSections.orders && sidebarOpen) && (
+                <div className="space-y-1.5 mt-2">
+                  <NavLink href="/admin/orders" icon={HiOutlineShoppingCart} label="Orders" />
+                  <NavLink href="/admin/revenue" icon={HiOutlineCurrencyDollar} label="Revenue" />
+                  <NavLink href="/admin/vouchers" icon={HiOutlineTicket} label="Vouchers" />
+                  <NavLink href="/admin/discounts" icon={HiOutlineTag} label="Discounts" />
+                </div>
+              )}
+            </div>
+
+            {/* Content Management */}
+            <div>
+              <button
+                onClick={() => setExpandedSections({ ...expandedSections, cms: !expandedSections.cms })}
+                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 transition-all ${sidebarOpen ? '' : 'justify-center'}`}
+              >
+                {sidebarOpen && <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Content</p>}
+                {sidebarOpen && <HiOutlineChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${expandedSections.cms ? 'rotate-180' : 'rotate-0'}`} />}
+              </button>
+              {(expandedSections.cms && sidebarOpen) && (
+                <div className="space-y-1.5 mt-2">
+                  <NavLink href="/admin/cms/hero-slides" icon={HiOutlineSquares2X2} label="Hero Slides" />
+                  <NavLink href="/admin/cms/services" icon={HiOutlineBriefcase} label="Services" />
+                  <NavLink href="/admin/cms/team-members" icon={HiOutlineUserGroup} label="Team" />
+                  <NavLink href="/admin/cms/partners" icon={HiOutlineTag} label="Partners" />
+                </div>
+              )}
+            </div>
+
+            {/* Business Insights */}
+            <div>
+              <button
+                onClick={() => setExpandedSections({ ...expandedSections, impact: !expandedSections.impact })}
+                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 transition-all ${sidebarOpen ? '' : 'justify-center'}`}
+              >
+                {sidebarOpen && <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Insights</p>}
+                {sidebarOpen && <HiOutlineChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${expandedSections.impact ? 'rotate-180' : 'rotate-0'}`} />}
+              </button>
+              {(expandedSections.impact && sidebarOpen) && (
+                <div className="space-y-1.5 mt-2">
+                  <NavLink href="/admin/impact" icon={HiOutlineArrowTrendingUp} label="Metrics" />
+                  <NavLink href="/admin/impact/events" icon={HiOutlineCalendar} label="Events" />
+                  <NavLink href="/admin/impact/registrations" icon={HiOutlineUsers} label="Registrations" />
+                  <NavLink href="/admin/impact/rfq" icon={HiOutlineDocumentText} label="Requests" />
+                  <NavLink href="/admin/impact/sponsorship" icon={HiOutlineGift} label="Sponsorships" />
+                </div>
+              )}
+            </div>
+
+            {/* Organization Management */}
+            <div>
+              <button
+                onClick={() => setExpandedSections({ ...expandedSections, staff: !expandedSections.staff })}
+                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 transition-all ${sidebarOpen ? '' : 'justify-center'}`}
+              >
+                {sidebarOpen && <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Organization</p>}
+                {sidebarOpen && <HiOutlineChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${expandedSections.staff ? 'rotate-180' : 'rotate-0'}`} />}
+              </button>
+              {(expandedSections.staff && sidebarOpen) && (
+                <div className="space-y-1.5 mt-2">
+                  <NavLink href="/admin/staff/departments" icon={HiOutlineBriefcase} label="Departments" />
+                  <NavLink href="/admin/staff/members" icon={HiOutlineUserGroup} label="Staff" />
+                </div>
+              )}
+            </div>
+
+            {/* Community */}
+            <div>
+              <button
+                onClick={() => setExpandedSections({ ...expandedSections, users: !expandedSections.users })}
+                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 transition-all ${sidebarOpen ? '' : 'justify-center'}`}
+              >
+                {sidebarOpen && <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Community</p>}
+                {sidebarOpen && <HiOutlineChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${expandedSections.users ? 'rotate-180' : 'rotate-0'}`} />}
+              </button>
+              {(expandedSections.users && sidebarOpen) && (
+                <div className="space-y-1.5 mt-2">
+                  <NavLink href="/admin/users" icon={HiOutlineUsers} label="Customers" />
+                </div>
+              )}
+            </div>
           </div>
 
-          {/* CMS & Content Section */}
-          <div>
-            <button
-              onClick={() => setExpandedSections({ ...expandedSections, cms: !expandedSections.cms })}
-              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 transition-all ${sidebarOpen ? '' : 'justify-center'}`}
-            >
-              {sidebarOpen && <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Content</p>}
-              {sidebarOpen && <HiOutlineChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${expandedSections.cms ? 'rotate-180' : 'rotate-0'}`} />}
-            </button>
-            {(expandedSections.cms && sidebarOpen) && (
-              <div className="space-y-1.5 mt-2">
-                <NavLink href="/admin/cms/hero-slides" icon={HiOutlineSquares2X2} label="Hero Slides" />
-                <NavLink href="/admin/cms/services" icon={HiOutlineBriefcase} label="Services" />
-                <NavLink href="/admin/cms/team-members" icon={HiOutlineUserGroup} label="Team Members" />
-                <NavLink href="/admin/cms/partners" icon={HiOutlineTag} label="Partners" />
-              </div>
-            )}
-          </div>
-
-          {/* Impact & Community Section */}
-          <div>
-            <button
-              onClick={() => setExpandedSections({ ...expandedSections, impact: !expandedSections.impact })}
-              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 transition-all ${sidebarOpen ? '' : 'justify-center'}`}
-            >
-              {sidebarOpen && <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Impact</p>}
-              {sidebarOpen && <HiOutlineChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${expandedSections.impact ? 'rotate-180' : 'rotate-0'}`} />}
-            </button>
-            {(expandedSections.impact && sidebarOpen) && (
-              <div className="space-y-1.5 mt-2">
-                <NavLink href="/admin/impact" icon={HiOutlineArrowTrendingUp} label="Metrics" />
-                <NavLink href="/admin/impact/events" icon={HiOutlineCalendar} label="Events" />
-                <NavLink href="/admin/impact/registrations" icon={HiOutlineUsers} label="Registrations" />
-                <NavLink href="/admin/impact/rfq" icon={HiOutlineDocumentText} label="RFQs" />
-                <NavLink href="/admin/impact/sponsorship" icon={HiOutlineGift} label="Sponsorships" />
-              </div>
-            )}
-          </div>
-
-          {/* Staff Management Section */}
-          <div>
-            <button
-              onClick={() => setExpandedSections({ ...expandedSections, staff: !expandedSections.staff })}
-              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 transition-all ${sidebarOpen ? '' : 'justify-center'}`}
-            >
-              {sidebarOpen && <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Organization</p>}
-              {sidebarOpen && <HiOutlineChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${expandedSections.staff ? 'rotate-180' : 'rotate-0'}`} />}
-            </button>
-            {(expandedSections.staff && sidebarOpen) && (
-              <div className="space-y-1.5 mt-2">
-                <NavLink href="/admin/staff/departments" icon={HiOutlineBriefcase} label="Departments" />
-                <NavLink href="/admin/staff/members" icon={HiOutlineUserGroup} label="Staff Members" />
-              </div>
-            )}
-          </div>
-
-          {/* Users & Sellers Section */}
-          <div>
-            <button
-              onClick={() => setExpandedSections({ ...expandedSections, users: !expandedSections.users })}
-              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 transition-all ${sidebarOpen ? '' : 'justify-center'}`}
-            >
-              {sidebarOpen && <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Community</p>}
-              {sidebarOpen && <HiOutlineChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${expandedSections.users ? 'rotate-180' : 'rotate-0'}`} />}
-            </button>
-            {(expandedSections.users && sidebarOpen) && (
-              <div className="space-y-1.5 mt-2">
-                <NavLink href="/admin/users" icon={HiOutlineUsers} label="Customers" />
-              </div>
-            )}
-          </div>
-
-          {/* Settings */}
-          <div className="mt-auto pt-4">
+          {/* Account & Settings - Primary Links */}
+          <div className="mt-auto pt-4 space-y-1.5 border-t border-slate-200/50">
             <NavLink href="/admin/settings" icon={HiOutlineCog} label="Settings" />
           </div>
         </nav>

@@ -19,6 +19,13 @@ interface Order {
   created_at: string;
 }
 
+interface PaginationMeta {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: Order[];
+}
+
 const statusConfig = {
   pending: { color: 'bg-yellow-100 text-yellow-800', icon: HiOutlineClock },
   processing: { color: 'bg-blue-100 text-blue-800', icon: HiOutlineArrowPath },
@@ -29,6 +36,7 @@ const statusConfig = {
 
 export default function AdminOrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
+  const [totalCount, setTotalCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
@@ -37,27 +45,29 @@ export default function AdminOrdersPage() {
   const [itemsPerPage, setItemsPerPage] = useState(10);
 
   useEffect(() => {
-    const fetchAllOrders = async () => {
+    const fetchOrders = async () => {
       try {
+        setLoading(true);
         const token = getToken();
-        let allOrders: Order[] = [];
-        let nextUrl = `${API_BASE_URL}/orders/?limit=1000`;
 
-        while (nextUrl) {
-          const response = await axios.get(nextUrl, {
-            headers: { Authorization: `Bearer ${token}` },
-          });
+        const params = new URLSearchParams();
+        params.append('page', currentPage.toString());
+        params.append('page_size', itemsPerPage.toString());
 
-          const pageOrders = response.data.results || [];
-          if (Array.isArray(pageOrders)) {
-            allOrders = [...allOrders, ...pageOrders];
-          }
-
-          nextUrl = response.data.next || null;
+        if (searchQuery) {
+          params.append('search', searchQuery);
+        }
+        if (statusFilter !== 'all') {
+          params.append('status', statusFilter);
         }
 
-        setOrders(allOrders);
-        setCurrentPage(1);
+        const response = await axios.get(
+          `${API_BASE_URL}/orders/?${params.toString()}`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+
+        setOrders(response.data.results || []);
+        setTotalCount(response.data.count || 0);
       } catch (err: any) {
         setError('Failed to load orders');
         console.error(err);
@@ -66,27 +76,12 @@ export default function AdminOrdersPage() {
       }
     };
 
-    fetchAllOrders();
-  }, []);
+    fetchOrders();
+  }, [currentPage, itemsPerPage, searchQuery, statusFilter]);
 
-  // Filter and search orders
-  const filteredOrders = orders.filter(order => {
-    const matchesSearch =
-      order.order_number.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      order.user_email.toLowerCase().includes(searchQuery.toLowerCase());
+  // Calculate total pages based on backend count
+  const totalPages = Math.ceil(totalCount / itemsPerPage);
 
-    const matchesStatus = statusFilter === 'all' || order.status === statusFilter;
-
-    return matchesSearch && matchesStatus;
-  });
-
-  // Paginate filtered results
-  const totalPages = Math.ceil(filteredOrders.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const paginatedOrders = filteredOrders.slice(startIndex, endIndex);
-
-  // Reset to page 1 when search/filter changes
   const handleSearchChange = (value: string) => {
     setSearchQuery(value);
     setCurrentPage(1);
@@ -157,7 +152,7 @@ export default function AdminOrdersPage() {
                 : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
             }`}
           >
-            All Orders ({orders.length})
+            All Orders ({totalCount})
           </button>
           <button
             onClick={() => handleStatusChange('pending')}
@@ -167,7 +162,7 @@ export default function AdminOrdersPage() {
                 : 'bg-yellow-100 text-yellow-700 hover:bg-yellow-200'
             }`}
           >
-            Pending ({orders.filter(o => o.status === 'pending').length})
+            Pending
           </button>
           <button
             onClick={() => handleStatusChange('processing')}
@@ -177,7 +172,7 @@ export default function AdminOrdersPage() {
                 : 'bg-blue-100 text-blue-700 hover:bg-blue-200'
             }`}
           >
-            Processing ({orders.filter(o => o.status === 'processing').length})
+            Processing
           </button>
           <button
             onClick={() => handleStatusChange('shipped')}
@@ -187,7 +182,7 @@ export default function AdminOrdersPage() {
                 : 'bg-purple-100 text-purple-700 hover:bg-purple-200'
             }`}
           >
-            Shipped ({orders.filter(o => o.status === 'shipped').length})
+            Shipped
           </button>
           <button
             onClick={() => handleStatusChange('delivered')}
@@ -197,7 +192,7 @@ export default function AdminOrdersPage() {
                 : 'bg-green-100 text-green-700 hover:bg-green-200'
             }`}
           >
-            Delivered ({orders.filter(o => o.status === 'delivered').length})
+            Delivered
           </button>
           <button
             onClick={() => handleStatusChange('cancelled')}
@@ -207,13 +202,13 @@ export default function AdminOrdersPage() {
                 : 'bg-red-100 text-red-700 hover:bg-red-200'
             }`}
           >
-            Cancelled ({orders.filter(o => o.status === 'cancelled').length})
+            Cancelled
           </button>
         </div>
 
         {/* Results Count */}
         <div className="text-sm text-slate-600">
-          Found {filteredOrders.length} of {orders.length} orders
+          Found {totalCount} orders
         </div>
       </div>
 
@@ -222,7 +217,7 @@ export default function AdminOrdersPage() {
           <p className="text-slate-600 font-medium">No orders yet</p>
           <p className="text-sm text-slate-500 mt-1">Orders from customers will appear here</p>
         </div>
-      ) : filteredOrders.length === 0 ? (
+      ) : orders.length === 0 ? (
         <div className="bg-white rounded-lg border border-slate-200 p-12 text-center">
           <p className="text-slate-600 font-medium">No orders found</p>
           <p className="text-sm text-slate-500 mt-1">Try adjusting your search or filter criteria</p>
@@ -242,7 +237,7 @@ export default function AdminOrdersPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-200">
-                {paginatedOrders.map((order) => {
+                {orders.map((order) => {
                   const statusInfo = formatStatusBadge(order.status);
                   return (
                     <tr key={order.id} className="hover:bg-slate-50/50 transition-colors">
@@ -273,14 +268,14 @@ export default function AdminOrdersPage() {
             </table>
           </div>
 
-          {filteredOrders.length > 0 && (
+          {orders.length > 0 && (
             <Pagination
               currentPage={currentPage}
               totalPages={totalPages}
               onPageChange={setCurrentPage}
               itemsPerPage={itemsPerPage}
               onItemsPerPageChange={handleItemsPerPageChange}
-              totalItems={filteredOrders.length}
+              totalItems={totalCount}
             />
           )}
         </div>

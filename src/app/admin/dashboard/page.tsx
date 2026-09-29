@@ -77,10 +77,12 @@ export default function AdminDashboard() {
         const token = getToken();
         const headers = { Authorization: `Bearer ${token}` };
 
-        const productsRes = await axios.get(`${API_BASE_URL}/products/?limit=1000`);
+        // Fetch products and orders with pagination
+        // Use limit of 500 per page to get stats without loading everything
+        const productsRes = await axios.get(`${API_BASE_URL}/products/?page_size=500`);
         const productsCount = productsRes.data.count || 0;
 
-        const ordersRes = await axios.get(`${API_BASE_URL}/orders/?limit=1000`, { headers });
+        const ordersRes = await axios.get(`${API_BASE_URL}/orders/?page_size=500`, { headers });
         const ordersCount = ordersRes.data.count || 0;
 
         let totalRevenue = 0;

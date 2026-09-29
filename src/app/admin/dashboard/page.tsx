@@ -75,13 +75,11 @@ export default function AdminDashboard() {
         const ordersRes = await axios.get(`${API_BASE_URL}/orders/`, { headers });
         const ordersCount = ordersRes.data.count || 0;
 
-        const usersRes = await axios.get(`${API_BASE_URL}/users/`, { headers });
-        const usersCount = usersRes.data.count || 0;
-
         let totalRevenue = 0;
         let pending = 0;
         let processing = 0;
         let delivered = 0;
+        const uniqueCustomers = new Set<number>();
 
         if (Array.isArray(ordersRes.data.results)) {
           totalRevenue = ordersRes.data.results.reduce(
@@ -91,12 +89,19 @@ export default function AdminDashboard() {
           pending = ordersRes.data.results.filter((o: any) => o.status === 'pending').length;
           processing = ordersRes.data.results.filter((o: any) => o.status === 'processing').length;
           delivered = ordersRes.data.results.filter((o: any) => o.status === 'delivered').length;
+
+          // Count unique customers (users who have placed orders)
+          ordersRes.data.results.forEach((order: any) => {
+            if (order.user_id) {
+              uniqueCustomers.add(order.user_id);
+            }
+          });
         }
 
         setStats({
           total_products: productsCount,
           total_orders: ordersCount,
-          total_users: usersCount,
+          total_users: uniqueCustomers.size,
           total_revenue: totalRevenue,
           pending_orders: pending,
           processing_orders: processing,

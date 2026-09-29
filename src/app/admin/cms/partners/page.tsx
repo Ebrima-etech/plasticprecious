@@ -10,6 +10,7 @@ import { DragHandle } from '@/components/ios/DragHandle';
 import { ToggleSwitch } from '@/components/ios/ToggleSwitch';
 import { CMSHeader } from '@/components/ios/CMSHeader';
 import { CMSActionMenu } from '@/components/ios/CMSActionMenu';
+import { ImageUploadField } from '@/components/admin/ImageUploadField';
 
 interface Partner {
   id: number;
@@ -25,9 +26,10 @@ export default function PartnersPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [editingId, setEditingId] = useState<number | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [logoFile, setLogoFile] = useState<File | null>(null);
+  const [logoPreview, setLogoPreview] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     name: '',
-    logo_url: '',
     is_active: true
   });
 
@@ -53,13 +55,27 @@ export default function PartnersPage() {
     setSubmitting(true);
     const token = getAccessToken();
     try {
+      const submitData = new FormData();
+      submitData.append('name', formData.name);
+      submitData.append('is_active', formData.is_active.toString());
+
+      if (logoFile) {
+        submitData.append('logo', logoFile);
+      }
+
       if (editingId) {
-        await axios.patch(`${API_BASE_URL}/partners/${editingId}/`, formData, {
-          headers: { Authorization: `Bearer ${token}` }
+        await axios.patch(`${API_BASE_URL}/partners/${editingId}/`, submitData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data'
+          }
         });
       } else {
-        await axios.post(`${API_BASE_URL}/partners/`, formData, {
-          headers: { Authorization: `Bearer ${token}` }
+        await axios.post(`${API_BASE_URL}/partners/`, submitData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data'
+          }
         });
       }
       fetchPartners();
@@ -76,13 +92,15 @@ export default function PartnersPage() {
       setEditingId(partner.id);
       setFormData({
         name: partner.name,
-        logo_url: partner.logo_url,
         is_active: partner.is_active
       });
+      setLogoPreview(partner.logo_url);
     } else {
       setEditingId(null);
-      setFormData({ name: '', logo_url: '', is_active: true });
+      setFormData({ name: '', is_active: true });
+      setLogoPreview(null);
     }
+    setLogoFile(null);
     setIsFormOpen(true);
   };
 
@@ -90,7 +108,9 @@ export default function PartnersPage() {
     setIsFormOpen(false);
     setTimeout(() => {
       setEditingId(null);
-      setFormData({ name: '', logo_url: '', is_active: true });
+      setFormData({ name: '', is_active: true });
+      setLogoFile(null);
+      setLogoPreview(null);
     }, 300);
   };
 
@@ -142,25 +162,13 @@ export default function PartnersPage() {
             />
           </div>
 
-          <div>
-            <label className="text-xs font-semibold text-slate-600 block mb-2">Logo URL</label>
-            <input
-              type="url"
-              placeholder="https://example.com/logo.png"
-              value={formData.logo_url}
-              onChange={(e) => setFormData({ ...formData, logo_url: e.target.value })}
-              className="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition"
-            />
-          </div>
-
-          {formData.logo_url && (
-            <div className="flex items-center gap-3">
-              <div className="w-28 h-14 rounded-xl bg-white border border-slate-200 flex items-center justify-center p-2 flex-shrink-0 overflow-hidden">
-                <img src={formData.logo_url} alt="Preview" className="h-full object-contain" />
-              </div>
-              <span className="text-xs text-slate-600">Logo preview</span>
-            </div>
-          )}
+          <ImageUploadField
+            label="Partner Logo"
+            value={logoFile}
+            preview={logoPreview}
+            onChange={setLogoFile}
+            onPreviewChange={setLogoPreview}
+          />
 
           <div className="flex items-center justify-between pt-2 border-t border-slate-200">
             <label className="text-sm font-medium text-slate-900">Active</label>

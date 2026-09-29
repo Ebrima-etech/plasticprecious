@@ -11,6 +11,7 @@ import { ToggleSwitch } from '@/components/ios/ToggleSwitch';
 import { CMSHeader } from '@/components/ios/CMSHeader';
 import { CMSActionMenu } from '@/components/ios/CMSActionMenu';
 import { MultiStepForm } from '@/components/ios/MultiStepForm';
+import { ImageUploadField } from '@/components/admin/ImageUploadField';
 
 interface HeroSlide {
   id: number;
@@ -35,10 +36,11 @@ export default function HeroSlidesPage() {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [currentStep, setCurrentStep] = useState(0);
   const [submitting, setSubmitting] = useState(false);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    image_url: '',
     slide_type: 'hero',
     is_active: true
   });
@@ -65,13 +67,29 @@ export default function HeroSlidesPage() {
     setSubmitting(true);
     const token = getAccessToken();
     try {
+      const submitData = new FormData();
+      submitData.append('title', formData.title);
+      submitData.append('description', formData.description);
+      submitData.append('slide_type', formData.slide_type);
+      submitData.append('is_active', formData.is_active.toString());
+
+      if (imageFile) {
+        submitData.append('image', imageFile);
+      }
+
       if (editingId) {
-        await axios.patch(`${API_BASE_URL}/hero-slides/${editingId}/`, formData, {
-          headers: { Authorization: `Bearer ${token}` }
+        await axios.patch(`${API_BASE_URL}/hero-slides/${editingId}/`, submitData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data'
+          }
         });
       } else {
-        await axios.post(`${API_BASE_URL}/hero-slides/`, formData, {
-          headers: { Authorization: `Bearer ${token}` }
+        await axios.post(`${API_BASE_URL}/hero-slides/`, submitData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data'
+          }
         });
       }
       fetchSlides();
@@ -89,14 +107,16 @@ export default function HeroSlidesPage() {
       setFormData({
         title: slide.title,
         description: slide.description,
-        image_url: slide.image_url,
         slide_type: slide.slide_type,
         is_active: slide.is_active
       });
+      setImagePreview(slide.image_url);
     } else {
       setEditingId(null);
-      setFormData({ title: '', description: '', image_url: '', slide_type: 'hero', is_active: true });
+      setFormData({ title: '', description: '', slide_type: 'hero', is_active: true });
+      setImagePreview(null);
     }
+    setImageFile(null);
     setCurrentStep(0);
     setIsFormOpen(true);
   };
@@ -105,7 +125,9 @@ export default function HeroSlidesPage() {
     setIsFormOpen(false);
     setTimeout(() => {
       setEditingId(null);
-      setFormData({ title: '', description: '', image_url: '', slide_type: 'hero', is_active: true });
+      setFormData({ title: '', description: '', slide_type: 'hero', is_active: true });
+      setImageFile(null);
+      setImagePreview(null);
       setCurrentStep(0);
     }, 300);
   };
@@ -176,21 +198,13 @@ export default function HeroSlidesPage() {
 
             {currentStep === 1 && (
               <div className="space-y-5">
-                <div>
-                  <label className="text-xs font-semibold text-slate-600 block mb-2">Image URL</label>
-                  <input
-                    type="url"
-                    placeholder="https://example.com/image.jpg"
-                    value={formData.image_url}
-                    onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition"
-                  />
-                </div>
-                {formData.image_url && (
-                  <div className="relative w-36 h-20 rounded-xl overflow-hidden border border-slate-200 flex-shrink-0">
-                    <img src={formData.image_url} alt="Preview" className="w-full h-full object-cover" />
-                  </div>
-                )}
+                <ImageUploadField
+                  label="Slide Image *"
+                  value={imageFile}
+                  preview={imagePreview}
+                  onChange={setImageFile}
+                  onPreviewChange={setImagePreview}
+                />
               </div>
             )}
 

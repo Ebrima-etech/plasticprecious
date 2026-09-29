@@ -11,6 +11,7 @@ import { ToggleSwitch } from '@/components/ios/ToggleSwitch';
 import { CMSHeader } from '@/components/ios/CMSHeader';
 import { CMSActionMenu } from '@/components/ios/CMSActionMenu';
 import { MultiStepForm } from '@/components/ios/MultiStepForm';
+import { ImageUploadField } from '@/components/admin/ImageUploadField';
 
 interface TeamMember {
   id: number;
@@ -34,11 +35,12 @@ export default function TeamMembersPage() {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [currentStep, setCurrentStep] = useState(0);
   const [submitting, setSubmitting] = useState(false);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     name: '',
     role: '',
     description: '',
-    image_url: '',
     is_active: true
   });
 
@@ -64,13 +66,29 @@ export default function TeamMembersPage() {
     setSubmitting(true);
     const token = getAccessToken();
     try {
+      const submitData = new FormData();
+      submitData.append('name', formData.name);
+      submitData.append('role', formData.role);
+      submitData.append('description', formData.description);
+      submitData.append('is_active', formData.is_active.toString());
+
+      if (imageFile) {
+        submitData.append('image', imageFile);
+      }
+
       if (editingId) {
-        await axios.patch(`${API_BASE_URL}/team-members/${editingId}/`, formData, {
-          headers: { Authorization: `Bearer ${token}` }
+        await axios.patch(`${API_BASE_URL}/team-members/${editingId}/`, submitData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data'
+          }
         });
       } else {
-        await axios.post(`${API_BASE_URL}/team-members/`, formData, {
-          headers: { Authorization: `Bearer ${token}` }
+        await axios.post(`${API_BASE_URL}/team-members/`, submitData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data'
+          }
         });
       }
       fetchMembers();
@@ -89,13 +107,15 @@ export default function TeamMembersPage() {
         name: member.name,
         role: member.role,
         description: member.description,
-        image_url: member.image_url,
         is_active: member.is_active
       });
+      setImagePreview(member.image_url);
     } else {
       setEditingId(null);
-      setFormData({ name: '', role: '', description: '', image_url: '', is_active: true });
+      setFormData({ name: '', role: '', description: '', is_active: true });
+      setImagePreview(null);
     }
+    setImageFile(null);
     setCurrentStep(0);
     setIsFormOpen(true);
   };
@@ -104,7 +124,9 @@ export default function TeamMembersPage() {
     setIsFormOpen(false);
     setTimeout(() => {
       setEditingId(null);
-      setFormData({ name: '', role: '', description: '', image_url: '', is_active: true });
+      setFormData({ name: '', role: '', description: '', is_active: true });
+      setImageFile(null);
+      setImagePreview(null);
       setCurrentStep(0);
     }, 300);
   };
@@ -161,24 +183,13 @@ export default function TeamMembersPage() {
                     required
                   />
                 </div>
-                <div>
-                  <label className="text-xs font-semibold text-slate-600 block mb-2">Photo URL</label>
-                  <input
-                    type="url"
-                    placeholder="https://example.com/photo.jpg"
-                    value={formData.image_url}
-                    onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition"
-                  />
-                </div>
-                {formData.image_url && (
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-full overflow-hidden bg-slate-200 flex-shrink-0">
-                      <img src={formData.image_url} alt="Preview" className="w-full h-full object-cover" />
-                    </div>
-                    <span className="text-xs text-slate-600">Photo preview</span>
-                  </div>
-                )}
+                <ImageUploadField
+                  label="Team Member Photo"
+                  value={imageFile}
+                  preview={imagePreview}
+                  onChange={setImageFile}
+                  onPreviewChange={setImagePreview}
+                />
               </div>
             )}
 

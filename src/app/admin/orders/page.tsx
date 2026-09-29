@@ -27,8 +27,6 @@ const statusConfig = {
   cancelled: { color: 'bg-green-100 text-green-800', icon: HiOutlineXCircle },
 };
 
-const ITEMS_PER_PAGE = 10;
-
 export default function AdminOrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
@@ -36,6 +34,7 @@ export default function AdminOrdersPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   useEffect(() => {
     const fetchAllOrders = async () => {
@@ -82,9 +81,9 @@ export default function AdminOrdersPage() {
   });
 
   // Paginate filtered results
-  const totalPages = Math.ceil(filteredOrders.length / ITEMS_PER_PAGE);
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const endIndex = startIndex + ITEMS_PER_PAGE;
+  const totalPages = Math.ceil(filteredOrders.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
   const paginatedOrders = filteredOrders.slice(startIndex, endIndex);
 
   // Reset to page 1 when search/filter changes
@@ -95,6 +94,11 @@ export default function AdminOrdersPage() {
 
   const handleStatusChange = (status: string) => {
     setStatusFilter(status);
+    setCurrentPage(1);
+  };
+
+  const handleItemsPerPageChange = (newCount: number) => {
+    setItemsPerPage(newCount);
     setCurrentPage(1);
   };
 
@@ -274,7 +278,8 @@ export default function AdminOrdersPage() {
               currentPage={currentPage}
               totalPages={totalPages}
               onPageChange={setCurrentPage}
-              itemsPerPage={ITEMS_PER_PAGE}
+              itemsPerPage={itemsPerPage}
+              onItemsPerPageChange={handleItemsPerPageChange}
               totalItems={filteredOrders.length}
             />
           )}

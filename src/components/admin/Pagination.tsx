@@ -5,14 +5,18 @@ interface PaginationProps {
   totalPages: number;
   onPageChange: (page: number) => void;
   itemsPerPage: number;
+  onItemsPerPageChange?: (items: number) => void;
   totalItems: number;
 }
+
+const PAGE_SIZE_OPTIONS = [10, 25, 50, 100];
 
 export function Pagination({
   currentPage,
   totalPages,
   onPageChange,
   itemsPerPage,
+  onItemsPerPageChange,
   totalItems,
 }: PaginationProps) {
   const startItem = (currentPage - 1) * itemsPerPage + 1;
@@ -53,14 +57,33 @@ export function Pagination({
   };
 
   return (
-    <div className="flex items-center justify-between mt-6 pt-6 border-t border-slate-200">
-      <div className="text-sm text-slate-600">
-        Showing <span className="font-medium">{startItem}</span> to{' '}
-        <span className="font-medium">{endItem}</span> of{' '}
-        <span className="font-medium">{totalItems}</span> items
+    <div className="flex items-center justify-between mt-6 pt-6 border-t border-slate-200 flex-wrap gap-4">
+      <div className="flex items-center gap-4">
+        <div className="text-sm text-slate-600">
+          Showing <span className="font-medium">{startItem}</span> to{' '}
+          <span className="font-medium">{endItem}</span> of{' '}
+          <span className="font-medium">{totalItems}</span> items
+        </div>
+
+        {onItemsPerPageChange && (
+          <div className="flex items-center gap-2">
+            <label className="text-sm text-slate-600 font-medium">Per page:</label>
+            <select
+              value={itemsPerPage}
+              onChange={(e) => onItemsPerPageChange(parseInt(e.target.value))}
+              className="px-3 py-1.5 border border-slate-200 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white"
+            >
+              {PAGE_SIZE_OPTIONS.map((size) => (
+                <option key={size} value={size}>
+                  {size}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2" style={{ marginLeft: 'auto' }}>
         <button
           onClick={() => onPageChange(Math.max(1, currentPage - 1))}
           disabled={currentPage === 1}

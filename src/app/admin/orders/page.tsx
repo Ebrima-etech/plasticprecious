@@ -30,6 +30,8 @@ export default function AdminOrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState('all');
 
   useEffect(() => {
     const fetchAllOrders = async () => {
@@ -70,6 +72,17 @@ export default function AdminOrdersPage() {
     fetchAllOrders();
   }, []);
 
+  // Filter and search orders
+  const filteredOrders = orders.filter(order => {
+    const matchesSearch =
+      order.order_number.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      order.user_email.toLowerCase().includes(searchQuery.toLowerCase());
+
+    const matchesStatus = statusFilter === 'all' || order.status === statusFilter;
+
+    return matchesSearch && matchesStatus;
+  });
+
   if (loading) {
     return (
       <div className="space-y-6">
@@ -103,10 +116,97 @@ export default function AdminOrdersPage() {
         </div>
       )}
 
+      {/* Search and Filter Section */}
+      <div className="space-y-4">
+        <div>
+          <input
+            type="text"
+            placeholder="Search by order number or customer email..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+          />
+        </div>
+
+        {/* Status Filter Buttons */}
+        <div className="flex flex-wrap gap-2">
+          <button
+            onClick={() => setStatusFilter('all')}
+            className={`px-4 py-2 rounded-lg font-medium transition text-sm ${
+              statusFilter === 'all'
+                ? 'bg-emerald-600 text-white'
+                : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+            }`}
+          >
+            All Orders ({orders.length})
+          </button>
+          <button
+            onClick={() => setStatusFilter('pending')}
+            className={`px-4 py-2 rounded-lg font-medium transition text-sm ${
+              statusFilter === 'pending'
+                ? 'bg-yellow-600 text-white'
+                : 'bg-yellow-100 text-yellow-700 hover:bg-yellow-200'
+            }`}
+          >
+            Pending ({orders.filter(o => o.status === 'pending').length})
+          </button>
+          <button
+            onClick={() => setStatusFilter('processing')}
+            className={`px-4 py-2 rounded-lg font-medium transition text-sm ${
+              statusFilter === 'processing'
+                ? 'bg-blue-600 text-white'
+                : 'bg-blue-100 text-blue-700 hover:bg-blue-200'
+            }`}
+          >
+            Processing ({orders.filter(o => o.status === 'processing').length})
+          </button>
+          <button
+            onClick={() => setStatusFilter('shipped')}
+            className={`px-4 py-2 rounded-lg font-medium transition text-sm ${
+              statusFilter === 'shipped'
+                ? 'bg-purple-600 text-white'
+                : 'bg-purple-100 text-purple-700 hover:bg-purple-200'
+            }`}
+          >
+            Shipped ({orders.filter(o => o.status === 'shipped').length})
+          </button>
+          <button
+            onClick={() => setStatusFilter('delivered')}
+            className={`px-4 py-2 rounded-lg font-medium transition text-sm ${
+              statusFilter === 'delivered'
+                ? 'bg-green-600 text-white'
+                : 'bg-green-100 text-green-700 hover:bg-green-200'
+            }`}
+          >
+            Delivered ({orders.filter(o => o.status === 'delivered').length})
+          </button>
+          <button
+            onClick={() => setStatusFilter('cancelled')}
+            className={`px-4 py-2 rounded-lg font-medium transition text-sm ${
+              statusFilter === 'cancelled'
+                ? 'bg-red-600 text-white'
+                : 'bg-red-100 text-red-700 hover:bg-red-200'
+            }`}
+          >
+            Cancelled ({orders.filter(o => o.status === 'cancelled').length})
+          </button>
+        </div>
+
+        {/* Results Count */}
+        <div className="text-sm text-slate-600">
+          Showing {filteredOrders.length} of {orders.length} orders
+        </div>
+      </div>
+
       {orders.length === 0 ? (
         <div className="bg-white rounded-lg border border-slate-200 p-12 text-center">
           <p className="text-slate-600 font-medium">No orders yet</p>
           <p className="text-sm text-slate-500 mt-1">Orders from customers will appear here</p>
+        </div>
+      ) : filteredOrders.length === 0 ? (
+        <div className="bg-white rounded-lg border border-slate-200 p-12 text-center">
+          <p className="text-slate-600 font-medium">No orders found</p>
+          <p className="text-sm text-slate-500 mt-1">Try adjusting your search or filter criteria</p>
         </div>
       ) : (
         <div className="bg-white rounded-lg border border-slate-200 overflow-hidden">
@@ -123,7 +223,7 @@ export default function AdminOrdersPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-200">
-                {orders.map((order) => {
+                {filteredOrders.map((order) => {
                   const statusInfo = formatStatusBadge(order.status);
                   return (
                     <tr key={order.id} className="hover:bg-slate-50/50 transition-colors">

@@ -6,6 +6,7 @@ import axios from 'axios';
 import { API_BASE_URL } from '@/config/api';
 import { getToken } from '@/lib/auth';
 import { AdminTableSkeleton } from '@/components/ShimmerSkeleton';
+import { Pagination } from '@/components/admin/Pagination';
 import { formatDate, formatCurrency, formatStatusBadge } from '@/lib/format-utils';
 import { HiOutlineClock, HiOutlineArrowPath, HiOutlineCheckCircle, HiOutlineXCircle, HiOutlineShoppingCart } from 'react-icons/hi2';
 
@@ -26,32 +27,29 @@ const statusConfig = {
   cancelled: { color: 'bg-green-100 text-green-800', icon: HiOutlineXCircle },
 };
 
+const ITEMS_PER_PAGE = 10;
+
 export default function AdminOrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const fetchAllOrders = async () => {
       try {
         const token = getToken();
         let allOrders: Order[] = [];
-        let nextUrl = `${API_BASE_URL}/orders/`;
-
-        console.log('Starting to fetch orders from:', nextUrl);
+        let nextUrl = `${API_BASE_URL}/orders/?limit=1000`;
 
         while (nextUrl) {
-          console.log('Fetching from:', nextUrl);
           const response = await axios.get(nextUrl, {
             headers: { Authorization: `Bearer ${token}` },
           });
 
-          console.log('Response data:', response.data);
-          const pageOrders = response.data.results || response.data || [];
-          console.log('Page orders:', pageOrders.length, 'Total count:', response.data.count);
-
+          const pageOrders = response.data.results || [];
           if (Array.isArray(pageOrders)) {
             allOrders = [...allOrders, ...pageOrders];
           }
@@ -59,8 +57,8 @@ export default function AdminOrdersPage() {
           nextUrl = response.data.next || null;
         }
 
-        console.log('Total orders fetched:', allOrders.length);
         setOrders(allOrders);
+        setCurrentPage(1);
       } catch (err: any) {
         setError('Failed to load orders');
         console.error(err);
@@ -82,6 +80,23 @@ export default function AdminOrdersPage() {
 
     return matchesSearch && matchesStatus;
   });
+
+  // Paginate filtered results
+  const totalPages = Math.ceil(filteredOrders.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+  const paginatedOrders = filteredOrders.slice(startIndex, endIndex);
+
+  // Reset to page 1 when search/filter changes
+  const handleSearchChange = (value: string) => {
+    setSearchQuery(value);
+    setCurrentPage(1);
+  };
+
+  const handleStatusChange = (status: string) => {
+    setStatusFilter(status);
+    setCurrentPage(1);
+  };
 
   if (loading) {
     return (
@@ -123,7 +138,7 @@ export default function AdminOrdersPage() {
             type="text"
             placeholder="Search by order number or customer email..."
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={(e) => handleSearchChange(e.target.value)}
             className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
           />
         </div>
@@ -131,7 +146,7 @@ export default function AdminOrdersPage() {
         {/* Status Filter Buttons */}
         <div className="flex flex-wrap gap-2">
           <button
-            onClick={() => setStatusFilter('all')}
+            onClick={() => handleStatusChange('all')}
             className={`px-4 py-2 rounded-lg font-medium transition text-sm ${
               statusFilter === 'all'
                 ? 'bg-emerald-600 text-white'
@@ -141,7 +156,7 @@ export default function AdminOrdersPage() {
             All Orders ({orders.length})
           </button>
           <button
-            onClick={() => setStatusFilter('pending')}
+            onClick={() => handleStatusChange('pending')}
             className={`px-4 py-2 rounded-lg font-medium transition text-sm ${
               statusFilter === 'pending'
                 ? 'bg-yellow-600 text-white'
@@ -151,7 +166,7 @@ export default function AdminOrdersPage() {
             Pending ({orders.filter(o => o.status === 'pending').length})
           </button>
           <button
-            onClick={() => setStatusFilter('processing')}
+            onClick={() => handleStatusChange('processing')}
             className={`px-4 py-2 rounded-lg font-medium transition text-sm ${
               statusFilter === 'processing'
                 ? 'bg-blue-600 text-white'
@@ -161,7 +176,7 @@ export default function AdminOrdersPage() {
             Processing ({orders.filter(o => o.status === 'processing').length})
           </button>
           <button
-            onClick={() => setStatusFilter('shipped')}
+            onClick={() => handleStatusChange('shipped')}
             className={`px-4 py-2 rounded-lg font-medium transition text-sm ${
               statusFilter === 'shipped'
                 ? 'bg-purple-600 text-white'
@@ -171,7 +186,7 @@ export default function AdminOrdersPage() {
             Shipped ({orders.filter(o => o.status === 'shipped').length})
           </button>
           <button
-            onClick={() => setStatusFilter('delivered')}
+            onClick={() => handleStatusChange('delivered')}
             className={`px-4 py-2 rounded-lg font-medium transition text-sm ${
               statusFilter === 'delivered'
                 ? 'bg-green-600 text-white'
@@ -181,7 +196,7 @@ export default function AdminOrdersPage() {
             Delivered ({orders.filter(o => o.status === 'delivered').length})
           </button>
           <button
-            onClick={() => setStatusFilter('cancelled')}
+            onClick={() => handleStatusChange('cancelled')}
             className={`px-4 py-2 rounded-lg font-medium transition text-sm ${
               statusFilter === 'cancelled'
                 ? 'bg-red-600 text-white'
@@ -194,7 +209,7 @@ export default function AdminOrdersPage() {
 
         {/* Results Count */}
         <div className="text-sm text-slate-600">
-          Showing {filteredOrders.length} of {orders.length} orders
+          Found {filteredOrders.length} of {orders.length} orders
         </div>
       </div>
 
@@ -223,7 +238,7 @@ export default function AdminOrdersPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-200">
-                {filteredOrders.map((order) => {
+                {paginatedOrders.map((order) => {
                   const statusInfo = formatStatusBadge(order.status);
                   return (
                     <tr key={order.id} className="hover:bg-slate-50/50 transition-colors">
@@ -253,6 +268,16 @@ export default function AdminOrdersPage() {
               </tbody>
             </table>
           </div>
+
+          {filteredOrders.length > 0 && (
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+              itemsPerPage={ITEMS_PER_PAGE}
+              totalItems={filteredOrders.length}
+            />
+          )}
         </div>
       )}
     </div>

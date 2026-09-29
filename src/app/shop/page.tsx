@@ -40,31 +40,28 @@ function ShopContent() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/products/`);
+        let url = `${API_BASE_URL}/products/`;
+        if (searchQuery) {
+          url += `?search=${encodeURIComponent(searchQuery)}`;
+        }
+        const response = await axios.get(url);
         const productsData = response.data.results || response.data;
-        const activeProducts = productsData.filter((p: Product) => p.is_active);
+        const activeProducts = Array.isArray(productsData)
+          ? productsData.filter((p: Product) => p.is_active)
+          : productsData;
+        setFilteredProducts(activeProducts);
         setProducts(activeProducts);
       } catch (err) {
         console.error('Failed to fetch products:', err);
+        setFilteredProducts([]);
       } finally {
         setLoading(false);
       }
     };
 
+    setLoading(true);
     fetchProducts();
-  }, []);
-
-  useEffect(() => {
-    if (searchQuery) {
-      const filtered = products.filter((product) =>
-        product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        product.description.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-      setFilteredProducts(filtered);
-    } else {
-      setFilteredProducts(products);
-    }
-  }, [searchQuery, products]);
+  }, [searchQuery]);
 
   useEffect(() => {
     const interval = setInterval(() => {

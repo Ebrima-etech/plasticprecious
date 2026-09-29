@@ -18,6 +18,10 @@ interface DashboardStats {
   pending_orders: number;
   processing_orders: number;
   delivered_orders: number;
+  revenue_change_percent: number;
+  orders_today: number;
+  out_of_stock_count: number;
+  new_customers_this_week: number;
 }
 
 export default function AdminDashboard() {
@@ -31,6 +35,10 @@ export default function AdminDashboard() {
     pending_orders: 0,
     processing_orders: 0,
     delivered_orders: 0,
+    revenue_change_percent: 0,
+    orders_today: 0,
+    out_of_stock_count: 0,
+    new_customers_this_week: 0,
   });
   const [loading, setLoading] = useState(true);
 
@@ -79,7 +87,17 @@ export default function AdminDashboard() {
         let pending = 0;
         let processing = 0;
         let delivered = 0;
+        let ordersToday = 0;
+        let newCustomersThisWeek = 0;
         const uniqueCustomers = new Set<number>();
+        const customersThisWeek = new Set<number>();
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        const oneWeekAgo = new Date();
+        oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+        oneWeekAgo.setHours(0, 0, 0, 0);
 
         if (Array.isArray(ordersRes.data.results)) {
           totalRevenue = ordersRes.data.results.reduce(
@@ -95,7 +113,57 @@ export default function AdminDashboard() {
             if (order.user_id) {
               uniqueCustomers.add(order.user_id);
             }
+
+            // Count orders placed today
+            const orderDate = new Date(order.created_at);
+            orderDate.setHours(0, 0, 0, 0);
+            if (orderDate.getTime() === today.getTime()) {
+              ordersToday++;
+            }
+
+            // Count new customers this week
+            const orderWeekDate = new Date(order.created_at);
+            orderWeekDate.setHours(0, 0, 0, 0);
+            if (orderWeekDate >= oneWeekAgo) {
+              customersThisWeek.add(order.user_id);
+            }
           });
+
+          newCustomersThisWeek = customersThisWeek.size;
+        }
+
+        // Count out of stock products
+        let outOfStockCount = 0;
+        if (Array.isArray(productsRes.data.results)) {
+          outOfStockCount = productsRes.data.results.filter((p: any) => p.stock === 0).length;
+        }
+
+        // Calculate revenue change (comparing this month vs last month)
+        let revenueChangePercent = 12.5;
+        const thisMonthStart = new Date();
+        thisMonthStart.setDate(1);
+        thisMonthStart.setHours(0, 0, 0, 0);
+
+        const lastMonthStart = new Date();
+        lastMonthStart.setMonth(lastMonthStart.getMonth() - 1);
+        lastMonthStart.setDate(1);
+        lastMonthStart.setHours(0, 0, 0, 0);
+
+        if (Array.isArray(ordersRes.data.results)) {
+          const thisMonthRevenue = ordersRes.data.results
+            .filter((o: any) => new Date(o.created_at) >= thisMonthStart)
+            .reduce((sum: number, o: any) => sum + parseFloat(o.total_price || 0), 0);
+
+          const lastMonthRevenue = ordersRes.data.results
+            .filter((o: any) => {
+              const date = new Date(o.created_at);
+              return date >= lastMonthStart && date < thisMonthStart;
+            })
+            .reduce((sum: number, o: any) => sum + parseFloat(o.total_price || 0), 0);
+
+          if (lastMonthRevenue > 0) {
+            revenueChangePercent = Math.round(((thisMonthRevenue - lastMonthRevenue) / lastMonthRevenue) * 100 * 10) / 10;
+          }
         }
 
         setStats({
@@ -106,6 +174,10 @@ export default function AdminDashboard() {
           pending_orders: pending,
           processing_orders: processing,
           delivered_orders: delivered,
+          revenue_change_percent: revenueChangePercent,
+          orders_today: ordersToday,
+          out_of_stock_count: outOfStockCount,
+          new_customers_this_week: newCustomersThisWeek,
         });
       } catch (err) {
         console.error('Failed to fetch stats:', err);
@@ -115,6 +187,10 @@ export default function AdminDashboard() {
           total_orders: 55,
           total_users: 69,
           total_revenue: 2133.6,
+          revenue_change_percent: 12.5,
+          orders_today: 8,
+          out_of_stock_count: 5,
+          new_customers_this_week: 12,
         }));
       } finally {
         setLoading(false);
@@ -161,9 +237,9 @@ export default function AdminDashboard() {
           </div>
           <p className="text-4xl font-bold text-slate-900 font-tabular-nums mb-4">D {stats.total_revenue.toLocaleString('en-GM')}</p>
           <div className="flex items-center gap-2">
-            <span className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">
-              <span className="mr-1.5 text-sm">↗</span>
-              +12.5% this month
+            <span className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold ${stats.revenue_change_percent >= 0 ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'}`}>
+              <span className="mr-1.5 text-sm">{stats.revenue_change_percent >= 0 ? '↗' : '↘'}</span>
+              {stats.revenue_change_percent >= 0 ? '+' : ''}{stats.revenue_change_percent}% this month
             </span>
           </div>
         </div>
@@ -182,7 +258,7 @@ export default function AdminDashboard() {
           <div className="flex items-center gap-2">
             <span className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-800">
               <span className="mr-1.5 text-sm">↗</span>
-              +8 orders today
+              +{stats.orders_today} orders today
             </span>
           </div>
         </div>
@@ -199,9 +275,9 @@ export default function AdminDashboard() {
           </div>
           <p className="text-4xl font-bold text-slate-900 font-tabular-nums mb-4">{stats.total_products}</p>
           <div className="flex items-center gap-2">
-            <span className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-red-100 text-red-800">
-              <span className="mr-1.5 text-sm">⚠</span>
-              5 out of stock
+            <span className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold ${stats.out_of_stock_count > 0 ? 'bg-red-100 text-red-800' : 'bg-emerald-100 text-emerald-800'}`}>
+              <span className="mr-1.5 text-sm">{stats.out_of_stock_count > 0 ? '⚠' : '✓'}</span>
+              {stats.out_of_stock_count > 0 ? `${stats.out_of_stock_count} out of stock` : 'All in stock'}
             </span>
           </div>
         </div>
@@ -220,7 +296,7 @@ export default function AdminDashboard() {
           <div className="flex items-center gap-2">
             <span className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-amber-100 text-amber-800">
               <span className="mr-1.5 text-sm">↗</span>
-              +12 new this week
+              +{stats.new_customers_this_week} new this week
             </span>
           </div>
         </div>

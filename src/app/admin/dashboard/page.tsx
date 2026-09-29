@@ -75,6 +75,9 @@ export default function AdminDashboard() {
         const ordersRes = await axios.get(`${API_BASE_URL}/orders/`, { headers });
         const ordersCount = ordersRes.data.count || 0;
 
+        const usersRes = await axios.get(`${API_BASE_URL}/users/`, { headers });
+        const usersCount = usersRes.data.count || 0;
+
         let totalRevenue = 0;
         let pending = 0;
         let processing = 0;
@@ -93,7 +96,7 @@ export default function AdminDashboard() {
         setStats({
           total_products: productsCount,
           total_orders: ordersCount,
-          total_users: 69,
+          total_users: usersCount,
           total_revenue: totalRevenue,
           pending_orders: pending,
           processing_orders: processing,

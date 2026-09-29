@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import axios from 'axios';
 import { FiPackage, FiShoppingCart } from 'react-icons/fi';
 import { cartService } from '@/lib/cartService';
@@ -27,18 +28,22 @@ const badges = [
   { icon: '♻️', label: 'Recycled Plastic', bg: 'bg-emerald-50', text: 'text-emerald-700' },
 ];
 
-export default function ProductsPage() {
+function ShopContent() {
+  const searchParams = useSearchParams();
+  const searchQuery = searchParams.get('search') || '';
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [addingToCart, setAddingToCart] = useState<number | null>(null);
   const [badgeIndex, setBadgeIndex] = useState(0);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const response = await axios.get(`${API_BASE_URL}/products/`);
         const productsData = response.data.results || response.data;
-        setProducts(productsData.filter((p: Product) => p.is_active));
+        const activeProducts = productsData.filter((p: Product) => p.is_active);
+        setProducts(activeProducts);
       } catch (err) {
         console.error('Failed to fetch products:', err);
       } finally {
@@ -48,6 +53,18 @@ export default function ProductsPage() {
 
     fetchProducts();
   }, []);
+
+  useEffect(() => {
+    if (searchQuery) {
+      const filtered = products.filter((product) =>
+        product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.description.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredProducts(filtered);
+    } else {
+      setFilteredProducts(products);
+    }
+  }, [searchQuery, products]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -148,19 +165,25 @@ export default function ProductsPage() {
       {/* Content */}
       <section className="py-6 lg:py-8 bg-white relative overflow-hidden grid-pattern">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+          {searchQuery && (
+            <div className="mb-8 pb-6 border-b border-slate-200">
+              <h1 className="text-3xl font-black text-slate-900 mb-2">Search Results</h1>
+              <p className="text-slate-600">Results for "<strong>{searchQuery}</strong>" ({filteredProducts.length} product{filteredProducts.length !== 1 ? 's' : ''})</p>
+            </div>
+          )}
           {loading ? (
             <ProductGridSkeleton columns={4} />
-          ) : products.length === 0 ? (
+          ) : filteredProducts.length === 0 ? (
             <div className="text-center py-20">
-              <p className="text-xl text-slate-600 mb-6">No products available yet</p>
-              <Link href="/">
-                <Button>Back to Home</Button>
+              <p className="text-xl text-slate-600 mb-6">{searchQuery ? 'No products found matching your search' : 'No products available yet'}</p>
+              <Link href={searchQuery ? '/shop' : '/'}>
+                <Button>{searchQuery ? 'Clear Search' : 'Back to Home'}</Button>
               </Link>
             </div>
           ) : (
             <div>
               <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4 lg:gap-6 px-3 lg:px-0">
-                {products.map((product) => {
+                {filteredProducts.map((product) => {
                   const stockBadge = getStockBadge(product.stock);
                   return (
                     <Link key={product.id} href={`/shop/${product.id}`} className="no-underline hover:no-underline">
@@ -224,5 +247,19 @@ export default function ProductsPage() {
 
       <Footer />
     </div>
+  );
+}
+
+export default function ProductsPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-white">
+        <div className="flex items-center justify-center pt-20">
+          <p className="text-lg text-slate-600">Loading products...</p>
+        </div>
+      </div>
+    }>
+      <ShopContent />
+    </Suspense>
   );
 }

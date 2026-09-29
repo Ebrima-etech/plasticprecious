@@ -22,6 +22,7 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
   const [accountDropdownOpen, setAccountDropdownOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [cartCount, setCartCount] = useState(0);
+  const [searchQuery, setSearchQuery] = useState('');
   const accountDropdownRef = useRef<HTMLDivElement>(null);
 
   const rotatingItems = [
@@ -76,6 +77,19 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  const handleSearch = (query: string) => {
+    if (query.trim()) {
+      router.push(`/shop?search=${encodeURIComponent(query)}`);
+      setSearchQuery('');
+    }
+  };
+
+  const handleSearchKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSearch(searchQuery);
+    }
+  };
 
   const handleLogout = () => {
     clearTokens();
@@ -219,10 +233,13 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
 
             {/* Search Bar - Hidden on Mobile */}
             <div className="hidden lg:flex flex-1 max-w-sm items-center bg-white border-0 px-4 rounded-lg mx-6 shadow-md" style={{ paddingTop: '0.5rem', paddingBottom: '0.5rem' }}>
-              <FiSearch size={18} className="text-emerald-600" />
+              <FiSearch size={18} className="text-emerald-600 cursor-pointer" onClick={() => handleSearch(searchQuery)} />
               <input
                 type="text"
                 placeholder="Search products..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyPress={handleSearchKeyPress}
                 className="animated-placeholder bg-transparent text-slate-900 text-sm placeholder-slate-400 ml-3 w-full focus:outline-none font-medium"
               />
             </div>
@@ -401,10 +418,13 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
       {/* Mobile Search Bar - Replaces Categories Row */}
       <div className="lg:hidden bg-emerald-600 py-2 px-6">
         <div className="flex items-center bg-white border-0 px-4 rounded-full" style={{ paddingTop: '0.375rem', paddingBottom: '0.375rem' }}>
-          <FiSearch size={16} className="text-emerald-600" />
+          <FiSearch size={16} className="text-emerald-600 cursor-pointer" onClick={() => handleSearch(searchQuery)} />
           <input
             type="text"
             placeholder="Search products..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyPress={handleSearchKeyPress}
             className="animated-placeholder bg-transparent text-teal-900 text-sm placeholder-gray-500 placeholder-opacity-50 ml-3 w-full focus:outline-none"
           />
         </div>

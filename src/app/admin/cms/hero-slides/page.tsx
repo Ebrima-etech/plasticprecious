@@ -80,15 +80,13 @@ export default function HeroSlidesPage() {
       if (editingId) {
         await axios.patch(`${API_BASE_URL}/hero-slides/${editingId}/`, submitData, {
           headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data'
+            Authorization: `Bearer ${token}`
           }
         });
       } else {
         await axios.post(`${API_BASE_URL}/hero-slides/`, submitData, {
           headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data'
+            Authorization: `Bearer ${token}`
           }
         });
       }

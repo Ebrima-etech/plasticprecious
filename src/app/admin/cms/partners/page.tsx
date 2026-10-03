@@ -11,10 +11,12 @@ import { ToggleSwitch } from '@/components/ios/ToggleSwitch';
 import { CMSHeader } from '@/components/ios/CMSHeader';
 import { CMSActionMenu } from '@/components/ios/CMSActionMenu';
 import { ImageUploadField } from '@/components/admin/ImageUploadField';
+import { getErrorMessage } from '@/lib/api-errors';
 
 interface Partner {
   id: number;
   name: string;
+  logo?: string | null;
   logo_url: string;
   is_active: boolean;
 }
@@ -28,6 +30,7 @@ export default function PartnersPage() {
   const [submitting, setSubmitting] = useState(false);
   const [logoFile, setLogoFile] = useState<File | null>(null);
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
+  const [formError, setFormError] = useState('');
   const [formData, setFormData] = useState({
     name: '',
     is_active: true
@@ -43,7 +46,9 @@ export default function PartnersPage() {
       const response = await axios.get(`${API_BASE_URL}/partners/`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      setPartners(response.data.results || response.data);
+      // Uploaded logos are stored in `logo`; `logo_url` holds manually set links
+      const data: Partner[] = response.data.results || response.data;
+      setPartners(data.map(p => ({ ...p, logo_url: p.logo || p.logo_url })));
       setLoading(false);
     } catch (error) {
       console.error('Failed to fetch partners:', error);
@@ -52,6 +57,11 @@ export default function PartnersPage() {
   };
 
   const handleSubmit = async () => {
+    if (!formData.name.trim()) {
+      setFormError('Partner name is required.');
+      return;
+    }
+    setFormError('');
     setSubmitting(true);
     const token = getAccessToken();
     try {
@@ -65,23 +75,18 @@ export default function PartnersPage() {
 
       if (editingId) {
         await axios.patch(`${API_BASE_URL}/partners/${editingId}/`, submitData, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data'
-          }
+          headers: { Authorization: `Bearer ${token}` }
         });
       } else {
         await axios.post(`${API_BASE_URL}/partners/`, submitData, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data'
-          }
+          headers: { Authorization: `Bearer ${token}` }
         });
       }
       fetchPartners();
       closeForm();
     } catch (error) {
       console.error('Failed to save:', error);
+      setFormError(getErrorMessage(error, 'Failed to save partner.'));
     } finally {
       setSubmitting(false);
     }
@@ -101,6 +106,7 @@ export default function PartnersPage() {
       setLogoPreview(null);
     }
     setLogoFile(null);
+    setFormError('');
     setIsFormOpen(true);
   };
 
@@ -177,6 +183,12 @@ export default function PartnersPage() {
               onChange={(checked) => setFormData({ ...formData, is_active: checked })}
             />
           </div>
+
+          {formError && (
+            <div className="px-4 py-3 rounded-xl bg-red-50 border border-red-200 text-sm text-red-700">
+              {formError}
+            </div>
+          )}
 
           <div className="flex items-center justify-end gap-2 pt-4 border-t border-slate-200">
             <button

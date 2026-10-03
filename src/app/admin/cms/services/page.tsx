@@ -10,6 +10,7 @@ import { DragHandle } from '@/components/ios/DragHandle';
 import { ToggleSwitch } from '@/components/ios/ToggleSwitch';
 import { CMSHeader } from '@/components/ios/CMSHeader';
 import { CMSActionMenu } from '@/components/ios/CMSActionMenu';
+import { getErrorMessage } from '@/lib/api-errors';
 
 interface Service {
   id: number;
@@ -26,6 +27,7 @@ export default function ServicesPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [editingId, setEditingId] = useState<number | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [formError, setFormError] = useState('');
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -52,6 +54,11 @@ export default function ServicesPage() {
   };
 
   const handleSubmit = async () => {
+    if (!formData.name.trim() || !formData.description.trim()) {
+      setFormError('Service name and description are required.');
+      return;
+    }
+    setFormError('');
     setSubmitting(true);
     const token = getAccessToken();
     try {
@@ -68,6 +75,7 @@ export default function ServicesPage() {
       closeForm();
     } catch (error) {
       console.error('Failed to save service:', error);
+      setFormError(getErrorMessage(error, 'Failed to save service.'));
     } finally {
       setSubmitting(false);
     }
@@ -86,6 +94,7 @@ export default function ServicesPage() {
       setEditingId(null);
       setFormData({ name: '', description: '', icon: '📦', is_active: true });
     }
+    setFormError('');
     setIsFormOpen(true);
   };
 
@@ -146,7 +155,7 @@ export default function ServicesPage() {
           </div>
 
           <div>
-            <label className="text-xs font-semibold text-slate-600 block mb-2">Description</label>
+            <label className="text-xs font-semibold text-slate-600 block mb-2">Description *</label>
             <textarea
               placeholder="Describe this service"
               value={formData.description}
@@ -178,6 +187,12 @@ export default function ServicesPage() {
               onChange={(checked) => setFormData({ ...formData, is_active: checked })}
             />
           </div>
+
+          {formError && (
+            <div className="px-4 py-3 rounded-xl bg-red-50 border border-red-200 text-sm text-red-700">
+              {formError}
+            </div>
+          )}
 
           <div className="flex items-center justify-end gap-2 pt-4 border-t border-slate-200">
             <button

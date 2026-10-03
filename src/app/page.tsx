@@ -45,6 +45,7 @@ interface TeamMember {
   id: number;
   name: string;
   role: string;
+  image?: string | null;
   image_url?: string;
   order: number;
 }
@@ -52,6 +53,7 @@ interface TeamMember {
 interface Partner {
   id: number;
   name: string;
+  logo?: string | null;
   logo_url: string;
   order: number;
 }
@@ -111,7 +113,9 @@ export default function Home() {
   const fetchTeamMembers = async () => {
     try {
       const response = await axios.get(`${API_BASE_URL}/team-members/`);
-      const members = (response.data.results || response.data).sort((a: TeamMember, b: TeamMember) => a.order - b.order);
+      const members = (response.data.results || response.data)
+        .map((m: TeamMember) => ({ ...m, image_url: m.image || m.image_url }))
+        .sort((a: TeamMember, b: TeamMember) => a.order - b.order);
       setTeamMembers(members);
     } catch (error) {
       console.error('Failed to fetch team members:', error);
@@ -146,7 +150,9 @@ export default function Home() {
   const fetchPartners = async () => {
     try {
       const response = await axios.get(`${API_BASE_URL}/partners/`);
-      const partnersData = (response.data.results || response.data).sort((a: Partner, b: Partner) => a.order - b.order);
+      const partnersData = (response.data.results || response.data)
+        .map((p: Partner) => ({ ...p, logo_url: p.logo || p.logo_url }))
+        .sort((a: Partner, b: Partner) => a.order - b.order);
       setPartners(partnersData);
     } catch (error) {
       console.error('Failed to fetch partners:', error);

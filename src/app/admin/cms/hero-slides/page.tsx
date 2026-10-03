@@ -12,6 +12,7 @@ import { CMSHeader } from '@/components/ios/CMSHeader';
 import { CMSActionMenu } from '@/components/ios/CMSActionMenu';
 import { MultiStepForm } from '@/components/ios/MultiStepForm';
 import { ImageUploadField } from '@/components/admin/ImageUploadField';
+import { getErrorMessage } from '@/lib/api-errors';
 
 interface HeroSlide {
   id: number;
@@ -38,10 +39,11 @@ export default function HeroSlidesPage() {
   const [submitting, setSubmitting] = useState(false);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [formError, setFormError] = useState('');
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    slide_type: 'hero',
+    slide_type: 'main',
     is_active: true
   });
 
@@ -64,6 +66,17 @@ export default function HeroSlidesPage() {
   };
 
   const handleSubmit = async () => {
+    if (!formData.title.trim()) {
+      setFormError('Title is required.');
+      setCurrentStep(0);
+      return;
+    }
+    if (!editingId && !imageFile) {
+      setFormError('Please upload a slide image.');
+      setCurrentStep(1);
+      return;
+    }
+    setFormError('');
     setSubmitting(true);
     const token = getAccessToken();
     try {
@@ -94,6 +107,7 @@ export default function HeroSlidesPage() {
       closeForm();
     } catch (error) {
       console.error('Failed to save:', error);
+      setFormError(getErrorMessage(error, 'Failed to save hero slide.'));
     } finally {
       setSubmitting(false);
     }
@@ -111,10 +125,11 @@ export default function HeroSlidesPage() {
       setImagePreview(slide.image_url);
     } else {
       setEditingId(null);
-      setFormData({ title: '', description: '', slide_type: 'hero', is_active: true });
+      setFormData({ title: '', description: '', slide_type: 'main', is_active: true });
       setImagePreview(null);
     }
     setImageFile(null);
+    setFormError('');
     setCurrentStep(0);
     setIsFormOpen(true);
   };
@@ -123,7 +138,7 @@ export default function HeroSlidesPage() {
     setIsFormOpen(false);
     setTimeout(() => {
       setEditingId(null);
-      setFormData({ title: '', description: '', slide_type: 'hero', is_active: true });
+      setFormData({ title: '', description: '', slide_type: 'main', is_active: true });
       setImageFile(null);
       setImagePreview(null);
       setCurrentStep(0);
@@ -169,6 +184,11 @@ export default function HeroSlidesPage() {
             submitLabel={editingId ? 'Update' : 'Create'}
             loading={submitting}
           >
+            {formError && (
+              <div className="mb-5 px-4 py-3 rounded-xl bg-red-50 border border-red-200 text-sm text-red-700">
+                {formError}
+              </div>
+            )}
             {currentStep === 0 && (
               <div className="space-y-5">
                 <div>
@@ -215,9 +235,8 @@ export default function HeroSlidesPage() {
                     onChange={(e) => setFormData({ ...formData, slide_type: e.target.value })}
                     className="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition"
                   >
-                    <option value="hero">Hero</option>
-                    <option value="promo">Promotional</option>
-                    <option value="featured">Featured</option>
+                    <option value="main">Main Heading</option>
+                    <option value="description">Description</option>
                   </select>
                 </div>
                 <div className="flex items-center justify-between pt-2 border-t border-slate-200">

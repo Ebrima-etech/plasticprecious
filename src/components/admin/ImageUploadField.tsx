@@ -6,7 +6,7 @@ import { HiOutlinePhoto, HiOutlineXMark } from 'react-icons/hi2';
 interface ImageUploadFieldProps {
   label: string;
   value: File | null;
-  preview?: string;
+  preview?: string | null;
   onChange: (file: File | null) => void;
   onPreviewChange?: (preview: string | null) => void;
   accept?: string;

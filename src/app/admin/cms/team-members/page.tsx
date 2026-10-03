@@ -12,12 +12,14 @@ import { CMSHeader } from '@/components/ios/CMSHeader';
 import { CMSActionMenu } from '@/components/ios/CMSActionMenu';
 import { MultiStepForm } from '@/components/ios/MultiStepForm';
 import { ImageUploadField } from '@/components/admin/ImageUploadField';
+import { getErrorMessage } from '@/lib/api-errors';
 
 interface TeamMember {
   id: number;
   name: string;
   role: string;
   description: string;
+  image?: string | null;
   image_url: string;
   is_active: boolean;
 }
@@ -37,6 +39,7 @@ export default function TeamMembersPage() {
   const [submitting, setSubmitting] = useState(false);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [formError, setFormError] = useState('');
   const [formData, setFormData] = useState({
     name: '',
     role: '',
@@ -54,7 +57,9 @@ export default function TeamMembersPage() {
       const response = await axios.get(`${API_BASE_URL}/team-members/`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      setMembers(response.data.results || response.data);
+      // Uploaded photos are stored in `image`; `image_url` holds manually set links
+      const data: TeamMember[] = response.data.results || response.data;
+      setMembers(data.map(m => ({ ...m, image_url: m.image || m.image_url })));
       setLoading(false);
     } catch (error) {
       console.error('Failed to fetch team members:', error);
@@ -63,6 +68,17 @@ export default function TeamMembersPage() {
   };
 
   const handleSubmit = async () => {
+    if (!formData.name.trim()) {
+      setFormError('Name is required.');
+      setCurrentStep(0);
+      return;
+    }
+    if (!formData.role.trim()) {
+      setFormError('Role is required.');
+      setCurrentStep(1);
+      return;
+    }
+    setFormError('');
     setSubmitting(true);
     const token = getAccessToken();
     try {
@@ -78,23 +94,18 @@ export default function TeamMembersPage() {
 
       if (editingId) {
         await axios.patch(`${API_BASE_URL}/team-members/${editingId}/`, submitData, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data'
-          }
+          headers: { Authorization: `Bearer ${token}` }
         });
       } else {
         await axios.post(`${API_BASE_URL}/team-members/`, submitData, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data'
-          }
+          headers: { Authorization: `Bearer ${token}` }
         });
       }
       fetchMembers();
       closeForm();
     } catch (error) {
       console.error('Failed to save:', error);
+      setFormError(getErrorMessage(error, 'Failed to save team member.'));
     } finally {
       setSubmitting(false);
     }
@@ -116,6 +127,7 @@ export default function TeamMembersPage() {
       setImagePreview(null);
     }
     setImageFile(null);
+    setFormError('');
     setCurrentStep(0);
     setIsFormOpen(true);
   };
@@ -170,6 +182,11 @@ export default function TeamMembersPage() {
             submitLabel={editingId ? 'Update' : 'Create'}
             loading={submitting}
           >
+            {formError && (
+              <div className="mb-5 px-4 py-3 rounded-xl bg-red-50 border border-red-200 text-sm text-red-700">
+                {formError}
+              </div>
+            )}
             {currentStep === 0 && (
               <div className="space-y-5">
                 <div>

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import SponsorButton from '@/components/sponsorship/SponsorButton';
 
 export default function Footer() {
   return (
@@ -29,6 +30,7 @@ export default function Footer() {
               <li><Link href="/about" className="text-white hover:text-emerald-400 transition font-semibold">About Us</Link></li>
               <li><Link href="/blog" className="text-white hover:text-emerald-400 transition font-semibold">Blog & News</Link></li>
               <li><Link href="/impact" className="text-white hover:text-emerald-400 transition font-semibold">Impact Report</Link></li>
+              <li><SponsorButton className="text-white hover:text-emerald-400 transition font-semibold text-left">Sponsor a Desk</SponsorButton></li>
               <li><Link href="/contact" className="text-white hover:text-emerald-400 transition font-semibold">Careers</Link></li>
             </ul>
           </div>

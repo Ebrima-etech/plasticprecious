@@ -8,6 +8,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ContactForm from '@/components/ContactForm';
 import CustomerCommunityImpact from '@/components/impact/CustomerCommunityImpact';
+import SponsorButton from '@/components/sponsorship/SponsorButton';
 import { API_BASE_URL } from '@/config/api';
 import { ImpactMetric, ImpactSummary, formatAmount, formatKg, formatMonth } from '@/lib/impact';
 
@@ -250,6 +251,9 @@ export default function ImpactPage() {
                 Explore Materials
               </button>
             </Link>
+            <SponsorButton className="px-8 py-4 bg-amber-400 text-amber-950 font-bold rounded-xl hover:bg-amber-300 transition">
+              Sponsor a School Desk
+            </SponsorButton>
           </div>
         </div>
       </section>

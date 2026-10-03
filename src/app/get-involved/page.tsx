@@ -7,6 +7,10 @@ import { FiMapPin, FiCalendar, FiUsers, FiGift, FiDroplet, FiTool, FiBook, FiBar
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { API_BASE_URL } from '@/config/api';
+import SponsorButton from '@/components/sponsorship/SponsorButton';
+
+// Public endpoints: a plain instance so visitors are never redirected to login by a 401
+const publicApi = axios.create();
 
 interface Event {
   id: number;
@@ -61,7 +65,7 @@ export default function GetInvolvedPage() {
 
   const fetchEvents = async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/impact/events/`);
+      const response = await publicApi.get(`${API_BASE_URL}/impact/events/`);
       const eventList = response.data.results || response.data;
       setEvents(Array.isArray(eventList) ? eventList : []);
     } catch (error) {
@@ -87,15 +91,13 @@ export default function GetInvolvedPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post(`${API_BASE_URL}/impact/newsletter/`, { email });
+      await publicApi.post(`${API_BASE_URL}/impact/newsletter/subscribe/`, { email });
       setSubmitted(true);
       setTimeout(() => setSubmitted(false), 5000);
       setEmail('');
     } catch (error) {
       console.error('Failed to subscribe:', error);
-      setSubmitted(true);
-      setTimeout(() => setSubmitted(false), 5000);
-      setEmail('');
+      alert('Sorry, we could not subscribe you right now. Please check your email address and try again.');
     }
   };
 
@@ -111,7 +113,7 @@ export default function GetInvolvedPage() {
 
     setRegistering(true);
     try {
-      const response = await axios.post(
+      await publicApi.post(
         `${API_BASE_URL}/impact/events/${selectedEvent.id}/register/`,
         registrationForm
       );
@@ -276,9 +278,8 @@ export default function GetInvolvedPage() {
                     <span>Certificate of impact</span>
                   </li>
                 </ul>
-                <button className="px-8 py-4 bg-emerald-600 text-white font-bold rounded-xl hover:bg-emerald-700">
-                  Sponsor Now
-                </button>
+                <SponsorButton />
+
               </div>
               <div className="bg-emerald-50 rounded-2xl p-8 text-center">
                 <p className="text-5xl font-black text-emerald-600 mb-4">150</p>

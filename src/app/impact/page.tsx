@@ -207,7 +207,7 @@ export default function ImpactPage() {
       )}
 
       {/* Customer impact */}
-      {summary?.customers && <CustomerCommunityImpact customers={summary.customers} />}
+      {summary?.customers && summary.customers.supporters > 0 && <CustomerCommunityImpact customers={summary.customers} />}
 
       {/* Impact Areas */}
       <section className="py-16 lg:py-24">

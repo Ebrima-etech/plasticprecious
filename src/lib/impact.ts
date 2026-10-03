@@ -85,6 +85,16 @@ export interface ImpactSummary {
   monthly: MonthlyImpact[];
   top_products?: { product_id: number; name: string; units_sold: number; plastic_kg: number; co2_saved_kg: number }[];
   catalog?: { products_total: number; products_with_impact: number };
+  customers?: {
+    supporters: number;
+    plastic_kg: number;
+    co2_saved_kg: number;
+    products_bought: number;
+    average_plastic_kg: number;
+    top_supporter_plastic_kg: number;
+    bottles_equivalent: number;
+    levels: { key: string; name: string; min_kg: number; count: number }[];
+  };
 }
 
 export interface ImpactMetric {

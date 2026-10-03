@@ -7,6 +7,7 @@ import { FiBarChart, FiTrendingUp, FiAward, FiGlobe } from 'react-icons/fi';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ContactForm from '@/components/ContactForm';
+import CustomerCommunityImpact from '@/components/impact/CustomerCommunityImpact';
 import { API_BASE_URL } from '@/config/api';
 import { ImpactMetric, ImpactSummary, formatAmount, formatKg, formatMonth } from '@/lib/impact';
 
@@ -204,6 +205,9 @@ export default function ImpactPage() {
           </div>
         </section>
       )}
+
+      {/* Customer impact */}
+      {summary?.customers && <CustomerCommunityImpact customers={summary.customers} />}
 
       {/* Impact Areas */}
       <section className="py-16 lg:py-24">

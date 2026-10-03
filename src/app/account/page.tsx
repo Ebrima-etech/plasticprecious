@@ -4,13 +4,23 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { FiLogOut, FiUser, FiMail, FiPackage, FiShoppingCart, FiShoppingBag } from 'react-icons/fi';
+import axios from 'axios';
 import { getAccessToken, clearTokens } from '@/lib/auth';
+import { API_BASE_URL } from '@/config/api';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import MyImpact from '@/components/impact/MyImpact';
+
+interface AccountUser {
+  email: string;
+  first_name: string;
+  last_name: string;
+}
 
 export default function AccountPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<AccountUser | null>(null);
 
   useEffect(() => {
     const token = getAccessToken();
@@ -21,7 +31,13 @@ export default function AccountPage() {
     }
 
     setLoading(false);
+    axios
+      .get(`${API_BASE_URL}/auth/user/`, { headers: { Authorization: `Bearer ${token}` } })
+      .then(res => setUser(res.data))
+      .catch(err => console.error('Failed to load account details:', err));
   }, [router]);
+
+  const fullName = user ? `${user.first_name} ${user.last_name}`.trim() : '';
 
   const handleLogout = () => {
     clearTokens();
@@ -49,11 +65,14 @@ export default function AccountPage() {
                 <FiUser className="text-white text-2xl" />
               </div>
               <div>
-                <h1 className="text-4xl font-black text-slate-900">My Account</h1>
+                <h1 className="text-4xl font-black text-slate-900">{user?.first_name ? `Hi, ${user.first_name}` : 'My Account'}</h1>
                 <p className="text-slate-600 mt-1">Manage your profile and orders</p>
               </div>
             </div>
           </div>
+
+          {/* Personal impact */}
+          <MyImpact />
 
           {/* Account Information Card */}
           <div className="bg-white rounded-3xl border border-slate-200 shadow-sm mb-8 overflow-hidden">
@@ -67,14 +86,14 @@ export default function AccountPage() {
             <div className="p-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="group">
-                  <p className="text-xs font-black text-slate-500 uppercase tracking-widest mb-3">Username</p>
+                  <p className="text-xs font-black text-slate-500 uppercase tracking-widest mb-3">Name</p>
                   <div className="flex items-center gap-3 p-4 rounded-xl bg-gradient-to-br from-emerald-50 to-emerald-100 border border-emerald-200 group-hover:border-emerald-300 transition">
                     <div className="w-10 h-10 bg-emerald-600 rounded-lg flex items-center justify-center">
                       <FiUser className="text-white" size={20} />
                     </div>
                     <div>
                       <p className="text-sm text-slate-600 font-semibold">Account Owner</p>
-                      <p className="text-slate-900 font-black">Account User</p>
+                      <p className="text-slate-900 font-black">{fullName || '—'}</p>
                     </div>
                   </div>
                 </div>
@@ -87,7 +106,7 @@ export default function AccountPage() {
                     </div>
                     <div>
                       <p className="text-sm text-slate-600 font-semibold">Email</p>
-                      <p className="text-slate-900 font-black">user@example.com</p>
+                      <p className="text-slate-900 font-black break-all">{user?.email || '—'}</p>
                     </div>
                   </div>
                 </div>

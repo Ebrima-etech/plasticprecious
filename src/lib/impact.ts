@@ -118,3 +118,67 @@ export const formatMonth = (month: string): string => {
   const [y, m] = month.split('-').map(Number);
   return new Date(y, m - 1, 1).toLocaleDateString('en-US', { month: 'short', year: '2-digit' });
 };
+
+// --- Customer impact -----------------------------------------------------------
+
+export interface CustomerBadge {
+  key: string;
+  name: string;
+  description: string;
+  earned: boolean;
+}
+
+export interface CustomerImpact {
+  display_name: string;
+  has_impact: boolean;
+  since: string | null;
+  totals: {
+    plastic_kg: number;
+    co2_saved_kg: number;
+    water_saved_liters: number;
+    products_bought: number;
+    orders: number;
+    distinct_products: number;
+    bottles_equivalent: number;
+    trees_equivalent: number;
+  };
+  level: { key: string; name: string; min_kg: number };
+  next_level: { key: string; name: string; min_kg: number; remaining_kg: number; progress: number } | null;
+  badges: CustomerBadge[];
+  rank: { position: number; supporters: number; top_percent: number } | null;
+  community: { plastic_diverted_kg: number; products_sold: number; supporters: number };
+  // Only for the signed-in customer
+  share_token?: string;
+  products?: { product_id: number; name: string; units: number; plastic_kg: number; co2_saved_kg: number }[];
+  pending?: { plastic_kg: number; co2_saved_kg: number };
+}
+
+export const LEVEL_ICONS: Record<string, string> = {
+  seedling: '🌱',
+  saver: '♻️',
+  guardian: '🌊',
+  hero: '🦸',
+  champion: '🏆',
+};
+
+export const BADGE_ICONS: Record<string, string> = {
+  first_step: '👣',
+  one_kg: '⚖️',
+  bottles_100: '🍶',
+  climate_ally: '🌍',
+  loyal: '💚',
+  collector: '🧺',
+};
+
+export const shareUrlFor = (token: string, origin: string) => `${origin}/impact/share/${encodeURIComponent(token)}`;
+
+export const shareMessage = (impact: Pick<CustomerImpact, 'totals'>, own = true) => {
+  const kg = formatKg(impact.totals.plastic_kg);
+  const bottles = formatAmount(impact.totals.bottles_equivalent, 0);
+  return own
+    ? `I've kept ${kg} of plastic (about ${bottles} bottles) out of the environment by buying recycled products from Precious Plastic Gambia ♻️ Join me!`
+    : `Someone kept ${kg} of plastic out of the environment with Precious Plastic Gambia ♻️`;
+};
+
+export const formatSince = (since: string | null) =>
+  since ? new Date(since).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) : '';

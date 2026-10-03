@@ -1,11 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import axios from 'axios';
 import { FiBarChart, FiTrendingUp, FiAward, FiGlobe } from 'react-icons/fi';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ContactForm from '@/components/ContactForm';
+import { API_BASE_URL } from '@/config/api';
+import { ImpactMetric, ImpactSummary, formatAmount, formatKg, formatMonth } from '@/lib/impact';
 
 interface MetricCard {
   icon: React.ReactNode;
@@ -14,7 +17,15 @@ interface MetricCard {
   description: string;
 }
 
-const metrics: MetricCard[] = [
+const METRIC_ICONS = [
+  <FiTrendingUp key="trend" className="w-8 h-8" />,
+  <FiGlobe key="globe" className="w-8 h-8" />,
+  <FiAward key="award" className="w-8 h-8" />,
+  <FiBarChart key="bar" className="w-8 h-8" />,
+];
+
+// Shown until live impact data is available
+const fallbackMetrics: MetricCard[] = [
   {
     icon: <FiTrendingUp className="w-8 h-8" />,
     value: '2,847',
@@ -70,6 +81,60 @@ const impactAreas = [
 
 export default function ImpactPage() {
   const [isContactFormOpen, setIsContactFormOpen] = useState(false);
+  const [headlineMetrics, setHeadlineMetrics] = useState<ImpactMetric[]>([]);
+  const [summary, setSummary] = useState<ImpactSummary | null>(null);
+
+  useEffect(() => {
+    // Plain instance: skips the global auth interceptors, so a 401 here never redirects visitors to login.
+    // Each request falls back independently, so the page still works with an older backend.
+    const publicApi = axios.create();
+    publicApi.get(`${API_BASE_URL}/impact/metrics/`)
+      .then(res => setHeadlineMetrics(res.data.results || res.data))
+      .catch(() => setHeadlineMetrics([]));
+    publicApi.get(`${API_BASE_URL}/impact/summary/`)
+      .then(res => setSummary(res.data))
+      .catch(() => setSummary(null));
+  }, []);
+
+  const totals = summary && summary.totals.entries_count > 0 ? summary.totals : null;
+
+  let metrics: MetricCard[] = fallbackMetrics;
+  if (headlineMetrics.length > 0) {
+    metrics = headlineMetrics.map((m, idx) => ({
+      icon: METRIC_ICONS[idx % METRIC_ICONS.length],
+      value: m.display_value || m.value,
+      label: m.label,
+      description: m.description,
+    }));
+  } else if (totals) {
+    metrics = [
+      { icon: METRIC_ICONS[0], value: formatKg(totals.plastic_diverted_kg), label: 'Plastic Diverted', description: `About ${formatAmount(totals.bottles_equivalent, 0)} plastic bottles` },
+      { icon: METRIC_ICONS[1], value: formatKg(totals.co2_saved_kg), label: 'CO₂ Emissions Avoided', description: 'Compared to virgin plastic' },
+      { icon: METRIC_ICONS[2], value: formatAmount(totals.products_sold + totals.items_produced, 0), label: 'Products Created & Sold', description: 'From recycled plastic materials' },
+      { icon: METRIC_ICONS[3], value: formatAmount(totals.people_engaged, 0), label: 'People Engaged', description: 'Through collections, events and workshops' },
+    ];
+  }
+
+  // Swap the static figures in the impact areas for live ones when we have them
+  const areas = impactAreas.map(area => {
+    if (!totals) return area;
+    switch (area.title) {
+      case 'Ocean Conservation':
+        return totals.plastic_collected_kg > 0 ? { ...area, stats: `${formatKg(totals.plastic_collected_kg)} of plastic collected` } : area;
+      case 'Carbon Reduction':
+        return totals.co2_saved_kg > 0 ? { ...area, stats: `${formatKg(totals.co2_saved_kg)} CO₂ saved` } : area;
+      case 'Community Impact':
+        return totals.people_engaged > 0 ? { ...area, stats: `${formatAmount(totals.people_engaged, 0)} people engaged` } : area;
+      case 'Circular Economy':
+        return totals.products_sold > 0 ? { ...area, stats: `${formatAmount(totals.products_sold, 0)} recycled products sold` } : area;
+      default:
+        return area;
+    }
+  });
+
+  const monthly = summary?.monthly || [];
+  const maxMonthly = Math.max(1, ...monthly.map(m => m.plastic_collected_kg + m.plastic_sold_kg));
+  const hasMonthly = monthly.some(m => m.plastic_collected_kg + m.plastic_sold_kg > 0);
 
   return (
     <div className="min-h-screen bg-white">
@@ -105,12 +170,47 @@ export default function ImpactPage() {
         </div>
       </section>
 
+      {/* Live trend */}
+      {hasMonthly && (
+        <section className="py-16 lg:py-20 bg-white border-b border-slate-100">
+          <div className="max-w-6xl mx-auto px-6 lg:px-8">
+            <h2 className="text-3xl lg:text-4xl font-black text-slate-900 mb-3 text-center">Plastic Recycled, Month by Month</h2>
+            <p className="text-slate-600 text-center mb-10">Tracked from our collections and every product sold over the last 12 months.</p>
+            <div className="overflow-x-auto">
+              <div className="flex items-end gap-2 h-56 min-w-[480px]">
+                {monthly.map(m => {
+                  const total = m.plastic_collected_kg + m.plastic_sold_kg;
+                  return (
+                    <div key={m.month} className="flex-1 flex flex-col items-center gap-2 h-full" title={`${formatMonth(m.month)}: ${formatKg(total)}`}>
+                      <div className="w-full flex-1 flex flex-col justify-end">
+                        {total > 0 && <p className="text-[10px] text-slate-500 text-center mb-1">{formatKg(total)}</p>}
+                        <div className="w-full rounded-t-md bg-gradient-to-t from-emerald-600 to-teal-400" style={{ height: `${(total / maxMonthly) * 100}%` }} />
+                      </div>
+                      <p className="m-0 text-[10px] text-slate-500 whitespace-nowrap">{formatMonth(m.month)}</p>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            {summary && summary.by_plastic_type.length > 0 && (
+              <div className="flex flex-wrap justify-center gap-2 mt-8">
+                {summary.by_plastic_type.map(t => (
+                  <span key={t.plastic_type || 'none'} className="px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-sm text-emerald-800">
+                    {t.label}: <strong>{formatKg(t.plastic_kg)}</strong>
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+        </section>
+      )}
+
       {/* Impact Areas */}
       <section className="py-16 lg:py-24">
         <div className="max-w-6xl mx-auto px-6 lg:px-8">
           <h2 className="text-4xl font-black text-slate-900 mb-16 text-center">Impact Areas</h2>
           <div className="grid md:grid-cols-2 gap-8">
-            {impactAreas.map((area, idx) => (
+            {areas.map((area, idx) => (
               <div
                 key={idx}
                 className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-2xl p-8 border-2 border-emerald-200"
@@ -157,7 +257,7 @@ export default function ImpactPage() {
           <div className="max-w-3xl mx-auto">
             <div className="bg-white rounded-2xl p-12 border-2 border-emerald-100">
               <p className="text-slate-700 mb-6 leading-relaxed">
-                We believe in measuring and sharing our impact honestly. All metrics are independently verified and updated quarterly. Our impact reports include verified data from our supply chain partners, production facilities, and community partners across West Africa.
+                We believe in measuring and sharing our impact honestly. Every product lists the recycled plastic it contains, and our figures are tracked continuously from each sale, collection drive, production run and community event we record.
               </p>
               <p className="text-slate-700 mb-8 leading-relaxed">
                 We're committed to continuous improvement and transparency in all our operations. Our goal is not just to sell products, but to create measurable positive change in environmental conservation and community development.

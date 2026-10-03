@@ -10,6 +10,16 @@ import { Input } from '@/components/ui/Input';
 import { Card, CardBody, CardHeader, CardFooter } from '@/components/ui/Card';
 import { Spinner } from '@/components/ui/Spinner';
 import { AdminFormSkeleton } from '@/components/ShimmerSkeleton';
+import { PLASTIC_TYPES, GRAMS_PER_BOTTLE, toNumber, formatAmount } from '@/lib/impact';
+
+const EMPTY_IMPACT = {
+  plastic_type: '',
+  plastic_recycled_kg: '',
+  co2_saved_kg: '',
+  water_saved_liters: '',
+  plastic_source: '',
+  impact_story: '',
+};
 
 interface ProductFormProps {
   productId?: number;
@@ -43,6 +53,7 @@ export default function ProductForm({ productId }: ProductFormProps) {
     category: '',
     is_active: true,
   });
+  const [impact, setImpact] = useState(EMPTY_IMPACT);
   const [deliveryPrices, setDeliveryPrices] = useState<DeliveryPrice>({});
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
@@ -131,6 +142,14 @@ export default function ProductForm({ productId }: ProductFormProps) {
             stock: prodRes.data.stock,
             category: prodRes.data.category,
             is_active: prodRes.data.is_active,
+          });
+          setImpact({
+            plastic_type: prodRes.data.plastic_type || '',
+            plastic_recycled_kg: toNumber(prodRes.data.plastic_recycled_kg) ? String(toNumber(prodRes.data.plastic_recycled_kg)) : '',
+            co2_saved_kg: toNumber(prodRes.data.co2_saved_kg) ? String(toNumber(prodRes.data.co2_saved_kg)) : '',
+            water_saved_liters: toNumber(prodRes.data.water_saved_liters) ? String(toNumber(prodRes.data.water_saved_liters)) : '',
+            plastic_source: prodRes.data.plastic_source || '',
+            impact_story: prodRes.data.impact_story || '',
           });
           if (prodRes.data.image) {
             setImagePreviews([prodRes.data.image]);
@@ -252,6 +271,14 @@ export default function ProductForm({ productId }: ProductFormProps) {
       submitFormData.append('stock', formData.stock);
       submitFormData.append('category', formData.category);
       submitFormData.append('is_active', String(formData.is_active));
+
+      // Impact per unit (blank numbers are sent as 0)
+      submitFormData.append('plastic_type', impact.plastic_type);
+      submitFormData.append('plastic_recycled_kg', impact.plastic_recycled_kg || '0');
+      submitFormData.append('co2_saved_kg', impact.co2_saved_kg || '0');
+      submitFormData.append('water_saved_liters', impact.water_saved_liters || '0');
+      submitFormData.append('plastic_source', impact.plastic_source);
+      submitFormData.append('impact_story', impact.impact_story);
 
       if (imageFiles.length > 0) {
         submitFormData.append('image', imageFiles[0]);
@@ -377,6 +404,95 @@ export default function ProductForm({ productId }: ProductFormProps) {
                 </option>
               ))}
             </select>
+          </div>
+
+          {/* Environmental Impact (per unit) */}
+          <div>
+            <label className="block text-sm font-medium text-neutral-700 mb-1">
+              Environmental Impact <span className="text-neutral-400 font-normal">(per unit)</span>
+            </label>
+            <p className="text-xs text-neutral-500 mb-3">
+              Shown on the product page and added to the business impact log every time this product is sold.
+            </p>
+            <div className="space-y-4 p-4 bg-emerald-50/60 rounded-lg border border-emerald-200">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-semibold text-neutral-600 mb-1">Plastic type</label>
+                  <select
+                    value={impact.plastic_type}
+                    onChange={(e) => setImpact({ ...impact, plastic_type: e.target.value })}
+                    className="w-full px-3 py-2 border border-neutral-200 rounded-md text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  >
+                    <option value="">Not specified</option>
+                    {PLASTIC_TYPES.map(t => (
+                      <option key={t.value} value={t.value}>{t.label}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-neutral-600 mb-1">Recycled plastic used (kg)</label>
+                  <input
+                    type="number"
+                    min="0"
+                    step="0.001"
+                    value={impact.plastic_recycled_kg}
+                    onChange={(e) => setImpact({ ...impact, plastic_recycled_kg: e.target.value })}
+                    placeholder="e.g. 2.5"
+                    className="w-full px-3 py-2 border border-neutral-200 rounded-md text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-neutral-600 mb-1">CO₂ saved (kg)</label>
+                  <input
+                    type="number"
+                    min="0"
+                    step="0.001"
+                    value={impact.co2_saved_kg}
+                    onChange={(e) => setImpact({ ...impact, co2_saved_kg: e.target.value })}
+                    placeholder="vs. a virgin-plastic product"
+                    className="w-full px-3 py-2 border border-neutral-200 rounded-md text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-neutral-600 mb-1">Water saved (liters)</label>
+                  <input
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    value={impact.water_saved_liters}
+                    onChange={(e) => setImpact({ ...impact, water_saved_liters: e.target.value })}
+                    placeholder="Optional"
+                    className="w-full px-3 py-2 border border-neutral-200 rounded-md text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-neutral-600 mb-1">Where the plastic comes from</label>
+                <input
+                  type="text"
+                  maxLength={255}
+                  value={impact.plastic_source}
+                  onChange={(e) => setImpact({ ...impact, plastic_source: e.target.value })}
+                  placeholder="e.g. Gunjur beach cleanups"
+                  className="w-full px-3 py-2 border border-neutral-200 rounded-md text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-neutral-600 mb-1">Impact story</label>
+                <textarea
+                  rows={3}
+                  value={impact.impact_story}
+                  onChange={(e) => setImpact({ ...impact, impact_story: e.target.value })}
+                  placeholder="How this product helps the community and the environment"
+                  className="w-full px-3 py-2 border border-neutral-200 rounded-md text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                />
+              </div>
+              {toNumber(impact.plastic_recycled_kg) > 0 && (
+                <p className="text-xs text-emerald-800 font-medium">
+                  ♻️ Each unit keeps about {formatAmount((toNumber(impact.plastic_recycled_kg) * 1000) / GRAMS_PER_BOTTLE, 0)} plastic bottles out of the environment.
+                </p>
+              )}
+            </div>
           </div>
 
           {/* Delivery Prices by Location */}

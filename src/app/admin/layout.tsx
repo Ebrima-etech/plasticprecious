@@ -6,7 +6,7 @@ import Link from 'next/link';
 import axios from 'axios';
 import { getToken } from '@/lib/auth';
 import { API_BASE_URL } from '@/config/api';
-import { HiOutlineSquares2X2, HiOutlineShoppingBag, HiOutlineTag, HiOutlineShoppingCart, HiOutlineCurrencyDollar, HiOutlineTicket, HiOutlineUsers, HiOutlineBell, HiOutlineArrowTrendingUp, HiOutlineCalendar, HiOutlineDocumentText, HiOutlineGift, HiOutlineBriefcase, HiOutlineUserGroup, HiOutlineChevronRight, HiOutlineChevronDown, HiOutlineArrowRightOnRectangle, HiOutlineHome, HiOutlineBars3, HiOutlineCog, HiOutlineMapPin } from 'react-icons/hi2';
+import { HiOutlineSquares2X2, HiOutlineShoppingBag, HiOutlineTag, HiOutlineShoppingCart, HiOutlineCurrencyDollar, HiOutlineTicket, HiOutlineUsers, HiOutlineBell, HiOutlineArrowTrendingUp, HiOutlineCalendar, HiOutlineDocumentText, HiOutlineGift, HiOutlineBriefcase, HiOutlineUserGroup, HiOutlineChevronRight, HiOutlineChevronDown, HiOutlineArrowRightOnRectangle, HiOutlineHome, HiOutlineBars3, HiOutlineCog, HiOutlineMapPin, HiOutlineClipboardDocumentList } from 'react-icons/hi2';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -231,7 +231,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               </button>
               {(expandedSections.impact && sidebarOpen) && (
                 <div className="space-y-1.5 mt-2">
-                  <NavLink href="/admin/impact" icon={HiOutlineArrowTrendingUp} label="Metrics" />
+                  <NavLink href="/admin/impact" icon={HiOutlineArrowTrendingUp} label="Impact Dashboard" />
+                  <NavLink href="/admin/impact/log" icon={HiOutlineClipboardDocumentList} label="Impact Log" />
                   <NavLink href="/admin/impact/events" icon={HiOutlineCalendar} label="Events" />
                   <NavLink href="/admin/impact/registrations" icon={HiOutlineUsers} label="Registrations" />
                   <NavLink href="/admin/impact/rfq" icon={HiOutlineDocumentText} label="Requests" />

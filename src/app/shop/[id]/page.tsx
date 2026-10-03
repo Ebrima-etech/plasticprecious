@@ -12,6 +12,8 @@ import { cartService } from '@/lib/cartService';
 import { getAccessToken } from '@/lib/auth';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import ProductImpactPanel, { ProductImpactHighlight } from '@/components/ProductImpactPanel';
+import { ProductImpact, LifetimeImpact } from '@/lib/impact';
 
 interface ProductImage {
   id: number;
@@ -20,7 +22,7 @@ interface ProductImage {
   order: number;
 }
 
-interface Product {
+interface Product extends ProductImpact {
   id: number;
   name: string;
   description: string;
@@ -30,6 +32,7 @@ interface Product {
   product_images?: ProductImage[];
   is_active: boolean;
   category?: number;
+  lifetime_impact?: LifetimeImpact;
 }
 
 export default function ProductDetailPage() {
@@ -208,6 +211,9 @@ export default function ProductDetailPage() {
                 </p>
               </div>
 
+              {/* Impact highlight */}
+              <ProductImpactHighlight impact={product} quantity={quantity} />
+
               {/* Description */}
               <p className="text-slate-700 text-xs leading-relaxed">{product.description}</p>
 
@@ -297,6 +303,9 @@ export default function ProductDetailPage() {
           </div>
         </div>
       </section>
+
+      {/* Environmental Impact */}
+      <ProductImpactPanel impact={product} lifetime={product.lifetime_impact} quantity={quantity} />
 
       {/* Specifications Section */}
       <section className="py-16 lg:py-24 bg-gradient-to-br from-slate-50 to-emerald-50 border-t border-slate-200 relative overflow-hidden">

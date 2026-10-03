@@ -12,6 +12,7 @@ import { ProductGridSkeleton } from '@/components/ShimmerSkeleton';
 import { API_BASE_URL } from '@/config/api';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { toNumber, formatKg } from '@/lib/impact';
 
 interface Product {
   id: number;
@@ -21,6 +22,7 @@ interface Product {
   stock: number;
   image?: string;
   is_active: boolean;
+  plastic_recycled_kg?: string;
 }
 
 const badges = [
@@ -208,6 +210,12 @@ function ShopContent() {
                               </h3>
                             </div>
                             <p className="text-xs text-slate-500 mb-2 font-medium">Only {product.stock} left!</p>
+
+                            {toNumber(product.plastic_recycled_kg) > 0 && (
+                              <p className="mb-2 inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700 w-fit">
+                                ♻️ {formatKg(product.plastic_recycled_kg)} plastic recycled
+                              </p>
+                            )}
 
                             {/* Rotating Badges */}
                             <div className="mb-2 text-xs font-bold badge-rotating">

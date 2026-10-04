@@ -7,6 +7,8 @@ import axios from 'axios';
 import { API_BASE_URL } from '@/config/api';
 import { getToken } from '@/lib/auth';
 import { AdminDashboardSkeleton } from '@/components/ShimmerSkeleton';
+import DashboardLoader from '@/components/staff-dashboard/DashboardLoader';
+import { useStaffMe } from '@/lib/staffDashboard';
 import { HiOutlineSparkles, HiOutlineCurrencyDollar, HiOutlineShoppingCart, HiOutlineShoppingBag, HiOutlineUsers } from 'react-icons/hi2';
 import { HiOutlineUser } from 'react-icons/hi2';
 
@@ -24,7 +26,7 @@ interface DashboardStats {
   new_customers_this_week: number;
 }
 
-export default function AdminDashboard() {
+function AdminOverview() {
   const router = useRouter();
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
   const [stats, setStats] = useState<DashboardStats>({
@@ -387,4 +389,24 @@ export default function AdminDashboard() {
       </div>
     </div>
   );
+}
+
+const greetingFor = (name: string) => {
+  const hour = new Date().getHours();
+  const part = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
+  return `${part}, ${name.split(' ')[0]}`;
+};
+
+export default function DashboardPage() {
+  const me = useStaffMe();
+  if (me && !me.is_admin) {
+    // Staff without full admin access get a dashboard built from their role and permissions
+    return (
+      <DashboardLoader
+        greeting={() => greetingFor(me.user.name)}
+        subtitle={() => (me.staff ? `${me.staff.role_display} · ${me.staff.department} department` : undefined)}
+      />
+    );
+  }
+  return <AdminOverview />;
 }

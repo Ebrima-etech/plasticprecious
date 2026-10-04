@@ -102,6 +102,26 @@ export default function StaffAdmin() {
 
   const isExistingMode = !editingId && mode === 'existing';
 
+  // Suggested permissions per role (they decide which dashboard sections a person gets)
+  const [roleDefaults, setRoleDefaults] = useState<Record<string, string[]>>({});
+  useEffect(() => {
+    axios
+      .get(`${API_BASE_URL}/staff/role-defaults/`, { headers: { Authorization: `Bearer ${getAccessToken()}` } })
+      .then(res => setRoleDefaults(res.data))
+      .catch(() => { /* older backend: no suggestions */ });
+  }, []);
+
+  const sameSet = (a: string[], b: string[]) => a.length === b.length && a.every(p => b.includes(p));
+
+  const changeRole = (role: string) => {
+    setFormData(prev => {
+      const previousDefaults = roleDefaults[prev.role] || [];
+      // Only replace permissions the admin hasn't customised
+      const untouched = prev.permissions.length === 0 || sameSet(prev.permissions, previousDefaults);
+      return { ...prev, role, permissions: untouched && roleDefaults[role] ? [...roleDefaults[role]] : prev.permissions };
+    });
+  };
+
   useEffect(() => {
     if (!showForm || !isExistingMode || selectedUser) return;
     setSearchingCandidates(true);
@@ -678,7 +698,7 @@ export default function StaffAdmin() {
                         <label className="text-xs font-medium text-slate-600 block mb-2">Role *</label>
                         <select
                           value={formData.role}
-                          onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+                          onChange={(e) => changeRole(e.target.value)}
                           className="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                         >
                           <option value="">Select Role</option>
@@ -750,7 +770,8 @@ export default function StaffAdmin() {
                     </span>
                   </label>
                   <div>
-                    <label className="text-xs font-medium text-slate-600 block mb-3">Select Permissions</label>
+                    <label className="text-xs font-medium text-slate-600 block mb-1">Select Permissions</label>
+                    <p className="text-xs text-slate-500 mb-3">These decide what appears on their dashboard (e.g. Manage Orders shows orders, or deliveries for drivers). Suggested for the role; adjust as needed.</p>
                     <div className="space-y-2 max-h-96 overflow-y-auto">
                       {PERMISSIONS.map(perm => (
                         <div key={perm.value} className="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 transition">

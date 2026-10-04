@@ -1,16 +1,19 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import axios from 'axios';
 import { getToken } from '@/lib/auth';
 import { API_BASE_URL } from '@/config/api';
+import { STAFF_ALLOWED_PATHS, StaffMe, StaffMeContext } from '@/lib/staffDashboard';
 import { HiOutlineSquares2X2, HiOutlineShoppingBag, HiOutlineTag, HiOutlineShoppingCart, HiOutlineCurrencyDollar, HiOutlineTicket, HiOutlineUsers, HiOutlineBell, HiOutlineArrowTrendingUp, HiOutlineCalendar, HiOutlineDocumentText, HiOutlineGift, HiOutlineBriefcase, HiOutlineUserGroup, HiOutlineChevronRight, HiOutlineChevronDown, HiOutlineArrowRightOnRectangle, HiOutlineHome, HiOutlineBars3, HiOutlineCog, HiOutlineMapPin, HiOutlineClipboardDocumentList } from 'react-icons/hi2';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
+  const pathname = usePathname();
   const [isAuthed, setIsAuthed] = useState(false);
+  const [me, setMe] = useState<StaffMe | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeRoute, setActiveRoute] = useState('/admin/dashboard');
   const [profileOpen, setProfileOpen] = useState(false);
@@ -33,23 +36,21 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           return;
         }
 
-        // Fetch user data to check if admin
-        const response = await axios.get(`${API_BASE_URL}/auth/user/`, {
+        // Admins and staff members both get in; what they see depends on their permissions
+        const response = await axios.get(`${API_BASE_URL}/staff/me/`, {
           headers: { Authorization: `Bearer ${token}` }
         });
 
-        const user = response.data;
-        if (!user.is_staff && !user.is_superuser) {
-          // Not an admin, redirect to home
-          router.push('/');
-          return;
-        }
-
+        setMe(response.data);
         setIsAuthed(true);
         setActiveRoute(window.location.pathname);
       } catch (error) {
-        // Auth failed, redirect to login
-        router.push('/auth/login');
+        if (axios.isAxiosError(error) && error.response?.status === 403) {
+          // Signed in but neither an admin nor a staff member
+          router.push('/');
+        } else {
+          router.push('/auth/login');
+        }
       } finally {
         setLoading(false);
       }
@@ -58,7 +59,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     checkAdminAccess();
   }, [router]);
 
-  if (loading) {
+  // Staff without full admin access only get their dashboard
+  const restricted = !!me && !me.is_admin && !STAFF_ALLOWED_PATHS.includes(pathname);
+  useEffect(() => {
+    if (restricted) router.replace('/admin/dashboard');
+  }, [restricted, router]);
+
+  if (loading || restricted) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-50">
         <div className="text-center">
@@ -163,7 +170,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </div>
 
           {/* Business Tools - Collapsible Sections */}
-          <div className="space-y-5 py-4">
+          {me?.is_admin && (<div className="space-y-5 py-4">
             {/* Products & Catalog */}
             <div>
               <button
@@ -254,6 +261,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 <div className="space-y-1.5 mt-2">
                   <NavLink href="/admin/staff/departments" icon={HiOutlineBriefcase} label="Departments" />
                   <NavLink href="/admin/staff/members" icon={HiOutlineUserGroup} label="Staff" />
+                  <NavLink href="/admin/staff/dashboards" icon={HiOutlineSquares2X2} label="Team Dashboards" />
                 </div>
               )}
             </div>
@@ -273,11 +281,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 </div>
               )}
             </div>
-          </div>
+          </div>)}
 
           {/* Account & Settings - Primary Links */}
           <div className="mt-auto pt-4 space-y-1.5 border-t border-slate-200/50">
-            <NavLink href="/admin/settings" icon={HiOutlineCog} label="Settings" />
+            {me?.is_admin && <NavLink href="/admin/settings" icon={HiOutlineCog} label="Settings" />}
           </div>
         </nav>
 
@@ -290,12 +298,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             >
               <div className={`flex items-center gap-3 ${sidebarOpen ? 'flex-1 min-w-0' : ''}`}>
                 <div className="w-9 h-9 bg-gradient-to-br from-emerald-400 to-emerald-700 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0 shadow-md">
-                  A
+                  {(me?.user.name || 'A').charAt(0).toUpperCase()}
                 </div>
                 {sidebarOpen && (
                   <div className="text-left min-w-0">
-                    <p className="text-sm font-semibold text-slate-900">Admin</p>
-                    <p className="text-xs text-slate-500 truncate font-medium">admin@store.com</p>
+                    <p className="text-sm font-semibold text-slate-900 truncate">{me?.user.name || 'Admin'}</p>
+                    <p className="text-xs text-slate-500 truncate font-medium">{me?.user.email}</p>
                   </div>
                 )}
               </div>
@@ -332,7 +340,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <div className="flex items-center gap-4">
             <div className="flex flex-col">
               <h2 className="text-base font-bold text-slate-900">Dashboard</h2>
-              <p className="text-xs text-slate-500 font-medium">Management Suite</p>
+              <p className="text-xs text-slate-500 font-medium">{me?.is_admin ? 'Management Suite' : me?.staff ? `${me.staff.role_display} · ${me.staff.department}` : 'Staff'}</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
@@ -351,7 +359,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         {/* Page Content */}
         <div className="flex-1 overflow-auto">
           <div className="p-8 max-w-7xl mx-auto">
-            {children}
+            <StaffMeContext.Provider value={me}>{children}</StaffMeContext.Provider>
           </div>
         </div>
       </div>

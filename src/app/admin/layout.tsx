@@ -48,6 +48,21 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         if (axios.isAxiosError(error) && error.response?.status === 403) {
           // Signed in but neither an admin nor a staff member
           router.push('/');
+        } else if (axios.isAxiosError(error) && error.response?.status === 404) {
+          // Backend without staff dashboards yet: fall back to the plain admin check
+          try {
+            const userRes = await axios.get(`${API_BASE_URL}/auth/user/`, { headers: { Authorization: `Bearer ${getToken()}` } });
+            const user = userRes.data;
+            if (!user.is_staff && !user.is_superuser) {
+              router.push('/');
+              return;
+            }
+            setMe({ is_admin: true, user: { id: user.id, name: `${user.first_name} ${user.last_name}`.trim() || user.email, email: user.email }, staff: null, permissions: [], modules: [] });
+            setIsAuthed(true);
+            setActiveRoute(window.location.pathname);
+          } catch {
+            router.push('/auth/login');
+          }
         } else {
           router.push('/auth/login');
         }

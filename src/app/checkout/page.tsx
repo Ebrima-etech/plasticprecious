@@ -271,7 +271,8 @@ function CheckoutContent() {
           delivery_fee: delivery,
           deliver_to: formData.full_name,
           contact_number: formData.phone_number,
-          // The Gambia: delivery area; elsewhere: postal address (priced on the server)
+          // The Gambia: delivery area; elsewhere: postal address. The server recalculates the total and
+          // refuses the order if it differs from total_amount (what the customer saw).
           ...(isInternational ? intl : { delivery_location: formData.city }),
           items: cart.items.map((item: CartItem) => ({
             product_id: item.product.id,

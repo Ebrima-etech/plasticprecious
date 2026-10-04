@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useRouter, useParams } from 'next/navigation';
 import { API_BASE_URL } from '@/config/api';
 import { getToken } from '@/lib/auth';
+import ShippingAddress from '@/components/ShippingAddress';
 
 export default function EditOrderPage() {
   const router = useRouter();
@@ -145,6 +146,8 @@ export default function EditOrderPage() {
             </p>
           </div>
         </div>
+
+      <div className="mb-6"><ShippingAddress order={order} /></div>
 
       <form onSubmit={handleStatusChange} className="space-y-6">
         <div>

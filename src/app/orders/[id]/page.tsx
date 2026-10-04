@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
+import ShippingAddress from '@/components/ShippingAddress';
 import axios from 'axios';
 import { FiArrowLeft, FiPackage, FiCalendar } from 'react-icons/fi';
 import { getAccessToken } from '@/lib/auth';
@@ -29,6 +30,10 @@ interface Order {
   status: string;
   items: OrderItem[];
   notes?: string;
+  shipping_address?: string[];
+  shipping_phone?: string;
+  shipping_email?: string;
+  is_international?: boolean;
 }
 
 export default function OrderDetailsPage() {
@@ -137,6 +142,9 @@ export default function OrderDetailsPage() {
                 {order.status.replace('_', ' ').toUpperCase()}
               </span>
             </div>
+
+            {/* Delivery address */}
+            <div className="mb-8"><ShippingAddress order={order} /></div>
 
             {/* Order Items */}
             <div className="mb-8">

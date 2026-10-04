@@ -9,6 +9,7 @@ import { cartService } from '@/lib/cartService';
 import { Cart, CartItem } from '@/types';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { COUNTRIES, HOME_COUNTRY } from '@/lib/countries';
 
 interface LocationOption {
   id: number;
@@ -42,6 +43,32 @@ function CheckoutContent() {
     street: '',
     postal_code: '',
   });
+  // Outside The Gambia we ship to a standard postal address
+  const [country, setCountry] = useState(HOME_COUNTRY);
+  const [intl, setIntl] = useState({
+    email: '',
+    address_line1: '',
+    house_number: '',
+    address_line2: '',
+    city: '',
+    region: '',
+    postal_code: '',
+    po_box: '',
+  });
+  const [intlFee, setIntlFee] = useState<number | null>(null);
+  const isInternational = country !== HOME_COUNTRY;
+
+  useEffect(() => {
+    // Plain instance: this is public info and must not trigger the login redirect
+    axios.create()
+      .get(`${API_BASE_URL}/orders/shipping_options/`)
+      .then(res => setIntlFee(res.data.international_fee))
+      .catch(() => setIntlFee(null));
+  }, []);
+
+  const handleIntlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIntl({ ...intl, [e.target.name]: e.target.value });
+  };
 
   useEffect(() => {
     const token = getAccessToken();
@@ -202,10 +229,29 @@ function CheckoutContent() {
 
     try {
       // Validate required fields
-      if (!formData.full_name || !formData.phone_number || !formData.city) {
+      if (!isInternational && (!formData.full_name || !formData.phone_number || !formData.city)) {
         setError('Please fill in all required fields');
         setLoading(false);
         return;
+      }
+      if (isInternational) {
+        const problems: string[] = [];
+        if (!formData.full_name.trim()) problems.push('recipient name');
+        if (!formData.phone_number.trim()) problems.push('phone number');
+        if (!/^\S+@\S+\.\S+$/.test(intl.email.trim())) problems.push('a valid email');
+        if (!intl.address_line1.trim() && !intl.po_box.trim()) problems.push('street address or PO Box');
+        if (!intl.city.trim()) problems.push('city / town');
+        if (!intl.postal_code.trim() && !intl.po_box.trim()) problems.push('postal / ZIP code');
+        if (problems.length) {
+          setError(`Please enter: ${problems.join(', ')}.`);
+          setLoading(false);
+          return;
+        }
+        if (intlFee === null) {
+          setError('International shipping is unavailable right now. Please try again shortly.');
+          setLoading(false);
+          return;
+        }
       }
 
       if (!cart || cart.items.length === 0) {
@@ -220,11 +266,13 @@ function CheckoutContent() {
       const response = await axios.post(
         getApiUrl('/orders/create_payment/'),
         {
+          country,
           total_amount: total,
           delivery_fee: delivery,
           deliver_to: formData.full_name,
           contact_number: formData.phone_number,
-          delivery_location: formData.city,
+          // The Gambia: delivery area; elsewhere: postal address (priced on the server)
+          ...(isInternational ? intl : { delivery_location: formData.city }),
           items: cart.items.map((item: CartItem) => ({
             product_id: item.product.id,
             quantity: item.quantity,
@@ -258,7 +306,7 @@ function CheckoutContent() {
 
   const subtotal = cart?.items.reduce((sum: number, item: CartItem) => sum + (parseFloat(item.product.price) * item.quantity), 0) || 0;
   const locationId = getLocationIdByName(formData.city);
-  const delivery = formData.city ? getDeliveryPrice(locationId) : 0;
+  const delivery = isInternational ? (intlFee ?? 0) : formData.city ? getDeliveryPrice(locationId) : 0;
   const total = subtotal + delivery;
 
   return (
@@ -280,6 +328,29 @@ function CheckoutContent() {
               <h1 className="text-3xl font-black text-slate-900 mb-8">Checkout</h1>
 
               <div className="space-y-6">
+                {/* Country */}
+                <div>
+                  <label className="block text-sm font-bold text-slate-700 uppercase tracking-wide mb-2">
+                    Country *
+                  </label>
+                  <select
+                    value={country}
+                    onChange={(e) => { setCountry(e.target.value); setError(''); }}
+                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-900 bg-white"
+                  >
+                    <option value={HOME_COUNTRY}>The Gambia</option>
+                    <option disabled>──────────</option>
+                    {COUNTRIES.filter(c => c.code !== HOME_COUNTRY).map(c => (
+                      <option key={c.code} value={c.code}>{c.name}</option>
+                    ))}
+                  </select>
+                  {isInternational && (
+                    <p className="text-xs text-slate-500 mt-2">
+                      We ship internationally from The Gambia. Shipping is a flat fee and usually takes 7–21 business days.
+                    </p>
+                  )}
+                </div>
+
                 {/* Deliver To */}
                 <div>
                   <label className="block text-sm font-bold text-slate-700 uppercase tracking-wide mb-2">
@@ -305,12 +376,63 @@ function CheckoutContent() {
                     name="phone_number"
                     value={formData.phone_number}
                     onChange={handleChange}
-                    placeholder="Recipient's phone number"
+                    placeholder={isInternational ? 'Phone with country code, e.g. +44 7700 900000' : "Recipient's phone number"}
                     className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-900 placeholder-slate-500"
                   />
                 </div>
 
-                {/* Delivery Location */}
+                {/* International postal address */}
+                {isInternational && (
+                  <div className="space-y-5 rounded-xl border border-slate-200 p-5 bg-slate-50/50">
+                    <p className="text-sm font-bold text-slate-700 uppercase tracking-wide">Shipping address</p>
+                    {[
+                      { name: 'email', label: 'Email *', type: 'email', placeholder: 'For shipping and tracking updates', autoComplete: 'email' },
+                      { name: 'address_line1', label: 'Street address *', placeholder: 'Street name and number', autoComplete: 'address-line1' },
+                    ].map(f => (
+                      <div key={f.name}>
+                        <label className="block text-xs font-semibold text-slate-600 mb-1.5">{f.label}</label>
+                        <input
+                          type={f.type || 'text'}
+                          name={f.name}
+                          value={intl[f.name as keyof typeof intl]}
+                          onChange={handleIntlChange}
+                          placeholder={f.placeholder}
+                          autoComplete={f.autoComplete}
+                          className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-900 placeholder-slate-400 bg-white"
+                        />
+                      </div>
+                    ))}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {[
+                        { name: 'house_number', label: 'House / apartment / unit no.', placeholder: 'e.g. Flat 4B', autoComplete: 'address-line2' },
+                        { name: 'address_line2', label: 'Address line 2', placeholder: 'Building, estate, landmark (optional)', autoComplete: 'address-line3' },
+                        { name: 'city', label: 'City / town *', placeholder: '', autoComplete: 'address-level2' },
+                        { name: 'region', label: 'State / province / region', placeholder: '', autoComplete: 'address-level1' },
+                        { name: 'postal_code', label: 'Postal / ZIP code *', placeholder: '', autoComplete: 'postal-code' },
+                        { name: 'po_box', label: 'PO Box', placeholder: 'Optional; can replace street and postcode', autoComplete: 'off' },
+                      ].map(f => (
+                        <div key={f.name}>
+                          <label className="block text-xs font-semibold text-slate-600 mb-1.5">{f.label}</label>
+                          <input
+                            type="text"
+                            name={f.name}
+                            value={intl[f.name as keyof typeof intl]}
+                            onChange={handleIntlChange}
+                            placeholder={f.placeholder}
+                            autoComplete={f.autoComplete}
+                            className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-900 placeholder-slate-400 bg-white"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                    <p className="text-xs text-slate-500">
+                      Use a PO Box if you don’t have a street address or postcode. Prices are in Gambian Dalasi (D); your bank converts the amount.
+                    </p>
+                  </div>
+                )}
+
+                {/* Delivery Location (The Gambia) */}
+                {!isInternational && (
                 <div>
                   <label className="block text-sm font-bold text-slate-700 uppercase tracking-wide mb-2">
                     Delivery Location *
@@ -349,6 +471,7 @@ function CheckoutContent() {
                     )}
                   </select>
                 </div>
+                )}
               </div>
             </div>
 
@@ -390,9 +513,13 @@ function CheckoutContent() {
                     <span>D {subtotal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                   </div>
                   <div className="flex justify-between text-slate-700">
-                    <span>Delivery</span>
-                    <span className={delivery === 0 ? 'text-emerald-600 font-semibold' : ''}>
-                      {formData.city ? (
+                    <span>{isInternational ? 'International shipping' : 'Delivery'}</span>
+                    <span className={delivery === 0 && !isInternational ? 'text-emerald-600 font-semibold' : ''}>
+                      {isInternational ? (
+                        intlFee === null
+                          ? <span className="text-slate-500">Unavailable</span>
+                          : `D ${delivery.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+                      ) : formData.city ? (
                         delivery === 0 ? 'Free' : `D ${delivery.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
                       ) : (
                         <span className="text-slate-500">Select location</span>
@@ -408,7 +535,7 @@ function CheckoutContent() {
                 {/* Estimated Delivery */}
                 <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-3 mb-6">
                   <p className="text-sm text-emerald-800">
-                    <span className="font-semibold">Est. delivery:</span> 2-5 business days
+                    <span className="font-semibold">Est. delivery:</span> {isInternational ? '7–21 business days' : '2-5 business days'}
                   </p>
                 </div>
 

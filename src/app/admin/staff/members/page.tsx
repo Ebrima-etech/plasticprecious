@@ -30,6 +30,15 @@ interface Department {
   name: string;
 }
 
+interface Candidate {
+  id: number;
+  email: string;
+  first_name: string;
+  last_name: string;
+  phone: string;
+  date_joined: string;
+}
+
 const ROLES = [
   { value: 'manager', label: 'Manager' },
   { value: 'marketer', label: 'Marketer' },
@@ -84,6 +93,48 @@ export default function StaffAdmin() {
   const [formError, setFormError] = useState('');
   const [saving, setSaving] = useState(false);
   const [drafts, setDrafts] = useState<any[]>([]);
+  // "new" creates a new account; "existing" turns an existing user (e.g. a customer) into staff
+  const [mode, setMode] = useState<'new' | 'existing'>('new');
+  const [selectedUser, setSelectedUser] = useState<Candidate | null>(null);
+  const [candidateSearch, setCandidateSearch] = useState('');
+  const [candidates, setCandidates] = useState<Candidate[]>([]);
+  const [searchingCandidates, setSearchingCandidates] = useState(false);
+
+  const isExistingMode = !editingId && mode === 'existing';
+
+  useEffect(() => {
+    if (!showForm || !isExistingMode || selectedUser) return;
+    setSearchingCandidates(true);
+    const timer = setTimeout(async () => {
+      try {
+        const res = await axios.get(`${API_BASE_URL}/staff/staff/candidates/`, {
+          headers: { Authorization: `Bearer ${getAccessToken()}` },
+          params: candidateSearch.trim() ? { search: candidateSearch.trim() } : {},
+        });
+        setCandidates(res.data);
+      } catch (err) {
+        console.error('Failed to search users:', err);
+        setCandidates([]);
+      } finally {
+        setSearchingCandidates(false);
+      }
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [showForm, isExistingMode, selectedUser, candidateSearch]);
+
+  const chooseUser = (user: Candidate) => {
+    setSelectedUser(user);
+    setFormError('');
+    // Bring over what we already know about them
+    setFormData(prev => ({ ...prev, phone_number: prev.phone_number || user.phone || '' }));
+  };
+
+  const switchMode = (next: 'new' | 'existing') => {
+    setMode(next);
+    setSelectedUser(null);
+    setCandidateSearch('');
+    setFormError('');
+  };
 
   const DRAFT_KEY = 'staff_form_draft';
 
@@ -110,14 +161,18 @@ export default function StaffAdmin() {
   // Returns an error message for the given step, or '' if it is complete
   const stepError = (step: number) => {
     if (step === 1) {
-      if (!formData.first_name.trim() || !formData.last_name.trim()) return 'Enter first and last name.';
-      if (!editingId && !/^\S+@\S+\.\S+$/.test(formData.email.trim())) return 'Enter a valid email address.';
+      if (isExistingMode) {
+        if (!selectedUser) return 'Search for and select the user to make staff.';
+      } else {
+        if (!formData.first_name.trim() || !formData.last_name.trim()) return 'Enter first and last name.';
+        if (!editingId && !/^\S+@\S+\.\S+$/.test(formData.email.trim())) return 'Enter a valid email address.';
+      }
     }
     if (step === 2) {
       if (!formData.department || !formData.role || !formData.hire_date) return 'Choose a department, role and hire date.';
       if (formData.salary && parseFloat(formData.salary) < 0) return 'Salary cannot be negative.';
     }
-    if (step === 3 && !editingId && formData.password && formData.password.length < 8) {
+    if (step === 3 && !editingId && !isExistingMode && formData.password && formData.password.length < 8) {
       return 'Password must be at least 8 characters, or leave it blank to generate one.';
     }
     return '';
@@ -151,6 +206,14 @@ export default function StaffAdmin() {
         await axios.patch(`${API_BASE_URL}/staff/staff/${editingId}/`, common, {
           headers: { Authorization: `Bearer ${token}` }
         });
+      } else if (isExistingMode && selectedUser) {
+        // Names and login stay as they are on the user's account
+        const { first_name: _first, last_name: _last, ...staffFields } = common;
+        await axios.post(
+          `${API_BASE_URL}/staff/staff/`,
+          { ...staffFields, user_id: selectedUser.id },
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
       } else {
         const response = await axios.post(
           `${API_BASE_URL}/staff/staff/`,
@@ -251,7 +314,7 @@ export default function StaffAdmin() {
       // Older drafts may lack newer fields, so fill in defaults
       setFormData({ ...EMPTY_FORM, ...draft.data });
       setEditingId(null);
-      setFormError('');
+      switchMode('new');
       setCurrentStep(1);
     }
   };
@@ -286,7 +349,7 @@ export default function StaffAdmin() {
       setEditingId(null);
       setFormData(EMPTY_FORM);
     }
-    setFormError('');
+    switchMode('new');
     setShowForm(true);
   };
 
@@ -294,7 +357,7 @@ export default function StaffAdmin() {
     setShowForm(false);
     setCurrentStep(1);
     setEditingId(null);
-    setFormError('');
+    switchMode('new');
     setFormData(EMPTY_FORM);
   };
 
@@ -444,9 +507,94 @@ export default function StaffAdmin() {
             {/* Step 1: Personal Information */}
             {currentStep === 1 && (
               <div className="space-y-6 animate-fadeIn">
+                {!editingId && (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {([
+                      { value: 'new', title: 'Create a new staff account', desc: 'Sets up a new login for someone without an account' },
+                      { value: 'existing', title: 'Make an existing user staff', desc: 'Pick someone who already has an account; their login stays the same' },
+                    ] as const).map(option => (
+                      <button
+                        key={option.value}
+                        type="button"
+                        onClick={() => switchMode(option.value)}
+                        className={`text-left p-4 rounded-xl border-2 transition ${
+                          mode === option.value ? 'border-emerald-600 bg-emerald-50' : 'border-slate-200 hover:border-slate-300'
+                        }`}
+                      >
+                        <span className="block text-sm font-semibold text-slate-900">{option.title}</span>
+                        <span className="block text-xs text-slate-600 mt-1">{option.desc}</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+
+                {isExistingMode && (
+                  <div>
+                    <label className="block text-sm font-semibold text-slate-900 mb-3">Choose the user</label>
+                    {selectedUser ? (
+                      <div className="flex items-center justify-between gap-4 p-4 rounded-xl border border-emerald-200 bg-emerald-50">
+                        <div className="min-w-0">
+                          <p className="font-semibold text-slate-900 truncate">
+                            {`${selectedUser.first_name} ${selectedUser.last_name}`.trim() || selectedUser.email}
+                          </p>
+                          <p className="text-sm text-slate-600 truncate">{selectedUser.email}</p>
+                          <p className="text-xs text-slate-500 mt-0.5">
+                            Member since {new Date(selectedUser.date_joined).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
+                          </p>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => setSelectedUser(null)}
+                          className="px-3 py-1.5 text-sm font-medium text-emerald-700 border border-emerald-300 rounded-lg hover:bg-white"
+                        >
+                          Change
+                        </button>
+                      </div>
+                    ) : (
+                      <>
+                        <input
+                          type="search"
+                          autoFocus
+                          value={candidateSearch}
+                          onChange={(e) => setCandidateSearch(e.target.value)}
+                          placeholder="Search by name, email or phone"
+                          className="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                        />
+                        <div className="mt-2 max-h-72 overflow-y-auto rounded-lg border border-slate-200 divide-y divide-slate-100">
+                          {searchingCandidates ? (
+                            <p className="p-4 text-sm text-slate-500">Searching…</p>
+                          ) : candidates.length === 0 ? (
+                            <p className="p-4 text-sm text-slate-500">
+                              {candidateSearch ? 'No matching users who aren’t already staff.' : 'No users available.'}
+                            </p>
+                          ) : (
+                            candidates.map(user => (
+                              <button
+                                key={user.id}
+                                type="button"
+                                onClick={() => chooseUser(user)}
+                                className="w-full text-left px-4 py-3 hover:bg-emerald-50 transition"
+                              >
+                                <span className="block text-sm font-semibold text-slate-900">
+                                  {`${user.first_name} ${user.last_name}`.trim() || 'No name'}
+                                </span>
+                                <span className="block text-xs text-slate-600">{user.email}{user.phone ? ` · ${user.phone}` : ''}</span>
+                              </button>
+                            ))
+                          )}
+                        </div>
+                        <p className="text-xs text-slate-500 mt-2">Only active users who aren’t staff yet are listed (up to 20 matches).</p>
+                      </>
+                    )}
+                  </div>
+                )}
+
                 <div>
-                  <label className="block text-sm font-semibold text-slate-900 mb-4">Personal Information</label>
+                  <label className="block text-sm font-semibold text-slate-900 mb-4">
+                    {isExistingMode ? 'Contact details' : 'Personal Information'}
+                  </label>
                   <div className="space-y-4">
+                    {!isExistingMode && (<>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
                         <label className="text-xs font-medium text-slate-600 block mb-2">First Name *</label>
@@ -480,8 +628,9 @@ export default function StaffAdmin() {
                         className="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent disabled:bg-slate-50 disabled:text-slate-500"
                       />
                     </div>
+                    </>)}
                     <div>
-                      <label className="text-xs font-medium text-slate-600 block mb-2">Phone Number *</label>
+                      <label className="text-xs font-medium text-slate-600 block mb-2">Phone Number</label>
                       <input
                         type="tel"
                         placeholder="+220 3011234"
@@ -573,7 +722,7 @@ export default function StaffAdmin() {
               <div className="space-y-6 animate-fadeIn">
                 <div>
                   <label className="block text-sm font-semibold text-slate-900 mb-4">Access & Permissions</label>
-                  {!editingId && (
+                  {!editingId && !isExistingMode && (
                     <div className="mb-6 p-4 bg-slate-50 rounded-lg border border-slate-200">
                       <label className="text-xs font-medium text-slate-600 block mb-2">Password</label>
                       <input

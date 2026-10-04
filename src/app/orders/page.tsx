@@ -15,6 +15,10 @@ interface Order {
   created_at: string;
   total_price: string;
   status: string;
+  is_international?: boolean;
+  shipping_country_name?: string;
+  delivery_location?: string;
+  shipping_city?: string;
 }
 
 export default function OrdersPage() {
@@ -118,6 +122,11 @@ export default function OrdersPage() {
                           day: 'numeric'
                         })}
                       </p>
+                      {(order.delivery_location || order.is_international) && (
+                        <p className="text-sm text-slate-500 mb-2">
+                          Delivering to {order.is_international ? [order.shipping_city, order.shipping_country_name].filter(Boolean).join(', ') : `${order.delivery_location}, The Gambia`}
+                        </p>
+                      )}
                       <p className="text-2xl font-black text-emerald-600">
                         D {parseFloat(order.total_price).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                       </p>

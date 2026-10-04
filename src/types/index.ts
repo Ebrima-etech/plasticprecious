@@ -45,7 +45,26 @@ export interface Order {
   status: OrderStatus;
   created_at: string;
   updated_at: string;
-  shipping_address: Address;
+  order_number?: string;
+  payment_method?: string;
+  // Delivery: Gambian orders use delivery_location; international orders use the postal fields
+  shipping_country?: string;
+  shipping_country_name?: string;
+  is_international?: boolean;
+  shipping_name?: string;
+  shipping_phone?: string;
+  shipping_email?: string;
+  delivery_location?: string;
+  shipping_address_line1?: string;
+  shipping_house_number?: string;
+  shipping_address_line2?: string;
+  shipping_city?: string;
+  shipping_region?: string;
+  shipping_postal_code?: string;
+  shipping_po_box?: string;
+  delivery_fee?: string;
+  // Ready-to-display address lines built by the backend
+  shipping_address?: string[];
 }
 
 export type OrderStatus = 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';

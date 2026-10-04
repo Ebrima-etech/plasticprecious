@@ -166,16 +166,24 @@ export default function StaffDashboard({ data, onChanged, greeting, subtitle }: 
                       <div className="flex items-center gap-2">
                         <span className="font-mono text-xs font-bold text-slate-500">{order.order_number}</span>
                         <StatusPill order={order} />
+                        {order.delivery.international && (
+                          <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-sky-50 text-sky-700">International</span>
+                        )}
                       </div>
                       <p className="font-semibold text-slate-900 mt-1">{order.delivery.deliver_to || order.customer}</p>
                       <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-slate-600 mt-1">
-                        {order.delivery.location && <span className="inline-flex items-center gap-1"><HiOutlineMapPin className="w-4 h-4" />{order.delivery.location}</span>}
+                        {order.delivery.location && !order.delivery.international && <span className="inline-flex items-center gap-1"><HiOutlineMapPin className="w-4 h-4" />{order.delivery.location}</span>}
                         {order.delivery.phone && (
                           <a href={`tel:${order.delivery.phone}`} className="inline-flex items-center gap-1 text-emerald-700 hover:underline">
                             <HiOutlinePhone className="w-4 h-4" />{order.delivery.phone}
                           </a>
                         )}
                       </div>
+                      {order.delivery.international && order.delivery.address_lines && (
+                        <address className="not-italic text-sm text-slate-600 mt-1 leading-snug">
+                          {order.delivery.address_lines.slice(1).map((line, i) => <span key={i} className="block">{line}</span>)}
+                        </address>
+                      )}
                       <p className="text-xs text-slate-500 mt-1">{order.items.join(', ')}</p>
                     </div>
                     <div className="text-right">

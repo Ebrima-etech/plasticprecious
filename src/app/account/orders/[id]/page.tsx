@@ -34,6 +34,7 @@ interface Order {
   shipping_phone?: string;
   shipping_email?: string;
   is_international?: boolean;
+  delivery_fee?: string;
 }
 
 export default function OrderDetailsPage() {

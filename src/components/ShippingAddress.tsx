@@ -5,6 +5,7 @@ interface ShippingAddressProps {
     shipping_phone?: string;
     shipping_email?: string;
     is_international?: boolean;
+    delivery_fee?: string | number;
   };
   title?: string;
 }
@@ -30,6 +31,11 @@ export default function ShippingAddress({ order, title = 'Delivery address' }: S
           {order.shipping_phone && <a href={`tel:${order.shipping_phone}`} className="hover:text-emerald-700">{order.shipping_phone}</a>}
           {order.shipping_phone && order.shipping_email && ' · '}
           {order.shipping_email && <a href={`mailto:${order.shipping_email}`} className="hover:text-emerald-700">{order.shipping_email}</a>}
+        </p>
+      )}
+      {order.delivery_fee !== undefined && parseFloat(String(order.delivery_fee)) > 0 && (
+        <p className="m-0 mt-2 text-sm text-slate-600">
+          {order.is_international ? 'International shipping' : 'Delivery'}: D {parseFloat(String(order.delivery_fee)).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
         </p>
       )}
     </div>

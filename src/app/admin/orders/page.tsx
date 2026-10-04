@@ -17,6 +17,10 @@ interface Order {
   total_price: string;
   status: string;
   created_at: string;
+  is_international?: boolean;
+  shipping_country_name?: string;
+  delivery_location?: string;
+  shipping_city?: string;
 }
 
 interface PaginationMeta {
@@ -230,6 +234,7 @@ export default function AdminOrdersPage() {
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-semibold text-slate-900 uppercase tracking-wide">Order ID</th>
                   <th className="px-6 py-3 text-left text-xs font-semibold text-slate-900 uppercase tracking-wide">Customer</th>
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-slate-900 uppercase tracking-wide">Destination</th>
                   <th className="px-6 py-3 text-left text-xs font-semibold text-slate-900 uppercase tracking-wide">Amount</th>
                   <th className="px-6 py-3 text-left text-xs font-semibold text-slate-900 uppercase tracking-wide">Status</th>
                   <th className="px-6 py-3 text-left text-xs font-semibold text-slate-900 uppercase tracking-wide">Date</th>
@@ -243,6 +248,16 @@ export default function AdminOrdersPage() {
                     <tr key={order.id} className="hover:bg-slate-50/50 transition-colors">
                       <td className="px-6 py-4 text-sm font-semibold text-slate-900">{order.order_number}</td>
                       <td className="px-6 py-4 text-sm text-slate-600 truncate">{order.user_email}</td>
+                      <td className="px-6 py-4 text-sm text-slate-600">
+                        {order.is_international ? (
+                          <span className="inline-flex items-center gap-1.5">
+                            <span className="px-1.5 py-0.5 rounded bg-sky-50 text-sky-700 text-[11px] font-semibold">INTL</span>
+                            {[order.shipping_city, order.shipping_country_name].filter(Boolean).join(', ')}
+                          </span>
+                        ) : (
+                          order.delivery_location || 'The Gambia'
+                        )}
+                      </td>
                       <td className="px-6 py-4 text-sm font-semibold text-slate-900 font-tabular-nums">
                         {formatCurrency(order.total_price)}
                       </td>

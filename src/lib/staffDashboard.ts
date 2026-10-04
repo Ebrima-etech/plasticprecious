@@ -56,7 +56,14 @@ export interface DashboardOrder {
   created_at: string;
   customer: string;
   items: string[];
-  delivery: { deliver_to: string; phone: string; location: string };
+  delivery: {
+    deliver_to: string;
+    phone: string;
+    location: string;
+    international?: boolean;
+    country?: string;
+    address_lines?: string[];
+  };
 }
 
 export interface StockItem {

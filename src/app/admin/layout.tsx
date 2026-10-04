@@ -6,7 +6,7 @@ import Link from 'next/link';
 import axios from 'axios';
 import { getToken } from '@/lib/auth';
 import { API_BASE_URL } from '@/config/api';
-import { STAFF_ALLOWED_PATHS, StaffMe, StaffMeContext } from '@/lib/staffDashboard';
+import { StaffMe, StaffMeContext, canAccessPage } from '@/lib/staffDashboard';
 import { HiOutlineSquares2X2, HiOutlineShoppingBag, HiOutlineTag, HiOutlineShoppingCart, HiOutlineCurrencyDollar, HiOutlineTicket, HiOutlineUsers, HiOutlineBell, HiOutlineArrowTrendingUp, HiOutlineCalendar, HiOutlineDocumentText, HiOutlineGift, HiOutlineBriefcase, HiOutlineUserGroup, HiOutlineChevronRight, HiOutlineChevronDown, HiOutlineArrowRightOnRectangle, HiOutlineHome, HiOutlineBars3, HiOutlineCog, HiOutlineMapPin, HiOutlineClipboardDocumentList } from 'react-icons/hi2';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -74,8 +74,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     checkAdminAccess();
   }, [router]);
 
-  // Staff without full admin access only get their dashboard
-  const restricted = !!me && !me.is_admin && !STAFF_ALLOWED_PATHS.includes(pathname);
+  // Staff without full admin access can only open pages their permissions allow
+  const restricted = !!me && !canAccessPage(me, pathname) && pathname !== '/admin';
   useEffect(() => {
     if (restricted) router.replace('/admin/dashboard');
   }, [restricted, router]);
@@ -95,7 +95,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     return null;
   }
 
+  // Only show sections and links this person can open
+  const anyPage = (hrefs: string[]) => hrefs.some(href => canAccessPage(me, href));
+
   const NavLink = ({ href, icon: Icon, label }: { href: string; icon: any; label: string }) => {
+    if (!canAccessPage(me, href)) return null;
     const isActive = activeRoute === href;
     return (
       <Link href={href} onClick={() => setActiveRoute(href)}>
@@ -185,9 +189,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </div>
 
           {/* Business Tools - Collapsible Sections */}
-          {me?.is_admin && (<div className="space-y-5 py-4">
+          <div className="space-y-5 py-4">
             {/* Products & Catalog */}
-            <div>
+            {anyPage(['/admin/products', '/admin/categories', '/admin/locations']) && (<div>
               <button
                 onClick={() => setExpandedSections({ ...expandedSections, catalog: !expandedSections.catalog })}
                 className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 transition-all ${sidebarOpen ? '' : 'justify-center'}`}
@@ -202,10 +206,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   <NavLink href="/admin/locations" icon={HiOutlineMapPin} label="Delivery Locations" />
                 </div>
               )}
-            </div>
+            </div>)}
 
             {/* Sales & Commerce */}
-            <div>
+            {anyPage(['/admin/orders', '/admin/revenue', '/admin/vouchers', '/admin/discounts']) && (<div>
               <button
                 onClick={() => setExpandedSections({ ...expandedSections, orders: !expandedSections.orders })}
                 className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 transition-all ${sidebarOpen ? '' : 'justify-center'}`}
@@ -221,10 +225,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   <NavLink href="/admin/discounts" icon={HiOutlineTag} label="Discounts" />
                 </div>
               )}
-            </div>
+            </div>)}
 
             {/* Content Management */}
-            <div>
+            {anyPage(['/admin/cms/hero-slides']) && (<div>
               <button
                 onClick={() => setExpandedSections({ ...expandedSections, cms: !expandedSections.cms })}
                 className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 transition-all ${sidebarOpen ? '' : 'justify-center'}`}
@@ -240,10 +244,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   <NavLink href="/admin/cms/partners" icon={HiOutlineTag} label="Partners" />
                 </div>
               )}
-            </div>
+            </div>)}
 
             {/* Business Insights */}
-            <div>
+            {anyPage(['/admin/impact', '/admin/impact/log', '/admin/impact/events', '/admin/impact/registrations', '/admin/impact/rfq', '/admin/impact/sponsorship']) && (<div>
               <button
                 onClick={() => setExpandedSections({ ...expandedSections, impact: !expandedSections.impact })}
                 className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 transition-all ${sidebarOpen ? '' : 'justify-center'}`}
@@ -261,10 +265,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   <NavLink href="/admin/impact/sponsorship" icon={HiOutlineGift} label="Sponsorships" />
                 </div>
               )}
-            </div>
+            </div>)}
 
             {/* Organization Management */}
-            <div>
+            {anyPage(['/admin/staff/departments', '/admin/staff/members', '/admin/staff/dashboards']) && (<div>
               <button
                 onClick={() => setExpandedSections({ ...expandedSections, staff: !expandedSections.staff })}
                 className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 transition-all ${sidebarOpen ? '' : 'justify-center'}`}
@@ -279,10 +283,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   <NavLink href="/admin/staff/dashboards" icon={HiOutlineSquares2X2} label="Team Dashboards" />
                 </div>
               )}
-            </div>
+            </div>)}
 
             {/* Community */}
-            <div>
+            {anyPage(['/admin/users']) && (<div>
               <button
                 onClick={() => setExpandedSections({ ...expandedSections, users: !expandedSections.users })}
                 className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 transition-all ${sidebarOpen ? '' : 'justify-center'}`}
@@ -295,8 +299,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   <NavLink href="/admin/users" icon={HiOutlineUsers} label="Customers" />
                 </div>
               )}
-            </div>
-          </div>)}
+            </div>)}
+          </div>
 
           {/* Account & Settings - Primary Links */}
           <div className="mt-auto pt-4 space-y-1.5 border-t border-slate-200/50">

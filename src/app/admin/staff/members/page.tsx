@@ -7,6 +7,7 @@ import { API_BASE_URL } from '@/config/api';
 import { getAccessToken } from '@/lib/auth';
 import { AdminTableSkeleton } from '@/components/ShimmerSkeleton';
 import { getErrorMessage } from '@/lib/api-errors';
+import { useStaffMe } from '@/lib/staffDashboard';
 
 interface Staff {
   id: number;
@@ -63,6 +64,8 @@ const PERMISSIONS = [
   { value: 'manage_inventory', label: 'Manage Inventory' },
   { value: 'export_data', label: 'Export Data' },
   { value: 'create_reports', label: 'Create Reports' },
+  { value: 'manage_content', label: 'Manage Website Content' },
+  { value: 'manage_community', label: 'Manage Community (events, requests, sponsorships)' },
 ];
 
 const EMPTY_FORM = {
@@ -81,6 +84,7 @@ const EMPTY_FORM = {
 };
 
 export default function StaffAdmin() {
+  const me = useStaffMe();
   const [staff, setStaff] = useState<Staff[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
   const [loading, setLoading] = useState(true);
@@ -755,36 +759,46 @@ export default function StaffAdmin() {
                       <p className="text-xs text-slate-500 mt-2">Minimum 8 characters, or leave blank to generate a secure one</p>
                     </div>
                   )}
-                  <label className="mb-6 flex items-start gap-3 p-4 rounded-lg border border-emerald-200 bg-emerald-50/60 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={formData.admin_access}
-                      onChange={(e) => setFormData({ ...formData, admin_access: e.target.checked })}
-                      className="mt-0.5 w-4 h-4 rounded accent-emerald-600"
-                    />
-                    <span>
-                      <span className="block text-sm font-semibold text-slate-900">Can sign in to the admin dashboard</span>
-                      <span className="block text-xs text-slate-600 mt-0.5">
-                        Gives full admin access. Leave off for staff who only need a record here (e.g. drivers).
+                  {me?.is_admin && (
+                    <label className="mb-6 flex items-start gap-3 p-4 rounded-lg border border-emerald-200 bg-emerald-50/60 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={formData.admin_access}
+                        onChange={(e) => setFormData({ ...formData, admin_access: e.target.checked })}
+                        className="mt-0.5 w-4 h-4 rounded accent-emerald-600"
+                      />
+                      <span>
+                        <span className="block text-sm font-semibold text-slate-900">Full admin access</span>
+                        <span className="block text-xs text-slate-600 mt-0.5">
+                          Ignores the permissions below and opens every admin page. Leave off so they only see what their permissions allow.
+                        </span>
                       </span>
-                    </span>
-                  </label>
+                    </label>
+                  )}
                   <div>
                     <label className="text-xs font-medium text-slate-600 block mb-1">Select Permissions</label>
-                    <p className="text-xs text-slate-500 mb-3">These decide what appears on their dashboard (e.g. Manage Orders shows orders, or deliveries for drivers). Suggested for the role; adjust as needed.</p>
+                    <p className="text-xs text-slate-500 mb-3">
+                      These decide which admin pages they can open and what appears on their dashboard (e.g. Manage Orders opens Orders,
+                      or deliveries for drivers). Suggested for the role; adjust as needed.
+                      {!me?.is_admin && ' You can only grant permissions you have yourself.'}
+                    </p>
                     <div className="space-y-2 max-h-96 overflow-y-auto">
-                      {PERMISSIONS.map(perm => (
-                        <div key={perm.value} className="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 transition">
-                          <input
-                            type="checkbox"
-                            id={perm.value}
-                            checked={formData.permissions.includes(perm.value)}
-                            onChange={() => togglePermission(perm.value)}
-                            className="w-4 h-4 rounded accent-emerald-600 cursor-pointer"
-                          />
-                          <label htmlFor={perm.value} className="text-sm text-slate-700 cursor-pointer flex-1">{perm.label}</label>
-                        </div>
-                      ))}
+                      {PERMISSIONS.map(perm => {
+                        const grantable = !!me?.is_admin || !!me?.permissions.includes(perm.value);
+                        return (
+                          <div key={perm.value} className={`flex items-center gap-3 p-3 rounded-lg transition ${grantable ? 'hover:bg-slate-50' : 'opacity-50'}`}>
+                            <input
+                              type="checkbox"
+                              id={perm.value}
+                              checked={formData.permissions.includes(perm.value)}
+                              disabled={!grantable}
+                              onChange={() => togglePermission(perm.value)}
+                              className="w-4 h-4 rounded accent-emerald-600 cursor-pointer disabled:cursor-not-allowed"
+                            />
+                            <label htmlFor={perm.value} className={`text-sm text-slate-700 flex-1 ${grantable ? 'cursor-pointer' : 'cursor-not-allowed'}`}>{perm.label}</label>
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                 </div>

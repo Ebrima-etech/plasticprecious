@@ -12,8 +12,39 @@ export interface StaffMe {
 export const StaffMeContext = createContext<StaffMe | null>(null);
 export const useStaffMe = () => useContext(StaffMeContext);
 
-// Pages non-admin staff may open; everything else in /admin is for full admins
-export const STAFF_ALLOWED_PATHS = ['/admin/dashboard'];
+// Which permissions open which admin pages (any one of them is enough).
+// Longest matching prefix wins; pages not listed are for full admins only. Mirrors the backend checks.
+export const PAGE_PERMISSIONS: Record<string, string[]> = {
+  '/admin/dashboard': [],
+  '/admin/products': ['edit_products', 'manage_inventory'],
+  '/admin/categories': ['edit_products'],
+  '/admin/locations': ['edit_products'],
+  '/admin/orders': ['manage_orders'],
+  '/admin/revenue': ['view_reports', 'view_analytics', 'manage_payments'],
+  '/admin/vouchers': ['manage_payments', 'edit_products'],
+  '/admin/discounts': ['manage_payments', 'edit_products'],
+  '/admin/cms': ['manage_content'],
+  '/admin/content': ['manage_content'],
+  '/admin/impact': ['view_analytics', 'create_reports'],
+  '/admin/impact/log': ['view_analytics', 'create_reports'],
+  '/admin/impact/events': ['manage_community'],
+  '/admin/impact/registrations': ['manage_community'],
+  '/admin/impact/rfq': ['manage_community'],
+  '/admin/impact/sponsorship': ['manage_community', 'manage_payments'],
+  '/admin/staff': ['manage_staff'],
+  '/admin/users': ['manage_users'],
+};
+
+export const canAccessPage = (me: StaffMe | null, path: string): boolean => {
+  if (!me) return false;
+  if (me.is_admin) return true;
+  const prefix = Object.keys(PAGE_PERMISSIONS)
+    .filter(p => path === p || path.startsWith(`${p}/`))
+    .sort((a, b) => b.length - a.length)[0];
+  if (prefix === undefined) return false;
+  const needed = PAGE_PERMISSIONS[prefix];
+  return needed.length === 0 || needed.some(code => me.permissions.includes(code));
+};
 
 export interface DashboardOrder {
   id: number;

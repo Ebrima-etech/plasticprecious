@@ -223,7 +223,6 @@ export default function StaffAdmin() {
         hire_date: formData.hire_date,
         phone_number: formData.phone_number.trim(),
         address: formData.address.trim(),
-        admin_access: formData.admin_access,
       };
 
       if (editingId) {
@@ -759,22 +758,10 @@ export default function StaffAdmin() {
                       <p className="text-xs text-slate-500 mt-2">Minimum 8 characters, or leave blank to generate a secure one</p>
                     </div>
                   )}
-                  {me?.is_admin && (
-                    <label className="mb-6 flex items-start gap-3 p-4 rounded-lg border border-emerald-200 bg-emerald-50/60 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={formData.admin_access}
-                        onChange={(e) => setFormData({ ...formData, admin_access: e.target.checked })}
-                        className="mt-0.5 w-4 h-4 rounded accent-emerald-600"
-                      />
-                      <span>
-                        <span className="block text-sm font-semibold text-slate-900">Full admin access</span>
-                        <span className="block text-xs text-slate-600 mt-0.5">
-                          Ignores the permissions below and opens every admin page. Leave off so they only see what their permissions allow.
-                        </span>
-                      </span>
-                    </label>
-                  )}
+                  <div className="mb-6 p-4 rounded-lg border border-emerald-200 bg-emerald-50/60 text-xs text-slate-700">
+                    Every staff member can sign in to the admin and sees only the pages their permissions allow.
+                    To give someone access to everything, tick all permissions.
+                  </div>
                   <div>
                     <label className="text-xs font-medium text-slate-600 block mb-1">Select Permissions</label>
                     <p className="text-xs text-slate-500 mb-3">
@@ -891,9 +878,6 @@ export default function StaffAdmin() {
                   <tr key={s.id} className="border-b hover:bg-slate-50 transition">
                     <td className="px-6 py-3 text-slate-900 font-semibold">
                       {s.user_data?.first_name} {s.user_data?.last_name}
-                      {s.admin_access && (
-                        <span className="ml-2 align-middle px-2 py-0.5 bg-sky-50 text-sky-700 text-[11px] font-semibold rounded-full">Admin</span>
-                      )}
                     </td>
                     <td className="px-6 py-3 text-slate-600 text-sm">{s.role_display}</td>
                     <td className="px-6 py-3 text-slate-600 text-sm">{s.department_name}</td>

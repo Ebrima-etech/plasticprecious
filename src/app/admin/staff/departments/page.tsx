@@ -7,6 +7,7 @@ import { API_BASE_URL } from '@/config/api';
 import { getAccessToken } from '@/lib/auth';
 import { SlideOver } from '@/components/admin/SlideOver';
 import { AdminPageHeaderSkeleton, AdminTableSkeleton } from '@/components/ShimmerSkeleton';
+import { getErrorMessage } from '@/lib/api-errors';
 
 interface Department {
   id: number;
@@ -26,6 +27,8 @@ export default function DepartmentsAdmin() {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [formData, setFormData] = useState({ name: '', description: '', budget_allocation: '', is_active: true });
+  const [formError, setFormError] = useState('');
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     fetchDepartments();
@@ -36,64 +39,68 @@ export default function DepartmentsAdmin() {
       setLoading(true);
       setError(null);
       const token = getAccessToken();
-      console.log('Fetching departments with token:', token ? 'present' : 'missing');
       const response = await axios.get(`${API_BASE_URL}/staff/departments/`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      console.log('Departments response:', response.data);
       const deptData = response.data.results || response.data;
-      console.log('Departments data:', deptData);
       setDepartments(Array.isArray(deptData) ? deptData : []);
-      setLoading(false);
-    } catch (err: any) {
+    } catch (err) {
       console.error('Failed to fetch departments:', err);
-      setError(err.response?.data?.detail || err.message || 'Failed to fetch departments');
+      setError(getErrorMessage(err, 'Failed to fetch departments'));
+    } finally {
       setLoading(false);
     }
   };
 
   const handleSave = async () => {
+    if (!formData.name.trim()) {
+      setFormError('Department name is required.');
+      return;
+    }
+    if (formData.budget_allocation && parseFloat(formData.budget_allocation) < 0) {
+      setFormError('Budget cannot be negative.');
+      return;
+    }
+    setFormError('');
+    setSaving(true);
     try {
       const token = getAccessToken();
+      const payload = {
+        ...formData,
+        name: formData.name.trim(),
+        budget_allocation: formData.budget_allocation || '0',
+      };
       if (editingId) {
-        await axios.patch(`${API_BASE_URL}/staff/departments/${editingId}/`, formData, {
+        await axios.patch(`${API_BASE_URL}/staff/departments/${editingId}/`, payload, {
           headers: { Authorization: `Bearer ${token}` }
         });
       } else {
-        await axios.post(`${API_BASE_URL}/staff/departments/`, formData, {
+        await axios.post(`${API_BASE_URL}/staff/departments/`, payload, {
           headers: { Authorization: `Bearer ${token}` }
         });
       }
-      setFormData({ name: '', description: '', budget_allocation: '', is_active: true });
-      setEditingId(null);
+      closeDrawer();
       fetchDepartments();
     } catch (err) {
       console.error('Failed to save department:', err);
+      setFormError(getErrorMessage(err, 'Failed to save department.'));
+    } finally {
+      setSaving(false);
     }
   };
 
-  const handleDelete = async (id: number) => {
-    if (confirm('Are you sure you want to delete this department?')) {
-      try {
-        const token = getAccessToken();
-        await axios.delete(`${API_BASE_URL}/staff/departments/${id}/`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        fetchDepartments();
-      } catch (err) {
-        console.error('Failed to delete department:', err);
-      }
+  const handleDelete = async (dept: Department) => {
+    if (!confirm(`Delete the ${dept.name} department?`)) return;
+    try {
+      const token = getAccessToken();
+      await axios.delete(`${API_BASE_URL}/staff/departments/${dept.id}/`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      fetchDepartments();
+    } catch (err) {
+      console.error('Failed to delete department:', err);
+      alert(getErrorMessage(err, 'Failed to delete department.'));
     }
-  };
-
-  const handleEdit = (dept: Department) => {
-    setEditingId(dept.id);
-    setFormData({
-      name: dept.name,
-      description: dept.description,
-      budget_allocation: dept.budget_allocation,
-      is_active: dept.is_active
-    });
   };
 
   const openDrawer = (dept?: Department) => {
@@ -109,11 +116,13 @@ export default function DepartmentsAdmin() {
       setEditingId(null);
       setFormData({ name: '', description: '', budget_allocation: '', is_active: true });
     }
+    setFormError('');
     setIsDrawerOpen(true);
   };
 
   const closeDrawer = () => {
     setIsDrawerOpen(false);
+    setFormError('');
     setTimeout(() => {
       setEditingId(null);
       setFormData({ name: '', description: '', budget_allocation: '', is_active: true });
@@ -162,14 +171,18 @@ export default function DepartmentsAdmin() {
             </button>
             <button
               onClick={handleSave}
-              className="px-6 py-2 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition"
+              disabled={saving}
+              className="px-6 py-2 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition disabled:opacity-60"
             >
-              {editingId ? 'Update' : 'Create'} Department
+              {saving ? 'Saving…' : `${editingId ? 'Update' : 'Create'} Department`}
             </button>
           </>
         }
       >
         <div className="space-y-6">
+          {formError && (
+            <div className="px-4 py-3 rounded-lg bg-red-50 border border-red-200 text-sm text-red-700">{formError}</div>
+          )}
           {/* Basic Info Section */}
           <div>
             <label className="block text-sm font-semibold text-slate-900 mb-3">Basic Information</label>
@@ -267,13 +280,13 @@ export default function DepartmentsAdmin() {
                     </td>
                     <td className="px-6 py-3 flex gap-2">
                       <button
-                        onClick={() => handleEdit(dept)}
+                        onClick={() => openDrawer(dept)}
                         className="p-2 text-blue-600 hover:bg-blue-50 rounded"
                       >
                         <FiEdit2 />
                       </button>
                       <button
-                        onClick={() => handleDelete(dept.id)}
+                        onClick={() => handleDelete(dept)}
                         className="p-2 text-red-600 hover:bg-red-50 rounded"
                       >
                         <FiTrash2 />

@@ -6,6 +6,7 @@ import { FiEdit2, FiTrash2, FiUsers, FiKey, FiCheckCircle, FiXCircle, FiPlus, Fi
 import { API_BASE_URL } from '@/config/api';
 import { getAccessToken } from '@/lib/auth';
 import { AdminTableSkeleton } from '@/components/ShimmerSkeleton';
+import { getErrorMessage } from '@/lib/api-errors';
 
 interface Staff {
   id: number;
@@ -21,6 +22,7 @@ interface Staff {
   is_active: boolean;
   phone_number: string;
   address: string;
+  admin_access?: boolean;
 }
 
 interface Department {
@@ -38,6 +40,7 @@ const ROLES = [
   { value: 'coordinator', label: 'Coordinator' },
   { value: 'supervisor', label: 'Supervisor' },
   { value: 'intern', label: 'Intern' },
+  { value: 'other', label: 'Other' },
 ];
 
 const PERMISSIONS = [
@@ -53,6 +56,21 @@ const PERMISSIONS = [
   { value: 'create_reports', label: 'Create Reports' },
 ];
 
+const EMPTY_FORM = {
+  first_name: '',
+  last_name: '',
+  email: '',
+  password: '',
+  department: '',
+  role: '',
+  permissions: [] as string[],
+  salary: '',
+  hire_date: '',
+  phone_number: '',
+  address: '',
+  admin_access: false,
+};
+
 export default function StaffAdmin() {
   const [staff, setStaff] = useState<Staff[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
@@ -60,21 +78,11 @@ export default function StaffAdmin() {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
-  const [showPassword, setShowPassword] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState<{ password: string; email: string } | null>(null);
   const [draftSaved, setDraftSaved] = useState(false);
-  const [formData, setFormData] = useState({
-    first_name: '',
-    last_name: '',
-    email: '',
-    password: '',
-    department: '',
-    role: '',
-    permissions: [] as string[],
-    salary: '',
-    hire_date: '',
-    phone_number: '',
-    address: ''
-  });
+  const [formData, setFormData] = useState(EMPTY_FORM);
+  const [formError, setFormError] = useState('');
+  const [saving, setSaving] = useState(false);
   const [drafts, setDrafts] = useState<any[]>([]);
 
   const DRAFT_KEY = 'staff_form_draft';
@@ -99,109 +107,104 @@ export default function StaffAdmin() {
     }
   };
 
+  // Returns an error message for the given step, or '' if it is complete
+  const stepError = (step: number) => {
+    if (step === 1) {
+      if (!formData.first_name.trim() || !formData.last_name.trim()) return 'Enter first and last name.';
+      if (!editingId && !/^\S+@\S+\.\S+$/.test(formData.email.trim())) return 'Enter a valid email address.';
+    }
+    if (step === 2) {
+      if (!formData.department || !formData.role || !formData.hire_date) return 'Choose a department, role and hire date.';
+      if (formData.salary && parseFloat(formData.salary) < 0) return 'Salary cannot be negative.';
+    }
+    if (step === 3 && !editingId && formData.password && formData.password.length < 8) {
+      return 'Password must be at least 8 characters, or leave it blank to generate one.';
+    }
+    return '';
+  };
+
   const handleSave = async () => {
+    const firstInvalid = [1, 2, 3].find(step => stepError(step));
+    if (firstInvalid) {
+      setCurrentStep(firstInvalid);
+      setFormError(stepError(firstInvalid));
+      return;
+    }
+    setFormError('');
+    setSaving(true);
     try {
       const token = getAccessToken();
-
-      // Validation
-      if (!formData.first_name || !formData.last_name || !formData.email) {
-        alert('Please fill in all personal information fields');
-        return;
-      }
-      if (!formData.department || !formData.role || !formData.hire_date) {
-        alert('Please fill in all employment details');
-        return;
-      }
-
-      // Prepare data with proper null handling
-      const submitData = {
-        ...formData,
-        salary: formData.salary ? parseFloat(formData.salary) : null,
-        phone_number: formData.phone_number || '',
-        address: formData.address || ''
+      const common = {
+        first_name: formData.first_name.trim(),
+        last_name: formData.last_name.trim(),
+        department: Number(formData.department),
+        role: formData.role,
+        permissions: formData.permissions,
+        salary: formData.salary ? formData.salary : null,
+        hire_date: formData.hire_date,
+        phone_number: formData.phone_number.trim(),
+        address: formData.address.trim(),
+        admin_access: formData.admin_access,
       };
 
       if (editingId) {
-        await axios.patch(`${API_BASE_URL}/staff/staff/${editingId}/`, submitData, {
+        await axios.patch(`${API_BASE_URL}/staff/staff/${editingId}/`, common, {
           headers: { Authorization: `Bearer ${token}` }
         });
       } else {
-        const response = await axios.post(`${API_BASE_URL}/staff/staff/`, submitData, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        setShowPassword(response.data.temporary_password);
+        const response = await axios.post(
+          `${API_BASE_URL}/staff/staff/`,
+          { ...common, email: formData.email.trim(), password: formData.password },
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        if (response.data.temporary_password) {
+          setShowPassword({ password: response.data.temporary_password, email: formData.email.trim() });
+        }
       }
-      setFormData({
-        first_name: '',
-        last_name: '',
-        email: '',
-        password: '',
-        department: '',
-        role: '',
-        permissions: [],
-        salary: '',
-        hire_date: '',
-        phone_number: '',
-        address: ''
-      });
+      setFormData(EMPTY_FORM);
       setEditingId(null);
       setShowForm(false);
       fetchData();
-    } catch (err: any) {
+    } catch (err) {
       console.error('Failed to save staff:', err);
-      const errorMsg = err.response?.data?.detail || err.response?.data?.error || 'Error saving staff member';
-      alert(errorMsg);
+      setFormError(getErrorMessage(err, 'Error saving staff member.'));
+    } finally {
+      setSaving(false);
     }
   };
 
-  const handleDelete = async (id: number) => {
-    if (confirm('Are you sure you want to delete this staff member?')) {
-      try {
-        const token = getAccessToken();
-        await axios.delete(`${API_BASE_URL}/staff/staff/${id}/`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        fetchData();
-      } catch (err) {
-        console.error('Failed to delete staff:', err);
-      }
-    }
-  };
-
-  const handleActivate = async (id: number) => {
+  const runAction = async (request: () => Promise<unknown>, failure: string) => {
     try {
-      const token = getAccessToken();
-      await axios.post(`${API_BASE_URL}/staff/staff/${id}/activate/`, {}, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      await request();
       fetchData();
     } catch (err) {
-      console.error('Failed to activate staff:', err);
+      console.error(failure, err);
+      alert(getErrorMessage(err, failure));
     }
   };
 
-  const handleDeactivate = async (id: number) => {
-    try {
-      const token = getAccessToken();
-      await axios.post(`${API_BASE_URL}/staff/staff/${id}/deactivate/`, {}, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      fetchData();
-    } catch (err) {
-      console.error('Failed to deactivate staff:', err);
-    }
+  const authHeaders = () => ({ headers: { Authorization: `Bearer ${getAccessToken()}` } });
+
+  const handleDelete = (s: Staff) => {
+    const name = `${s.user_data?.first_name ?? ''} ${s.user_data?.last_name ?? ''}`.trim() || 'this staff member';
+    if (!confirm(`Delete ${name}? Their staff record is removed and their account is switched off.`)) return;
+    runAction(() => axios.delete(`${API_BASE_URL}/staff/staff/${s.id}/`, authHeaders()), 'Failed to delete staff member.');
   };
 
-  const handleResetPassword = async (id: number) => {
+  const handleActivate = (id: number) =>
+    runAction(() => axios.post(`${API_BASE_URL}/staff/staff/${id}/activate/`, {}, authHeaders()), 'Failed to activate staff member.');
+
+  const handleDeactivate = (id: number) =>
+    runAction(() => axios.post(`${API_BASE_URL}/staff/staff/${id}/deactivate/`, {}, authHeaders()), 'Failed to deactivate staff member.');
+
+  const handleResetPassword = async (s: Staff) => {
+    if (!confirm(`Reset the password for ${s.user_data?.email}? Their current password will stop working.`)) return;
     try {
-      const token = getAccessToken();
-      const response = await axios.post(`${API_BASE_URL}/staff/staff/${id}/reset_password/`, {}, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      setShowPassword(response.data.temporary_password);
-      alert(`Password reset sent to ${response.data.email}`);
+      const response = await axios.post(`${API_BASE_URL}/staff/staff/${s.id}/reset_password/`, {}, authHeaders());
+      setShowPassword({ password: response.data.temporary_password, email: response.data.email });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err) {
-      console.error('Failed to reset password:', err);
+      alert(getErrorMessage(err, 'Failed to reset password.'));
     }
   };
 
@@ -231,7 +234,7 @@ export default function StaffAdmin() {
     const draftId = `draft_${Date.now()}`;
     const newDraft = {
       id: draftId,
-      data: formData,
+      data: { ...formData, password: "" }, // never keep passwords in localStorage
       createdAt: Date.now()
     };
 
@@ -245,7 +248,10 @@ export default function StaffAdmin() {
   const loadDraft = (draftId: string) => {
     const draft = drafts.find(d => d.id === draftId);
     if (draft) {
-      setFormData(draft.data);
+      // Older drafts may lack newer fields, so fill in defaults
+      setFormData({ ...EMPTY_FORM, ...draft.data });
+      setEditingId(null);
+      setFormError('');
       setCurrentStep(1);
     }
   };
@@ -262,35 +268,25 @@ export default function StaffAdmin() {
       // Editing existing staff member
       setEditingId(s.id);
       setFormData({
+        ...EMPTY_FORM,
         first_name: s.user_data?.first_name || '',
         last_name: s.user_data?.last_name || '',
         email: s.user_data?.email || '',
-        password: '',
-        department: s.department.toString(),
+        department: s.department ? s.department.toString() : '',
         role: s.role,
-        permissions: s.permissions,
+        permissions: s.permissions || [],
         salary: s.salary || '',
-        hire_date: s.hire_date,
-        phone_number: s.phone_number,
-        address: s.address
+        hire_date: s.hire_date || '',
+        phone_number: s.phone_number || '',
+        address: s.address || '',
+        admin_access: !!s.admin_access,
       });
     } else {
       // Creating new staff member - fresh form
       setEditingId(null);
-      setFormData({
-        first_name: '',
-        last_name: '',
-        email: '',
-        password: '',
-        department: '',
-        role: '',
-        permissions: [],
-        salary: '',
-        hire_date: '',
-        phone_number: '',
-        address: ''
-      });
+      setFormData(EMPTY_FORM);
     }
+    setFormError('');
     setShowForm(true);
   };
 
@@ -298,22 +294,17 @@ export default function StaffAdmin() {
     setShowForm(false);
     setCurrentStep(1);
     setEditingId(null);
-    setFormData({
-      first_name: '',
-      last_name: '',
-      email: '',
-      password: '',
-      department: '',
-      role: '',
-      permissions: [],
-      salary: '',
-      hire_date: '',
-      phone_number: '',
-      address: ''
-    });
+    setFormError('');
+    setFormData(EMPTY_FORM);
   };
 
   const nextStep = () => {
+    const error = stepError(currentStep);
+    if (error) {
+      setFormError(error);
+      return;
+    }
+    setFormError('');
     if (currentStep < 3) setCurrentStep(currentStep + 1);
   };
 
@@ -409,9 +400,11 @@ export default function StaffAdmin() {
       {/* Temporary Password Alert */}
       {showPassword && (
         <div className="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-lg">
-          <p className="text-sm text-amber-800 font-semibold mb-2">Temporary Password Created:</p>
-          <p className="text-lg font-mono text-amber-900 mb-2 bg-white p-2 rounded">{showPassword}</p>
-          <p className="text-xs text-amber-700">Share this password with the staff member. They should change it upon first login.</p>
+          <p className="text-sm text-amber-800 font-semibold mb-2">Temporary password for {showPassword.email}:</p>
+          <p className="text-lg font-mono text-amber-900 mb-2 bg-white p-2 rounded select-all">{showPassword.password}</p>
+          <p className="text-xs text-amber-700">
+            Share this password with the staff member securely. It is shown only once; they should change it after signing in.
+          </p>
           <button
             onClick={() => setShowPassword(null)}
             className="mt-3 px-3 py-1 text-xs bg-amber-600 text-white rounded hover:bg-amber-700 transition"
@@ -590,9 +583,23 @@ export default function StaffAdmin() {
                         onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                         className="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                       />
-                      <p className="text-xs text-slate-500 mt-2">Minimum 6 characters or leave blank for auto-generation</p>
+                      <p className="text-xs text-slate-500 mt-2">Minimum 8 characters, or leave blank to generate a secure one</p>
                     </div>
                   )}
+                  <label className="mb-6 flex items-start gap-3 p-4 rounded-lg border border-emerald-200 bg-emerald-50/60 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={formData.admin_access}
+                      onChange={(e) => setFormData({ ...formData, admin_access: e.target.checked })}
+                      className="mt-0.5 w-4 h-4 rounded accent-emerald-600"
+                    />
+                    <span>
+                      <span className="block text-sm font-semibold text-slate-900">Can sign in to the admin dashboard</span>
+                      <span className="block text-xs text-slate-600 mt-0.5">
+                        Gives full admin access. Leave off for staff who only need a record here (e.g. drivers).
+                      </span>
+                    </span>
+                  </label>
                   <div>
                     <label className="text-xs font-medium text-slate-600 block mb-3">Select Permissions</label>
                     <div className="space-y-2 max-h-96 overflow-y-auto">
@@ -615,8 +622,12 @@ export default function StaffAdmin() {
             )}
           </div>
 
+          {formError && (
+            <div className="mb-6 px-4 py-3 rounded-lg bg-red-50 border border-red-200 text-sm text-red-700">{formError}</div>
+          )}
+
           {/* Form Actions */}
-          <div className="flex items-center justify-between pt-6 border-t border-slate-200">
+          <div className="flex flex-wrap gap-3 items-center justify-between pt-6 border-t border-slate-200">
             <div className="flex gap-3">
               <button
                 onClick={prevStep}
@@ -651,9 +662,10 @@ export default function StaffAdmin() {
               {currentStep === 3 && (
                 <button
                   onClick={handleSave}
-                  className="flex items-center gap-2 px-6 py-2.5 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition font-medium"
+                  disabled={saving}
+                  className="flex items-center gap-2 px-6 py-2.5 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition font-medium disabled:opacity-60"
                 >
-                  {editingId ? 'Update' : 'Create Account'}
+                  {saving ? 'Saving…' : editingId ? 'Update' : 'Create Account'}
                 </button>
               )}
               <button
@@ -693,7 +705,12 @@ export default function StaffAdmin() {
               <tbody>
                 {staff.map((s) => (
                   <tr key={s.id} className="border-b hover:bg-slate-50 transition">
-                    <td className="px-6 py-3 text-slate-900 font-semibold">{s.user_data?.first_name} {s.user_data?.last_name}</td>
+                    <td className="px-6 py-3 text-slate-900 font-semibold">
+                      {s.user_data?.first_name} {s.user_data?.last_name}
+                      {s.admin_access && (
+                        <span className="ml-2 align-middle px-2 py-0.5 bg-sky-50 text-sky-700 text-[11px] font-semibold rounded-full">Admin</span>
+                      )}
+                    </td>
                     <td className="px-6 py-3 text-slate-600 text-sm">{s.role_display}</td>
                     <td className="px-6 py-3 text-slate-600 text-sm">{s.department_name}</td>
                     <td className="px-6 py-3 text-slate-600 text-sm">{s.user_data?.email}</td>
@@ -704,7 +721,7 @@ export default function StaffAdmin() {
                         <span className="px-3 py-1 bg-red-100 text-red-800 text-xs font-semibold rounded-full">Inactive</span>
                       )}
                     </td>
-                    <td className="px-6 py-3 flex gap-1">
+                    <td className="px-6 py-3"><div className="flex gap-1">
                       <button
                         onClick={() => openForm(s)}
                         className="p-2 text-emerald-600 hover:bg-emerald-50 rounded-lg transition"
@@ -713,7 +730,7 @@ export default function StaffAdmin() {
                         <FiEdit2 className="w-4 h-4" />
                       </button>
                       <button
-                        onClick={() => handleResetPassword(s.id)}
+                        onClick={() => handleResetPassword(s)}
                         className="p-2 text-orange-600 hover:bg-orange-50 rounded-lg transition"
                         title="Reset Password"
                       >
@@ -737,13 +754,13 @@ export default function StaffAdmin() {
                         </button>
                       )}
                       <button
-                        onClick={() => handleDelete(s.id)}
+                        onClick={() => handleDelete(s)}
                         className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition"
                         title="Delete"
                       >
                         <FiTrash2 className="w-4 h-4" />
                       </button>
-                    </td>
+                    </div></td>
                   </tr>
                 ))}
               </tbody>

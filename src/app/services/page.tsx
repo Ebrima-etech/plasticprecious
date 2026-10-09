@@ -2,9 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import Link from 'next/link';
 import { API_BASE_URL } from '@/config/api';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import ServiceIcon from '@/components/ServiceIcon';
 
 export default function ServicesPage() {
   const [services, setServices] = useState<any[]>([]);
@@ -58,7 +60,7 @@ export default function ServicesPage() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {services.map((service) => (
-              <div key={service.id} className="group cursor-pointer relative rounded-3xl overflow-hidden border border-slate-200 hover:border-emerald-400 flex flex-col h-full hover:-translate-y-1 bg-gradient-to-br from-white to-slate-50 backdrop-blur-sm group-hover:from-emerald-50 group-hover:to-white transition-all duration-300">
+              <Link key={service.id} href={`/services/${service.id}`} className="group cursor-pointer relative rounded-3xl overflow-hidden border border-slate-200 hover:border-emerald-400 flex flex-col h-full hover:-translate-y-1 bg-gradient-to-br from-white to-slate-50 backdrop-blur-sm group-hover:from-emerald-50 group-hover:to-white transition-all duration-300 no-underline">
                 {service.image && (
                   <div className="relative h-48 overflow-hidden">
                     <img
@@ -69,6 +71,9 @@ export default function ServicesPage() {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                   </div>
                 )}
+                {!service.image && (
+                  <div className="px-6 pt-6 text-emerald-600"><ServiceIcon icon={service.icon} size={40} /></div>
+                )}
                 <div className="flex flex-col flex-grow px-6 py-6">
                   <h3 className="font-black text-slate-900 text-2xl leading-tight mb-3 group-hover:text-emerald-600 transition">{service.name}</h3>
                   <p className="text-slate-600 text-sm leading-relaxed flex-grow">{service.description}</p>
@@ -77,7 +82,7 @@ export default function ServicesPage() {
                     <span className="inline-block group-hover:translate-x-1 transition-transform duration-300">→</span>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

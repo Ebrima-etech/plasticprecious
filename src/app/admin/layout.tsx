@@ -228,7 +228,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             </div>)}
 
             {/* Content Management */}
-            {anyPage(['/admin/cms/hero-slides']) && (<div>
+            {anyPage(['/admin/cms/hero-slides', '/admin/cms/about']) && (<div>
               <button
                 onClick={() => setExpandedSections({ ...expandedSections, cms: !expandedSections.cms })}
                 className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 transition-all ${sidebarOpen ? '' : 'justify-center'}`}
@@ -242,12 +242,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   <NavLink href="/admin/cms/services" icon={HiOutlineBriefcase} label="Services" />
                   <NavLink href="/admin/cms/team-members" icon={HiOutlineUserGroup} label="Team" />
                   <NavLink href="/admin/cms/partners" icon={HiOutlineTag} label="Partners" />
+                  <NavLink href="/admin/cms/about" icon={HiOutlineDocumentText} label="About Us" />
                 </div>
               )}
             </div>)}
 
             {/* Business Insights */}
-            {anyPage(['/admin/impact', '/admin/impact/log', '/admin/impact/events', '/admin/impact/registrations', '/admin/impact/rfq', '/admin/impact/sponsorship']) && (<div>
+            {anyPage(['/admin/impact', '/admin/impact/log', '/admin/impact/events', '/admin/impact/registrations', '/admin/impact/rfq', '/admin/impact/sponsorship', '/admin/impact/volunteering']) && (<div>
               <button
                 onClick={() => setExpandedSections({ ...expandedSections, impact: !expandedSections.impact })}
                 className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 transition-all ${sidebarOpen ? '' : 'justify-center'}`}
@@ -263,12 +264,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   <NavLink href="/admin/impact/registrations" icon={HiOutlineUsers} label="Registrations" />
                   <NavLink href="/admin/impact/rfq" icon={HiOutlineDocumentText} label="Requests" />
                   <NavLink href="/admin/impact/sponsorship" icon={HiOutlineGift} label="Sponsorships" />
+                  <NavLink href="/admin/impact/volunteering" icon={HiOutlineUsers} label="Volunteering" />
                 </div>
               )}
             </div>)}
 
             {/* Organization Management */}
-            {anyPage(['/admin/staff/departments', '/admin/staff/members', '/admin/staff/dashboards']) && (<div>
+            {anyPage(['/admin/staff/departments', '/admin/staff/members', '/admin/staff/dashboards', '/admin/staff/budget']) && (<div>
               <button
                 onClick={() => setExpandedSections({ ...expandedSections, staff: !expandedSections.staff })}
                 className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 transition-all ${sidebarOpen ? '' : 'justify-center'}`}
@@ -281,6 +283,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   <NavLink href="/admin/staff/departments" icon={HiOutlineBriefcase} label="Departments" />
                   <NavLink href="/admin/staff/members" icon={HiOutlineUserGroup} label="Staff" />
                   <NavLink href="/admin/staff/dashboards" icon={HiOutlineSquares2X2} label="Team Dashboards" />
+                  <NavLink href="/admin/staff/budget" icon={HiOutlineCurrencyDollar} label="Budget" />
                 </div>
               )}
             </div>)}

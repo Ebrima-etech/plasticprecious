@@ -6,10 +6,8 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { Button } from '@/components/ui/Button';
 import { FiShoppingCart, FiSearch, FiUser, FiChevronDown, FiTruck, FiCheck, FiHeart, FiHeadphones, FiPhone, FiMail, FiPackage, FiTag } from 'react-icons/fi';
-import { GiRecycle } from 'react-icons/gi';
-import { BiRecycle } from 'react-icons/bi';
-import { MdSchool } from 'react-icons/md';
 import Navbar from '@/components/Navbar';
+import ServiceIcon from '@/components/ServiceIcon';
 import { ProductGridSkeleton } from '@/components/ShimmerSkeleton';
 import { API_BASE_URL } from '@/config/api';
 
@@ -874,19 +872,13 @@ export default function Home() {
           {/* Pill-shaped Grid - GetLab Inspired */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {services.map((service, i) => {
-              const iconMap: {[key: string]: React.ComponentType<{size: number}>} = {
-                'GiRecycle': GiRecycle,
-                'BiRecycle': BiRecycle,
-                'MdSchool': MdSchool
-              };
-              const IconComponent = iconMap[service.icon || 'GiRecycle'] || GiRecycle;
               return (
-                <Link key={service.id} href="/services-detail" className={`group cursor-pointer animate-fade-in-up animation-delay-${i * 100} no-underline`}>
+                <Link key={service.id} href={`/services/${service.id}`} className={`group cursor-pointer animate-fade-in-up animation-delay-${i * 100} no-underline`}>
                   <div className="unique-card relative rounded-2xl overflow-hidden flex flex-col h-full">
                     {/* Icon Badge - Pill Style */}
                     <div className="px-6 pt-6 pb-3">
                       <div className="w-14 h-14 rounded-full text-white font-black flex items-center justify-center text-3xl bg-gradient-to-br from-emerald-500 to-teal-500">
-                        <IconComponent size={32} />
+                        <ServiceIcon icon={service.icon} size={32} />
                       </div>
                     </div>
 
@@ -1023,7 +1015,6 @@ export default function Home() {
                 <li><Link href="/about" className="text-white hover:text-emerald-400 transition font-semibold">About Us</Link></li>
                 <li><Link href="/blog" className="text-white hover:text-emerald-400 transition font-semibold">Blog & News</Link></li>
                 <li><Link href="/impact" className="text-white hover:text-emerald-400 transition font-semibold">Impact Report</Link></li>
-                <li><Link href="/contact" className="text-white hover:text-emerald-400 transition font-semibold">Careers</Link></li>
               </ul>
             </div>
             <div>

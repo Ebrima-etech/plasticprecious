@@ -2,8 +2,9 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import SearchBox from './SearchBox';
 import { useRouter } from 'next/navigation';
-import { FiShoppingCart, FiSearch, FiUser, FiChevronDown, FiTruck, FiCheck, FiHeart, FiHeadphones, FiPhone, FiMail, FiMenu, FiX, FiLogOut } from 'react-icons/fi';
+import { FiShoppingCart, FiUser, FiChevronDown, FiTruck, FiCheck, FiHeart, FiHeadphones, FiPhone, FiMail, FiMenu, FiX, FiLogOut } from 'react-icons/fi';
 import { GiRecycle } from 'react-icons/gi';
 import { getAccessToken, clearTokens } from '@/lib/auth';
 import { cartService } from '@/lib/cartService';
@@ -22,7 +23,6 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
   const [accountDropdownOpen, setAccountDropdownOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [cartCount, setCartCount] = useState(0);
-  const [searchQuery, setSearchQuery] = useState('');
   const accountDropdownRef = useRef<HTMLDivElement>(null);
 
   const rotatingItems = [
@@ -77,19 +77,6 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
-
-  const handleSearch = (query: string) => {
-    if (query.trim()) {
-      router.push(`/shop?search=${encodeURIComponent(query)}`);
-      setSearchQuery('');
-    }
-  };
-
-  const handleSearchKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      handleSearch(searchQuery);
-    }
-  };
 
   const handleLogout = () => {
     clearTokens();
@@ -232,16 +219,8 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
             </Link>
 
             {/* Search Bar - Hidden on Mobile */}
-            <div className="hidden lg:flex flex-1 max-w-sm items-center bg-white border-0 px-4 rounded-lg mx-6 shadow-md" style={{ paddingTop: '0.5rem', paddingBottom: '0.5rem' }}>
-              <FiSearch size={18} className="text-emerald-600 cursor-pointer" onClick={() => handleSearch(searchQuery)} />
-              <input
-                type="text"
-                placeholder="Search products..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyPress={handleSearchKeyPress}
-                className="animated-placeholder bg-transparent text-slate-900 text-sm placeholder-slate-400 ml-3 w-full focus:outline-none font-medium"
-              />
+            <div className="hidden lg:flex flex-1">
+              <SearchBox variant="desktop" />
             </div>
 
             {/* Nav Links - Hidden on Mobile */}
@@ -417,17 +396,7 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
 
       {/* Mobile Search Bar - Replaces Categories Row */}
       <div className="lg:hidden bg-emerald-600 py-2 px-6">
-        <div className="flex items-center bg-white border-0 px-4 rounded-full" style={{ paddingTop: '0.375rem', paddingBottom: '0.375rem' }}>
-          <FiSearch size={16} className="text-emerald-600 cursor-pointer" onClick={() => handleSearch(searchQuery)} />
-          <input
-            type="text"
-            placeholder="Search products..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            onKeyPress={handleSearchKeyPress}
-            className="animated-placeholder bg-transparent text-teal-900 text-sm placeholder-gray-500 placeholder-opacity-50 ml-3 w-full focus:outline-none"
-          />
-        </div>
+        <SearchBox variant="mobile" />
       </div>
     </>
   );

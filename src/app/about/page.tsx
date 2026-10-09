@@ -6,8 +6,26 @@ import { API_BASE_URL } from '@/config/api';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
+interface CmsPage {
+  slug: string;
+  title: string;
+  content: string;
+}
+
+// Public content: a plain instance so a stale login never redirects visitors
+const publicApi = axios.create();
+
+// One paragraph per line, as typed in Admin > Content > About Us
+const Paragraphs = ({ text }: { text: string }) => (
+  <>
+    {text.split(/\n+/).map(p => p.trim()).filter(Boolean).map((p, i) => (
+      <p key={i} className="m-0 text-lg leading-relaxed text-slate-700">{p}</p>
+    ))}
+  </>
+);
+
 export default function AboutPage() {
-  const [page, setPage] = useState<any>(null);
+  const [sections, setSections] = useState<Record<string, CmsPage | null>>({});
   const [features, setFeatures] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -16,19 +34,22 @@ export default function AboutPage() {
   }, []);
 
   const fetchContent = async () => {
-    try {
-      const [pageRes, featuresRes] = await Promise.all([
-        axios.get(`${API_BASE_URL}/pages/about/`),
-        axios.get(`${API_BASE_URL}/features/`),
-      ]);
-      setPage(pageRes.data);
-      setFeatures(featuresRes.data.results || featuresRes.data);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
+    // Each section loads on its own, so a missing one doesn't hide the others
+    const getPage = (slug: string) =>
+      publicApi.get(`${API_BASE_URL}/pages/${slug}/`).then(res => res.data as CmsPage).catch(() => null);
+    const [about, mission, vision, featureList] = await Promise.all([
+      getPage('about'),
+      getPage('mission'),
+      getPage('vision'),
+      publicApi.get(`${API_BASE_URL}/features/`).then(res => res.data.results || res.data).catch(() => []),
+    ]);
+    setSections({ about, mission, vision });
+    setFeatures(featureList);
+    setLoading(false);
   };
+
+  const about = sections.about;
+  const missionVision = [sections.mission, sections.vision].filter(Boolean) as CmsPage[];
 
   if (loading) return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
 
@@ -59,11 +80,34 @@ export default function AboutPage() {
       </section>
 
       {/* Content */}
-      {page && (
-        <section className="max-w-7xl mx-auto px-6 lg:px-8 py-16 lg:py-24">
-          <div className="prose prose-lg max-w-none text-slate-700">
-            <div dangerouslySetInnerHTML={{ __html: page.content }} />
+      {about && (
+        <section className="max-w-4xl mx-auto px-6 lg:px-8 py-16 lg:py-20">
+          <h2 className="text-3xl lg:text-4xl font-black text-slate-900 mb-6 tracking-tight">{about.title || 'About Us'}</h2>
+          <div className="space-y-5">
+            <Paragraphs text={about.content} />
           </div>
+        </section>
+      )}
+
+      {missionVision.length > 0 && (
+        <section className="bg-emerald-50 border-y border-emerald-100 py-16 lg:py-20">
+          <div className={`max-w-6xl mx-auto px-6 lg:px-8 grid grid-cols-1 ${missionVision.length > 1 ? 'md:grid-cols-2' : ''} gap-6`}>
+            {missionVision.map(section => (
+              <div key={section.slug} className="bg-white rounded-3xl border border-emerald-200 p-8">
+                <div className="text-3xl mb-3" aria-hidden="true">{section.slug === 'mission' ? '🎯' : '🔭'}</div>
+                <h2 className="text-2xl font-black text-slate-900 mb-4">{section.title}</h2>
+                <div className="space-y-4">
+                  <Paragraphs text={section.content} />
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {!about && missionVision.length === 0 && features.length === 0 && (
+        <section className="max-w-4xl mx-auto px-6 lg:px-8 py-20 text-center text-slate-500">
+          Our story is coming soon.
         </section>
       )}
 

@@ -33,6 +33,9 @@ interface Product extends ProductImpact {
   is_active: boolean;
   category?: number;
   lifetime_impact?: LifetimeImpact;
+  category_name?: string;
+  specifications?: { label: string; value: string }[];
+  warranty?: string;
 }
 
 export default function ProductDetailPage() {
@@ -320,32 +323,31 @@ export default function ProductDetailPage() {
             {/* Main Specifications */}
             <div className="bg-white rounded-3xl border border-slate-200 p-8 shadow-sm">
               <h3 className="text-2xl font-black text-slate-900 mb-6">Product Details</h3>
-              <div className="space-y-6">
-                <div className="pb-6 border-b border-slate-100">
-                  <p className="text-sm font-bold text-slate-500 uppercase tracking-wide mb-2">Product Name</p>
-                  <p className="text-base font-semibold text-slate-900">{product.name}</p>
-                </div>
-              </div>
+              <dl className="divide-y divide-slate-100">
+                {[
+                  { label: 'Product name', value: product.name },
+                  ...(product.category_name ? [{ label: 'Category', value: product.category_name }] : []),
+                  ...(product.specifications || []),
+                ].map((row, idx) => (
+                  <div key={`${row.label}-${idx}`} className="py-4 first:pt-0 grid grid-cols-1 sm:grid-cols-3 gap-1 sm:gap-4">
+                    <dt className="text-sm font-bold text-slate-500 uppercase tracking-wide">{row.label}</dt>
+                    <dd className="m-0 sm:col-span-2 text-base font-semibold text-slate-900 whitespace-pre-line">{row.value}</dd>
+                  </div>
+                ))}
+              </dl>
             </div>
 
             {/* Additional Information */}
             <div className="space-y-6">
-              {/* Warranty & Certifications Card */}
+              {/* Warranty Card */}
               <div className="bg-white rounded-3xl border border-slate-200 p-8 shadow-sm">
-                <h3 className="text-2xl font-black text-slate-900 mb-6">Warranty & Certifications</h3>
+                <h3 className="text-2xl font-black text-slate-900 mb-6">Warranty & Sustainability</h3>
                 <div className="space-y-4">
-                  <div className="flex items-start gap-3">
-                    <div className="text-2xl mt-1">🏆</div>
-                    <div>
-                      <p className="font-bold text-slate-900">ISO Certified</p>
-                      <p className="text-sm text-slate-600">International quality standards</p>
-                    </div>
-                  </div>
                   <div className="flex items-start gap-3">
                     <div className="text-2xl mt-1">🛡️</div>
                     <div>
-                      <p className="font-bold text-slate-900">2-Year Limited Warranty</p>
-                      <p className="text-sm text-slate-600">Full coverage and support</p>
+                      <p className="font-bold text-slate-900 first-letter:uppercase">{product.warranty || '1-year limited warranty'}</p>
+                      <p className="text-sm text-slate-600">Covers manufacturing defects under normal use</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
@@ -398,7 +400,6 @@ export default function ProductDetailPage() {
               { icon: '♻️', title: '100% Recycled Plastic', desc: 'Upcycled from waste plastic materials' },
               { icon: '🌍', title: 'Reduces Waste', desc: 'Keeps plastic out of landfills' },
               { icon: '💪', title: 'High Durability', desc: 'Built tough and long-lasting' },
-              { icon: '🏆', title: 'Certified Quality', desc: 'ISO standards & quality tested' },
               { icon: '🌱', title: 'Climate Positive', desc: 'Supports sustainable future' },
               { icon: '👌', title: 'Premium Finish', desc: 'Beautiful, modern design' },
             ].map((feature, idx) => (

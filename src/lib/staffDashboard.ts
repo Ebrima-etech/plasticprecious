@@ -31,7 +31,9 @@ export const PAGE_PERMISSIONS: Record<string, string[]> = {
   '/admin/impact/registrations': ['manage_community'],
   '/admin/impact/rfq': ['manage_community'],
   '/admin/impact/sponsorship': ['manage_community', 'manage_payments'],
+  '/admin/impact/volunteering': ['manage_community'],
   '/admin/staff': ['manage_staff'],
+  '/admin/staff/budget': ['manage_staff', 'manage_payments'],
   '/admin/users': ['manage_users'],
 };
 

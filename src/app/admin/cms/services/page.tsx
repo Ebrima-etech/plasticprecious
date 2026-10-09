@@ -11,11 +11,13 @@ import { ToggleSwitch } from '@/components/ios/ToggleSwitch';
 import { CMSHeader } from '@/components/ios/CMSHeader';
 import { CMSActionMenu } from '@/components/ios/CMSActionMenu';
 import { getErrorMessage } from '@/lib/api-errors';
+import ServiceIcon from '@/components/ServiceIcon';
 
 interface Service {
   id: number;
   name: string;
   description: string;
+  details?: string;
   icon: string;
   is_active: boolean;
 }
@@ -31,6 +33,7 @@ export default function ServicesPage() {
   const [formData, setFormData] = useState({
     name: '',
     description: '',
+    details: '',
     icon: '📦',
     is_active: true
   });
@@ -87,12 +90,13 @@ export default function ServicesPage() {
       setFormData({
         name: service.name,
         description: service.description,
+        details: service.details || '',
         icon: service.icon,
         is_active: service.is_active
       });
     } else {
       setEditingId(null);
-      setFormData({ name: '', description: '', icon: '📦', is_active: true });
+      setFormData({ name: '', description: '', details: '', icon: '📦', is_active: true });
     }
     setFormError('');
     setIsFormOpen(true);
@@ -102,7 +106,7 @@ export default function ServicesPage() {
     setIsFormOpen(false);
     setTimeout(() => {
       setEditingId(null);
-      setFormData({ name: '', description: '', icon: '📦', is_active: true });
+      setFormData({ name: '', description: '', details: '', icon: '📦', is_active: true });
     }, 300);
   };
 
@@ -164,6 +168,17 @@ export default function ServicesPage() {
             />
           </div>
 
+          <div>
+            <label className="text-xs font-semibold text-slate-600 block mb-2">Details (service page)</label>
+            <textarea
+              placeholder="What's included, who it's for, how it works. One paragraph per line."
+              value={formData.details}
+              onChange={(e) => setFormData({ ...formData, details: e.target.value })}
+              className="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition h-36"
+            />
+            <p className="text-xs text-slate-500 mt-1">Shown on this service&apos;s own page. The short description above appears on the cards.</p>
+          </div>
+
           <div className="flex items-center gap-4">
             <div className="flex-1">
               <label className="text-xs font-semibold text-slate-600 block mb-2">Icon</label>
@@ -176,7 +191,7 @@ export default function ServicesPage() {
               />
             </div>
             <div className="w-16 h-16 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold text-2xl flex-shrink-0">
-              {formData.icon}
+              <ServiceIcon icon={formData.icon} size={28} />
             </div>
           </div>
 
@@ -227,7 +242,7 @@ export default function ServicesPage() {
                 <DragHandle />
 
                 <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold text-lg flex-shrink-0">
-                  {service.icon}
+                  <ServiceIcon icon={service.icon} size={24} />
                 </div>
 
                 <div className="flex-1 min-w-0">

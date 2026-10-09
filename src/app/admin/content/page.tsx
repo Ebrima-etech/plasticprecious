@@ -17,12 +17,11 @@ export default function AdminContentPage() {
   const contentSections: ContentSection[] = [
     {
       id: 'pages',
-      title: 'Pages',
-      description: 'Manage static pages like About, Contact, FAQ',
+      title: 'About Us',
+      description: 'Your story, mission, vision and core values',
       icon: HiOutlineDocumentText,
-      link: '#',
-      status: 'coming-soon',
-      count: 3,
+      link: '/admin/cms/about',
+      status: 'ready',
     },
     {
       id: 'blog',

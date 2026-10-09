@@ -12,7 +12,7 @@ export default function Footer() {
               <li><Link href="/shop" className="text-white hover:text-emerald-400 transition font-semibold">All Products</Link></li>
               <li><Link href="/shop" className="text-white hover:text-emerald-400 transition font-semibold">Custom Orders</Link></li>
               <li><Link href="/shop" className="text-white hover:text-emerald-400 transition font-semibold">Collections</Link></li>
-              <li><Link href="/shop" className="text-white hover:text-emerald-400 transition font-semibold">Bulk Discounts</Link></li>
+              <li><Link href="/b2b" className="text-white hover:text-emerald-400 transition font-semibold">Bulk Discounts</Link></li>
             </ul>
           </div>
           <div>
@@ -31,7 +31,6 @@ export default function Footer() {
               <li><Link href="/blog" className="text-white hover:text-emerald-400 transition font-semibold">Blog & News</Link></li>
               <li><Link href="/impact" className="text-white hover:text-emerald-400 transition font-semibold">Impact Report</Link></li>
               <li><SponsorButton className="text-white hover:text-emerald-400 transition font-semibold text-left">Sponsor a Desk</SponsorButton></li>
-              <li><Link href="/contact" className="text-white hover:text-emerald-400 transition font-semibold">Careers</Link></li>
             </ul>
           </div>
           <div>

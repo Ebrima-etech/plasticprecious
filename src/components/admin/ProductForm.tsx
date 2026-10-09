@@ -11,6 +11,7 @@ import { Card, CardBody, CardHeader, CardFooter } from '@/components/ui/Card';
 import { Spinner } from '@/components/ui/Spinner';
 import { AdminFormSkeleton } from '@/components/ShimmerSkeleton';
 import { PLASTIC_TYPES, GRAMS_PER_BOTTLE, toNumber, formatAmount } from '@/lib/impact';
+import ProductDetailsFields, { DEFAULT_WARRANTY, SpecRow } from './ProductDetailsFields';
 
 const EMPTY_IMPACT = {
   plastic_type: '',
@@ -54,6 +55,8 @@ export default function ProductForm({ productId }: ProductFormProps) {
     is_active: true,
   });
   const [impact, setImpact] = useState(EMPTY_IMPACT);
+  const [specs, setSpecs] = useState<SpecRow[]>([]);
+  const [warranty, setWarranty] = useState(DEFAULT_WARRANTY);
   const [deliveryPrices, setDeliveryPrices] = useState<DeliveryPrice>({});
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
@@ -143,6 +146,8 @@ export default function ProductForm({ productId }: ProductFormProps) {
             category: prodRes.data.category,
             is_active: prodRes.data.is_active,
           });
+          setSpecs(Array.isArray(prodRes.data.specifications) ? prodRes.data.specifications : []);
+          setWarranty(prodRes.data.warranty ?? DEFAULT_WARRANTY);
           setImpact({
             plastic_type: prodRes.data.plastic_type || '',
             plastic_recycled_kg: toNumber(prodRes.data.plastic_recycled_kg) ? String(toNumber(prodRes.data.plastic_recycled_kg)) : '',
@@ -280,6 +285,10 @@ export default function ProductForm({ productId }: ProductFormProps) {
       submitFormData.append('plastic_source', impact.plastic_source);
       submitFormData.append('impact_story', impact.impact_story);
 
+      // Specifications (blank rows dropped) and warranty
+      submitFormData.append('specifications', JSON.stringify(specs.filter(s => s.label.trim() && s.value.trim())));
+      submitFormData.append('warranty', warranty.trim());
+
       if (imageFiles.length > 0) {
         submitFormData.append('image', imageFiles[0]);
       }
@@ -405,6 +414,9 @@ export default function ProductForm({ productId }: ProductFormProps) {
               ))}
             </select>
           </div>
+
+          {/* Product details: specifications and warranty */}
+          <ProductDetailsFields specs={specs} onSpecsChange={setSpecs} warranty={warranty} onWarrantyChange={setWarranty} />
 
           {/* Environmental Impact (per unit) */}
           <div>

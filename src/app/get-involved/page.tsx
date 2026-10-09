@@ -3,11 +3,12 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import axios from 'axios';
-import { FiMapPin, FiCalendar, FiUsers, FiGift, FiDroplet, FiTool, FiBook, FiBarChart2 } from 'react-icons/fi';
+import { FiMapPin, FiCalendar, FiUsers, FiGift } from 'react-icons/fi';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { API_BASE_URL } from '@/config/api';
 import SponsorButton from '@/components/sponsorship/SponsorButton';
+import { DEFAULT_VOLUNTEER_OPPORTUNITIES, VOLUNTEER_COLORS, VOLUNTEER_ICONS, VolunteerOpportunity } from '@/lib/volunteer';
 
 // Public endpoints: a plain instance so visitors are never redirected to login by a 401
 const publicApi = axios.create();
@@ -32,36 +33,23 @@ export default function GetInvolvedPage() {
   const [registrationForm, setRegistrationForm] = useState({ name: '', email: '', phone: '', why_join: '' });
   const [registering, setRegistering] = useState(false);
 
-  const volunteerOptions = [
-    {
-      icon: FiDroplet,
-      title: 'Beach Cleanups',
-      desc: 'Join coastal collection drives',
-      color: 'from-blue-500 to-cyan-600',
-      darkColor: 'dark:from-blue-600 dark:to-cyan-700'
-    },
-    {
-      icon: FiTool,
-      title: 'Workshops',
-      desc: 'Learn our recycling process',
-      color: 'from-emerald-500 to-teal-600',
-      darkColor: 'dark:from-emerald-600 dark:to-teal-700'
-    },
-    {
-      icon: FiBook,
-      title: 'Education',
-      desc: 'Teach circular economy',
-      color: 'from-purple-500 to-pink-600',
-      darkColor: 'dark:from-purple-600 dark:to-pink-700'
-    },
-    {
-      icon: FiBarChart2,
-      title: 'Fundraising',
-      desc: 'Support our initiatives',
-      color: 'from-orange-500 to-amber-600',
-      darkColor: 'dark:from-orange-600 dark:to-amber-700'
-    }
-  ];
+  // "Ways to volunteer" cards, managed in Admin > Insights > Volunteering
+  const [opportunities, setOpportunities] = useState<VolunteerOpportunity[]>(DEFAULT_VOLUNTEER_OPPORTUNITIES);
+  useEffect(() => {
+    publicApi.get(`${API_BASE_URL}/impact/volunteer-opportunities/`)
+      .then(res => {
+        const list = res.data.results || res.data;
+        if (Array.isArray(list)) setOpportunities(list);
+      })
+      .catch(() => { /* keep the defaults */ });
+  }, []);
+
+  const volunteerOptions = opportunities.map(o => ({
+    icon: (VOLUNTEER_ICONS[o.icon] || VOLUNTEER_ICONS.users).Icon,
+    title: o.title,
+    desc: o.description,
+    color: (VOLUNTEER_COLORS[o.color] || VOLUNTEER_COLORS.emerald).gradient,
+  }));
 
   const fetchEvents = async () => {
     try {

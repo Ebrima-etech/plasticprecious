@@ -165,6 +165,11 @@ export default function TeamPage() {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {groups.staff.map((member, idx) => (
                 <div key={idx} className="bg-white border-2 border-slate-200 rounded-2xl p-8 hover:shadow-lg hover:border-emerald-400 transition-all duration-300">
+                  {member.image && (
+                    <div className="w-20 h-20 mb-5 rounded-full overflow-hidden bg-gradient-to-br from-emerald-100 to-teal-100">
+                      <img src={member.image} alt={member.name} className="w-full h-full object-cover" />
+                    </div>
+                  )}
                   {/* Role Badge */}
                   <div className="inline-block bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-4 py-1 rounded-full text-sm font-bold mb-4">
                     {member.role}

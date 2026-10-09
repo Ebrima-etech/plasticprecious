@@ -944,15 +944,31 @@ export default function Home() {
             ))}
           </div>
 
+          {/* Full team (founders, staff and volunteers) */}
+          <div className="mt-10 text-center">
+            <Link
+              href="/team"
+              className="inline-flex items-center gap-2 px-8 py-3 rounded-xl border-2 border-emerald-600 text-emerald-700 font-bold hover:bg-emerald-600 hover:text-white transition"
+            >
+              View all team members <span aria-hidden="true">→</span>
+            </Link>
+            <p className="m-0 mt-2 text-sm text-slate-500">Including our volunteers</p>
+          </div>
+
           {/* CTA Section */}
           <div className="mt-20 bg-gradient-to-r from-emerald-600 to-teal-600 rounded-3xl p-12 text-white text-center">
             <h3 className="text-3xl font-black mb-4">Join Our Growing Team</h3>
             <p className="mb-8 max-w-2xl mx-auto opacity-90">
               Passionate about sustainability? We're always looking for dedicated individuals to join our mission.
             </p>
-            <Link href="/contact" className="inline-block px-8 py-3 bg-white text-emerald-600 font-bold rounded-lg hover:bg-slate-100 transition">
-              Get In Touch
-            </Link>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <Link href="/get-involved#volunteer-form" className="inline-block px-8 py-3 bg-white text-emerald-600 font-bold rounded-lg hover:bg-slate-100 transition">
+                Apply to Volunteer
+              </Link>
+              <Link href="/contact" className="inline-block px-8 py-3 border-2 border-white text-white font-bold rounded-lg hover:bg-white/10 transition">
+                Get In Touch
+              </Link>
+            </div>
           </div>
         </div>
       </section>

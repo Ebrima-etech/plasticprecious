@@ -112,6 +112,8 @@ export default function Home() {
     try {
       const response = await axios.get(`${API_BASE_URL}/team-members/`);
       const members = (response.data.results || response.data)
+        // Volunteers are listed on the Team page; the homepage shows founders and staff
+        .filter((m: TeamMember & { category?: string }) => m.category !== 'volunteer')
         .map((m: TeamMember) => ({ ...m, image_url: m.image || m.image_url }))
         .sort((a: TeamMember, b: TeamMember) => a.order - b.order);
       setTeamMembers(members);

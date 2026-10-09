@@ -8,6 +8,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { API_BASE_URL } from '@/config/api';
 import SponsorButton from '@/components/sponsorship/SponsorButton';
+import VolunteerApplicationForm from '@/components/VolunteerApplicationForm';
 import { DEFAULT_VOLUNTEER_OPPORTUNITIES, VOLUNTEER_COLORS, VOLUNTEER_ICONS, VolunteerOpportunity } from '@/lib/volunteer';
 
 // Public endpoints: a plain instance so visitors are never redirected to login by a 401
@@ -43,6 +44,13 @@ export default function GetInvolvedPage() {
       })
       .catch(() => { /* keep the defaults */ });
   }, []);
+
+  // Clicking a card preselects it in the application form and scrolls there
+  const [pickedInterest, setPickedInterest] = useState<string | null>(null);
+  const pickVolunteerRole = (title: string) => {
+    setPickedInterest(title);
+    document.getElementById('volunteer-form')?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   const volunteerOptions = opportunities.map(o => ({
     icon: (VOLUNTEER_ICONS[o.icon] || VOLUNTEER_ICONS.users).Icon,
@@ -138,6 +146,10 @@ export default function GetInvolvedPage() {
               return (
                 <div
                   key={idx}
+                  onClick={() => pickVolunteerRole(option.title)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => { if (e.key === 'Enter') pickVolunteerRole(option.title); }}
                   className={`bg-gradient-to-br ${option.color} rounded-3xl p-8 text-white shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 cursor-pointer group relative overflow-hidden`}
                 >
                   {/* Animated background accent */}
@@ -162,6 +174,16 @@ export default function GetInvolvedPage() {
                 </div>
               );
             })}
+          </div>
+
+          {/* Apply to volunteer */}
+          <div id="volunteer-form" className="mb-16 scroll-mt-28 rounded-3xl border-2 border-emerald-200 bg-gradient-to-br from-emerald-50 via-white to-teal-50 p-6 sm:p-10">
+            <div className="max-w-2xl mb-8">
+              <p className="m-0 text-sm font-black text-emerald-700 uppercase tracking-widest mb-2">Become a volunteer</p>
+              <h2 className="text-3xl font-black text-slate-900 mb-3">Apply to volunteer with us</h2>
+              <p className="m-0 text-slate-600">Tell us a little about yourself and how you would like to help. We will get back to you with upcoming activities.</p>
+            </div>
+            <VolunteerApplicationForm opportunities={opportunities.map(o => o.title)} preselected={pickedInterest} />
           </div>
 
           {/* Upcoming Events */}

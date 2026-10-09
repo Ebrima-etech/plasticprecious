@@ -1,6 +1,9 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import axios from 'axios';
+import { API_BASE_URL } from '@/config/api';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
@@ -65,7 +68,47 @@ const staff: TeamMember[] = [
   }
 ];
 
+interface ApiTeamMember {
+  id: number;
+  name: string;
+  role: string;
+  category?: 'founder' | 'staff' | 'volunteer';
+  description: string;
+  image?: string | null;
+  image_url?: string;
+}
+
+// Public content: a plain instance so a stale login never redirects visitors
+const publicApi = axios.create();
+
+const categoryOf = (m: ApiTeamMember) => {
+  if (m.category) return m.category;
+  const role = m.role.toLowerCase();
+  return role.includes('founder') ? 'founder' : role.includes('volunteer') ? 'volunteer' : 'staff';
+};
+
 export default function TeamPage() {
+  // Starts with the built-in list; replaced by the team managed in Admin > Content > Team
+  const [groups, setGroups] = useState<Record<'founder' | 'staff' | 'volunteer', TeamMember[]>>({
+    founder: founders,
+    staff,
+    volunteer: [],
+  });
+
+  useEffect(() => {
+    publicApi.get(`${API_BASE_URL}/team-members/`, { params: { page_size: 200 } })
+      .then(res => {
+        const list: ApiTeamMember[] = res.data.results || res.data;
+        if (!Array.isArray(list) || list.length === 0) return;
+        const next: Record<'founder' | 'staff' | 'volunteer', TeamMember[]> = { founder: [], staff: [], volunteer: [] };
+        list.forEach(m => {
+          next[categoryOf(m)].push({ name: m.name, role: m.role, description: m.description, image: m.image || m.image_url || undefined });
+        });
+        setGroups(next);
+      })
+      .catch(() => { /* keep the built-in list */ });
+  }, []);
+
   return (
     <div className="min-h-screen bg-white">
       <Navbar showNavLinks={true} />
@@ -87,7 +130,7 @@ export default function TeamPage() {
               <div className="w-16 h-1 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full"></div>
             </div>
             <div className="grid md:grid-cols-2 gap-8">
-              {founders.map((member, idx) => (
+              {groups.founder.map((member, idx) => (
                 <div key={idx} className="bg-white border-2 border-slate-200 rounded-2xl overflow-hidden hover:shadow-lg hover:border-emerald-400 transition-all duration-300">
                   {/* Image */}
                   {member.image && (
@@ -120,7 +163,7 @@ export default function TeamPage() {
               <div className="w-16 h-1 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full"></div>
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {staff.map((member, idx) => (
+              {groups.staff.map((member, idx) => (
                 <div key={idx} className="bg-white border-2 border-slate-200 rounded-2xl p-8 hover:shadow-lg hover:border-emerald-400 transition-all duration-300">
                   {/* Role Badge */}
                   <div className="inline-block bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-4 py-1 rounded-full text-sm font-bold mb-4">
@@ -137,15 +180,43 @@ export default function TeamPage() {
             </div>
           </div>
 
+          {/* Volunteers Section */}
+          {groups.volunteer.length > 0 && (
+            <div className="mt-20">
+              <div className="mb-12">
+                <h2 className="text-4xl font-black text-slate-900 mb-2">Volunteers</h2>
+                <div className="w-16 h-1 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full"></div>
+                <p className="m-0 mt-4 text-slate-600">The people who give their time to cleanups, workshops and our community.</p>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                {groups.volunteer.map((member, idx) => (
+                  <div key={idx} className="bg-white border-2 border-slate-200 rounded-2xl p-6 text-center hover:border-emerald-400 transition">
+                    <div className="w-20 h-20 mx-auto mb-4 rounded-full overflow-hidden bg-gradient-to-br from-emerald-100 to-teal-100 flex items-center justify-center text-2xl font-black text-emerald-700">
+                      {member.image ? <img src={member.image} alt={member.name} className="w-full h-full object-cover" /> : member.name.charAt(0)}
+                    </div>
+                    <h3 className="text-lg font-black text-slate-900">{member.name}</h3>
+                    <p className="m-0 text-sm text-emerald-700 font-semibold">{member.role}</p>
+                    {member.description && <p className="m-0 mt-2 text-xs text-slate-600 line-clamp-3">{member.description}</p>}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* CTA Section */}
           <div className="mt-20 bg-gradient-to-r from-emerald-600 to-teal-600 rounded-3xl p-12 text-white text-center">
             <h2 className="text-3xl font-black mb-4">Join Our Mission</h2>
             <p className="mb-8 max-w-2xl mx-auto opacity-90">
               We're building a community of passionate individuals committed to transforming plastic waste into value. If you share our vision, we'd love to have you on the team.
             </p>
-            <Link href="/contact" className="inline-block px-8 py-3 bg-white text-emerald-600 font-bold rounded-lg hover:bg-slate-100 transition">
-              Get In Touch
-            </Link>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <Link href="/get-involved#volunteer-form" className="inline-block px-8 py-3 bg-white text-emerald-600 font-bold rounded-lg hover:bg-slate-100 transition">
+                Apply to Volunteer
+              </Link>
+              <Link href="/contact" className="inline-block px-8 py-3 border-2 border-white text-white font-bold rounded-lg hover:bg-white/10 transition">
+                Get In Touch
+              </Link>
+            </div>
           </div>
         </div>
       </section>

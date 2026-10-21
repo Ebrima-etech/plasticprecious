@@ -25,7 +25,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* Skip the homepage intro on repeat loads in the same visit, before anything paints */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: "try{if(sessionStorage.getItem('pp_intro_seen')==='1')document.documentElement.classList.add('intro-seen')}catch(e){}",
+          }}
+        />
+      </head>
       <body className={`${geist.variable} ${geistMono.variable}`}>
         <ToastProvider>
           <LayoutClient>

@@ -43,7 +43,7 @@ export default function BlogPage() {
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
         </div>
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="inline-block bg-white/20 text-white px-4 py-2 rounded-full text-sm font-bold mb-6">
             📝 BLOG
           </div>
@@ -53,7 +53,7 @@ export default function BlogPage() {
       </section>
 
       <section className="py-16 lg:py-24 bg-white relative overflow-hidden grid-pattern">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {posts.map((post) => (
               <Link key={post.id} href={`/blog/${post.slug}`}>
@@ -64,7 +64,7 @@ export default function BlogPage() {
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                     </div>
                   )}
-                  <div className="flex flex-col flex-grow px-6 py-6">
+                  <div className="flex flex-col flex-grow px-4 sm:px-6 py-5 sm:py-6">
                     <div className="flex justify-between items-start mb-3">
                       <span className="text-xs text-emerald-600 font-bold uppercase">{post.category}</span>
                       <span className="text-xs text-slate-500">{new Date(post.published_at).toLocaleDateString()}</span>

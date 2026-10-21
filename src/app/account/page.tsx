@@ -57,7 +57,7 @@ export default function AccountPage() {
       <Navbar showNavLinks={true} />
 
       <section className="py-16 lg:py-24">
-        <div className="max-w-5xl mx-auto px-6 lg:px-8">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="mb-16">
             <div className="flex items-center gap-4 mb-4">
@@ -83,7 +83,7 @@ export default function AccountPage() {
               </h2>
             </div>
 
-            <div className="p-8">
+            <div className="p-4 sm:p-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="group">
                   <p className="text-xs font-black text-slate-500 uppercase tracking-widest mb-3">Name</p>
@@ -120,7 +120,7 @@ export default function AccountPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {/* My Orders */}
               <Link href="/orders" className="group">
-                <div className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-emerald-300 transition p-6 h-full flex flex-col">
+                <div className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-emerald-300 transition p-4 sm:p-6 h-full flex flex-col">
                   <div className="w-12 h-12 bg-gradient-to-br from-emerald-100 to-emerald-50 rounded-xl flex items-center justify-center mb-4 group-hover:from-emerald-600 group-hover:to-teal-600 transition">
                     <FiPackage className="text-emerald-600 text-xl group-hover:text-white transition" />
                   </div>
@@ -132,7 +132,7 @@ export default function AccountPage() {
 
               {/* Shopping Cart */}
               <Link href="/cart" className="group">
-                <div className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-blue-300 transition p-6 h-full flex flex-col">
+                <div className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-blue-300 transition p-4 sm:p-6 h-full flex flex-col">
                   <div className="w-12 h-12 bg-gradient-to-br from-blue-100 to-blue-50 rounded-xl flex items-center justify-center mb-4 group-hover:from-blue-600 group-hover:to-cyan-600 transition">
                     <FiShoppingCart className="text-blue-600 text-xl group-hover:text-white transition" />
                   </div>
@@ -144,7 +144,7 @@ export default function AccountPage() {
 
               {/* Continue Shopping */}
               <Link href="/shop" className="group">
-                <div className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-purple-300 transition p-6 h-full flex flex-col">
+                <div className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-purple-300 transition p-4 sm:p-6 h-full flex flex-col">
                   <div className="w-12 h-12 bg-gradient-to-br from-purple-100 to-purple-50 rounded-xl flex items-center justify-center mb-4 group-hover:from-purple-600 group-hover:to-pink-600 transition">
                     <FiShoppingBag className="text-purple-600 text-xl group-hover:text-white transition" />
                   </div>
@@ -157,7 +157,7 @@ export default function AccountPage() {
           </div>
 
           {/* Logout Section */}
-          <div className="bg-gradient-to-r from-red-50 to-rose-50 rounded-2xl border border-red-200 p-8">
+          <div className="bg-gradient-to-r from-red-50 to-rose-50 rounded-2xl border border-red-200 p-4 sm:p-8">
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-lg font-black text-slate-900 mb-1">Sign Out</h3>

@@ -163,7 +163,7 @@ function ShopContent() {
 
       {/* Content */}
       <section className="py-6 lg:py-8 bg-white relative overflow-hidden grid-pattern">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           {searchQuery && (
             <div className="mb-8 pb-6 border-b border-slate-200">
               <h1 className="text-3xl font-black text-slate-900 mb-2">Search Results</h1>
@@ -181,7 +181,7 @@ function ShopContent() {
             </div>
           ) : (
             <div>
-              <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4 lg:gap-6 px-3 lg:px-0">
+              <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4 lg:gap-6">
                 {filteredProducts.map((product) => {
                   const stockBadge = getStockBadge(product.stock);
                   return (

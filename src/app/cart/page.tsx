@@ -78,7 +78,7 @@ export default function CartPage() {
 
       {/* Content */}
       <section className="py-16 lg:py-24 bg-white relative overflow-hidden grid-pattern">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           {error && (
             <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
               {error}
@@ -92,7 +92,7 @@ export default function CartPage() {
                   {cart.items.map((item: CartItem, index: number) => (
                     <div
                       key={index}
-                      className="group cursor-pointer relative rounded-3xl overflow-hidden border border-slate-200 hover:border-emerald-400 flex flex-col hover:-translate-y-1 bg-gradient-to-br from-white to-slate-50 backdrop-blur-sm group-hover:from-emerald-50 group-hover:to-white transition-all duration-300 p-6"
+                      className="group cursor-pointer relative rounded-3xl overflow-hidden border border-slate-200 hover:border-emerald-400 flex flex-col hover:-translate-y-1 bg-gradient-to-br from-white to-slate-50 backdrop-blur-sm group-hover:from-emerald-50 group-hover:to-white transition-all duration-300 p-4 sm:p-6"
                     >
                       <div className="flex items-center gap-6">
                         {/* Product Image */}
@@ -154,7 +154,7 @@ export default function CartPage() {
               </div>
 
               <div>
-                <div className="group cursor-pointer relative rounded-3xl overflow-hidden border border-slate-200 hover:border-emerald-400 flex flex-col h-full hover:-translate-y-1 bg-gradient-to-br from-white to-slate-50 backdrop-blur-sm group-hover:from-emerald-50 group-hover:to-white transition-all duration-300 p-8 sticky top-4 space-y-6">
+                <div className="group cursor-pointer relative rounded-3xl overflow-hidden border border-slate-200 hover:border-emerald-400 flex flex-col h-full hover:-translate-y-1 bg-gradient-to-br from-white to-slate-50 backdrop-blur-sm group-hover:from-emerald-50 group-hover:to-white transition-all duration-300 p-4 sm:p-8 sticky top-4 space-y-6">
                   <div>
                     <h3 className="text-2xl font-black text-slate-900 mb-1 group-hover:text-emerald-600 transition">Order Summary</h3>
                     <p className="text-sm text-slate-600">{cart.total_items} item{cart.total_items !== 1 ? 's' : ''} in cart</p>
@@ -210,7 +210,7 @@ export default function CartPage() {
             </div>
           ) : (
             <div className="col-span-full">
-              <div className="group cursor-pointer relative rounded-3xl overflow-hidden border border-slate-200 hover:border-emerald-400 flex flex-col hover:-translate-y-1 bg-gradient-to-br from-white to-slate-50 backdrop-blur-sm group-hover:from-emerald-50 group-hover:to-white transition-all duration-300 p-6 sm:p-12 text-center">
+              <div className="group cursor-pointer relative rounded-3xl overflow-hidden border border-slate-200 hover:border-emerald-400 flex flex-col hover:-translate-y-1 bg-gradient-to-br from-white to-slate-50 backdrop-blur-sm group-hover:from-emerald-50 group-hover:to-white transition-all duration-300 p-4 sm:p-12 text-center">
                 <FiShoppingCart className="w-16 h-16 text-emerald-400 mx-auto mb-6" />
                 <h2 className="text-3xl font-black text-slate-900 mb-3 group-hover:text-emerald-600 transition">Your cart is empty</h2>
                 <p className="text-lg text-slate-600 mb-8">Add some amazing products to get started!</p>

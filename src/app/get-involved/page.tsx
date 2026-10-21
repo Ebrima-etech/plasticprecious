@@ -131,7 +131,7 @@ export default function GetInvolvedPage() {
       <Navbar showNavLinks={true} />
 
       <section className="py-16 lg:py-24 bg-gradient-to-b from-emerald-50 to-white">
-        <div className="max-w-6xl mx-auto px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h1 className="text-4xl sm:text-5xl font-black text-slate-900 mb-4">Get Involved</h1>
             <p className="text-xl text-slate-600 max-w-2xl mx-auto">
@@ -150,7 +150,7 @@ export default function GetInvolvedPage() {
                   role="button"
                   tabIndex={0}
                   onKeyDown={(e) => { if (e.key === 'Enter') pickVolunteerRole(option.title); }}
-                  className={`bg-gradient-to-br ${option.color} rounded-3xl p-8 text-white shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 cursor-pointer group relative overflow-hidden`}
+                  className={`bg-gradient-to-br ${option.color} rounded-3xl p-4 sm:p-8 text-white shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 cursor-pointer group relative overflow-hidden`}
                 >
                   {/* Animated background accent */}
                   <div className="absolute -top-20 -right-20 w-40 h-40 bg-white/10 rounded-full group-hover:scale-150 transition-transform duration-500"></div>
@@ -177,7 +177,7 @@ export default function GetInvolvedPage() {
           </div>
 
           {/* Apply to volunteer */}
-          <div id="volunteer-form" className="mb-16 scroll-mt-28 rounded-3xl border-2 border-emerald-200 bg-gradient-to-br from-emerald-50 via-white to-teal-50 p-6 sm:p-10">
+          <div id="volunteer-form" className="mb-16 scroll-mt-28 rounded-3xl border-2 border-emerald-200 bg-gradient-to-br from-emerald-50 via-white to-teal-50 p-4 sm:p-10">
             <div className="max-w-2xl mb-8">
               <p className="m-0 text-sm font-black text-emerald-700 uppercase tracking-widest mb-2">Become a volunteer</p>
               <h2 className="text-3xl font-black text-slate-900 mb-3">Apply to volunteer with us</h2>
@@ -194,7 +194,7 @@ export default function GetInvolvedPage() {
                 <p className="text-slate-600">Loading events...</p>
               ) : events.length > 0 ? (
                 events.map((event) => (
-                  <div key={event.id} className="bg-white border-2 border-slate-200 rounded-2xl p-6 hover:border-emerald-400 transition">
+                  <div key={event.id} className="bg-white border-2 border-slate-200 rounded-2xl p-4 sm:p-6 hover:border-emerald-400 transition">
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center gap-4">
                         <div className="bg-emerald-100 text-emerald-700 font-bold px-4 py-2 rounded-lg">
@@ -222,14 +222,14 @@ export default function GetInvolvedPage() {
           </div>
 
           {/* Drop-off Locations */}
-          <div className="bg-slate-50 rounded-3xl p-6 sm:p-12 border-2 border-slate-200 mb-16">
+          <div className="bg-slate-50 rounded-3xl p-4 sm:p-12 border-2 border-slate-200 mb-16">
             <h2 className="text-3xl font-black text-slate-900 mb-8 flex items-center gap-3">
               <FiMapPin className="text-emerald-600" />
               Plastic Drop-off Locations
             </h2>
             <div className="grid md:grid-cols-3 gap-6">
               {['Gunjur', 'Kartong', 'Sanyang'].map((location) => (
-                <div key={location} className="bg-white rounded-xl p-6 border border-slate-200">
+                <div key={location} className="bg-white rounded-xl p-4 sm:p-6 border border-slate-200">
                   <p className="font-bold text-slate-900 text-lg mb-2">{location}</p>
                   <p className="text-sm text-slate-600 mb-4">Open Mon-Sat, 8am-5pm</p>
                   <button className="text-emerald-600 font-bold text-sm hover:underline">Get Directions →</button>
@@ -239,7 +239,7 @@ export default function GetInvolvedPage() {
           </div>
 
           {/* Newsletter */}
-          <div className="bg-gradient-to-r from-emerald-600 to-teal-600 rounded-3xl p-6 sm:p-12 text-white text-center mb-16">
+          <div className="bg-gradient-to-r from-emerald-600 to-teal-600 rounded-3xl p-4 sm:p-12 text-white text-center mb-16">
             <h2 className="text-3xl font-black mb-4 text-white">Stay Updated</h2>
             <p className="opacity-90 mb-8 max-w-2xl mx-auto text-white">
               Subscribe to get updates on cleanup events, new workshops, and impact reports
@@ -264,7 +264,7 @@ export default function GetInvolvedPage() {
           </div>
 
           {/* Sponsorship */}
-          <div className="bg-white border-2 border-slate-200 rounded-3xl p-6 sm:p-12">
+          <div className="bg-white border-2 border-slate-200 rounded-3xl p-4 sm:p-12">
             <h2 className="text-3xl font-black text-slate-900 mb-8 flex items-center gap-3">
               <FiGift className="text-emerald-600" />
               Sponsor a Desk
@@ -291,7 +291,7 @@ export default function GetInvolvedPage() {
                 <SponsorButton />
 
               </div>
-              <div className="bg-emerald-50 rounded-2xl p-8 text-center">
+              <div className="bg-emerald-50 rounded-2xl p-4 sm:p-8 text-center">
                 <p className="text-4xl sm:text-5xl font-black text-emerald-600 mb-4">150</p>
                 <p className="text-slate-600 font-semibold">Per Desk</p>
                 <div className="mt-6 space-y-2 text-sm text-slate-700">
@@ -308,7 +308,7 @@ export default function GetInvolvedPage() {
       {/* Registration Modal */}
       {showRegistrationModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl p-8 max-w-md w-full shadow-2xl">
+          <div className="bg-white rounded-2xl p-4 sm:p-8 max-w-md w-full shadow-2xl">
             <h2 className="text-2xl font-black text-slate-900 mb-6">Register for Event</h2>
             {selectedEvent && (
               <p className="text-slate-600 mb-6">

@@ -125,7 +125,7 @@ export default function SponsorshipModal({ open, onClose, initialCount = 1 }: Sp
         </button>
 
         {submitted ? (
-          <div className="p-8 sm:p-10 text-center">
+          <div className="p-4 sm:p-10 text-center">
             <FiCheckCircle className="w-16 h-16 text-emerald-500 mx-auto mb-4" />
             <h2 id="sponsorship-title" className="text-2xl font-black text-slate-900 mb-2">Thank you, {submitted.sponsor_name.split(' ')[0]}!</h2>
             <p className="m-0 text-slate-600">

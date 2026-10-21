@@ -18,9 +18,9 @@ function OrderConfirmationContent() {
       <Navbar showNavLinks={true} />
 
       <section className="py-16 lg:py-24 bg-white">
-        <div className="max-w-2xl mx-auto px-6 lg:px-8">
+        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Order Details Card */}
-          <div className="bg-white border-2 border-emerald-200 rounded-3xl p-8 shadow-sm mb-8">
+          <div className="bg-white border-2 border-emerald-200 rounded-3xl p-4 sm:p-8 shadow-sm mb-8">
             <div className="grid grid-cols-2 gap-6 mb-6 pb-6 border-b border-slate-200">
               <div>
                 <p className="text-sm font-bold text-slate-500 uppercase tracking-wide mb-2">Order ID</p>
@@ -58,7 +58,7 @@ function OrderConfirmationContent() {
           </div>
 
           {/* What's Next */}
-          <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-6 mb-8">
+          <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 sm:p-6 mb-8">
             <div className="flex gap-4">
               <FiMail className="w-6 h-6 text-emerald-600 flex-shrink-0 mt-1" />
               <div>

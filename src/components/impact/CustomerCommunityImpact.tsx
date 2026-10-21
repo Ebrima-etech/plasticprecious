@@ -33,7 +33,7 @@ export default function CustomerCommunityImpact({ customers }: { customers: Cust
 
   return (
     <section className="py-16 lg:py-24 bg-gradient-to-br from-emerald-900 to-teal-800 text-white">
-      <div className="max-w-6xl mx-auto px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-12">
           <p className="m-0 text-sm font-black text-emerald-300 uppercase tracking-widest mb-3">Our Customers</p>
           <h2 className="text-4xl font-black mb-4 text-white">Every purchase adds up</h2>
@@ -54,7 +54,7 @@ export default function CustomerCommunityImpact({ customers }: { customers: Cust
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 mt-8">
           {/* Level distribution */}
-          <div className="lg:col-span-3 rounded-3xl bg-white/10 border border-white/15 p-5 sm:p-8">
+          <div className="lg:col-span-3 rounded-3xl bg-white/10 border border-white/15 p-4 sm:p-8">
             <h3 className="text-xl font-black text-white mb-1">Impact levels</h3>
             <p className="m-0 text-sm text-emerald-100 mb-6">Customers level up as the plastic they save grows.</p>
             <div className="space-y-4">
@@ -84,7 +84,7 @@ export default function CustomerCommunityImpact({ customers }: { customers: Cust
           </div>
 
           {/* Personal snapshot / call to action */}
-          <div className="lg:col-span-2 rounded-3xl bg-white text-slate-900 p-5 sm:p-8 flex flex-col">
+          <div className="lg:col-span-2 rounded-3xl bg-white text-slate-900 p-4 sm:p-8 flex flex-col">
             {mine && mine.has_impact ? (
               <>
                 <p className="m-0 text-xs font-black text-emerald-700 uppercase tracking-widest mb-3">Your impact</p>

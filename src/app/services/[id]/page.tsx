@@ -50,11 +50,11 @@ export default function ServiceDetailPage() {
       <Navbar showNavLinks={true} />
 
       {state === 'loading' && (
-        <div className="max-w-5xl mx-auto px-6 lg:px-8 py-14 sm:py-24 text-center text-slate-500">Loading…</div>
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-24 text-center text-slate-500">Loading…</div>
       )}
 
       {state === 'missing' && (
-        <div className="max-w-5xl mx-auto px-6 lg:px-8 py-14 sm:py-24 text-center">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-24 text-center">
           <h1 className="text-3xl font-black text-slate-900 mb-4">Service not found</h1>
           <Link href="/services" className="text-emerald-700 font-bold hover:underline">← All services</Link>
         </div>
@@ -66,7 +66,7 @@ export default function ServiceDetailPage() {
             {service.image && (
               <img src={service.image} alt="" className="absolute inset-0 w-full h-full object-cover opacity-25" />
             )}
-            <div className="relative max-w-5xl mx-auto px-6 lg:px-8 py-16 lg:py-20">
+            <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
               <Link href="/services" className="inline-block text-sm font-semibold text-emerald-50 hover:text-white mb-6">← All services</Link>
               <div className="flex items-center gap-4">
                 <ServiceIcon icon={service.icon} size={48} className="text-white" />
@@ -76,14 +76,14 @@ export default function ServiceDetailPage() {
             </div>
           </section>
 
-          <section className={`max-w-5xl mx-auto px-6 lg:px-8 py-14 lg:py-20 grid grid-cols-1 gap-10 ${paragraphs.length > 0 ? 'lg:grid-cols-3' : ''}`}>
+          <section className={`max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-14 lg:py-20 grid grid-cols-1 gap-10 ${paragraphs.length > 0 ? 'lg:grid-cols-3' : ''}`}>
             {/* The longer "Details" text from the admin; without it the hero description is enough */}
             {paragraphs.length > 0 && (
               <div className="lg:col-span-2 space-y-5 text-lg leading-relaxed text-slate-700">
                 {paragraphs.map((p, i) => <p key={i} className="m-0">{p}</p>)}
               </div>
             )}
-            <aside className={`rounded-3xl border border-emerald-200 bg-emerald-50 p-6 h-fit ${paragraphs.length > 0 ? '' : 'max-w-md w-full mx-auto text-center'}`}>
+            <aside className={`rounded-3xl border border-emerald-200 bg-emerald-50 p-4 sm:p-6 h-fit ${paragraphs.length > 0 ? '' : 'max-w-md w-full mx-auto text-center'}`}>
               <h2 className="text-xl font-black text-slate-900 mb-2">Interested in {service.name.toLowerCase()}?</h2>
               <p className="m-0 text-sm text-slate-600 mb-5">Tell us what you need and our team will get back to you.</p>
               <Link href="/contact" className="block text-center px-5 py-3 rounded-xl bg-emerald-600 text-white font-bold hover:bg-emerald-700 transition">
@@ -97,7 +97,7 @@ export default function ServiceDetailPage() {
 
           {others.length > 0 && (
             <section className="bg-slate-50 border-t border-slate-200 py-14">
-              <div className="max-w-5xl mx-auto px-6 lg:px-8">
+              <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                 <h2 className="text-2xl font-black text-slate-900 mb-6">Other services</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   {others.map(other => (

@@ -4,7 +4,7 @@ import SponsorButton from '@/components/sponsorship/SponsorButton';
 export default function Footer() {
   return (
     <footer className="border-t border-slate-700 bg-slate-900 pt-16 pb-8">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
             <h5 className="font-black text-white mb-6 text-sm uppercase tracking-widest">SHOP</h5>

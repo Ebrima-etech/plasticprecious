@@ -44,7 +44,7 @@ export default function ProductImpactPanel({ impact, lifetime, quantity }: Produ
 
   return (
     <section className="py-16 lg:py-20 bg-gradient-to-br from-emerald-900 to-teal-800 text-white border-t border-emerald-950">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-10 max-w-3xl">
           <h3 className="text-sm font-black text-emerald-300 uppercase tracking-wide mb-2">Environmental Impact</h3>
           <h2 className="text-3xl lg:text-4xl font-black mb-3">The difference one purchase makes</h2>

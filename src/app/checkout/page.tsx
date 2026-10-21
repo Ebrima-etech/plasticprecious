@@ -316,7 +316,7 @@ function CheckoutContent() {
 
       {/* Checkout */}
       <section className="py-12 lg:py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {error && (
             <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
               {error}
@@ -478,7 +478,7 @@ function CheckoutContent() {
 
             {/* Order Summary */}
             <div>
-              <div className="bg-slate-50 rounded-lg p-6 border border-slate-200 sticky top-20">
+              <div className="bg-slate-50 rounded-lg p-4 sm:p-6 border border-slate-200 sticky top-20">
                 <h2 className="text-lg font-black text-slate-900 mb-6">ORDER SUMMARY</h2>
 
                 {/* Items */}

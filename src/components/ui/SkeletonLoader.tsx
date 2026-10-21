@@ -34,7 +34,7 @@ export const SkeletonLoader = ({
 
 // Common skeleton patterns
 export const CardSkeleton = () => (
-  <div className="bg-white rounded-lg shadow-base p-6 space-y-4">
+  <div className="bg-white rounded-lg shadow-base p-4 sm:p-6 space-y-4">
     <SkeletonLoader height="20px" />
     <SkeletonLoader height="16px" width="80%" />
     <SkeletonLoader height="16px" width="90%" />

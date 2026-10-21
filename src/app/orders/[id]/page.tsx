@@ -101,7 +101,7 @@ export default function OrderDetailsPage() {
       <div className="min-h-screen bg-white">
         <Navbar showNavLinks={true} />
         <section className="py-16 lg:py-24">
-          <div className="max-w-2xl mx-auto px-6 lg:px-8 text-center">
+          <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <p className="text-red-600 font-bold mb-6">{error || 'Order not found'}</p>
             <Link href="/orders" className="inline-block bg-emerald-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-emerald-700">
               Back to Orders
@@ -118,7 +118,7 @@ export default function OrderDetailsPage() {
       <Navbar showNavLinks={true} />
 
       <section className="py-16 lg:py-24 bg-white">
-        <div className="max-w-3xl mx-auto px-6 lg:px-8">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Back Button */}
           <Link href="/orders" className="inline-flex items-center gap-2 text-emerald-600 hover:text-emerald-700 font-bold mb-8">
             <FiArrowLeft />
@@ -126,7 +126,7 @@ export default function OrderDetailsPage() {
           </Link>
 
           {/* Order Header */}
-          <div className="bg-white border-2 border-emerald-200 rounded-3xl p-8 mb-8">
+          <div className="bg-white border-2 border-emerald-200 rounded-3xl p-4 sm:p-8 mb-8">
             <div className="flex items-center justify-between mb-6 pb-6 border-b border-slate-200">
               <div>
                 <h1 className="text-3xl font-black text-slate-900 mb-2">Order #{order.id}</h1>
@@ -174,7 +174,7 @@ export default function OrderDetailsPage() {
             </div>
 
             {/* Order Total */}
-            <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-6">
+            <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-4 sm:p-6">
               <div className="flex justify-between items-center">
                 <p className="text-lg font-bold text-slate-900">Total Amount</p>
                 <p className="text-3xl font-black text-emerald-600">
@@ -201,12 +201,12 @@ export default function OrderDetailsPage() {
 
           {/* Quick Actions */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Link href="/shop" className="block bg-emerald-50 border border-emerald-200 rounded-3xl p-6 hover:bg-emerald-100 transition text-center">
+            <Link href="/shop" className="block bg-emerald-50 border border-emerald-200 rounded-3xl p-4 sm:p-6 hover:bg-emerald-100 transition text-center">
               <p className="text-lg font-bold text-slate-900">🛍️ Continue Shopping</p>
               <p className="text-sm text-slate-600 mt-1">Browse more products</p>
             </Link>
 
-            <Link href="/orders" className="block bg-slate-50 border border-slate-200 rounded-3xl p-6 hover:bg-slate-100 transition text-center">
+            <Link href="/orders" className="block bg-slate-50 border border-slate-200 rounded-3xl p-4 sm:p-6 hover:bg-slate-100 transition text-center">
               <p className="text-lg font-bold text-slate-900">📋 All Orders</p>
               <p className="text-sm text-slate-600 mt-1">View order history</p>
             </Link>

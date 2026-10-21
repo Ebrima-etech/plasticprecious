@@ -31,7 +31,7 @@ export default function FAQPage() {
     <div className="min-h-screen bg-white">
       <Navbar showNavLinks={true} />
       <section className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-16 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="inline-block bg-white/20 text-white px-4 py-2 rounded-full text-sm font-bold mb-6">
             ❓ FAQ
           </div>
@@ -40,7 +40,7 @@ export default function FAQPage() {
         </div>
       </section>
       <section className="py-16 lg:py-24 bg-white">
-        <div className="max-w-3xl mx-auto px-6 lg:px-8">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="space-y-4">
             {[1, 2, 3, 4, 5].map((i) => (
               <div key={i} className="rounded-3xl overflow-hidden border border-slate-200">
@@ -71,7 +71,7 @@ export default function FAQPage() {
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
         </div>
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="inline-block bg-white/20 text-white px-4 py-2 rounded-full text-sm font-bold mb-6">
             ❓ FAQ
           </div>
@@ -82,7 +82,7 @@ export default function FAQPage() {
 
       {/* FAQs */}
       <section className="py-16 lg:py-24 bg-white relative overflow-hidden grid-pattern">
-        <div className="max-w-3xl mx-auto px-6 lg:px-8 relative z-10">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="space-y-4">
             {faqs.map((faq) => (
               <div key={faq.id} className="group cursor-pointer relative rounded-3xl overflow-hidden border border-slate-200 hover:border-emerald-400 flex flex-col hover:-translate-y-1 bg-gradient-to-br from-white to-slate-50 backdrop-blur-sm group-hover:from-emerald-50 group-hover:to-white transition-all duration-300">

@@ -70,7 +70,7 @@ export default function AboutPage() {
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
         </div>
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="inline-block bg-white/20 text-white px-4 py-2 rounded-full text-sm font-bold mb-6">
             📖 ABOUT US
           </div>
@@ -81,7 +81,7 @@ export default function AboutPage() {
 
       {/* Content */}
       {about && (
-        <section className="max-w-4xl mx-auto px-6 lg:px-8 py-16 lg:py-20">
+        <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
           <h2 className="text-3xl lg:text-4xl font-black text-slate-900 mb-6 tracking-tight">{about.title || 'About Us'}</h2>
           <div className="space-y-5">
             <Paragraphs text={about.content} />
@@ -91,9 +91,9 @@ export default function AboutPage() {
 
       {missionVision.length > 0 && (
         <section className="bg-emerald-50 border-y border-emerald-100 py-16 lg:py-20">
-          <div className={`max-w-6xl mx-auto px-6 lg:px-8 grid grid-cols-1 ${missionVision.length > 1 ? 'md:grid-cols-2' : ''} gap-6`}>
+          <div className={`max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 ${missionVision.length > 1 ? 'md:grid-cols-2' : ''} gap-6`}>
             {missionVision.map(section => (
-              <div key={section.slug} className="bg-white rounded-3xl border border-emerald-200 p-8">
+              <div key={section.slug} className="bg-white rounded-3xl border border-emerald-200 p-4 sm:p-8">
                 <div className="text-3xl mb-3" aria-hidden="true">{section.slug === 'mission' ? '🎯' : '🔭'}</div>
                 <h2 className="text-2xl font-black text-slate-900 mb-4">{section.title}</h2>
                 <div className="space-y-4">
@@ -106,7 +106,7 @@ export default function AboutPage() {
       )}
 
       {!about && missionVision.length === 0 && features.length === 0 && (
-        <section className="max-w-4xl mx-auto px-6 lg:px-8 py-12 sm:py-20 text-center text-slate-500">
+        <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 text-center text-slate-500">
           Our story is coming soon.
         </section>
       )}
@@ -114,7 +114,7 @@ export default function AboutPage() {
       {/* Features */}
       {features.length > 0 && (
         <section className="py-16 lg:py-24 bg-white relative overflow-hidden grid-pattern">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div className="mb-16">
               <div className="inline-block bg-emerald-100 text-emerald-700 px-4 py-2 rounded-full text-sm font-bold mb-4">
                 ✨ WHY CHOOSE US
@@ -124,12 +124,12 @@ export default function AboutPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {features.map((feature) => (
                 <div key={feature.id} className="group cursor-pointer relative rounded-3xl overflow-hidden border border-slate-200 hover:border-emerald-400 flex flex-col h-full hover:-translate-y-1 bg-gradient-to-br from-white to-slate-50 backdrop-blur-sm group-hover:from-emerald-50 group-hover:to-white transition-all duration-300">
-                  <div className="px-6 pt-6 pb-3">
+                  <div className="px-4 sm:px-6 pt-5 sm:pt-6 pb-3">
                     <div className="w-14 h-14 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 text-white flex items-center justify-center text-3xl">
                       {feature.icon}
                     </div>
                   </div>
-                  <div className="flex flex-col flex-grow px-6 pb-6">
+                  <div className="flex flex-col flex-grow px-4 sm:px-6 pb-5 sm:pb-6">
                     <h3 className="font-black text-slate-900 text-2xl leading-tight mb-3 group-hover:text-emerald-600 transition">{feature.title}</h3>
                     <p className="text-slate-600 text-sm leading-relaxed flex-grow">{feature.description}</p>
                   </div>

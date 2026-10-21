@@ -35,7 +35,7 @@ export default function MyImpact() {
   if (!impact) {
     // Keep the section visible so customers know it exists, even if the data couldn't load
     return failed ? (
-      <div className="mb-8 rounded-3xl border border-emerald-200 bg-gradient-to-br from-emerald-50 via-white to-teal-50 p-8 flex flex-col sm:flex-row sm:items-center gap-6">
+      <div className="mb-8 rounded-3xl border border-emerald-200 bg-gradient-to-br from-emerald-50 via-white to-teal-50 p-4 sm:p-8 flex flex-col sm:flex-row sm:items-center gap-6">
         <div className="text-4xl sm:text-5xl">🌱</div>
         <div className="flex-1">
           <p className="m-0 text-xs font-black text-emerald-700 uppercase tracking-widest mb-2">My Impact</p>
@@ -57,7 +57,7 @@ export default function MyImpact() {
   if (!impact.has_impact) {
     return (
       <div className="mb-8 rounded-3xl overflow-hidden border border-emerald-200 bg-gradient-to-br from-emerald-50 via-white to-teal-50">
-        <div className="p-8 lg:p-10 flex flex-col lg:flex-row lg:items-center gap-8">
+        <div className="p-4 sm:p-8 lg:p-10 flex flex-col lg:flex-row lg:items-center gap-8">
           <div className="text-4xl sm:text-6xl">🌱</div>
           <div className="flex-1">
             <p className="m-0 text-xs font-black text-emerald-700 uppercase tracking-widest mb-2">My Impact</p>
@@ -92,7 +92,7 @@ export default function MyImpact() {
         <div className="absolute -top-24 -right-24 w-72 h-72 rounded-full bg-emerald-400/20 blur-3xl" />
         <div className="absolute -bottom-32 -left-16 w-80 h-80 rounded-full bg-teal-300/10 blur-3xl" />
 
-        <div className="relative p-8 lg:p-10">
+        <div className="relative p-4 sm:p-8 lg:p-10">
           <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
             <p className="m-0 text-xs font-black text-emerald-200 uppercase tracking-widest">My Impact</p>
             <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/20 text-sm font-bold">
@@ -166,7 +166,7 @@ export default function MyImpact() {
       </div>
 
       {/* Badges */}
-      <div className="bg-white rounded-3xl border border-slate-200 shadow-sm p-8">
+      <div className="bg-white rounded-3xl border border-slate-200 shadow-sm p-4 sm:p-8">
         <div className="flex items-baseline justify-between mb-6">
           <h3 className="text-xl font-black text-slate-900">Badges</h3>
           <span className="text-sm font-semibold text-slate-500">{earnedBadges} of {impact.badges.length} earned</span>
@@ -192,7 +192,7 @@ export default function MyImpact() {
 
       {/* Per-product breakdown + community */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 bg-white rounded-3xl border border-slate-200 shadow-sm p-8">
+        <div className="lg:col-span-2 bg-white rounded-3xl border border-slate-200 shadow-sm p-4 sm:p-8">
           <h3 className="text-xl font-black text-slate-900 mb-5">What made the difference</h3>
           <div className="divide-y divide-slate-100">
             {(impact.products || []).map(p => (
@@ -210,7 +210,7 @@ export default function MyImpact() {
           </div>
         </div>
 
-        <div className="rounded-3xl p-8 bg-gradient-to-br from-amber-50 to-emerald-50 border border-emerald-200">
+        <div className="rounded-3xl p-4 sm:p-8 bg-gradient-to-br from-amber-50 to-emerald-50 border border-emerald-200">
           <h3 className="text-xl font-black text-slate-900 mb-3">Together we’re stronger</h3>
           <p className="m-0 text-slate-700 text-sm leading-relaxed">
             You’re one of <strong>{formatAmount(community.supporters, 0)}</strong> supporters who have helped divert{' '}

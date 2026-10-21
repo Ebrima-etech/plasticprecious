@@ -148,7 +148,7 @@ export default function B2BPage() {
       <Navbar showNavLinks={true} />
 
       <section className="py-16 lg:py-24 bg-gradient-to-b from-slate-900 to-slate-800 text-white">
-        <div className="max-w-6xl mx-auto px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl sm:text-5xl font-black mb-4 text-center text-white">B2B & Institutional Services</h1>
           <p className="text-xl opacity-90 max-w-2xl mx-auto text-center text-white">
             Partner with us for custom recycled plastic products and sustainable solutions
@@ -157,14 +157,14 @@ export default function B2BPage() {
       </section>
 
       <section className="py-16 lg:py-24">
-        <div className="max-w-6xl mx-auto px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Audience Grid */}
           <h2 className="text-3xl font-black text-slate-900 mb-12">Who We Serve</h2>
           <div className="grid md:grid-cols-2 gap-8 mb-20">
             {audiences.map((audience) => {
               const Icon = audience.icon;
               return (
-                <div key={audience.title} className={`bg-gradient-to-br ${audience.color} rounded-2xl p-8 text-white shadow-lg`}>
+                <div key={audience.title} className={`bg-gradient-to-br ${audience.color} rounded-2xl p-4 sm:p-8 text-white shadow-lg`}>
                   <Icon className="w-12 h-12 mb-4 text-white" />
                   <h3 className="text-2xl font-black mb-3 text-white">{audience.title}</h3>
                   <p className="opacity-90 mb-6 text-white">{audience.goal}</p>
@@ -180,11 +180,11 @@ export default function B2BPage() {
           </div>
 
           {/* Services */}
-          <div className="bg-slate-50 rounded-3xl p-6 sm:p-12 border-2 border-slate-200 mb-20">
+          <div className="bg-slate-50 rounded-3xl p-4 sm:p-12 border-2 border-slate-200 mb-20">
             <h2 className="text-3xl font-black text-slate-900 mb-12">Our B2B Services</h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
               {services.map((service, idx) => (
-                <div key={idx} className="bg-white rounded-xl p-6 border border-slate-200">
+                <div key={idx} className="bg-white rounded-xl p-4 sm:p-6 border border-slate-200">
                   <p className="text-4xl mb-4">{service.icon}</p>
                   <h3 className="font-bold text-slate-900 mb-2">{service.title}</h3>
                   <p className="text-sm text-slate-600">{service.description}</p>
@@ -198,7 +198,7 @@ export default function B2BPage() {
             <h2 className="text-3xl font-black text-slate-900 mb-12">Product Categories</h2>
             <div className="grid md:grid-cols-3 gap-8">
               {productCategories.map((cat) => (
-                <div key={cat.name} className="border-2 border-slate-200 rounded-2xl p-8 hover:border-emerald-400 transition">
+                <div key={cat.name} className="border-2 border-slate-200 rounded-2xl p-4 sm:p-8 hover:border-emerald-400 transition">
                   <p className="text-4xl sm:text-5xl mb-4">{cat.icon}</p>
                   <h3 className="font-black text-slate-900 mb-2 text-lg">{cat.name}</h3>
                   <p className="text-sm text-slate-600 mb-4">{cat.items}</p>
@@ -215,7 +215,7 @@ export default function B2BPage() {
           </div>
 
           {/* RFQ Builder CTA */}
-          <div className="bg-gradient-to-r from-emerald-600 to-teal-600 rounded-3xl p-6 sm:p-12 text-white mb-20">
+          <div className="bg-gradient-to-r from-emerald-600 to-teal-600 rounded-3xl p-4 sm:p-12 text-white mb-20">
             <div className="max-w-2xl">
               <h2 className="text-3xl font-black mb-4 text-white">Instant Bulk RFQ Builder</h2>
               <p className="opacity-90 mb-8 text-white">
@@ -231,7 +231,7 @@ export default function B2BPage() {
           </div>
 
           {/* Impact Portal */}
-          <div className="border-2 border-slate-200 rounded-3xl p-6 sm:p-12">
+          <div className="border-2 border-slate-200 rounded-3xl p-4 sm:p-12">
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div>
                 <h2 className="text-3xl font-black text-slate-900 mb-6">Partnership Impact Portal</h2>
@@ -262,7 +262,7 @@ export default function B2BPage() {
                   </button>
                 </Link>
               </div>
-              <div className="bg-emerald-50 rounded-2xl p-8">
+              <div className="bg-emerald-50 rounded-2xl p-4 sm:p-8">
                 <div className="space-y-6">
                   <div className="text-center">
                     <p className="text-4xl font-black text-emerald-600">2,500kg</p>
@@ -282,7 +282,7 @@ export default function B2BPage() {
           </div>
 
           {/* Contact */}
-          <div className="mt-20 text-center bg-slate-50 rounded-3xl p-6 sm:p-12">
+          <div className="mt-20 text-center bg-slate-50 rounded-3xl p-4 sm:p-12">
             <h2 className="text-3xl font-black text-slate-900 mb-4">Ready to Partner?</h2>
             <p className="text-slate-600 mb-8 max-w-2xl mx-auto">
               Contact our B2B team to discuss bulk orders, custom fabrication, and partnership opportunities
@@ -321,9 +321,9 @@ export default function B2BPage() {
             </div>
 
             {/* Form Content */}
-            <form onSubmit={handleRFQSubmit} className="p-8 max-h-[calc(100vh-200px)] overflow-y-auto space-y-8">
+            <form onSubmit={handleRFQSubmit} className="p-4 sm:p-8 max-h-[calc(100vh-200px)] overflow-y-auto space-y-8">
               {submitSuccess && (
-                <div className="p-6 bg-emerald-50 border-2 border-emerald-200 rounded-xl text-emerald-700 font-semibold text-center animate-slideDown">
+                <div className="p-4 sm:p-6 bg-emerald-50 border-2 border-emerald-200 rounded-xl text-emerald-700 font-semibold text-center animate-slideDown">
                   <p className="text-lg">✓ Success!</p>
                   <p className="text-sm mt-2">Your RFQ has been submitted. We'll contact you within 24 hours.</p>
                 </div>

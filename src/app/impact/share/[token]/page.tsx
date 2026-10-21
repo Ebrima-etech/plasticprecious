@@ -49,7 +49,7 @@ export default async function SharedImpactPage({ params }: Props) {
         <div className="absolute -top-32 -right-24 w-96 h-96 rounded-full bg-emerald-400/20 blur-3xl" />
         <div className="absolute -bottom-40 -left-24 w-96 h-96 rounded-full bg-teal-300/10 blur-3xl" />
 
-        <div className="relative max-w-4xl mx-auto px-6 lg:px-8 py-16 lg:py-24 text-center">
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 text-center">
           <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-sm font-bold">
             {LEVEL_ICONS[level.key]} {level.name}
           </span>
@@ -94,7 +94,7 @@ export default async function SharedImpactPage({ params }: Props) {
       </section>
 
       <section className="py-16 lg:py-20 bg-gradient-to-b from-emerald-50 to-white">
-        <div className="max-w-3xl mx-auto px-6 lg:px-8 text-center">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl lg:text-4xl font-black text-slate-900 mb-4">Start your own impact</h2>
           <p className="text-lg text-slate-600 mb-8">
             Every product in our shop is made from plastic collected in The Gambia. Join {formatAmount(community.supporters, 0)} supporters

@@ -65,9 +65,9 @@ export default function RegisterPage() {
 
       {/* Form Section */}
       <section className="py-16 lg:py-24 bg-white relative overflow-hidden grid-pattern">
-        <div className="max-w-md mx-auto px-6 relative z-10">
+        <div className="max-w-md mx-auto px-4 sm:px-6 relative z-10">
           {/* Card */}
-          <div className="group cursor-pointer relative rounded-3xl overflow-hidden border border-slate-200 hover:border-emerald-400 flex flex-col h-full hover:-translate-y-1 bg-gradient-to-br from-white to-slate-50 backdrop-blur-sm group-hover:from-emerald-50 group-hover:to-white transition-all duration-300 p-8">
+          <div className="group cursor-pointer relative rounded-3xl overflow-hidden border border-slate-200 hover:border-emerald-400 flex flex-col h-full hover:-translate-y-1 bg-gradient-to-br from-white to-slate-50 backdrop-blur-sm group-hover:from-emerald-50 group-hover:to-white transition-all duration-300 p-4 sm:p-8">
             <p className="text-center text-slate-600 text-sm mb-6">
               Get 15% off your first order on eco-friendly products
             </p>

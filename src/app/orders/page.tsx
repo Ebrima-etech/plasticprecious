@@ -80,7 +80,7 @@ export default function OrdersPage() {
       <Navbar showNavLinks={true} />
 
       <section className="py-16 lg:py-24 bg-white">
-        <div className="max-w-4xl mx-auto px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Back Button */}
           <Link href="/account" className="inline-flex items-center gap-2 text-emerald-600 hover:text-emerald-700 font-bold mb-8">
             <FiArrowLeft />
@@ -93,7 +93,7 @@ export default function OrdersPage() {
           </h1>
 
           {orders.length === 0 ? (
-            <div className="bg-white border-2 border-emerald-200 rounded-3xl p-6 sm:p-12 text-center">
+            <div className="bg-white border-2 border-emerald-200 rounded-3xl p-4 sm:p-12 text-center">
               <p className="text-slate-600 text-lg mb-6">You haven't placed any orders yet.</p>
               <Link href="/shop" className="inline-block bg-emerald-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-emerald-700 transition">
                 Start Shopping
@@ -105,7 +105,7 @@ export default function OrdersPage() {
                 <button
                   key={order.id}
                   onClick={() => router.push(`/orders/${order.id}`)}
-                  className="w-full bg-white border-2 border-slate-200 hover:border-emerald-300 hover:bg-emerald-50 rounded-3xl p-6 transition text-left"
+                  className="w-full bg-white border-2 border-slate-200 hover:border-emerald-300 hover:bg-emerald-50 rounded-3xl p-4 sm:p-6 transition text-left"
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex-1">

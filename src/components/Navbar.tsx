@@ -141,7 +141,7 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
       `}</style>
       {/* Top Promo Bar - Desktop Only */}
       <div className="hidden md:block sticky top-0 z-50 bg-gradient-to-r from-slate-900 to-slate-800 border-b border-slate-700">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between py-3 text-xs text-slate-100 overflow-x-auto">
             <div className="flex items-center gap-8 whitespace-nowrap">
               <div className="flex items-center gap-2">
@@ -199,7 +199,7 @@ export default function Navbar({ showNavLinks = false, sticky = true, showCatego
 
       {/* Navigation */}
       <nav className={`${sticky ? 'sticky' : ''} top-0 z-40 bg-gradient-to-r from-emerald-600 to-teal-600 shadow-lg relative`} style={{ borderBottom: isScrolled ? 'none' : 'none' }}>
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Mobile Menu Toggle - On the Left */}
             <button

@@ -114,7 +114,7 @@ export default function TeamPage() {
       <Navbar showNavLinks={true} />
 
       <section className="py-16 lg:py-24 bg-gradient-to-b from-emerald-50 to-white">
-        <div className="max-w-6xl mx-auto px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="text-center mb-20">
             <h1 className="text-4xl sm:text-5xl font-black text-slate-900 mb-4">Our Team</h1>
@@ -139,7 +139,7 @@ export default function TeamPage() {
                     </div>
                   )}
 
-                  <div className="p-8">
+                  <div className="p-4 sm:p-8">
                     {/* Role Badge */}
                     <div className="inline-block bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-4 py-1 rounded-full text-sm font-bold mb-4">
                       {member.role}
@@ -164,7 +164,7 @@ export default function TeamPage() {
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {groups.staff.map((member, idx) => (
-                <div key={idx} className="bg-white border-2 border-slate-200 rounded-2xl p-8 hover:shadow-lg hover:border-emerald-400 transition-all duration-300">
+                <div key={idx} className="bg-white border-2 border-slate-200 rounded-2xl p-4 sm:p-8 hover:shadow-lg hover:border-emerald-400 transition-all duration-300">
                   {member.image && (
                     <div className="w-20 h-20 mb-5 rounded-full overflow-hidden bg-gradient-to-br from-emerald-100 to-teal-100">
                       <img src={member.image} alt={member.name} className="w-full h-full object-cover" />
@@ -195,7 +195,7 @@ export default function TeamPage() {
               </div>
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {groups.volunteer.map((member, idx) => (
-                  <div key={idx} className="bg-white border-2 border-slate-200 rounded-2xl p-6 text-center hover:border-emerald-400 transition">
+                  <div key={idx} className="bg-white border-2 border-slate-200 rounded-2xl p-4 sm:p-6 text-center hover:border-emerald-400 transition">
                     <div className="w-20 h-20 mx-auto mb-4 rounded-full overflow-hidden bg-gradient-to-br from-emerald-100 to-teal-100 flex items-center justify-center text-2xl font-black text-emerald-700">
                       {member.image ? <img src={member.image} alt={member.name} className="w-full h-full object-cover" /> : member.name.charAt(0)}
                     </div>
@@ -209,7 +209,7 @@ export default function TeamPage() {
           )}
 
           {/* CTA Section */}
-          <div className="mt-20 bg-gradient-to-r from-emerald-600 to-teal-600 rounded-3xl p-6 sm:p-12 text-white text-center">
+          <div className="mt-20 bg-gradient-to-r from-emerald-600 to-teal-600 rounded-3xl p-4 sm:p-12 text-white text-center">
             <h2 className="text-3xl font-black mb-4">Join Our Mission</h2>
             <p className="mb-8 max-w-2xl mx-auto opacity-90">
               We're building a community of passionate individuals committed to transforming plastic waste into value. If you share our vision, we'd love to have you on the team.

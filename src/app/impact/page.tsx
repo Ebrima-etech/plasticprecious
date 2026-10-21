@@ -144,7 +144,7 @@ export default function ImpactPage() {
 
       {/* Hero Section */}
       <section className="py-16 lg:py-24 bg-gradient-to-b from-emerald-900 to-emerald-800 text-white">
-        <div className="max-w-6xl mx-auto px-6 lg:px-8 text-center">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black mb-6">Our Impact</h1>
           <p className="text-xl text-emerald-100 max-w-2xl mx-auto">
             Measuring our commitment to a sustainable future through plastic recycling and community transformation
@@ -154,13 +154,13 @@ export default function ImpactPage() {
 
       {/* Key Metrics */}
       <section className="py-16 lg:py-24 bg-slate-50">
-        <div className="max-w-6xl mx-auto px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl font-black text-slate-900 mb-16 text-center">Our Achievements</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {metrics.map((metric, idx) => (
               <div
                 key={idx}
-                className="bg-white rounded-2xl p-8 border-2 border-emerald-100 hover:border-emerald-400 hover:shadow-lg transition"
+                className="bg-white rounded-2xl p-4 sm:p-8 border-2 border-emerald-100 hover:border-emerald-400 hover:shadow-lg transition"
               >
                 <div className="text-emerald-600 mb-4">{metric.icon}</div>
                 <p className="text-4xl font-black text-slate-900 mb-2">{metric.value}</p>
@@ -175,7 +175,7 @@ export default function ImpactPage() {
       {/* Live trend */}
       {hasMonthly && (
         <section className="py-16 lg:py-20 bg-white border-b border-slate-100">
-          <div className="max-w-6xl mx-auto px-6 lg:px-8">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-3xl lg:text-4xl font-black text-slate-900 mb-3 text-center">Plastic Recycled, Month by Month</h2>
             <p className="text-slate-600 text-center mb-10">Tracked from our collections and every product sold over the last 12 months.</p>
             <div className="overflow-x-auto">
@@ -212,13 +212,13 @@ export default function ImpactPage() {
 
       {/* Impact Areas */}
       <section className="py-16 lg:py-24">
-        <div className="max-w-6xl mx-auto px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl font-black text-slate-900 mb-16 text-center">Impact Areas</h2>
           <div className="grid md:grid-cols-2 gap-8">
             {areas.map((area, idx) => (
               <div
                 key={idx}
-                className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-2xl p-8 border-2 border-emerald-200"
+                className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-2xl p-4 sm:p-8 border-2 border-emerald-200"
               >
                 <div className="text-4xl sm:text-5xl mb-4">{area.icon}</div>
                 <h3 className="text-2xl font-black text-slate-900 mb-4">{area.title}</h3>
@@ -235,7 +235,7 @@ export default function ImpactPage() {
 
       {/* Call to Action */}
       <section className="py-16 lg:py-24 bg-gradient-to-r from-emerald-600 to-teal-600 text-white">
-        <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl font-black mb-6">Be Part of the Change</h2>
           <p className="text-xl text-emerald-100 mb-12 max-w-2xl mx-auto">
             Every product you buy contributes to reducing plastic waste and transforming lives. Join thousands of customers making a difference.
@@ -260,10 +260,10 @@ export default function ImpactPage() {
 
       {/* Transparency */}
       <section className="py-16 lg:py-24 bg-slate-50">
-        <div className="max-w-6xl mx-auto px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl font-black text-slate-900 mb-8 text-center">Our Commitment to Transparency</h2>
           <div className="max-w-3xl mx-auto">
-            <div className="bg-white rounded-2xl p-6 sm:p-12 border-2 border-emerald-100">
+            <div className="bg-white rounded-2xl p-4 sm:p-12 border-2 border-emerald-100">
               <p className="text-slate-700 mb-6 leading-relaxed">
                 We believe in measuring and sharing our impact honestly. Every product lists the recycled plastic it contains, and our figures are tracked continuously from each sale, collection drive, production run and community event we record.
               </p>

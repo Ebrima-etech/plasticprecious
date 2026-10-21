@@ -111,7 +111,7 @@ export default function ProductDetailPage() {
     return (
       <div className="min-h-screen bg-white">
         <Navbar showNavLinks={true} />
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12 sm:py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             <div className="lg:col-span-2 space-y-6">
               <ShimmerSkeleton className="w-full aspect-square rounded-lg" />
@@ -137,7 +137,7 @@ export default function ProductDetailPage() {
     return (
       <div className="min-h-screen bg-white">
         <Navbar showNavLinks={true} />
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12 sm:py-20 text-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 text-center">
           <h1 className="text-2xl font-bold text-slate-900 mb-4">Product Not Found</h1>
           <Link href="/shop">
             <Button>Back to Shop</Button>
@@ -152,7 +152,7 @@ export default function ProductDetailPage() {
       <Navbar showNavLinks={true} />
 
       {/* Breadcrumb */}
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-2 border-b border-slate-200">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 border-b border-slate-200">
         <div className="flex items-center gap-2 text-xs text-slate-600">
           <Link href="/" className="hover:text-slate-900">Home</Link>
           <span>/</span>
@@ -164,7 +164,7 @@ export default function ProductDetailPage() {
 
       {/* Product Detail */}
       <section className="py-4 lg:py-6 bg-white">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 lg:gap-12">
             {/* Images Section */}
             <div className="lg:col-span-2 flex gap-2">
@@ -312,7 +312,7 @@ export default function ProductDetailPage() {
 
       {/* Specifications Section */}
       <section className="py-16 lg:py-24 bg-gradient-to-br from-slate-50 to-emerald-50 border-t border-slate-200 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="mb-12">
             <h3 className="text-sm font-black text-emerald-600 uppercase tracking-wide mb-2">Product Information</h3>
             <h2 className="text-4xl font-black text-slate-900 mb-4">Detailed Specifications</h2>
@@ -321,7 +321,7 @@ export default function ProductDetailPage() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Main Specifications */}
-            <div className="bg-white rounded-3xl border border-slate-200 p-8 shadow-sm">
+            <div className="bg-white rounded-3xl border border-slate-200 p-4 sm:p-8 shadow-sm">
               <h3 className="text-2xl font-black text-slate-900 mb-6">Product Details</h3>
               <dl className="divide-y divide-slate-100">
                 {[
@@ -340,7 +340,7 @@ export default function ProductDetailPage() {
             {/* Additional Information */}
             <div className="space-y-6">
               {/* Warranty Card */}
-              <div className="bg-white rounded-3xl border border-slate-200 p-8 shadow-sm">
+              <div className="bg-white rounded-3xl border border-slate-200 p-4 sm:p-8 shadow-sm">
                 <h3 className="text-2xl font-black text-slate-900 mb-6">Warranty & Sustainability</h3>
                 <div className="space-y-4">
                   <div className="flex items-start gap-3">
@@ -361,7 +361,7 @@ export default function ProductDetailPage() {
               </div>
 
               {/* Care & Recycling */}
-              <div className="bg-white rounded-3xl border border-slate-200 p-8 shadow-sm">
+              <div className="bg-white rounded-3xl border border-slate-200 p-4 sm:p-8 shadow-sm">
                 <h3 className="text-2xl font-black text-slate-900 mb-6">Care & Recycling</h3>
                 <ul className="space-y-3 text-slate-700">
                   <li className="flex gap-3">
@@ -389,7 +389,7 @@ export default function ProductDetailPage() {
 
       {/* Features Section */}
       <section className="py-16 lg:py-24 bg-white border-t border-slate-200 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="mb-12">
             <h3 className="text-sm font-black text-emerald-600 uppercase tracking-wide mb-2">Why Choose This Product</h3>
             <h2 className="text-4xl font-black text-slate-900">Recycled, Reliable & Responsible</h2>
@@ -403,7 +403,7 @@ export default function ProductDetailPage() {
               { icon: '🌱', title: 'Climate Positive', desc: 'Supports sustainable future' },
               { icon: '👌', title: 'Premium Finish', desc: 'Beautiful, modern design' },
             ].map((feature, idx) => (
-              <div key={idx} className="group cursor-pointer relative rounded-3xl overflow-hidden border border-slate-200 hover:border-emerald-400 flex flex-col hover:-translate-y-1 bg-gradient-to-br from-white to-slate-50 backdrop-blur-sm group-hover:from-emerald-50 group-hover:to-white transition-all duration-300 p-6">
+              <div key={idx} className="group cursor-pointer relative rounded-3xl overflow-hidden border border-slate-200 hover:border-emerald-400 flex flex-col hover:-translate-y-1 bg-gradient-to-br from-white to-slate-50 backdrop-blur-sm group-hover:from-emerald-50 group-hover:to-white transition-all duration-300 p-4 sm:p-6">
                 <div className="text-4xl mb-4">{feature.icon}</div>
                 <h3 className="text-lg font-black text-slate-900 mb-2 group-hover:text-emerald-600 transition">{feature.title}</h3>
                 <p className="text-sm text-slate-600">{feature.desc}</p>
@@ -415,14 +415,14 @@ export default function ProductDetailPage() {
 
       {/* You Might Also Like Section */}
       <section className="py-16 lg:py-24 bg-white border-t border-slate-200 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <h2 className="text-4xl font-black text-slate-900 mb-12">You Might Also Like</h2>
           {relatedProducts.length === 0 ? (
             <div className="text-center py-12 text-slate-600">
               <p className="text-lg">More products coming soon</p>
             </div>
           ) : (
-            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4 lg:gap-6 px-3 lg:px-0">
+            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4 lg:gap-6">
               {relatedProducts.map((relProduct) => (
                 <Link key={relProduct.id} href={`/shop/${relProduct.id}`} className="no-underline hover:no-underline">
                   <div className="w-full">

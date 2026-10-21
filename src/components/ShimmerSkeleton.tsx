@@ -140,7 +140,7 @@ export function AdminFormSkeleton() {
           <ShimmerSkeleton className="w-40 h-8" />
         </div>
 
-        <div className="p-6 space-y-6">
+        <div className="p-4 sm:p-6 space-y-6">
           <div>
             <ShimmerSkeleton className="w-32 h-4 mb-2" />
             <ShimmerSkeleton className="w-full h-10 rounded-md" />
@@ -189,7 +189,7 @@ export function AdminDashboardSkeleton() {
         <ShimmerSkeleton className="w-40 h-8 mb-4" />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {Array.from({ length: 4 }).map((_, i) => (
-            <div key={i} className="bg-white rounded-lg border border-gray-200 p-6">
+            <div key={i} className="bg-white rounded-lg border border-gray-200 p-4 sm:p-6">
               <ShimmerSkeleton className="w-24 h-4 mb-4" />
               <ShimmerSkeleton className="w-32 h-8 mb-2" />
               <ShimmerSkeleton className="w-20 h-3" />
@@ -222,7 +222,7 @@ export function AdminPageHeaderSkeleton() {
 
 export function AdminStatCardSkeleton() {
   return (
-    <div className="bg-white rounded-lg border border-slate-200 p-6">
+    <div className="bg-white rounded-lg border border-slate-200 p-4 sm:p-6">
       <ShimmerSkeleton className="w-24 h-4 mb-4" />
       <ShimmerSkeleton className="w-32 h-10 mb-2" />
       <ShimmerSkeleton className="w-28 h-3" />

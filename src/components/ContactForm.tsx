@@ -79,7 +79,7 @@ export default function ContactForm({ isOpen, onClose }: ContactFormProps) {
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="p-8 space-y-6">
+        <form onSubmit={handleSubmit} className="p-4 sm:p-8 space-y-6">
           {success && (
             <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-lg text-emerald-700 font-semibold">
               ✓ Thank you! We'll get back to you shortly.

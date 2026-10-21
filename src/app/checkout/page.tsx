@@ -10,6 +10,10 @@ import { Cart, CartItem } from '@/types';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { COUNTRIES, HOME_COUNTRY } from '@/lib/countries';
+import { StepHeader } from '@/components/ui/FormSteps';
+import { FiArrowLeft, FiArrowRight } from 'react-icons/fi';
+
+const CHECKOUT_STEPS = ['Recipient', 'Delivery'];
 
 interface LocationOption {
   id: number;
@@ -32,6 +36,7 @@ function CheckoutContent() {
   const [loading, setLoading] = useState(false);
   const [cartLoading, setCartLoading] = useState(true);
   const [error, setError] = useState('');
+  const [step, setStep] = useState(0);
   const [cart, setCart] = useState<Cart | null>(null);
   const [locations, setLocations] = useState<LocationOption[]>([]);
   const [productDeliveryPrices, setProductDeliveryPrices] = useState<Record<number, Record<number, string>>>({});
@@ -223,14 +228,35 @@ function CheckoutContent() {
     });
   };
 
+  // Step 1 needs a recipient name and phone before moving on to the delivery address
+  const goToDelivery = () => {
+    if (!formData.full_name.trim() || !formData.phone_number.trim()) {
+      setError("Please enter the recipient's name and phone number.");
+      return;
+    }
+    setError('');
+    setStep(1);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const handlePlaceOrder = async () => {
+    if (step === 0) {
+      goToDelivery();
+      return;
+    }
     setLoading(true);
     setError('');
 
     try {
       // Validate required fields
-      if (!isInternational && (!formData.full_name || !formData.phone_number || !formData.city)) {
-        setError('Please fill in all required fields');
+      if (!formData.full_name.trim() || !formData.phone_number.trim()) {
+        setError("Please enter the recipient's name and phone number.");
+        setStep(0);
+        setLoading(false);
+        return;
+      }
+      if (!isInternational && !formData.city) {
+        setError('Please choose your delivery location.');
         setLoading(false);
         return;
       }
@@ -326,9 +352,11 @@ function CheckoutContent() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Form */}
             <div className="lg:col-span-2">
-              <h1 className="text-3xl font-black text-slate-900 mb-8">Checkout</h1>
+              <h1 className="text-2xl sm:text-3xl font-black text-slate-900 mb-5 sm:mb-8">Checkout</h1>
+              <StepHeader steps={CHECKOUT_STEPS} current={step} onJump={(i) => { setError(''); setStep(i); }} />
 
               <div className="space-y-6">
+                {step === 0 && (<>
                 {/* Country */}
                 <div>
                   <label className="block text-sm font-bold text-slate-700 uppercase tracking-wide mb-2">
@@ -380,6 +408,26 @@ function CheckoutContent() {
                     placeholder={isInternational ? 'Phone with country code, e.g. +44 7700 900000' : "Recipient's phone number"}
                     className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-900 placeholder-slate-500"
                   />
+                </div>
+
+                <button
+                  type="button"
+                  onClick={goToDelivery}
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-emerald-600 text-white font-black hover:bg-emerald-700 transition"
+                >
+                  Continue to delivery <FiArrowRight className="w-4 h-4" />
+                </button>
+                </>)}
+
+                {step === 1 && (<>
+                <div className="flex items-center justify-between gap-3 rounded-xl bg-slate-50 border border-slate-200 px-4 py-3 text-sm">
+                  <div className="min-w-0">
+                    <p className="m-0 font-semibold text-slate-900 truncate">{formData.full_name}</p>
+                    <p className="m-0 text-slate-600 truncate">{formData.phone_number} · {isInternational ? (COUNTRIES.find(c => c.code === country)?.name || country) : 'The Gambia'}</p>
+                  </div>
+                  <button type="button" onClick={() => setStep(0)} className="inline-flex items-center gap-1 text-emerald-700 font-semibold flex-shrink-0 hover:underline">
+                    <FiArrowLeft className="w-4 h-4" /> Edit
+                  </button>
                 </div>
 
                 {/* International postal address */}
@@ -473,6 +521,8 @@ function CheckoutContent() {
                   </select>
                 </div>
                 )}
+                <p className="m-0 text-sm text-slate-500 lg:hidden">Review your order below, then tap Pay Now.</p>
+                </>)}
               </div>
             </div>
 
@@ -544,9 +594,10 @@ function CheckoutContent() {
                 <button
                   onClick={handlePlaceOrder}
                   disabled={loading || !cart || cart.items.length === 0}
+                  aria-label={step === 0 ? 'Continue to delivery' : 'Pay now'}
                   className="w-full bg-emerald-600 hover:bg-emerald-700 disabled:bg-slate-300 text-white font-bold py-3 rounded-lg transition-all duration-300 flex items-center justify-center gap-2"
                 >
-                  {loading ? 'Processing...' : '💳 Pay Now'}
+                  {loading ? 'Processing...' : step === 0 ? 'Continue to delivery →' : '💳 Pay Now'}
                 </button>
 
                 <p className="text-xs text-slate-600 text-center mt-4">

@@ -167,13 +167,15 @@ export default function ProductDetailPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 lg:gap-12">
             {/* Images Section */}
-            <div className="lg:col-span-2 flex gap-2">
-              {/* Thumbnail Images - Left Side */}
-              <div className="flex flex-col gap-1">
+            <div className="lg:col-span-2 flex flex-col-reverse lg:flex-row gap-2">
+              {/* Thumbnails: a scrollable row under the image on phones, a column on the left from lg */}
+              {productImages.length > 1 && (
+              <div className="flex flex-row lg:flex-col gap-2 lg:gap-1 overflow-x-auto lg:overflow-visible pb-1 lg:pb-0">
                 {productImages.map((img, idx) => (
                   <button
                     key={idx}
                     onClick={() => setImageIndex(idx)}
+                    aria-label={`Show image ${idx + 1}`}
                     className={`w-16 h-16 rounded-none overflow-hidden flex-shrink-0 border-2 transition-all ${
                       imageIndex === idx
                         ? 'border-emerald-600 ring-2 ring-emerald-300'
@@ -184,13 +186,14 @@ export default function ProductDetailPage() {
                   </button>
                 ))}
               </div>
+              )}
 
               {/* Main Image */}
-              <div className="flex-1 bg-slate-100 rounded-none overflow-hidden aspect-square flex items-center justify-center">
+              <div className="relative w-full lg:flex-1 bg-slate-100 rounded-none overflow-hidden aspect-square">
                 <img
                   src={productImages[imageIndex]}
                   alt={product.name}
-                  className="w-full h-full object-cover"
+                  className="absolute inset-0 w-full h-full object-cover"
                 />
               </div>
             </div>

@@ -6,6 +6,7 @@ import axios from 'axios';
 import { FiX, FiMinus, FiPlus, FiCheckCircle } from 'react-icons/fi';
 import { API_BASE_URL } from '@/config/api';
 import { getErrorMessage } from '@/lib/api-errors';
+import { StepHeader, StepNav } from '@/components/ui/FormSteps';
 import { DEFAULT_SPONSORSHIP_OPTION, Sponsorship, SponsorshipOption, formatMoney } from '@/lib/sponsorship';
 
 // Plain instance: no auth headers or 401 redirects for this public form
@@ -22,6 +23,8 @@ const EMPTY_FORM = {
   is_anonymous: false,
 };
 
+const STEPS = ['How many', 'Your details', 'Confirm'];
+
 const inputClass = 'w-full px-4 py-3 rounded-xl bg-white border border-slate-200 text-slate-900 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 outline-none transition';
 
 interface SponsorshipModalProps {
@@ -36,6 +39,7 @@ export default function SponsorshipModal({ open, onClose, initialCount = 1 }: Sp
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [submitted, setSubmitted] = useState<Sponsorship | null>(null);
+  const [step, setStep] = useState(0);
 
   useEffect(() => {
     if (!open) return;
@@ -71,17 +75,31 @@ export default function SponsorshipModal({ open, onClose, initialCount = 1 }: Sp
       setForm({ ...EMPTY_FORM, items_count: initialCount });
       setSubmitted(null);
       setError('');
+      setStep(0);
     }, 200);
   }
 
+  const goTo = (index: number) => {
+    setError('');
+    setStep(index);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.sponsor_name.trim() || !form.sponsor_email.trim()) {
-      setError('Please enter your name and email.');
-      return;
+    if (step >= 1) {
+      if (!form.sponsor_name.trim() || !form.sponsor_email.trim()) {
+        setError('Please enter your name and email.');
+        if (step > 1) setStep(1);
+        return;
+      }
+      if (form.sponsor_type === 'organization' && !form.organization_name.trim()) {
+        setError('Please enter your organization’s name.');
+        if (step > 1) setStep(1);
+        return;
+      }
     }
-    if (form.sponsor_type === 'organization' && !form.organization_name.trim()) {
-      setError('Please enter your organization’s name.');
+    if (step < STEPS.length - 1) {
+      goTo(step + 1);
       return;
     }
     setError('');
@@ -153,14 +171,17 @@ export default function SponsorshipModal({ open, onClose, initialCount = 1 }: Sp
           </div>
         ) : (
           <form onSubmit={handleSubmit}>
-            <div className="bg-gradient-to-br from-emerald-700 to-teal-800 text-white px-6 sm:px-8 pt-8 pb-6 rounded-t-3xl">
+            <div className="bg-gradient-to-br from-emerald-700 to-teal-800 text-white px-5 sm:px-8 pt-7 sm:pt-8 pb-5 sm:pb-6 rounded-t-3xl">
               <p className="m-0 text-xs font-black text-emerald-200 uppercase tracking-widest mb-2">Sponsorship</p>
               <h2 id="sponsorship-title" className="text-2xl sm:text-3xl font-black text-white mb-2">Sponsor a {option.item_type.toLowerCase()}</h2>
               <p className="m-0 text-emerald-100 text-sm">{option.description}</p>
             </div>
 
-            <div className="px-6 sm:px-8 py-6 space-y-5">
+            <div className="px-4 sm:px-8 py-5 sm:py-6 space-y-5">
+              <StepHeader steps={STEPS} current={step} onJump={goTo} />
+
               {/* Quantity */}
+              {step === 0 && (
               <div className="rounded-2xl border border-emerald-200 bg-emerald-50/60 p-4">
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <div>
@@ -204,6 +225,9 @@ export default function SponsorshipModal({ open, onClose, initialCount = 1 }: Sp
                   <p className="m-0 text-2xl font-black text-emerald-800">{formatMoney(total, option.currency)}</p>
                 </div>
               </div>
+              )}
+
+              {step === 1 && (<>
 
               {/* Sponsor type */}
               <div className="grid grid-cols-2 gap-2 p-1 rounded-xl bg-slate-100">
@@ -241,6 +265,14 @@ export default function SponsorshipModal({ open, onClose, initialCount = 1 }: Sp
                 <label className="block text-xs font-semibold text-slate-600 mb-1.5">Email *</label>
                 <input type="email" required autoComplete="email" value={form.sponsor_email} onChange={(e) => setForm({ ...form, sponsor_email: e.target.value })} className={inputClass} />
               </div>
+              </>)}
+
+              {step === 2 && (<>
+              <div className="rounded-2xl bg-slate-50 border border-slate-200 p-4 text-sm text-slate-700 space-y-1">
+                <p className="m-0"><span className="text-slate-500">Sponsoring:</span> <strong>{form.items_count} {option.item_type.toLowerCase()}{form.items_count > 1 ? 's' : ''}</strong> · {formatMoney(total, option.currency)}</p>
+                <p className="m-0"><span className="text-slate-500">From:</span> <strong>{form.sponsor_type === 'organization' && form.organization_name ? `${form.organization_name} (${form.sponsor_name})` : form.sponsor_name}</strong></p>
+                <p className="m-0 break-all"><span className="text-slate-500">Email:</span> {form.sponsor_email}</p>
+              </div>
 
               <div>
                 <label className="block text-xs font-semibold text-slate-600 mb-1.5">Dedication or message <span className="font-normal text-slate-400">(optional)</span></label>
@@ -251,12 +283,11 @@ export default function SponsorshipModal({ open, onClose, initialCount = 1 }: Sp
                 <input type="checkbox" checked={form.is_anonymous} onChange={(e) => setForm({ ...form, is_anonymous: e.target.checked })} className="mt-0.5 w-4 h-4 accent-emerald-600" />
                 Keep my sponsorship anonymous (don’t mention my name publicly)
               </label>
+              </>)}
 
               {error && <div className="px-4 py-3 rounded-xl bg-red-50 border border-red-200 text-sm text-red-700">{error}</div>}
 
-              <button type="submit" disabled={submitting} className="w-full py-4 rounded-xl bg-emerald-600 text-white font-black text-lg hover:bg-emerald-700 disabled:opacity-60 transition">
-                {submitting ? 'Sending…' : `Pledge ${formatMoney(total, option.currency)}`}
-              </button>
+              <StepNav current={step} total={STEPS.length} onBack={() => goTo(step - 1)} submitting={submitting} submitLabel={`Pledge ${formatMoney(total, option.currency)}`} />
               <p className="m-0 text-xs text-slate-500 text-center">
                 No payment now. We’ll contact you with payment details and send a certificate of impact once the desks are delivered.
               </p>

@@ -5,11 +5,16 @@ import Link from 'next/link';
 import { FiShoppingBag, FiFileText, FiBarChart, FiUsers, FiX } from 'react-icons/fi';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { StepHeader, StepNav } from '@/components/ui/FormSteps';
+
+const RFQ_STEPS = ['Contact', 'Product', 'Requirements'];
 
 export default function B2BPage() {
   const [showRFQForm, setShowRFQForm] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [rfqStep, setRfqStep] = useState(0);
+  const [rfqError, setRfqError] = useState('');
   const [formData, setFormData] = useState({
     company: '',
     contact: '',
@@ -23,6 +28,12 @@ export default function B2BPage() {
 
   const handleRFQSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    // Earlier steps just move on; the browser has already checked their required fields
+    if (rfqStep < RFQ_STEPS.length - 1) {
+      setRfqStep(rfqStep + 1);
+      return;
+    }
+    setRfqError('');
     setSubmitting(true);
     try {
       const rfqData = {
@@ -32,7 +43,7 @@ export default function B2BPage() {
         contact_phone: formData.phone,
         product_category: formData.category,
         quantity: parseInt(formData.quantity) || 0,
-        custom_requirements: formData.specifications,
+        custom_requirements: [formData.category === 'custom' && formData.customCategory ? `Custom product: ${formData.customCategory}` : '', formData.specifications].filter(Boolean).join('\n\n'),
       };
 
       const response = await fetch('https://preciousback.onrender.com/api/impact/rfq/', {
@@ -45,6 +56,7 @@ export default function B2BPage() {
 
       if (response.ok) {
         setSubmitSuccess(true);
+        setRfqStep(0);
         setFormData({
           company: '',
           contact: '',
@@ -61,9 +73,11 @@ export default function B2BPage() {
         }, 2000);
       } else {
         console.error('RFQ submission failed:', response.status);
+        setRfqError(response.status === 429 ? 'Too many requests. Please try again later.' : 'We could not send your request. Please check the details and try again.');
       }
     } catch (error) {
       console.error('Error submitting RFQ:', error);
+      setRfqError('We could not send your request. Please check your connection and try again.');
     } finally {
       setSubmitting(false);
     }
@@ -304,12 +318,12 @@ export default function B2BPage() {
 
       {/* RFQ Form Modal */}
       {showRFQForm && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fadeIn">
-          <div className="bg-white rounded-2xl max-w-2xl w-full shadow-2xl">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-end sm:items-center justify-center z-50 sm:p-4 animate-fadeIn">
+          <div className="bg-white rounded-t-2xl sm:rounded-2xl max-w-2xl w-full shadow-2xl">
             {/* Header */}
-            <div className="bg-gradient-to-r from-emerald-600 to-teal-600 px-8 py-8 flex items-center justify-between rounded-t-2xl">
+            <div className="bg-gradient-to-r from-emerald-600 to-teal-600 px-5 py-5 sm:px-8 sm:py-8 flex items-center justify-between rounded-t-2xl">
               <div>
-                <h2 className="text-3xl font-black text-white">Request for Quote</h2>
+                <h2 className="text-2xl sm:text-3xl font-black text-white">Request for Quote</h2>
                 <p className="text-emerald-50 text-sm mt-1">Fill in your details to get a custom quote</p>
               </div>
               <button
@@ -321,7 +335,7 @@ export default function B2BPage() {
             </div>
 
             {/* Form Content */}
-            <form onSubmit={handleRFQSubmit} className="p-4 sm:p-8 max-h-[calc(100vh-200px)] overflow-y-auto space-y-8">
+            <form onSubmit={handleRFQSubmit} className="p-4 sm:p-8 max-h-[calc(100dvh-140px)] overflow-y-auto space-y-6">
               {submitSuccess && (
                 <div className="p-4 sm:p-6 bg-emerald-50 border-2 border-emerald-200 rounded-xl text-emerald-700 font-semibold text-center animate-slideDown">
                   <p className="text-lg">✓ Success!</p>
@@ -329,7 +343,10 @@ export default function B2BPage() {
                 </div>
               )}
 
+              <StepHeader steps={RFQ_STEPS} current={rfqStep} onJump={setRfqStep} />
+
               {/* Contact Information Section */}
+              {rfqStep === 0 && (
               <div>
                 <h3 className="text-sm font-black text-slate-900 uppercase tracking-wide mb-4 flex items-center gap-2">
                   <span className="w-1 h-4 bg-emerald-600 rounded-full"></span>
@@ -382,9 +399,11 @@ export default function B2BPage() {
                   </div>
                 </div>
               </div>
+              )}
 
               {/* Product Information Section */}
-              <div className="pt-4 border-t-2 border-slate-100">
+              {rfqStep === 1 && (
+              <div>
                 <h3 className="text-sm font-black text-slate-900 uppercase tracking-wide mb-4 flex items-center gap-2">
                   <span className="w-1 h-4 bg-teal-600 rounded-full"></span>
                   Product Details
@@ -435,9 +454,11 @@ export default function B2BPage() {
                   </div>
                 )}
               </div>
+              )}
 
               {/* Specifications Section */}
-              <div className="pt-4 border-t-2 border-slate-100">
+              {rfqStep === 2 && (
+              <div>
                 <h3 className="text-sm font-black text-slate-900 uppercase tracking-wide mb-4 flex items-center gap-2">
                   <span className="w-1 h-4 bg-blue-600 rounded-full"></span>
                   Specifications
@@ -454,24 +475,12 @@ export default function B2BPage() {
                   <p className="text-xs text-slate-500 mt-2">Include any specific colors, branding, materials, or delivery requirements</p>
                 </div>
               </div>
+              )}
 
-              {/* Action Buttons */}
-              <div className="pt-4 border-t-2 border-slate-100 flex gap-3 justify-end">
-                <button
-                  type="button"
-                  onClick={() => setShowRFQForm(false)}
-                  disabled={submitting}
-                  className="px-6 py-3 border-2 border-slate-300 text-slate-700 font-bold rounded-xl hover:bg-slate-50 transition disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={submitting}
-                  className="px-8 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold rounded-xl hover:from-emerald-700 hover:to-teal-700 transition disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
-                >
-                  {submitting ? '⏳ Submitting...' : '✓ Submit RFQ'}
-                </button>
+              {rfqError && <div className="px-4 py-3 rounded-xl bg-red-50 border border-red-200 text-sm text-red-700">{rfqError}</div>}
+
+              <div className="pt-4 border-t-2 border-slate-100">
+                <StepNav current={rfqStep} total={RFQ_STEPS.length} onBack={() => setRfqStep(rfqStep - 1)} submitting={submitting} submitLabel="Submit request" submittingLabel="Submitting…" />
               </div>
             </form>
           </div>

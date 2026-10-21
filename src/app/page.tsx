@@ -7,7 +7,7 @@ import axios from 'axios';
 import { Button } from '@/components/ui/Button';
 import { FiShoppingCart, FiSearch, FiUser, FiChevronDown, FiTruck, FiCheck, FiHeart, FiHeadphones, FiPhone, FiMail, FiPackage, FiTag } from 'react-icons/fi';
 import Navbar from '@/components/Navbar';
-import ServiceIcon from '@/components/ServiceIcon';
+import { ILLUSTRATION_TONES, IllustrationTone, EnvironmentIllustration, EconomicIllustration, EducationIllustration, HealthIllustration, serviceIllustration } from '@/components/illustrations/Illustrations';
 import { ProductGridSkeleton } from '@/components/ShimmerSkeleton';
 import { API_BASE_URL } from '@/config/api';
 
@@ -34,6 +34,7 @@ interface Service {
   name: string;
   description: string;
   icon?: string;
+  image?: string | null;
   color_from: string;
   color_to: string;
   order: number;
@@ -160,10 +161,10 @@ export default function Home() {
   };
 
   const impacts = [
-    { metric: 'Environmental', description: 'Tons of plastic diverted from oceans and landfills', image: 'https://images.pexels.com/photos/3951628/pexels-photo-3951628.jpeg?w=400&h=400&fit=crop' },
-    { metric: 'Economic', description: 'Employment created for marginalized communities', image: 'https://images.pexels.com/photos/3807517/pexels-photo-3807517.jpeg?w=400&h=400&fit=crop' },
-    { metric: 'Educational', description: 'Awareness and skills transfer in sustainability', image: 'https://images.pexels.com/photos/3807517/pexels-photo-3807517.jpeg?w=400&h=400&fit=crop' },
-    { metric: 'Health', description: 'Healthier communities through reduced pollution', image: 'https://images.pexels.com/photos/4101143/pexels-photo-4101143.jpeg?w=400&h=400&fit=crop' },
+    { metric: 'Environmental', description: 'Tons of plastic diverted from oceans and landfills', audience: 'For our planet', tone: 'teal' as IllustrationTone, Illustration: EnvironmentIllustration },
+    { metric: 'Economic', description: 'Employment created for marginalized communities', audience: 'For livelihoods', tone: 'amber' as IllustrationTone, Illustration: EconomicIllustration },
+    { metric: 'Educational', description: 'Awareness and skills transfer in sustainability', audience: 'For young people', tone: 'violet' as IllustrationTone, Illustration: EducationIllustration },
+    { metric: 'Health', description: 'Healthier communities through reduced pollution', audience: 'For families', tone: 'rose' as IllustrationTone, Illustration: HealthIllustration },
   ];
 
   const handleSubscribe = (e: React.FormEvent) => {
@@ -831,15 +832,16 @@ export default function Home() {
             {impacts.map((item, i) => (
               <Link key={i} href="/impact" className={`group cursor-pointer animate-fade-in-up animation-delay-${i * 100} no-underline`}>
                 <div className="unique-card relative rounded-2xl overflow-hidden flex flex-col h-full">
-                  {/* Icon Badge - Pill Style */}
-                  <div className="px-6 pt-6 pb-3">
-                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 text-white font-black flex items-center justify-center text-2xl">
-                      {i + 1}
+                  {/* Illustration panel with an audience pill */}
+                  <div className="p-3 pb-0">
+                    <div className={`relative rounded-xl ${ILLUSTRATION_TONES[item.tone].panel} aspect-[3/2] overflow-hidden`}>
+                      <span className={`absolute top-2.5 left-2.5 z-10 ${ILLUSTRATION_TONES[item.tone].pill} text-white text-[11px] font-bold px-2.5 py-1 rounded-full`}>{item.audience}</span>
+                      <div className="absolute inset-0 pt-6 px-2 transition-transform duration-500 group-hover:scale-105"><item.Illustration /></div>
                     </div>
                   </div>
 
                   {/* Content Section */}
-                  <div className="flex flex-col flex-grow px-6 pb-6">
+                  <div className="flex flex-col flex-grow px-6 pt-5 pb-6">
                     <h3 className="font-black text-slate-900 text-2xl leading-tight mb-3">{item.metric}</h3>
                     <p className="text-slate-600 text-sm leading-relaxed flex-grow mb-4">{item.description}</p>
 
@@ -874,18 +876,24 @@ export default function Home() {
           {/* Pill-shaped Grid - GetLab Inspired */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {services.map((service, i) => {
+              const { Illustration, tone, audience } = serviceIllustration(service.name);
               return (
                 <Link key={service.id} href={`/services/${service.id}`} className={`group cursor-pointer animate-fade-in-up animation-delay-${i * 100} no-underline`}>
                   <div className="unique-card relative rounded-2xl overflow-hidden flex flex-col h-full">
-                    {/* Icon Badge - Pill Style */}
-                    <div className="px-6 pt-6 pb-3">
-                      <div className="w-14 h-14 rounded-full text-white font-black flex items-center justify-center text-3xl bg-gradient-to-br from-emerald-500 to-teal-500">
-                        <ServiceIcon icon={service.icon} size={32} />
+                    {/* Illustration panel (an image uploaded in the admin takes its place) */}
+                    <div className="p-3 pb-0">
+                      <div className={`relative rounded-xl ${ILLUSTRATION_TONES[tone].panel} aspect-[3/2] overflow-hidden`}>
+                        <span className={`absolute top-2.5 left-2.5 z-10 ${ILLUSTRATION_TONES[tone].pill} text-white text-[11px] font-bold px-2.5 py-1 rounded-full`}>{audience}</span>
+                        {service.image ? (
+                          <img src={service.image} alt={service.name} className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                        ) : (
+                          <div className="absolute inset-0 pt-6 px-2 transition-transform duration-500 group-hover:scale-105"><Illustration /></div>
+                        )}
                       </div>
                     </div>
 
                     {/* Content Section */}
-                    <div className="flex flex-col flex-grow px-6 pb-6">
+                    <div className="flex flex-col flex-grow px-6 pt-5 pb-6">
                       <h3 className="font-black text-slate-900 text-2xl leading-tight mb-3">{service.name}</h3>
                       <p className="text-slate-600 text-sm leading-relaxed flex-grow mb-4">{service.description}</p>
 

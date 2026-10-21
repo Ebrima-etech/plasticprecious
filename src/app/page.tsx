@@ -956,7 +956,7 @@ export default function Home() {
           </div>
 
           {/* CTA Section */}
-          <div className="mt-20 bg-gradient-to-r from-emerald-600 to-teal-600 rounded-3xl p-12 text-white text-center">
+          <div className="mt-20 bg-gradient-to-r from-emerald-600 to-teal-600 rounded-3xl p-6 sm:p-12 text-white text-center">
             <h3 className="text-3xl font-black mb-4">Join Our Growing Team</h3>
             <p className="mb-8 max-w-2xl mx-auto opacity-90">
               Passionate about sustainability? We're always looking for dedicated individuals to join our mission.

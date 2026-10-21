@@ -145,7 +145,7 @@ export default function ImpactPage() {
       {/* Hero Section */}
       <section className="py-16 lg:py-24 bg-gradient-to-b from-emerald-900 to-emerald-800 text-white">
         <div className="max-w-6xl mx-auto px-6 lg:px-8 text-center">
-          <h1 className="text-5xl lg:text-6xl font-black mb-6">Our Impact</h1>
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black mb-6">Our Impact</h1>
           <p className="text-xl text-emerald-100 max-w-2xl mx-auto">
             Measuring our commitment to a sustainable future through plastic recycling and community transformation
           </p>
@@ -220,7 +220,7 @@ export default function ImpactPage() {
                 key={idx}
                 className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-2xl p-8 border-2 border-emerald-200"
               >
-                <div className="text-5xl mb-4">{area.icon}</div>
+                <div className="text-4xl sm:text-5xl mb-4">{area.icon}</div>
                 <h3 className="text-2xl font-black text-slate-900 mb-4">{area.title}</h3>
                 <p className="text-slate-700 mb-6">{area.description}</p>
                 <div className="bg-white rounded-lg p-4 border-l-4 border-emerald-600">
@@ -263,7 +263,7 @@ export default function ImpactPage() {
         <div className="max-w-6xl mx-auto px-6 lg:px-8">
           <h2 className="text-4xl font-black text-slate-900 mb-8 text-center">Our Commitment to Transparency</h2>
           <div className="max-w-3xl mx-auto">
-            <div className="bg-white rounded-2xl p-12 border-2 border-emerald-100">
+            <div className="bg-white rounded-2xl p-6 sm:p-12 border-2 border-emerald-100">
               <p className="text-slate-700 mb-6 leading-relaxed">
                 We believe in measuring and sharing our impact honestly. Every product lists the recycled plastic it contains, and our figures are tracked continuously from each sale, collection drive, production run and community event we record.
               </p>

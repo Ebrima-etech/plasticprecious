@@ -80,7 +80,7 @@ export default function ContactPage() {
           <div className="inline-block bg-white/20 text-white px-4 py-2 rounded-full text-sm font-bold mb-6">
             💬 CONTACT
           </div>
-          <h1 className="text-5xl lg:text-6xl font-black mb-6 leading-tight">Contact Us</h1>
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black mb-6 leading-tight">Contact Us</h1>
           <p className="text-xl max-w-2xl text-emerald-50">We'd love to hear from you. Get in touch with our team</p>
         </div>
       </section>

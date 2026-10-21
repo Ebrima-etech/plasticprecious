@@ -36,7 +36,7 @@ export default function MyImpact() {
     // Keep the section visible so customers know it exists, even if the data couldn't load
     return failed ? (
       <div className="mb-8 rounded-3xl border border-emerald-200 bg-gradient-to-br from-emerald-50 via-white to-teal-50 p-8 flex flex-col sm:flex-row sm:items-center gap-6">
-        <div className="text-5xl">🌱</div>
+        <div className="text-4xl sm:text-5xl">🌱</div>
         <div className="flex-1">
           <p className="m-0 text-xs font-black text-emerald-700 uppercase tracking-widest mb-2">My Impact</p>
           <p className="m-0 text-slate-700">
@@ -58,7 +58,7 @@ export default function MyImpact() {
     return (
       <div className="mb-8 rounded-3xl overflow-hidden border border-emerald-200 bg-gradient-to-br from-emerald-50 via-white to-teal-50">
         <div className="p-8 lg:p-10 flex flex-col lg:flex-row lg:items-center gap-8">
-          <div className="text-6xl">🌱</div>
+          <div className="text-4xl sm:text-6xl">🌱</div>
           <div className="flex-1">
             <p className="m-0 text-xs font-black text-emerald-700 uppercase tracking-widest mb-2">My Impact</p>
             <h2 className="text-2xl lg:text-3xl font-black text-slate-900 mb-2">Your impact story starts with one product</h2>

@@ -212,7 +212,7 @@ export default function AdminProductsPage() {
 
       {/* Products Table */}
       {filteredProducts.length === 0 ? (
-        <div className="bg-white rounded-lg border border-slate-200 p-12 text-center">
+        <div className="bg-white rounded-lg border border-slate-200 p-6 sm:p-12 text-center">
           <p className="text-slate-600 font-medium">No products found</p>
           <p className="text-sm text-slate-500 mt-1">Try adjusting your search or filters</p>
         </div>

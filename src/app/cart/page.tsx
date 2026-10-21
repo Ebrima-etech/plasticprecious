@@ -210,14 +210,14 @@ export default function CartPage() {
             </div>
           ) : (
             <div className="col-span-full">
-              <div className="group cursor-pointer relative rounded-3xl overflow-hidden border border-slate-200 hover:border-emerald-400 flex flex-col hover:-translate-y-1 bg-gradient-to-br from-white to-slate-50 backdrop-blur-sm group-hover:from-emerald-50 group-hover:to-white transition-all duration-300 p-12 text-center">
+              <div className="group cursor-pointer relative rounded-3xl overflow-hidden border border-slate-200 hover:border-emerald-400 flex flex-col hover:-translate-y-1 bg-gradient-to-br from-white to-slate-50 backdrop-blur-sm group-hover:from-emerald-50 group-hover:to-white transition-all duration-300 p-6 sm:p-12 text-center">
                 <FiShoppingCart className="w-16 h-16 text-emerald-400 mx-auto mb-6" />
                 <h2 className="text-3xl font-black text-slate-900 mb-3 group-hover:text-emerald-600 transition">Your cart is empty</h2>
                 <p className="text-lg text-slate-600 mb-8">Add some amazing products to get started!</p>
                 <Button
                   onClick={() => router.push('/shop')}
                   size="lg"
-                  className="w-fit mx-auto text-lg font-bold py-4 px-12"
+                  className="w-fit mx-auto text-lg font-bold py-4 px-6 sm:px-12"
                 >
                   Start Shopping
                 </Button>

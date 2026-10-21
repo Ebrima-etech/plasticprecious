@@ -133,7 +133,7 @@ export default function AdminCategoriesPage() {
       )}
 
       {categories.length === 0 ? (
-        <div className="bg-white rounded-lg border border-slate-200 p-12 text-center">
+        <div className="bg-white rounded-lg border border-slate-200 p-6 sm:p-12 text-center">
           <p className="text-slate-600 font-medium">No categories yet</p>
           <p className="text-sm text-slate-500 mt-1">Create your first category to organize products</p>
         </div>

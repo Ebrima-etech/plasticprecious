@@ -233,7 +233,7 @@ export default function DiscountsPage() {
       {/* Discounts List */}
       <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
         {discounts.length === 0 ? (
-          <div className="p-12 text-center">
+          <div className="p-6 sm:p-12 text-center">
             <p className="text-slate-500 font-medium">No discounts created yet</p>
             <p className="text-slate-400 text-sm mt-1">Create your first discount to get started</p>
           </div>

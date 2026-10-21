@@ -22,7 +22,7 @@ export const EmptyState = ({
   return (
     <div className={`flex flex-col items-center justify-center py-12 px-4 ${className || ''}`}>
       {icon ? (
-        <div className="mb-4 text-neutral-300 text-6xl">
+        <div className="mb-4 text-neutral-300 text-4xl sm:text-6xl">
           {icon}
         </div>
       ) : (

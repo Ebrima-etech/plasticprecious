@@ -50,11 +50,11 @@ export default function ServiceDetailPage() {
       <Navbar showNavLinks={true} />
 
       {state === 'loading' && (
-        <div className="max-w-5xl mx-auto px-6 lg:px-8 py-24 text-center text-slate-500">Loading…</div>
+        <div className="max-w-5xl mx-auto px-6 lg:px-8 py-14 sm:py-24 text-center text-slate-500">Loading…</div>
       )}
 
       {state === 'missing' && (
-        <div className="max-w-5xl mx-auto px-6 lg:px-8 py-24 text-center">
+        <div className="max-w-5xl mx-auto px-6 lg:px-8 py-14 sm:py-24 text-center">
           <h1 className="text-3xl font-black text-slate-900 mb-4">Service not found</h1>
           <Link href="/services" className="text-emerald-700 font-bold hover:underline">← All services</Link>
         </div>

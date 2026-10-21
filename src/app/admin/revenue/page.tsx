@@ -128,7 +128,7 @@ export default function RevenuePage() {
       </div>
 
       {/* Revenue Stats */}
-      <div className="grid grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
         <div className="bg-white rounded-2xl p-6 border border-slate-200">
           <p className="text-slate-600 text-sm font-medium">Total Revenue</p>
           <p className="text-3xl font-bold text-slate-900 mt-2">

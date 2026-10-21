@@ -117,7 +117,7 @@ export default function TeamPage() {
         <div className="max-w-6xl mx-auto px-6 lg:px-8">
           {/* Header */}
           <div className="text-center mb-20">
-            <h1 className="text-5xl font-black text-slate-900 mb-4">Our Team</h1>
+            <h1 className="text-4xl sm:text-5xl font-black text-slate-900 mb-4">Our Team</h1>
             <p className="text-xl text-slate-600 max-w-2xl mx-auto">
               Meet the dedicated team driving the circular economy movement in The Gambia. Together, we're transforming plastic waste into opportunity and building a sustainable future.
             </p>
@@ -209,7 +209,7 @@ export default function TeamPage() {
           )}
 
           {/* CTA Section */}
-          <div className="mt-20 bg-gradient-to-r from-emerald-600 to-teal-600 rounded-3xl p-12 text-white text-center">
+          <div className="mt-20 bg-gradient-to-r from-emerald-600 to-teal-600 rounded-3xl p-6 sm:p-12 text-white text-center">
             <h2 className="text-3xl font-black mb-4">Join Our Mission</h2>
             <p className="mb-8 max-w-2xl mx-auto opacity-90">
               We're building a community of passionate individuals committed to transforming plastic waste into value. If you share our vision, we'd love to have you on the team.

@@ -88,7 +88,7 @@ export default function CustomerCommunityImpact({ customers }: { customers: Cust
             {mine && mine.has_impact ? (
               <>
                 <p className="m-0 text-xs font-black text-emerald-700 uppercase tracking-widest mb-3">Your impact</p>
-                <p className="m-0 text-5xl font-black text-slate-900 whitespace-nowrap">{formatKg(mine.totals.plastic_kg)}</p>
+                <p className="m-0 text-4xl sm:text-5xl font-black text-slate-900 whitespace-nowrap">{formatKg(mine.totals.plastic_kg)}</p>
                 <p className="m-0 mt-1 text-slate-600">of plastic kept out of the environment</p>
                 <p className="m-0 mt-4 inline-flex w-fit items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-sm font-bold text-emerald-800">
                   {LEVEL_ICONS[mine.level.key]} {mine.level.name}

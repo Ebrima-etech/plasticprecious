@@ -133,7 +133,7 @@ export default function GetInvolvedPage() {
       <section className="py-16 lg:py-24 bg-gradient-to-b from-emerald-50 to-white">
         <div className="max-w-6xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h1 className="text-5xl font-black text-slate-900 mb-4">Get Involved</h1>
+            <h1 className="text-4xl sm:text-5xl font-black text-slate-900 mb-4">Get Involved</h1>
             <p className="text-xl text-slate-600 max-w-2xl mx-auto">
               Join our community-driven initiative to transform coastal waste into value
             </p>
@@ -222,7 +222,7 @@ export default function GetInvolvedPage() {
           </div>
 
           {/* Drop-off Locations */}
-          <div className="bg-slate-50 rounded-3xl p-12 border-2 border-slate-200 mb-16">
+          <div className="bg-slate-50 rounded-3xl p-6 sm:p-12 border-2 border-slate-200 mb-16">
             <h2 className="text-3xl font-black text-slate-900 mb-8 flex items-center gap-3">
               <FiMapPin className="text-emerald-600" />
               Plastic Drop-off Locations
@@ -239,7 +239,7 @@ export default function GetInvolvedPage() {
           </div>
 
           {/* Newsletter */}
-          <div className="bg-gradient-to-r from-emerald-600 to-teal-600 rounded-3xl p-12 text-white text-center mb-16">
+          <div className="bg-gradient-to-r from-emerald-600 to-teal-600 rounded-3xl p-6 sm:p-12 text-white text-center mb-16">
             <h2 className="text-3xl font-black mb-4 text-white">Stay Updated</h2>
             <p className="opacity-90 mb-8 max-w-2xl mx-auto text-white">
               Subscribe to get updates on cleanup events, new workshops, and impact reports
@@ -247,14 +247,14 @@ export default function GetInvolvedPage() {
             {submitted ? (
               <p className="text-lg font-bold">✓ Thanks for subscribing!</p>
             ) : (
-              <form onSubmit={handleSubmit} className="flex gap-4 max-w-md mx-auto">
+              <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 sm:gap-4 max-w-md mx-auto">
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="your@email.com"
                   required
-                  className="flex-1 px-6 py-3 rounded-lg text-slate-900 placeholder-slate-500"
+                  className="flex-1 min-w-0 px-4 sm:px-6 py-3 rounded-lg text-slate-900 placeholder-slate-500"
                 />
                 <button type="submit" className="px-8 py-3 bg-white text-emerald-600 font-bold rounded-lg hover:bg-slate-100">
                   Subscribe
@@ -264,7 +264,7 @@ export default function GetInvolvedPage() {
           </div>
 
           {/* Sponsorship */}
-          <div className="bg-white border-2 border-slate-200 rounded-3xl p-12">
+          <div className="bg-white border-2 border-slate-200 rounded-3xl p-6 sm:p-12">
             <h2 className="text-3xl font-black text-slate-900 mb-8 flex items-center gap-3">
               <FiGift className="text-emerald-600" />
               Sponsor a Desk
@@ -292,7 +292,7 @@ export default function GetInvolvedPage() {
 
               </div>
               <div className="bg-emerald-50 rounded-2xl p-8 text-center">
-                <p className="text-5xl font-black text-emerald-600 mb-4">150</p>
+                <p className="text-4xl sm:text-5xl font-black text-emerald-600 mb-4">150</p>
                 <p className="text-slate-600 font-semibold">Per Desk</p>
                 <div className="mt-6 space-y-2 text-sm text-slate-700">
                   <p>📦 1 School Desk</p>

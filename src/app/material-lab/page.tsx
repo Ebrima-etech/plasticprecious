@@ -71,7 +71,7 @@ export default function MaterialLabPage() {
       <Navbar showNavLinks={true} />
       <section className="py-16 lg:py-24 bg-gradient-to-b from-slate-900 to-slate-800 text-white">
         <div className="max-w-6xl mx-auto px-6 lg:px-8">
-          <h1 className="text-5xl font-black mb-4 text-center">Material Lab</h1>
+          <h1 className="text-4xl sm:text-5xl font-black mb-4 text-center">Material Lab</h1>
           <p className="text-xl text-white opacity-90 max-w-2xl mx-auto text-center">
             Explore plastic types, color blends, and durability ratings
           </p>
@@ -111,7 +111,7 @@ export default function MaterialLabPage() {
             </div>
 
             <div>
-              <div className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-3xl p-12 border-2 border-emerald-200">
+              <div className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-3xl p-6 sm:p-12 border-2 border-emerald-200">
                 <h3 className="text-2xl font-black text-slate-900 mb-6">{plastic.icon} {plastic.name}</h3>
                 <div className="mb-8">
                   <p className="text-sm font-bold text-slate-600 uppercase mb-4">Colors</p>

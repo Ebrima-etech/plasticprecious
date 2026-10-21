@@ -215,7 +215,7 @@ export default function VouchersPage() {
       {/* Vouchers List */}
       <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
         {vouchers.length === 0 ? (
-          <div className="p-12 text-center">
+          <div className="p-6 sm:p-12 text-center">
             <p className="text-slate-500 font-medium">No vouchers created yet</p>
             <p className="text-slate-400 text-sm mt-1">Create your first voucher to get started</p>
           </div>

@@ -173,7 +173,7 @@ function ShopContent() {
           {loading ? (
             <ProductGridSkeleton columns={4} />
           ) : filteredProducts.length === 0 ? (
-            <div className="text-center py-20">
+            <div className="text-center py-12 sm:py-20">
               <p className="text-xl text-slate-600 mb-6">{searchQuery ? 'No products found matching your search' : 'No products available yet'}</p>
               <Link href={searchQuery ? '/shop' : '/'}>
                 <Button>{searchQuery ? 'Clear Search' : 'Back to Home'}</Button>

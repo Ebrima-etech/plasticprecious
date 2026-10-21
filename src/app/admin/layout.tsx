@@ -7,7 +7,7 @@ import axios from 'axios';
 import { getToken } from '@/lib/auth';
 import { API_BASE_URL } from '@/config/api';
 import { StaffMe, StaffMeContext, canAccessPage } from '@/lib/staffDashboard';
-import { HiOutlineSquares2X2, HiOutlineShoppingBag, HiOutlineTag, HiOutlineShoppingCart, HiOutlineCurrencyDollar, HiOutlineTicket, HiOutlineUsers, HiOutlineBell, HiOutlineArrowTrendingUp, HiOutlineCalendar, HiOutlineDocumentText, HiOutlineGift, HiOutlineBriefcase, HiOutlineUserGroup, HiOutlineChevronRight, HiOutlineChevronDown, HiOutlineArrowRightOnRectangle, HiOutlineHome, HiOutlineBars3, HiOutlineCog, HiOutlineMapPin, HiOutlineClipboardDocumentList } from 'react-icons/hi2';
+import { HiOutlineSquares2X2, HiOutlineShoppingBag, HiOutlineTag, HiOutlineShoppingCart, HiOutlineCurrencyDollar, HiOutlineTicket, HiOutlineUsers, HiOutlineBell, HiOutlineArrowTrendingUp, HiOutlineCalendar, HiOutlineDocumentText, HiOutlineGift, HiOutlineBriefcase, HiOutlineUserGroup, HiOutlineChevronRight, HiOutlineChevronDown, HiOutlineArrowRightOnRectangle, HiOutlineHome, HiOutlineBars3, HiOutlineXMark, HiOutlineCog, HiOutlineMapPin, HiOutlineClipboardDocumentList } from 'react-icons/hi2';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -18,6 +18,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [activeRoute, setActiveRoute] = useState('/admin/dashboard');
   const [profileOpen, setProfileOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  // Phones and tablets: the sidebar is an off-canvas drawer
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [expandedSections, setExpandedSections] = useState({
     catalog: false,
     orders: false,
@@ -80,6 +82,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     if (restricted) router.replace('/admin/dashboard');
   }, [restricted, router]);
 
+  // Close the drawer after navigating
+  useEffect(() => {
+    setMobileNavOpen(false);
+    setProfileOpen(false);
+  }, [pathname]);
+
   if (loading || restricted) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-50">
@@ -97,6 +105,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   // Only show sections and links this person can open
   const anyPage = (hrefs: string[]) => hrefs.some(href => canAccessPage(me, href));
+  // The mobile drawer always shows labels, whatever the desktop collapse state
+  const showLabels = sidebarOpen || mobileNavOpen;
 
   const NavLink = ({ href, icon: Icon, label }: { href: string; icon: any; label: string }) => {
     if (!canAccessPage(me, href)) return null;
@@ -111,7 +121,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           }`}
         >
           <Icon className="w-4.5 h-4.5 flex-shrink-0" />
-          {sidebarOpen && <span>{label}</span>}
+          {showLabels && <span>{label}</span>}
         </div>
       </Link>
     );
@@ -148,11 +158,16 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         }
       `}</style>
 
+      {/* Backdrop behind the mobile drawer */}
+      {mobileNavOpen && (
+        <div className="fixed inset-0 bg-slate-900/40 z-40 lg:hidden" onClick={() => setMobileNavOpen(false)} aria-hidden="true" />
+      )}
+
       {/* Sidebar */}
-      <div className={`fixed left-0 top-0 h-screen bg-white border-r border-slate-200/50 flex flex-col transition-all duration-300 overflow-hidden shadow-sm ${sidebarOpen ? 'w-64' : 'w-20'} z-40`}>
+      <div className={`fixed left-0 top-0 h-[100dvh] bg-white border-r border-slate-200/50 flex flex-col transition-all duration-300 overflow-hidden shadow-sm w-72 max-w-[85vw] ${sidebarOpen ? 'lg:w-64' : 'lg:w-20'} ${mobileNavOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 z-50 lg:z-40`}>
         {/* Sidebar Header */}
         <div className="px-4 py-5 border-b border-slate-200/50 flex items-center justify-between">
-          {sidebarOpen && (
+          {showLabels && (
             <Link href="/admin" className="flex items-center gap-3 flex-1 group">
               <img
                 src="https://res.cloudinary.com/divk8m0ff/image/upload/v1790497366/ChatGPT_Image_Sep_27_2026_08_22_15_AM_clf6eq.png"
@@ -164,7 +179,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               </div>
             </Link>
           )}
-          {!sidebarOpen && (
+          {!showLabels && (
             <Link href="/admin" className="flex items-center justify-center w-full group">
               <img
                 src="https://res.cloudinary.com/divk8m0ff/image/upload/v1790497366/ChatGPT_Image_Sep_27_2026_08_22_15_AM_clf6eq.png"
@@ -175,9 +190,17 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           )}
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="p-2 hover:bg-slate-100 rounded-lg transition ml-2 flex-shrink-0 text-slate-600 hover:text-slate-900"
+            className="hidden lg:block p-2 hover:bg-slate-100 rounded-lg transition ml-2 flex-shrink-0 text-slate-600 hover:text-slate-900"
+            aria-label="Collapse sidebar"
           >
             <HiOutlineBars3 className="w-5 h-5" />
+          </button>
+          <button
+            onClick={() => setMobileNavOpen(false)}
+            className="lg:hidden p-2 hover:bg-slate-100 rounded-lg transition ml-2 flex-shrink-0 text-slate-600 hover:text-slate-900"
+            aria-label="Close menu"
+          >
+            <HiOutlineXMark className="w-5 h-5" />
           </button>
         </div>
 
@@ -194,12 +217,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             {anyPage(['/admin/products', '/admin/categories', '/admin/locations']) && (<div>
               <button
                 onClick={() => setExpandedSections({ ...expandedSections, catalog: !expandedSections.catalog })}
-                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 transition-all ${sidebarOpen ? '' : 'justify-center'}`}
+                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 transition-all ${showLabels ? '' : 'justify-center'}`}
               >
-                {sidebarOpen && <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Products</p>}
-                {sidebarOpen && <HiOutlineChevronRight className={`w-4 h-4 text-slate-400 transition-transform ${expandedSections.catalog ? 'rotate-90' : 'rotate-0'}`} />}
+                {showLabels && <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Products</p>}
+                {showLabels && <HiOutlineChevronRight className={`w-4 h-4 text-slate-400 transition-transform ${expandedSections.catalog ? 'rotate-90' : 'rotate-0'}`} />}
               </button>
-              {(expandedSections.catalog && sidebarOpen) && (
+              {(expandedSections.catalog && showLabels) && (
                 <div className="space-y-1.5 mt-2">
                   <NavLink href="/admin/products" icon={HiOutlineShoppingBag} label="All Products" />
                   <NavLink href="/admin/categories" icon={HiOutlineTag} label="Categories" />
@@ -212,12 +235,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             {anyPage(['/admin/orders', '/admin/revenue', '/admin/vouchers', '/admin/discounts']) && (<div>
               <button
                 onClick={() => setExpandedSections({ ...expandedSections, orders: !expandedSections.orders })}
-                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 transition-all ${sidebarOpen ? '' : 'justify-center'}`}
+                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 transition-all ${showLabels ? '' : 'justify-center'}`}
               >
-                {sidebarOpen && <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Sales</p>}
-                {sidebarOpen && <HiOutlineChevronRight className={`w-4 h-4 text-slate-400 transition-transform ${expandedSections.orders ? 'rotate-90' : 'rotate-0'}`} />}
+                {showLabels && <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Sales</p>}
+                {showLabels && <HiOutlineChevronRight className={`w-4 h-4 text-slate-400 transition-transform ${expandedSections.orders ? 'rotate-90' : 'rotate-0'}`} />}
               </button>
-              {(expandedSections.orders && sidebarOpen) && (
+              {(expandedSections.orders && showLabels) && (
                 <div className="space-y-1.5 mt-2">
                   <NavLink href="/admin/orders" icon={HiOutlineShoppingCart} label="Orders" />
                   <NavLink href="/admin/revenue" icon={HiOutlineCurrencyDollar} label="Revenue" />
@@ -231,12 +254,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             {anyPage(['/admin/cms/hero-slides', '/admin/cms/about']) && (<div>
               <button
                 onClick={() => setExpandedSections({ ...expandedSections, cms: !expandedSections.cms })}
-                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 transition-all ${sidebarOpen ? '' : 'justify-center'}`}
+                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 transition-all ${showLabels ? '' : 'justify-center'}`}
               >
-                {sidebarOpen && <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Content</p>}
-                {sidebarOpen && <HiOutlineChevronRight className={`w-4 h-4 text-slate-400 transition-transform ${expandedSections.cms ? 'rotate-90' : 'rotate-0'}`} />}
+                {showLabels && <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Content</p>}
+                {showLabels && <HiOutlineChevronRight className={`w-4 h-4 text-slate-400 transition-transform ${expandedSections.cms ? 'rotate-90' : 'rotate-0'}`} />}
               </button>
-              {(expandedSections.cms && sidebarOpen) && (
+              {(expandedSections.cms && showLabels) && (
                 <div className="space-y-1.5 mt-2">
                   <NavLink href="/admin/cms/hero-slides" icon={HiOutlineSquares2X2} label="Hero Slides" />
                   <NavLink href="/admin/cms/services" icon={HiOutlineBriefcase} label="Services" />
@@ -251,12 +274,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             {anyPage(['/admin/impact', '/admin/impact/log', '/admin/impact/events', '/admin/impact/registrations', '/admin/impact/rfq', '/admin/impact/sponsorship', '/admin/impact/volunteering']) && (<div>
               <button
                 onClick={() => setExpandedSections({ ...expandedSections, impact: !expandedSections.impact })}
-                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 transition-all ${sidebarOpen ? '' : 'justify-center'}`}
+                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 transition-all ${showLabels ? '' : 'justify-center'}`}
               >
-                {sidebarOpen && <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Insights</p>}
-                {sidebarOpen && <HiOutlineChevronRight className={`w-4 h-4 text-slate-400 transition-transform ${expandedSections.impact ? 'rotate-90' : 'rotate-0'}`} />}
+                {showLabels && <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Insights</p>}
+                {showLabels && <HiOutlineChevronRight className={`w-4 h-4 text-slate-400 transition-transform ${expandedSections.impact ? 'rotate-90' : 'rotate-0'}`} />}
               </button>
-              {(expandedSections.impact && sidebarOpen) && (
+              {(expandedSections.impact && showLabels) && (
                 <div className="space-y-1.5 mt-2">
                   <NavLink href="/admin/impact" icon={HiOutlineArrowTrendingUp} label="Impact Dashboard" />
                   <NavLink href="/admin/impact/log" icon={HiOutlineClipboardDocumentList} label="Impact Log" />
@@ -273,12 +296,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             {anyPage(['/admin/staff/departments', '/admin/staff/members', '/admin/staff/dashboards', '/admin/staff/budget']) && (<div>
               <button
                 onClick={() => setExpandedSections({ ...expandedSections, staff: !expandedSections.staff })}
-                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 transition-all ${sidebarOpen ? '' : 'justify-center'}`}
+                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 transition-all ${showLabels ? '' : 'justify-center'}`}
               >
-                {sidebarOpen && <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Organization</p>}
-                {sidebarOpen && <HiOutlineChevronRight className={`w-4 h-4 text-slate-400 transition-transform ${expandedSections.staff ? 'rotate-90' : 'rotate-0'}`} />}
+                {showLabels && <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Organization</p>}
+                {showLabels && <HiOutlineChevronRight className={`w-4 h-4 text-slate-400 transition-transform ${expandedSections.staff ? 'rotate-90' : 'rotate-0'}`} />}
               </button>
-              {(expandedSections.staff && sidebarOpen) && (
+              {(expandedSections.staff && showLabels) && (
                 <div className="space-y-1.5 mt-2">
                   <NavLink href="/admin/staff/departments" icon={HiOutlineBriefcase} label="Departments" />
                   <NavLink href="/admin/staff/members" icon={HiOutlineUserGroup} label="Staff" />
@@ -292,12 +315,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             {anyPage(['/admin/users']) && (<div>
               <button
                 onClick={() => setExpandedSections({ ...expandedSections, users: !expandedSections.users })}
-                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 transition-all ${sidebarOpen ? '' : 'justify-center'}`}
+                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 transition-all ${showLabels ? '' : 'justify-center'}`}
               >
-                {sidebarOpen && <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Community</p>}
-                {sidebarOpen && <HiOutlineChevronRight className={`w-4 h-4 text-slate-400 transition-transform ${expandedSections.users ? 'rotate-90' : 'rotate-0'}`} />}
+                {showLabels && <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Community</p>}
+                {showLabels && <HiOutlineChevronRight className={`w-4 h-4 text-slate-400 transition-transform ${expandedSections.users ? 'rotate-90' : 'rotate-0'}`} />}
               </button>
-              {(expandedSections.users && sidebarOpen) && (
+              {(expandedSections.users && showLabels) && (
                 <div className="space-y-1.5 mt-2">
                   <NavLink href="/admin/users" icon={HiOutlineUsers} label="Customers" />
                 </div>
@@ -316,23 +339,23 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <div className="relative">
             <button
               onClick={() => setProfileOpen(!profileOpen)}
-              className={`w-full flex items-center ${sidebarOpen ? 'justify-between' : 'justify-center'} px-3 py-3 rounded-lg hover:bg-white/60 hover:shadow-sm transition group`}
+              className={`w-full flex items-center ${showLabels ? 'justify-between' : 'justify-center'} px-3 py-3 rounded-lg hover:bg-white/60 hover:shadow-sm transition group`}
             >
-              <div className={`flex items-center gap-3 ${sidebarOpen ? 'flex-1 min-w-0' : ''}`}>
+              <div className={`flex items-center gap-3 ${showLabels ? 'flex-1 min-w-0' : ''}`}>
                 <div className="w-9 h-9 bg-gradient-to-br from-emerald-400 to-emerald-700 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0 shadow-md">
                   {(me?.user.name || 'A').charAt(0).toUpperCase()}
                 </div>
-                {sidebarOpen && (
+                {showLabels && (
                   <div className="text-left min-w-0">
                     <p className="text-sm font-semibold text-slate-900 truncate">{me?.user.name || 'Admin'}</p>
                     <p className="text-xs text-slate-500 truncate font-medium">{me?.user.email}</p>
                   </div>
                 )}
               </div>
-              {sidebarOpen && <HiOutlineChevronDown className={`w-4 h-4 text-slate-400 flex-shrink-0 transition ${profileOpen ? 'rotate-180' : ''}`} />}
+              {showLabels && <HiOutlineChevronDown className={`w-4 h-4 text-slate-400 flex-shrink-0 transition ${profileOpen ? 'rotate-180' : ''}`} />}
             </button>
 
-            {profileOpen && sidebarOpen && (
+            {profileOpen && showLabels && (
               <div className="absolute bottom-full left-0 right-0 mb-3 bg-white border border-slate-200/50 rounded-xl shadow-lg z-50 overflow-hidden">
                 <Link href="/" className="flex items-center gap-3 px-4 py-3 text-sm text-slate-700 hover:bg-emerald-50 border-b border-slate-100 transition font-medium">
                   <HiOutlineHome className="w-4 h-4" />
@@ -356,11 +379,18 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       </div>
 
       {/* Main Content */}
-      <div className={`min-h-screen flex flex-col transition-all duration-300 ${sidebarOpen ? 'ml-64' : 'ml-20'}`}>
+      <div className={`min-h-screen flex flex-col min-w-0 transition-all duration-300 ${sidebarOpen ? 'lg:ml-64' : 'lg:ml-20'}`}>
         {/* Top Header */}
-        <div className="bg-white/80 backdrop-blur-md border-b border-slate-200/30 px-8 py-4 flex items-center justify-between sticky top-0 z-30 shadow-sm">
-          <div className="flex items-center gap-4">
-            <div className="flex flex-col">
+        <div className="bg-white/80 backdrop-blur-md border-b border-slate-200/30 px-4 sm:px-8 py-3 sm:py-4 flex items-center justify-between sticky top-0 z-30 shadow-sm">
+          <div className="flex items-center gap-3 min-w-0">
+            <button
+              onClick={() => setMobileNavOpen(true)}
+              className="lg:hidden p-2 -ml-2 rounded-lg hover:bg-slate-100 text-slate-700"
+              aria-label="Open menu"
+            >
+              <HiOutlineBars3 className="w-6 h-6" />
+            </button>
+            <div className="flex flex-col min-w-0">
               <h2 className="text-base font-bold text-slate-900">Dashboard</h2>
               <p className="text-xs text-slate-500 font-medium">{me?.is_admin ? 'Management Suite' : me?.staff ? `${me.staff.role_display} · ${me.staff.department}` : 'Staff'}</p>
             </div>
@@ -371,7 +401,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 <HiOutlineBell className="w-5 h-5" />
                 <span className="absolute top-2 right-2 w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse"></span>
               </button>
-              <div className="absolute -right-1 top-12 w-80 bg-white rounded-xl shadow-xl border border-slate-200/50 hidden group-hover:block z-50 p-4">
+              <div className="absolute -right-1 top-12 w-72 max-w-[calc(100vw-2rem)] bg-white rounded-xl shadow-xl border border-slate-200/50 hidden group-hover:block z-50 p-4">
                 <p className="text-xs text-slate-500 font-medium">No new notifications</p>
               </div>
             </div>
@@ -379,8 +409,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </div>
 
         {/* Page Content */}
-        <div className="flex-1 overflow-auto">
-          <div className="p-8 max-w-7xl mx-auto">
+        <div className="flex-1 min-w-0">
+          <div className="px-4 py-5 sm:p-8 max-w-7xl mx-auto">
             <StaffMeContext.Provider value={me}>{children}</StaffMeContext.Provider>
           </div>
         </div>

@@ -35,7 +35,7 @@ export default function FAQPage() {
           <div className="inline-block bg-white/20 text-white px-4 py-2 rounded-full text-sm font-bold mb-6">
             ❓ FAQ
           </div>
-          <h1 className="text-5xl lg:text-6xl font-black mb-6 leading-tight">Frequently Asked Questions</h1>
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black mb-6 leading-tight">Frequently Asked Questions</h1>
           <p className="text-xl max-w-2xl text-emerald-50">Find answers to common questions about our products and services</p>
         </div>
       </section>
@@ -75,7 +75,7 @@ export default function FAQPage() {
           <div className="inline-block bg-white/20 text-white px-4 py-2 rounded-full text-sm font-bold mb-6">
             ❓ FAQ
           </div>
-          <h1 className="text-5xl lg:text-6xl font-black mb-6 leading-tight">Frequently Asked Questions</h1>
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black mb-6 leading-tight">Frequently Asked Questions</h1>
           <p className="text-xl max-w-2xl text-emerald-50">Find answers to common questions about our products and services</p>
         </div>
       </section>

@@ -74,7 +74,7 @@ export default function AboutPage() {
           <div className="inline-block bg-white/20 text-white px-4 py-2 rounded-full text-sm font-bold mb-6">
             📖 ABOUT US
           </div>
-          <h1 className="text-5xl lg:text-6xl font-black mb-6 leading-tight">Learn Our Mission</h1>
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black mb-6 leading-tight">Learn Our Mission</h1>
           <p className="text-xl max-w-2xl text-emerald-50">Discover the story behind our commitment to sustainability and positive impact</p>
         </div>
       </section>
@@ -106,7 +106,7 @@ export default function AboutPage() {
       )}
 
       {!about && missionVision.length === 0 && features.length === 0 && (
-        <section className="max-w-4xl mx-auto px-6 lg:px-8 py-20 text-center text-slate-500">
+        <section className="max-w-4xl mx-auto px-6 lg:px-8 py-12 sm:py-20 text-center text-slate-500">
           Our story is coming soon.
         </section>
       )}

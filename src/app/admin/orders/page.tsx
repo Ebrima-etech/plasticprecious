@@ -217,12 +217,12 @@ export default function AdminOrdersPage() {
       </div>
 
       {orders.length === 0 ? (
-        <div className="bg-white rounded-lg border border-slate-200 p-12 text-center">
+        <div className="bg-white rounded-lg border border-slate-200 p-6 sm:p-12 text-center">
           <p className="text-slate-600 font-medium">No orders yet</p>
           <p className="text-sm text-slate-500 mt-1">Orders from customers will appear here</p>
         </div>
       ) : orders.length === 0 ? (
-        <div className="bg-white rounded-lg border border-slate-200 p-12 text-center">
+        <div className="bg-white rounded-lg border border-slate-200 p-6 sm:p-12 text-center">
           <p className="text-slate-600 font-medium">No orders found</p>
           <p className="text-sm text-slate-500 mt-1">Try adjusting your search or filter criteria</p>
         </div>

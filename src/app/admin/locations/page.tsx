@@ -183,7 +183,7 @@ export default function LocationsPage() {
 
       {/* Locations Table */}
       {!loading && (
-      <div className="bg-white rounded-lg border border-slate-200 overflow-hidden">
+      <div className="bg-white rounded-lg border border-slate-200 overflow-x-auto">
         <table className="w-full">
           <thead className="bg-slate-50 border-b border-slate-200">
             <tr>

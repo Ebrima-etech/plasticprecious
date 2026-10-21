@@ -111,7 +111,7 @@ export default function ProductDetailPage() {
     return (
       <div className="min-h-screen bg-white">
         <Navbar showNavLinks={true} />
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-20">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12 sm:py-20">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             <div className="lg:col-span-2 space-y-6">
               <ShimmerSkeleton className="w-full aspect-square rounded-lg" />
@@ -137,7 +137,7 @@ export default function ProductDetailPage() {
     return (
       <div className="min-h-screen bg-white">
         <Navbar showNavLinks={true} />
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-20 text-center">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12 sm:py-20 text-center">
           <h1 className="text-2xl font-bold text-slate-900 mb-4">Product Not Found</h1>
           <Link href="/shop">
             <Button>Back to Shop</Button>

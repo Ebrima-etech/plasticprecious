@@ -81,7 +81,7 @@ export default function AdminUsersPage() {
       )}
 
       {customers.length === 0 ? (
-        <div className="bg-white rounded-lg border border-gray-200 p-12 text-center">
+        <div className="bg-white rounded-lg border border-gray-200 p-6 sm:p-12 text-center">
           <p className="text-gray-600 font-medium">No customers yet</p>
           <p className="text-sm text-gray-500 mt-1">Customers who place orders will appear here</p>
         </div>
